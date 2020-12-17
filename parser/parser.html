@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="papaparse.js"></script>
+</head>
+<body>
+    <div id="mainDiv"></div>
+    <script type="text/javascript" src="dataParser.js"></script>
+    <input type="file" onchange="dataParser.parse(event.target.files[0])" />
+</body>
+</html>
