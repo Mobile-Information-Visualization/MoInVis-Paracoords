@@ -33,6 +33,8 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
         _parentGroup,
         _paracoordHolder,
         _axisParentGroup,
+        _pathParentGroup,
+        _paths = {},
         _height = height,
         _width = width,
         _attrScales = new Map(),
@@ -105,7 +107,7 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
             _axesInTopContext = Math.ceil( _axesInContext / 2 );
             _axesInBottomContext = _axesInContext - _axesInTopContext;
             if ( _focusIndex < _axesInTopContext ) {
-                 // When focus index is closer to top, adjust the no. of axes in top context.
+                // When focus index is closer to top, adjust the no. of axes in top context.
                 _axesInTopContext = _focusIndex;
             } else if ( _focusIndex + _axesInFocus > axisCount - _axesInBottomContext ) {
                 // When focus index is closer to bottom, adjust the no. of axes in bottom context.
@@ -149,7 +151,7 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
 
         // Rearranges the axes according to positions calculated.
         _rearrangeAxes = function () {
-            var i, length = _axesInFocus + _axesInTopContext + _axesInBottomContext, axisIndex = _focusIndex - _axesInTopContext;
+            var i, length = _axesInFocus + _axesInTopContext + _axesInBottomContext, axisIndex = _focusIndex - _axesInTopContext, path;
             // Hide axes until the top context axes at the top.
             for ( i = 0; i < axisIndex; i++ ) {
                 _visibleAxes[i].transitionY( _innerPositionProps.hideAtTop );
@@ -162,6 +164,11 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
             // Hide axes after the lower context axes at the bottom.
             for ( i = axisIndex; i < _visibleAxes.length; i++ ) {
                 _visibleAxes[i].transitionY( _innerPositionProps.hideAtBottom );
+            }
+
+            // Recalculate paths and draw
+            for ( path in _paths ) {
+                _paths[path].recalculate();
             }
         },
 
@@ -227,6 +234,9 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
                     .domain( extent )
             );
         } );
+
+        this.drawPaths();
+
         this.drawAttributeAxes();
 
         // Draw buttons
@@ -235,6 +245,9 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
         new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top - size, size, '_LeftUpButton', true, _swipeUp );
         new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top + _innerPositionProps.height, size, '_LeftUpButton', false, _swipeDown );
         // [TODO]:  Draw the paths for each region.
+
+        _calculateAxisSpacing();
+        _rearrangeAxes();
     };
 
     this.drawAttributeAxes = function () {
@@ -251,7 +264,40 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
         _axisHeight = axis.height;
         // [TODO]: Change this.
         _visibleAxes = _axes;
-        _calculateAxisSpacing();
-        _rearrangeAxes();
     };
+
+    this.drawPaths = function () {
+        var regions = MoInVis.Paracoords.Data.itemsForWaste,
+            wasteByCountries = MoInVis.Paracoords.Data.wasteByCountries,
+            i, length = regions.length,
+            getColour = d3.scaleOrdinal( d3.schemeCategory10.concat( d3.schemeCategory10 ) ).domain( d3.range( regions.lenth ) );;
+
+        _pathParentGroup = _paracoordHolder
+            .append( 'g' )
+            .attr( 'id', _id + '_PathParentGrp' );
+
+        for ( i = 0; i < length; i++ ) {
+            _paths[regions[i]] = new MoInVis.Paracoords.itemPath( _pathParentGroup, _id, regions[i], this );
+            _paths[regions[i]].init( wasteByCountries[regions[i]], _chosenYear, getColour( i ) );
+            _paths[regions[i]].draw();
+        }
+    };
+
+    this.getPathPoints = function ( itemName ) {
+        var axisIndex = _focusIndex - _axesInTopContext, length = _focusIndex + _axesInFocus + _axesInBottomContext,
+            axis,
+            points = [],
+            value,
+            data = MoInVis.Paracoords.Data.wasteByCountries[itemName][_chosenYear];
+
+        for ( axisIndex = 0; axisIndex < length; axisIndex++ ) {
+            axis = _visibleAxes[axisIndex];
+            value = data[axis.attribute];
+            if ( value !== null && value !== '' ) {
+                points.push( axis.getXY( value ) );
+            }
+        }
+        return points;
+    };
+
 };

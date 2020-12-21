@@ -10,6 +10,7 @@ MoInVis.Paracoords.dataHandler = ( function () {
         _extractData = function ( data, propertyName, propertyText ) {
             var i, length, object, key, newObject, year, validItems = MoInVis.Paracoords.Data.itemsForWaste, itemValid, region;
             length = data.length;
+            // [TODO]: Remove spaces from propertyName for ids.
             MoInVis.Paracoords.Data.wasteAttributes.push( { prop: propertyName, text: propertyText } );
             for ( i = 0; i < length; i++ ) {
                 object = data[i];

@@ -32,6 +32,10 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         // [TODO]: Make _axisGroup visible or invisible.
     };
 
+    this.getXY = function (value) {
+        return [_attrScale( value ), this.yPos];
+    };
+
     this.draw = function ( xPos, yPos ) {
         this.xPos = xPos;
         this.yPos = yPos;
