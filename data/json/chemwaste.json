@@ -4,11 +4,11 @@ MoInVis.Paracoords.Data = MoInVis.Paracoords.Data || {};
 MoInVis.Paracoords.Data.chemWaste = [
   {
     "2018": 17520000,
-    "GEO": "European Union - 27 countries"
+    "GEO": "European Union - 27 countries (from 2020)"
   },
   {
     "2018": 18870000,
-    "GEO": "European Union - 28 countries"
+    "GEO": "European Union - 28 countries (2013-2020)"
   },
   {
     "2018": 850162,

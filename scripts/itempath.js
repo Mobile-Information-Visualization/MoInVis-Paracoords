@@ -14,37 +14,43 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         _paracoorder = paracoorder,
         _id,
         _transitionSpeed = MoInVis.Paracoords.TransitionSpeed,
-        _chosenYear, _data, _itemName,
+        _chosenYear,
         _pathWidth = 2,
         _points = [],
         _colour = '#FFFFFF';
 
     this.itemName = itemName;
+    this.itemText = '';
+    this.data = null;
 
     _id = id + '_PathGroup_' + this.itemName;
 
     // Public methods
     this.init = function ( data, chosenYear, colour ) {
-        _data = data;
+        this.itemText = data.text;
+        this.data = data.data;
         _chosenYear = chosenYear;
         _colour = colour;
-
-        //.attr( "d", driver => d3.line()( points ) );
     };
 
     this.visible = true;
 
     this.setVisibility = function ( visible ) {
         this.visible = visible;
-        // [TODO]: Make _axisGroup visible or invisible.
+        // [TODO]: Make _pathGroup visible or invisible, and change the axes' range if required.
+        if ( visible ) {
+            _pathGroup.attr( 'display', 'inherit' );
+        } else {
+            _pathGroup.attr( 'display', 'none' );
+        }
     };
 
     this.draw = function () {
-        _pathParentGroup
+        _pathGroup = _pathParentGroup
             .append( 'g' )
             .attr( 'id', _id );
 
-        _pathElement = _pathParentGroup
+        _pathElement = _pathGroup
             .append( 'path' )
             .attr( 'id', _id + '_Path' )
             .attr( "stroke-width", _pathWidth )

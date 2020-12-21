@@ -168,7 +168,9 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
 
             // Recalculate paths and draw
             for ( path in _paths ) {
-                _paths[path].recalculate();
+                if ( _paths[path].visible ) {
+                    _paths[path].recalculate();
+                }
             }
         },
 
@@ -208,25 +210,13 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
         var
             attributes = MoInVis.Paracoords.Data.wasteAttributes,
             items = MoInVis.Paracoords.Data.itemsForWaste,
-            orderedItems,
             extent;
 
-        // Sort teams alphabetically.
-        orderedItems = items.slice()
-            .sort( ( itemA, itemB ) => {
-                if ( itemA < itemB ) {
-                    return -1;
-                } else if ( itemA > itemB ) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            } );
+        this.drawPaths();
 
         // Set the scales for the axes.
         attributes.forEach( function ( attr ) {
-            extent = d3.extent( orderedItems.map( region => MoInVis.Paracoords.Data.wasteByCountries[region][_chosenYear][attr.prop] ) );
-            //attributeDomain = d3.range( extent[0], extent[1] + 1 );
+            extent = d3.extent( items.map( region => _paths[region].visible ? _paths[region].data[_chosenYear][attr.prop] : null ) );
             _attrScales.set(
                 attr.prop,
                 d3.scaleLinear()
@@ -234,8 +224,6 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
                     .domain( extent )
             );
         } );
-
-        this.drawPaths();
 
         this.drawAttributeAxes();
 
@@ -281,6 +269,8 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
             _paths[regions[i]].init( wasteByCountries[regions[i]], _chosenYear, getColour( i ) );
             _paths[regions[i]].draw();
         }
+        _paths['European_sp_Union_sp_-_sp_28_sp_countries_sp__ob_2013-2020_cb_'].setVisibility(false);
+        _paths['European_sp_Union_sp_-_sp_27_sp_countries_sp__ob_from_sp_2020_cb_'].setVisibility( false );
     };
 
     this.getPathPoints = function ( itemName ) {
@@ -288,7 +278,7 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
             axis,
             points = [],
             value,
-            data = MoInVis.Paracoords.Data.wasteByCountries[itemName][_chosenYear];
+            data = MoInVis.Paracoords.Data.wasteByCountries[itemName].data[_chosenYear];
 
         for ( axisIndex = 0; axisIndex < length; axisIndex++ ) {
             axis = _visibleAxes[axisIndex];

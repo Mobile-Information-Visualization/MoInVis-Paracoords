@@ -8,31 +8,35 @@ MoInVis.Paracoords.dataHandler = ( function () {
 
         // Extracts data from the JSON objects and stores the property names in MoInVis.Paracoords.Data.wasteAttributes.
         _extractData = function ( data, propertyName, propertyText ) {
-            var i, length, object, key, newObject, year, validItems = MoInVis.Paracoords.Data.itemsForWaste, itemValid, region;
+            var i, length, object, key, newObject, year, validItems = MoInVis.Paracoords.Data.itemsForWaste, itemValid, regionText, regionId;
             length = data.length;
             // [TODO]: Remove spaces from propertyName for ids.
             MoInVis.Paracoords.Data.wasteAttributes.push( { prop: propertyName, text: propertyText } );
             for ( i = 0; i < length; i++ ) {
                 object = data[i];
-                region = object.GEO;
-                if ( region === '' ) {
+                regionText = object.GEO;
+                if ( regionText === '' ) {
                     // Ignore data objects belonging to no country.
                     continue;
                 }
-                itemValid = false
+                itemValid = false;
                 // Create the objects by name
-                if ( MoInVis.Paracoords.Data.wasteByCountries[region] === undefined ) {
-                    MoInVis.Paracoords.Data.wasteByCountries[region] = newObject = {};
+                regionId = regionText.replace( /\s+/g, '_sp_' ).replace( /\(/g, '_ob_' ).replace( /\)/g, '_cb_' ).replace( /\\/g, '_bs_' ).replace( /\'/g, '_sq_' ).replace( /\"/g, '_dq_' );
+                if ( MoInVis.Paracoords.Data.wasteByCountries[regionId] === undefined ) {
+                    MoInVis.Paracoords.Data.wasteByCountries[regionId] = newObject = {
+                        data: {},
+                        text: regionText
+                    };
                 } else {
-                    newObject = MoInVis.Paracoords.Data.wasteByCountries[region];
+                    newObject = MoInVis.Paracoords.Data.wasteByCountries[regionId];
                 }
                 for ( key in object ) {
                     if ( key !== 'GEO' && key !== '' ) { // Only focus on valid values.
-                        if ( newObject[key] === undefined ) {
-                            newObject[key] = {};
+                        if ( newObject.data[key] === undefined ) {
+                            newObject.data[key] = {};
                         }
 
-                        newObject[key][propertyName] = object[key];
+                        newObject.data[key][propertyName] = object[key];
                         if ( object[key] !== null ) {
                             // An item is valid only if it has valid values( not null )
                             itemValid = true;
@@ -44,8 +48,8 @@ MoInVis.Paracoords.dataHandler = ( function () {
                         }
                     }
                 }
-                if ( itemValid && validItems.indexOf( region ) === -1 ) { // If item has at least one valid entry.
-                    validItems.push( region ); // All valid items are stored in this array.
+                if ( itemValid && validItems.indexOf( regionId ) === -1 ) { // If item has at least one valid entry.
+                    validItems.push( regionId ); // All valid items are stored in this array.
                 }
             }
         },
