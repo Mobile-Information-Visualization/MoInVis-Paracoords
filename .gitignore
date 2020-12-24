@@ -2,3 +2,7 @@
 .vs/
 .vs/MobParacoords/v16/.suo
 .vs/slnx.sqlite
+*.config
+.vs/MobParacoords/v16/.suo
+*.sqlite
+.vs/VSWorkspaceState.json

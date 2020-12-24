@@ -188,6 +188,14 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
                 _calculateAxisSpacing();
                 _rearrangeAxes();
             }
+        },
+        _onScroll = function ( evt ) {
+            console.log( 'Scrolling: ' + evt.wheelDeltaY );
+            if ( evt.wheelDeltaY >= 180 ) {
+                _swipeDown();
+            } else if ( evt.wheelDeltaY <= -180 ) {
+                _swipeUp();
+            }
         };
 
     // Public methods
@@ -203,7 +211,28 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
         _paracoordHolder = _parentGroup
             .append( 'g' )
             .attr( 'id', _id + '_ParaCoorHolder' )
-            .attr( 'clip-path', 'url(#' + MoInVis.Paracoords.IdStore.paracoordClipper + ')' );
+            .attr( 'clip-path', 'url(#' + MoInVis.Paracoords.IdStore.paracoordClipper + ')' )
+            .on( 'mousewheel.zoom', _onScroll );
+        _eventCatcher = _paracoordHolder
+            .append( 'rect' )
+            .attr( 'id', _id + '_EventCatcher' )
+            .attr( 'x', _positionProps.left )
+            .attr( 'y', _positionProps.top )
+            .attr( 'height', _positionProps.height )
+            .attr( 'width', _positionProps.width )
+            .attr( 'stroke', 'red' )
+            .attr( 'stroke-width', '1' )
+            .attr( 'opacity', 0 )
+            .attr( 'fill', 'black' );
+        //Hammer( _eventCatcher.node() )
+        //    .on( "swipe", function ( event ) {
+        //        console.log( 'swipeup' );
+        //        _swipeUp();
+        //    } )
+        //    .on( "swiperight", function ( event ) {
+        //        console.log( 'swipedown' );
+        //        _swipeDown();
+        //    } );
     };
 
     this.draw = function () {
@@ -230,8 +259,8 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
         // Draw buttons
 
         var size = 20;
-        new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top - size, size, '_LeftUpButton', true, _swipeUp );
-        new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top + _innerPositionProps.height, size, '_LeftUpButton', false, _swipeDown );
+        new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top - size, size, '_LeftUpButton', true, _swipeDown );
+        new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top + _innerPositionProps.height, size, '_LeftUpButton', false, _swipeUp );
         // [TODO]:  Draw the paths for each region.
 
         _calculateAxisSpacing();
