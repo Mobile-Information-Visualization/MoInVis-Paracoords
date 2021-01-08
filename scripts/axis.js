@@ -2,8 +2,7 @@ var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 MoInVis.Paracoords.Count = MoInVis.Paracoords.Count || 0;
-MoInVis.Paracoords.TransitionSpeed = 1500;
-MoInVis.Paracoords.DeleteTransitionSpeed = 500;
+MoInVis.Paracoords.IdStore.AxisClass = 'ParaCoord_Axis_Class';
 
 MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, paracoorder ) {
     // Private variables.
@@ -11,8 +10,10 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _axisParentGroup = axisParent,
         _axisGroup,
         _textGroup,
+        _axis,
         _paracoorder = paracoorder,
         _id,
+        _class = MoInVis.Paracoords.IdStore.AxisClass,
         _attrScale = attrScale,
         _transitionSpeed = MoInVis.Paracoords.TransitionSpeed;
 
@@ -32,7 +33,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         // [TODO]: Make _axisGroup visible or invisible.
     };
 
-    this.getXY = function (value) {
+    this.getXY = function ( value ) {
         return [_attrScale( value ), this.yPos];
     };
 
@@ -42,6 +43,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _axisGroup = _axisParentGroup
             .append( 'g' )
             .attr( 'id', _id )
+            .attr( 'class', _class )
             .attr( 'transform', 'translate(0,' + this.yPos + ')' );
 
         // Drawing axes.
@@ -52,7 +54,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         // [TODO]: Style the axis -> Set colour of the labels.
         // [TODO]: Style the axis -> Set colour and background for the attribute text label.
 
-        _axisGroup.call( d3.axisBottom( _attrScale ) );
+        _axisGroup.call( _axis = d3.axisBottom( _attrScale ).ticks( 5 ) ); // [TODO]: Number of ticks must depend on font size, available width, and text lengths.
 
         _textGroup = _axisGroup
             .append( "g" )
@@ -71,7 +73,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         this.yPos = newY;
         _axisGroup
             .transition()
-            .duration( _transitionSpeed)
+            .duration( _transitionSpeed )
             .attr( 'transform', 'translate(0,' + this.yPos + ')' );
     };
 

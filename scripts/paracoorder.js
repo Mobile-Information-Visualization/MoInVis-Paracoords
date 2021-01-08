@@ -4,6 +4,8 @@ MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 MoInVis.Paracoords.IdStore.paraCoordGroup = 'MoInVis_ParaCoords';
 MoInVis.Paracoords.IdStore.paracoordClipper = 'ParaCoordClipper';
 MoInVis.Paracoords.Count = MoInVis.Paracoords.Count || 0;
+MoInVis.Paracoords.TransitionSpeed = 1000;
+MoInVis.Paracoords.DeleteTransitionSpeed = 500;
 
 MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
     // Private variables.
@@ -55,6 +57,17 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
             hideAtBottom: _positionProps.top + _innerMargins.top + 1.5 * _positionProps.height
         },
         _clipRect,
+
+        _hammerMan,
+        _hammerSettings = {
+            events: {
+                swipeUp: 'swipeup',
+                swipeDown: 'swipedown',
+                swipeLeft: 'swipeleft',
+                swipeRight: 'swiperight'
+            },
+            swipeThreshold: 10, swipeVelocity: 1.5
+        },
 
         // Private methods.
         _initializeClipping = function () {
@@ -189,6 +202,7 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
                 _rearrangeAxes();
             }
         },
+
         _onScroll = function ( evt ) {
             console.log( 'Scrolling: ' + evt.wheelDeltaY );
             if ( evt.wheelDeltaY >= 180 ) {
@@ -196,6 +210,50 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
             } else if ( evt.wheelDeltaY <= -180 ) {
                 _swipeUp();
             }
+        },
+
+        // Method for dubugging purposes.
+        _setText = function ( text, event ) {
+            console.log( text );
+            if ( event ) {
+                console.log( 'Velocity: ' + event.velocity );
+            }
+        },
+
+        // Initializes hammer events.
+        _initHammer = function () {
+            _hammerMan = new Hammer.Manager( _paracoordHolder.node() );
+            _hammerMan.add( new Hammer.Swipe( {
+                event: 'swipeup', pointers: 1, direction: Hammer.DIRECTION_UP, velocity: _hammerSettings.swipeVelocity
+            } ) );
+            _hammerMan.add( new Hammer.Swipe( {
+                event: 'swipedown', pointers: 1, direction: Hammer.DIRECTION_DOWN, velocity: _hammerSettings.swipeVelocity
+            } ) );
+            //    _hammerMan.add( new Hammer.Swipe( { 
+            //    event: 'swipeleft', pointers: 1, direction: Hammer.DIRECTION_LEFT, velocity: _hammerSettings.swipeVelocity
+            //} ) );
+            //    _hammerMan.add( new Hammer.Swipe( { 
+            //    event: 'swiperight', pointers: 1, direction: Hammer.DIRECTION_RIGHT, velocity: _hammerSettings.swipeVelocity
+            //} ) );
+            _hammerMan
+                .on( 'swipeup', function ( event ) {
+                    _setText( 'swipeup', event );
+                    event.preventDefault();
+                    _swipeUp();
+                } )
+                //.on( 'swipeleft', function ( event ) {
+                //    _setText( 'swipeleft', event );
+                //    event.preventDefault();
+                //} )
+                //.on( 'swiperight', function ( event ) {
+                //    _setText( 'swiperight', event );
+                //    event.preventDefault();
+                //} )
+                .on( 'swipedown', function ( event ) {
+                    _setText( 'swipedown', event );
+                    event.preventDefault();
+                    _swipeDown();
+                } );
         };
 
     // Public methods
@@ -224,15 +282,7 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
             .attr( 'stroke-width', '1' )
             .attr( 'opacity', 0 )
             .attr( 'fill', 'black' );
-        //Hammer( _eventCatcher.node() )
-        //    .on( "swipe", function ( event ) {
-        //        console.log( 'swipeup' );
-        //        _swipeUp();
-        //    } )
-        //    .on( "swiperight", function ( event ) {
-        //        console.log( 'swipedown' );
-        //        _swipeDown();
-        //    } );
+        _initHammer();
     };
 
     this.draw = function () {
@@ -298,7 +348,7 @@ MoInVis.Paracoords.paracoorder = function ( width, height, svgParent ) {
             _paths[regions[i]].init( wasteByCountries[regions[i]], _chosenYear, getColour( i ) );
             _paths[regions[i]].draw();
         }
-        _paths['European_sp_Union_sp_-_sp_28_sp_countries_sp__ob_2013-2020_cb_'].setVisibility(false);
+        _paths['European_sp_Union_sp_-_sp_28_sp_countries_sp__ob_2013-2020_cb_'].setVisibility( false );
         _paths['European_sp_Union_sp_-_sp_27_sp_countries_sp__ob_from_sp_2020_cb_'].setVisibility( false );
     };
 

@@ -2,8 +2,6 @@ var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 MoInVis.Paracoords.Count = MoInVis.Paracoords.Count || 0;
-MoInVis.Paracoords.TransitionSpeed = 1500;
-MoInVis.Paracoords.DeleteTransitionSpeed = 500;
 
 MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder ) {
     // Private variables.

@@ -14,6 +14,9 @@ MoInVis.Paracoords.handler.main = function () {
     parentSvg.setAttributeNS( null, 'height', '100%' );
     parentSvg.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.parentSvg );
 
+    // CRITICAL: Restrict browser from handling touch gestures for things like browser refresh, next tab, previous tab.
+    parentSvg.style.touchAction = 'none';
+
     var defs = document.createElementNS( 'http://www.w3.org/2000/svg', 'defs' );
     defs.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.defs );
     parentSvg.appendChild( defs );

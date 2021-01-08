@@ -36,3 +36,8 @@ if ( a === 10 ) {
 var string1 = ‘string’;
 ```
 - When a string contains single quotes, they need to be escaped with a backslash `(\)`.
+
+# Running the server.
+- Server command: python -m http.server [port_number] --bind [ip]
+- Replace [ip] with computer's ip adress in startserver before running. Both mobile and computer need to be on the same network. 
+- Run the batch file. Browse in mobile with http://[ip]:[port_number]
