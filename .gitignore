@@ -6,3 +6,5 @@
 .vs/MobParacoords/v16/.suo
 *.sqlite
 .vs/VSWorkspaceState.json
+HammerJSTrial/startserver.bat
+startserver.bat
