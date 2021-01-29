@@ -1,7 +1,6 @@
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
-MoInVis.Paracoords.Count = MoInVis.Paracoords.Count || 0;
 MoInVis.Paracoords.IdStore.AxisClass = 'ParaCoord_Axis_Class';
 
 MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, paracoorder ) {
