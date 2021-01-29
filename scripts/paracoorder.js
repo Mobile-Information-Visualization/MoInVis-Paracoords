@@ -322,7 +322,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, svgParent, parentDiv ) {
 
         // Set the scales for the axes.
         attributes.forEach( function ( attr ) {
-            extent = d3.extent( items.map( region => this.paths[region].visible ? this.paths[region].data[_chosenYear][attr.prop] : null ) );
+            extent = d3.extent( items.map( region => self.paths[region].visible ? self.paths[region].data[_chosenYear][attr.prop] : null ) );
             _attrScales.set(
                 attr.prop,
                 d3.scaleLinear()
