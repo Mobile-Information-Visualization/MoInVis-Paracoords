@@ -32,6 +32,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
         _init = function () {
             _initHammer();
+            _initVue();
         },
 
         _initHammer = function () {
@@ -48,6 +49,18 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             _hammerMan.add( new Hammer.Swipe( {
                 event: 'swiperight', pointers: 1, direction: Hammer.DIRECTION_RIGHT, velocity: _hammerSettings.swipeVelocity
             } ) );
+        },
+
+        _initVue = function () {
+            var mainApp =
+                Vue.createApp( {
+                    data: function () {
+                        return {
+                            tabName: 'I am the Attribute Store!'
+                        };
+                    }
+                } );
+            mainApp.mount( _parentDiv.node() );
         };
 
     this.switchOnEvents = function () {
