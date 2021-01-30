@@ -32,7 +32,7 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
 
         _init = function () {
             _initHammer();
-            //_initVue();
+            _initVue();
         },
 
         _initHammer = function () {

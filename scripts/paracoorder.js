@@ -57,7 +57,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, svgParent, parentDiv ) {
             width: _width - _margins.left - _margins.right,
             height: _height - _margins.top - _margins.bottom
         },
-        _innerMargins = { left: 50, right: 50, top: 20, bottom: 20 }, // Margins for the visualization.
+        _innerMargins = { left: 20, right: 50, top: 20, bottom: 20 }, // Margins for the visualization.
         _innerPositionProps = { // Positions for our visualizations.
             top: _positionProps.top + _innerMargins.top,
             left: _positionProps.left + _innerMargins.left,
@@ -335,9 +335,9 @@ MoInVis.Paracoords.paracoorder = function ( moin, svgParent, parentDiv ) {
 
         // Draw buttons
 
-        var size = 20;
-        new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top - size, size, '_LeftUpButton', true, _swipeDown );
-        new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top + _innerPositionProps.height, size, '_LeftUpButton', false, _swipeUp );
+        //var size = 20;
+        //new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top - size, size, '_LeftUpButton', true, _swipeDown );
+        //new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top + _innerPositionProps.height, size, '_LeftUpButton', false, _swipeUp );
         // [TODO]:  Draw the paths for each region.
 
         _calculateAxisSpacing();
