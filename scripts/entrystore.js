@@ -32,6 +32,7 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
 
         _init = function () {
             _initHammer();
+            //_initVue();
         },
 
         _initHammer = function () {
@@ -48,6 +49,19 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
             _hammerMan.add( new Hammer.Swipe( {
                 event: 'swiperight', pointers: 1, direction: Hammer.DIRECTION_RIGHT, velocity: _hammerSettings.swipeVelocity
             } ) );
+        },
+
+        // Instantiate the Vue app here.
+        _initVue = function () {
+            var mainApp =
+                Vue.createApp( {
+                    data: function () {
+                        return {
+                            tabName: 'Enter the Entry Store!'
+                        };
+                    }
+                } );
+            mainApp.mount( _parentDiv.node() );
         };
 
     this.switchOnEvents = function () {

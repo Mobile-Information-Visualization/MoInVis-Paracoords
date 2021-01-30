@@ -51,6 +51,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             } ) );
         },
 
+        // Instantiate the Vue app here.
         _initVue = function () {
             var mainApp =
                 Vue.createApp( {
