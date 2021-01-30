@@ -16,7 +16,7 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
                 tab = _tabHandlers[i].parentTab
                     .style( 'height', _moin.height + 'px' )
                     .style( 'width', _moin.width + 'px' )
-                    .style( 'position', 'absolute' );
+                    .style( 'position', 'fixed' );
                 // Position tabs.
                 if ( i < _currentTabIndex ) {
                     tab.style( 'left', - 1.5 * _moin.width + 'px' );
