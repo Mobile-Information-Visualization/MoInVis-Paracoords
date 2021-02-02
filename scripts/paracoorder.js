@@ -3,25 +3,15 @@ MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 MoInVis.Paracoords.IdStore.paraCoordGroup = 'MoInVis_ParaCoords';
 MoInVis.Paracoords.IdStore.paracoordClipper = 'ParaCoordClipper';
-MoInVis.Paracoords.Count = MoInVis.Paracoords.Count || 0;
-MoInVis.Paracoords.TransitionSpeed = 1000;
-MoInVis.Paracoords.DeleteTransitionSpeed = 500;
-MoInVis.Paracoords.HammerSettings = {
-    events: {
-        swipeUp: 'swipeup',
-        swipeDown: 'swipedown',
-        swipeLeft: 'swipeleft',
-        swipeRight: 'swiperight'
-    },
-    swipeThreshold: 10, swipeVelocity: 1.5
-};
 
-MoInVis.Paracoords.paracoorder = function ( moin, svgParent, parentDiv ) {
+MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
+    this.moin = moin;
+    MoInVis.Paracoords.paracoorder.baseCtor.call( this, parentDiv );
+
     // Private variables.
     var self = this,
         _svgParent = svgParent,
         _parentDiv = parentDiv,
-        _moin = moin,
         _tabHandle,
         _chosenYear = 2018, // Since we are concentrating on the year 2018. The data structure allows for storage of more than a year.
         _id = MoInVis.Paracoords.IdStore.paraCoordGroup + '_' + ( MoInVis.Paracoords.Count++ ),
@@ -29,10 +19,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, svgParent, parentDiv ) {
         _visibleAxes = [],
         _axisHeight,
         _focusAndContextSettings = { // Settings for focus and context.
-            focusIndex: 2,
-            axesInContext: 4,
-            axesInFocus: 3,
-            extraGapFactor: 5 // Factor indicating how much more space axes in focus have between each other w.r.t axes in context.
+            focusIndex: 1,
+            axesInContext: 2,
+            axesInFocus: 2,
+            extraGapFactor: 7 // Factor indicating how much more space axes in focus have between each other w.r.t axes in context.
         },
         _focusIndex = _focusAndContextSettings.focusIndex,
         _axesInFocus,
@@ -47,8 +37,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, svgParent, parentDiv ) {
         _paracoordHolder,
         _axisParentGroup,
         _pathParentGroup,
-        _height = _moin.height,
-        _width = _moin.width,
+        _height = moin.height,
+        _width = moin.width,
         _attrScales = new Map(),
         _margins = { left: 20, right: 20, top: 10, bottom: 10 }, // Margins for our content, including texts.
         _positionProps = { // Positions for our content, including texts.
@@ -67,9 +57,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, svgParent, parentDiv ) {
             hideAtBottom: _positionProps.top + _innerMargins.top + 1.5 * _positionProps.height
         },
         _clipRect,
-
-        _hammerMan,
-        _hammerSettings = MoInVis.Paracoords.HammerSettings,
 
         // Private methods.
         _initializeClipping = function () {
@@ -189,95 +176,31 @@ MoInVis.Paracoords.paracoorder = function ( moin, svgParent, parentDiv ) {
             }
         },
 
-        _swipeUp = function () {
-            if ( _focusIndex < _visibleAxes.length - _axesInFocus ) {
-                _focusIndex++;
-                _calculateAxisSpacing();
-                _rearrangeAxes();
-            }
-        },
-
-        _swipeDown = function () {
-            if ( _focusIndex > 0 ) {
-                _focusIndex--;
-                _calculateAxisSpacing();
-                _rearrangeAxes();
-            }
-        },
-
-        _swipeRight = function () {
-            _moin.tabManager.swipeRight();
-        },
-
-        _swipeLeft = function () {
-            _moin.tabManager.swipeLeft();
-        },
-
         _onScroll = function ( evt ) {
             console.log( 'Scrolling: ' + evt.wheelDeltaY );
             if ( evt.wheelDeltaY >= 180 ) {
-                _swipeDown();
+                self.swipeDown();
             } else if ( evt.wheelDeltaY <= -180 ) {
-                _swipeUp();
+                self.swipeUp();
             }
-        },
-
-        // Method for dubugging purposes.
-        _setText = function ( text, event ) {
-            console.log( text );
-            if ( event ) {
-                console.log( 'Velocity: ' + event.velocity );
-            }
-        },
-
-        // Initializes hammer events.
-        _initHammer = function () {
-            _hammerMan = new Hammer.Manager( _paracoordHolder.node() );
-            _hammerMan.add( new Hammer.Swipe( {
-                event: 'swipeup', pointers: 1, direction: Hammer.DIRECTION_UP, velocity: _hammerSettings.swipeVelocity
-            } ) );
-            _hammerMan.add( new Hammer.Swipe( {
-                event: 'swipedown', pointers: 1, direction: Hammer.DIRECTION_DOWN, velocity: _hammerSettings.swipeVelocity
-            } ) );
-            _hammerMan.add( new Hammer.Swipe( {
-                event: 'swipeleft', pointers: 1, direction: Hammer.DIRECTION_LEFT, velocity: _hammerSettings.swipeVelocity
-            } ) );
-            _hammerMan.add( new Hammer.Swipe( {
-                event: 'swiperight', pointers: 1, direction: Hammer.DIRECTION_RIGHT, velocity: _hammerSettings.swipeVelocity
-            } ) );
         };
 
-    this.switchOnEvents = function () {
-        _hammerMan
-            .on( 'swipeup', function ( event ) {
-                _setText( 'swipeup', event );
-                event.preventDefault();
-                _swipeUp();
-            } )
-            .on( 'swipeleft', function ( event ) {
-                _setText( 'swipeleft', event );
-                event.preventDefault();
-                _swipeLeft();
-            } )
-            .on( 'swiperight', function ( event ) {
-                _setText( 'swiperight', event );
-                event.preventDefault();
-                _swipeRight();
-
-            } )
-            .on( 'swipedown', function ( event ) {
-                _setText( 'swipedown', event );
-                event.preventDefault();
-                _swipeDown();
-            } );
+    // Overriding base class method.
+    this.swipeUp = function () {
+        if ( _focusIndex < _visibleAxes.length - _axesInFocus ) {
+            _focusIndex++;
+            _calculateAxisSpacing();
+            _rearrangeAxes();
+        }
     };
 
-    this.switchOffEvents = function () {
-        _hammerMan
-            .off( 'swipeup' )
-            .off( 'swipeleft' )
-            .off( 'swiperight' )
-            .off( 'swipedown' );
+    // Overriding base class method.
+    this.swipeDown = function () {
+        if ( _focusIndex > 0 ) {
+            _focusIndex--;
+            _calculateAxisSpacing();
+            _rearrangeAxes();
+        }
     };
 
     // Public methods
@@ -306,7 +229,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, svgParent, parentDiv ) {
             .attr( 'stroke-width', '1' )
             .attr( 'opacity', 0 )
             .attr( 'fill', 'black' );
-        _initHammer();
+
+
+        self.activateEvent( 'swipeup' );
+        self.activateEvent( 'swipedown' );
     };
 
     this.paths = {};
@@ -397,16 +323,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, svgParent, parentDiv ) {
         return points;
     };
 
-    this.getTabHandle = function () {
-        if ( _tabHandle === undefined ) {
-            _tabHandle = {
-                parentTab: _parentDiv,
-                switchOnEvents: this.switchOnEvents.bind( this ),
-                switchOffEvents: this.switchOffEvents.bind( this )
-            };
-        }
-        return _tabHandle;
-    };
-
     //[TODO]: Write Clean up method.
 };
+
+MoInVis.Paracoords.paracoorder.baseCtor = MoInVis.Paracoords.tab;

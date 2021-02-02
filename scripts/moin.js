@@ -3,6 +3,18 @@ MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 MoInVis.Paracoords.IdStore.parentSvg = 'ParaCoordContainerSVG';
 MoInVis.Paracoords.IdStore.defs = 'MoInVisParaCoordDefs';
+MoInVis.Paracoords.Count = MoInVis.Paracoords.Count || 0;
+MoInVis.Paracoords.TransitionSpeed = 1000;
+MoInVis.Paracoords.DeleteTransitionSpeed = 500;
+MoInVis.Paracoords.HammerSettings = {
+    events: {
+        swipeUp: 'swipeup',
+        swipeDown: 'swipedown',
+        swipeLeft: 'swipeleft',
+        swipeRight: 'swiperight'
+    },
+    swipeThreshold: 10, swipeVelocity: 1.5
+};
 
 MoInVis.Paracoords.moin = function ( width, height ) {
 
@@ -29,7 +41,7 @@ MoInVis.Paracoords.moin = function ( width, height ) {
             paracoordTab.node().appendChild( _parentSVG );
 
             // Create paracoorder object
-            self.paracoorder = new MoInVis.Paracoords.paracoorder( self, d3.select( _parentSVG ), paracoordTab );
+            self.paracoorder = new MoInVis.Paracoords.paracoorder( self, paracoordTab, d3.select( _parentSVG ) );
             self.paracoorder.init( 0, 0 );
             self.paracoorder.draw();
 
