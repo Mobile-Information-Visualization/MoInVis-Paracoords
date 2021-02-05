@@ -24,8 +24,11 @@
             <h1>{{tabName}}</h1>
         </div>
         <div id="entryStoreTab">
-            <h1>Entry Store Tab</h1>
             <h1>{{tabName}}</h1>
+            <ul>
+              <li v-for="entry in entries">{{ entries }} </li>
+            </ul>
+
         </div>
     </div>
     <script type="text/javascript" src="scripts/datahandler.js"></script>
