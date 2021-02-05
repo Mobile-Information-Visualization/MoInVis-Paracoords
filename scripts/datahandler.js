@@ -1,3 +1,10 @@
+/*
+*
+* Descr.: Data Handlers extracts and prepares data for easy use and handling.
+*
+* <Description>
+*/
+
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.Data = MoInVis.Paracoords.Data || {};

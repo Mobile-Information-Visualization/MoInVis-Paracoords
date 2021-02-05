@@ -1,8 +1,14 @@
+/*
+*
+* Descr.: Handles data and UI functionality for the attribute store tab.
+*         Inherits MoInVis.Paracoords.tab
+*
+* <Description>
+*/
+
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
-MoInVis.Paracoords.IdStore.parentSvg = 'ParaCoordContainerSVG';
-MoInVis.Paracoords.IdStore.defs = 'MoInVisParaCoordDefs';
 
 MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
     this.moin = moin;

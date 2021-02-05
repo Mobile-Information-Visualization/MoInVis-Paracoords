@@ -1,3 +1,11 @@
+/*
+*
+* Descr.: Base class for tabs. 
+*         Event handling, provides an interface for tabmanager.
+* 
+* <Description>
+*/
+
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};

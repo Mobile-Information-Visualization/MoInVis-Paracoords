@@ -1,8 +1,17 @@
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
-MoInVis.Paracoords.IdStore.parentSvg = 'ParaCoordContainerSVG';
-MoInVis.Paracoords.IdStore.defs = 'MoInVisParaCoordDefs';
+/*
+*
+* Descr.: Handles data and UI functionality for the entry store tab.
+*         Inherits MoInVis.Paracoords.tab
+*
+* <Description>
+*/
+
+var MoInVis = MoInVis || {};
+MoInVis.Paracoords = MoInVis.Paracoords || {};
+MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 
 MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
     this.moin = moin;

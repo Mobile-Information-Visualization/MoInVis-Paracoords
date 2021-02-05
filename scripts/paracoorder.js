@@ -1,3 +1,11 @@
+/*
+*
+* Descr.: Handles drawings the UI and data for the paracoords tab.
+*         Inherits MoInVis.Paracoords.tab
+*
+* <Description>
+*/
+
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};

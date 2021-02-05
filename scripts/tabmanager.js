@@ -1,3 +1,10 @@
+/*
+*
+* Descr.: Tab Manager. Manages positions of tabs and transitions between tabs.
+*
+* <Description>
+*/
+
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
@@ -48,7 +55,7 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
                 .transition()
                 .duration( MoInVis.Paracoords.TransitionSpeed )
                 .style( 'left', '0px' );
-            // Switch on events for old tab
+            // Switch on events for new tab
             _tabHandlers[_currentTabIndex].switchOnEvents();
 
         }
@@ -68,7 +75,7 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
                 .transition()
                 .duration( MoInVis.Paracoords.TransitionSpeed )
                 .style( 'left', '0px' );
-            // Switch on events for old tab
+            // Switch on events for new tab
             _tabHandlers[_currentTabIndex].switchOnEvents();
         }
     };

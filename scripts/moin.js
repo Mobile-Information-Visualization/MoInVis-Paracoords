@@ -1,3 +1,10 @@
+/*
+*
+* Descr.: Moin Instance. Application parent class that creates tabs, and tabhandler.
+*
+* <Description>
+*/
+
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};

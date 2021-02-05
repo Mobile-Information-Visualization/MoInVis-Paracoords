@@ -1,3 +1,10 @@
+/*
+*
+* Descr.: Entry point into the application. Prepares page for app-like usage feel.
+*
+* <Description>
+*/
+
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.handler = MoInVis.Paracoords.handler || {};

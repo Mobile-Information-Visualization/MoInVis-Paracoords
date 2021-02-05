@@ -1,3 +1,10 @@
+/*
+*
+* Descr.: Contains data and representation of an axis/attribute.
+*
+* <Description>
+*/
+
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
