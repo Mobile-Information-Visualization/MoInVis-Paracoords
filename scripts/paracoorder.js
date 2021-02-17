@@ -9,7 +9,6 @@
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
-MoInVis.Paracoords.IdStore.paraCoordGroup = 'MoInVis_ParaCoords';
 MoInVis.Paracoords.IdStore.paracoordClipper = 'ParaCoordClipper';
 
 MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
@@ -22,7 +21,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _parentDiv = parentDiv,
         _tabHandle,
         _chosenYear = 2018, // Since we are concentrating on the year 2018. The data structure allows for storage of more than a year.
-        _id = MoInVis.Paracoords.IdStore.paraCoordGroup + '_' + ( MoInVis.Paracoords.Count++ ),
+        _id = moin.id + '_svg',
         _axisIndexMap,
         _visibleAxes = [],
         _axisHeight,
