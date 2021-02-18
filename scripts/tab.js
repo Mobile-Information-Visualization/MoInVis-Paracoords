@@ -17,6 +17,7 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         _hammerMan,
         _hammerSettings = MoInVis.Paracoords.HammerSettings,
         _activeEvents = [],
+        _addedEvents = {},
 
         // Method for dubugging purposes.
         _setText = function ( text, event ) {
@@ -119,7 +120,17 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
             } );
     };
 
+    this.addEventType = function ( eventType, eventProps ) {
+        _hammerMan.add( new Hammer[eventType]( eventProps ) );
+    };
+
+    this.addEvent = function (event, cb) {
+        _addedEvents[event] = cb;
+        this.activateEvent( event );
+    };
+
     this.switchOnEvents = function () {
+        var evt;
         if ( _activeEvents.indexOf( 'swipeup' ) > -1 ) {
             this.switchOnSwipeUpEvent();
         }
@@ -132,6 +143,11 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         if ( _activeEvents.indexOf( 'swiperight' ) > -1 ) {
             this.switchOnSwipeRightEvent();
         }
+        for ( evt in _addedEvents ) {
+            if ( _activeEvents.indexOf( evt ) > -1 ) {
+                _hammerMan.on( evt, _addedEvents[evt] );
+            }
+        }
     };
 
     this.switchOffEvents = function () {
@@ -140,6 +156,9 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
             .off( 'swipeleft' )
             .off( 'swiperight' )
             .off( 'swipedown' );
+        for ( evt in _addedEvents ) {
+                _hammerMan.off( evt );
+        }
     };
 
     _tabHandle = {

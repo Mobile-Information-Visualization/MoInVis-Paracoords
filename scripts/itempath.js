@@ -63,12 +63,17 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
             .attr( "fill", "none" );
     };
 
-    this.recalculate = function () {
+    this.recalculate = function (dontAnimate) {
         _points = _paracoorder.getPathPoints( this.itemName );
-        _pathElement
-            .transition()
-            .duration( _transitionSpeed )
-            .attr( "d", d3.line()( _points ) );
+        if ( dontAnimate === true ) {
+            _pathElement
+                .attr( "d", d3.line()( _points ) );
+        } else {
+            _pathElement
+                .transition()
+                .duration( _transitionSpeed )
+                .attr( "d", d3.line()( _points ) );
+        }
     };
 
     this.transitionY = function () {
