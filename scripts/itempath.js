@@ -72,6 +72,7 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
             _pathElement
                 .transition()
                 .duration( _transitionSpeed )
+                .ease( d3.easeCubicOut )
                 .attr( "d", d3.line()( _points ) );
         }
     };
