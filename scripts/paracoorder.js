@@ -259,7 +259,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         // Handles the scrolling of the axes from the pan event.
         _panUpDown = function ( event ) {
-            var deltaY = ( event.deltaY - _scrolling.deltaY ) / 10; // Scale down panning values.
+            var deltaY = ( event.deltaY - _scrolling.deltaY ) / 5; // Scale down panning values.
             _scrolling.deltaY = event.deltaY;
             // Do not rearrange if rearrangement is still in progress.
             if ( Date.now() - _scrolling.lastAxisRearrangement > MoInVis.Paracoords.TransitionSpeed ) {
@@ -367,7 +367,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         //self.activateEvent( 'swipedown' );
 
 
-        self.addEventType( 'Pan', { event: 'pan', pointers: 1, direction: Hammer.DIRECTION_VERTICAL, threshold: 40 } );
+        self.addEventType( 'Pan', { event: 'pan', pointers: 1, direction: Hammer.DIRECTION_VERTICAL, threshold: 50 } );
         self.addEvent( 'pan', _panUpDown );
         self.addEvent( 'panstart', _panStart );
         self.addEvent( 'panend', _panEnd );
