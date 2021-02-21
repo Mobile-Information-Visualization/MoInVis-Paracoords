@@ -1,0 +1,12 @@
+div#attrStoreTab {
+  margin: auto !important;
+}
+header.axisStore {
+  background-color: #252525;
+  height: 10%;
+}
+
+main.axisStore {
+  height: 90%;
+  background-color: #969696;
+}

@@ -74,6 +74,7 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
                 .style( 'left', -1.5 * _moin.width + 'px' )
                 .transition()
                 .duration( MoInVis.Paracoords.TransitionSpeed )
+                /* Jimmy: Why set left to 0 px */
                 .style( 'left', '0px' );
             // Switch on events for new tab
             _tabHandlers[_currentTabIndex].switchOnEvents();

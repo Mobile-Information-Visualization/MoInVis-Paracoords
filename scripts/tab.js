@@ -50,9 +50,12 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         };
 
         // Instantiate the Vue app here.
+        /*Jimmy: 1. What is keyword this refer to?
+        2.  */
         this.initVue = function (vueData) {
             var mainApp =
                 Vue.createApp( {
+                    /* Jimmy:  */
                     data: function () {
                         return vueData;
                     }
