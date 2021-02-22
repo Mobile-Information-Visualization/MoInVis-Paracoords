@@ -1,5 +1,5 @@
 div#attrStoreTab {
-  margin: auto !important;
+  width: 100% !important;
 }
 header.axisStore {
   background-color: #525252;
@@ -9,4 +9,9 @@ header.axisStore {
 main.axisStore {
   height: 90%;
   background-color: #969696;
+}
+
+ul.axisStore {
+  margin: 0%;
+  /* padding: 1em; */
 }

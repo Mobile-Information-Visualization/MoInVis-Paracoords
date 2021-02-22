@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" type="text/css" href="css/styles_axis_store.css">
+    <link rel="stylesheet" type="text/css" href="css/styles_universal.css">
 
     <script src="data/json/chemwaste.json"></script>
     <script src="data/json/glasswaste.json"></script>
@@ -31,7 +32,7 @@
                 <button class = "undoButton" >undo</button>
             </header>
             <main class="axisStore">
-                <ul>
+                <ul class = "axisStore">
                     <li v-for = "axis in axesArray" :key = "axis.attribute">{{axis.attributeLabel}}</li>
                     <!-- <li v-for = "detail in details">{{details}}</li> -->
                 </ul>
