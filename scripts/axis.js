@@ -80,6 +80,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _axisGroup
             .transition()
             .duration( _transitionSpeed )
+            .ease( d3.easeCubicOut )
             .attr( 'transform', 'translate(0,' + this.yPos + ')' );
     };
 
