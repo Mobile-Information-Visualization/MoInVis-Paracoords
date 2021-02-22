@@ -10,6 +10,10 @@ var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 MoInVis.Paracoords.IdStore.paracoordClipper = 'ParaCoordClipper';
+MoInVis.Paracoords.IdStore.TopCIGradNormal = 'TopCIGradNormal';
+MoInVis.Paracoords.IdStore.BottomCIGradNormal = 'BottomCIGradNormal';
+MoInVis.Paracoords.IdStore.TopCIGradPressed = 'TopCIGradPressed';
+MoInVis.Paracoords.IdStore.BottomCIGradPressed = 'BottomCIGradPressed';
 
 MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
     this.moin = moin;
@@ -28,7 +32,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _focusAndContextSettings = { // Settings for focus and context.
             focusIndex: 1,
             axesInContext: 2,
-            axesInFocus: 2,
+            axesInFocus: 4,
             extraGapFactor: 7, // Factor indicating how much more space axes in focus have between each other w.r.t axes in context.
             contextAxisOverflow: 0, // Gap between two context axes in pixels
             contextAxisOverflowFactor: 0.5
@@ -43,7 +47,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _scrolling = {
             deltaY: 0, // Stores the deltaY value from last pan event.
             overflowY: 0, // Stores the amount moved by axis (overflowing above current position).
-            lastAxisRearrangement: 0 // Time of last axis rearrangement.
+            lastAxisRearrangement: 0, // Time of last axis rearrangement.
+            scrollTransitionSpeed: MoInVis.Paracoords.FastTransitionSpeed // Transition speed to be used during scrolling to make it more responsive.
         },
         _xPos = 0,
         _yPos = 0,
@@ -53,6 +58,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _pathParentGroup,
         _height = moin.height,
         _width = moin.width,
+        _topCI,
+        _bottomCI,
         _attrScales = new Map(),
         _margins = { left: 20, right: 20, top: 10, bottom: 10 }, // Margins for our content, including texts.
         _positionProps = { // Positions for our content, including texts.
@@ -83,6 +90,90 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 .attr( 'y', _positionProps.top )
                 .attr( 'height', _positionProps.height )
                 .attr( 'width', _positionProps.width );
+        },
+
+        // Creates gradient for the context indicators.
+        _createStyles = function () {
+            var defs = document.getElementById( self.moin.id + '_' + MoInVis.Paracoords.IdStore.defs ), linearGrad, stopElement;
+            // Top CI gradient - Normal
+            linearGrad = document.createElementNS( 'http://www.w3.org/2000/svg', 'linearGradient' );
+            linearGrad.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.TopCIGradNormal );
+            linearGrad.setAttributeNS( null, 'x1', '0%' );
+            linearGrad.setAttributeNS( null, 'x2', '0%' );
+            linearGrad.setAttributeNS( null, 'y1', '0%' );
+            linearGrad.setAttributeNS( null, 'y2', '100%' );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '0%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(0,0,0,1)' );
+            linearGrad.appendChild( stopElement );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '100%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(47,79,79,0)' );
+            linearGrad.appendChild( stopElement );
+
+            defs.appendChild( linearGrad );
+
+            // Top CI gradient - Pressed
+            linearGrad = document.createElementNS( 'http://www.w3.org/2000/svg', 'linearGradient' );
+            linearGrad.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.TopCIGradPressed );
+            linearGrad.setAttributeNS( null, 'x1', '0%' );
+            linearGrad.setAttributeNS( null, 'x2', '0%' );
+            linearGrad.setAttributeNS( null, 'y1', '0%' );
+            linearGrad.setAttributeNS( null, 'y2', '100%' );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '25%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(0,0,0,1)' );
+            linearGrad.appendChild( stopElement );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '100%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(47,79,79,0)' );
+            linearGrad.appendChild( stopElement );
+
+            defs.appendChild( linearGrad );
+
+            // Bottom gradient - Normal
+            linearGrad = document.createElementNS( 'http://www.w3.org/2000/svg', 'linearGradient' );
+            linearGrad.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.BottomCIGradNormal );
+            linearGrad.setAttributeNS( null, 'x1', '0%' );
+            linearGrad.setAttributeNS( null, 'x2', '0%' );
+            linearGrad.setAttributeNS( null, 'y1', '0%' );
+            linearGrad.setAttributeNS( null, 'y2', '100%' );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '0%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(47,79,79,0)' );
+            linearGrad.appendChild( stopElement );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '100%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(0,0,0,1)' );
+            linearGrad.appendChild( stopElement );
+
+            defs.appendChild( linearGrad );
+
+            // Bottom gradient - Pressed
+            linearGrad = document.createElementNS( 'http://www.w3.org/2000/svg', 'linearGradient' );
+            linearGrad.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.BottomCIGradPressed );
+            linearGrad.setAttributeNS( null, 'x1', '0%' );
+            linearGrad.setAttributeNS( null, 'x2', '0%' );
+            linearGrad.setAttributeNS( null, 'y1', '0%' );
+            linearGrad.setAttributeNS( null, 'y2', '100%' );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '0%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(47,79,79,0)' );
+            linearGrad.appendChild( stopElement );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '75%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(0,0,0,1)' );
+            linearGrad.appendChild( stopElement );
+
+            defs.appendChild( linearGrad );
         },
 
         _getYPositionOfAttribute = function ( attr ) {
@@ -262,7 +353,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             var deltaY = ( event.deltaY - _scrolling.deltaY ) / 5; // Scale down panning values.
             _scrolling.deltaY = event.deltaY;
             // Do not rearrange if rearrangement is still in progress.
-            if ( Date.now() - _scrolling.lastAxisRearrangement > MoInVis.Paracoords.TransitionSpeed ) {
+            if ( Date.now() - _scrolling.lastAxisRearrangement > _scrolling.scrollTransitionSpeed ) {
                 if ( deltaY < 0 ) {
                     if ( _focusIndex < _visibleAxes.length - _axesInFocus ) {
                         // Scroll up - move axes up.
@@ -270,11 +361,12 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                         // If overflow exceeds the specified overflow limit, shift point of focus.
                         if ( _scrolling.overflowY <= -_focusAndContextSettings.contextAxisOverflow ) {
                             _scrolling.overflowY = 0;
-                            //[TODO]: Reuse the swipe methods for the next 3 lines or delete the swipe methods.
-                            _focusIndex++;
-                            _calculateAxisSpacing();
-                            _rearrangeAxes();
+                            // Set the tranition speed to scrolling transition speed.
+                            MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
+                            _setFocusIndex( _focusIndex + 1 );
                             _scrolling.lastAxisRearrangement = Date.now();
+                            // Reset the transition speed to normal.
+                            MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
                         } else { // If overflow is not exceeded, shift axes by delta pixels.
                             _shiftAxisByPixels( deltaY );
                         }
@@ -286,17 +378,41 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                         // If overflow exceeds the specified overflow limit, shift point of focus.
                         if ( _scrolling.overflowY >= _focusAndContextSettings.contextAxisOverflow ) {
                             _scrolling.overflowY = 0;
-                            //[TODO]: Reuse the swipe methods for the next 3 lines or delete the swipe methods.
-                            _focusIndex--;
-                            _calculateAxisSpacing();
-                            _rearrangeAxes();
+                            // Set the tranition speed to scrolling transition speed.
+                            MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
+                            _setFocusIndex( _focusIndex - 1 );
                             _scrolling.lastAxisRearrangement = Date.now();
+                            // Reset the transition speed to normal.
+                            MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
                         } else { // If overflow is not exceeded, shift axes by delta pixels.
                             _shiftAxisByPixels( deltaY );
                         }
                     }
                 }
             }
+        },
+
+        // Sets the focus index, shows/hides the context indicators appropriately, and recalculates axes positions and rearranges the axes.
+        _setFocusIndex = function ( newFI ) {
+            _focusIndex = newFI;
+            if ( _focusIndex === 0 ) {
+                if ( _topCI.visible ) {
+                    _topCI.setVisibility( false );
+                }
+            } else {
+                if ( _topCI.visible === false ) {
+                    _topCI.setVisibility( true );
+                }
+                if ( _focusIndex === _visibleAxes.length - _axesInFocus ) {
+                    if ( _bottomCI.visible ) {
+                        _bottomCI.setVisibility( false );
+                    }
+                } else if ( _bottomCI.visible === false ) {
+                    _bottomCI.setVisibility( true );
+                }
+            }
+            _calculateAxisSpacing();
+            _rearrangeAxes();
         },
 
         // Called when pan event starts.
@@ -312,26 +428,60 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             _scrolling.deltaY = 0;
             _scrolling.overflowY = 0;
             // Do not rearrange if rearrangement is still in progress.
-            if ( Date.now() - _scrolling.lastAxisRearrangement > MoInVis.Paracoords.TransitionSpeed ) {
+            if ( Date.now() - _scrolling.lastAxisRearrangement > _scrolling.scrollTransitionSpeed ) {
+                // Set the tranition speed to scrolling transition speed.
+                MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
                 _rearrangeAxes(); // Move them back to their original positions.
+                // Reset the transition speed to normal.
+                MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
+            }
+        },
+
+        // Handles quick scrolling up when the context indicators are tapped.
+        // {param} fullScroll indicates a double tap and that scrolling is to happen to the end.
+        _quickScrollUp = function ( fullScroll ) {
+            var newFI = _focusIndex;
+            if ( newFI > 0 ) {
+                if ( fullScroll ) {
+                    newFI = 0;
+                } else {
+                    newFI -= _axesInFocus - 1;
+                    if ( newFI < 0 ) {
+                        newFI = 0;
+                    }
+                }
+                _setFocusIndex( newFI );
+            }
+        },
+
+        // Handles quick scrolling down when the context indicators are tapped.
+        // {param} fullScroll indicates a double tap and that scrolling is to happen to the end.
+        _quickScrollDown = function ( fullScroll ) {
+            var newFI = _focusIndex;
+            if ( newFI < _visibleAxes.length - _axesInFocus ) {
+                if ( fullScroll ) {
+                    newFI = _visibleAxes.length - _axesInFocus;
+                } else {
+                    newFI += _axesInFocus - 1;
+                    if ( newFI > _visibleAxes.length - _axesInFocus ) {
+                        newFI = _visibleAxes.length - _axesInFocus;
+                    }
+                }
+                _setFocusIndex( newFI );
             }
         };
 
     // Overriding base class method.
     this.swipeUp = function () {
         if ( _focusIndex < _visibleAxes.length - _axesInFocus ) {
-            _focusIndex++;
-            _calculateAxisSpacing();
-            _rearrangeAxes();
+            _setFocusIndex( _focusIndex + 1 );
         }
     };
 
     // Overriding base class method.
     this.swipeDown = function () {
         if ( _focusIndex > 0 ) {
-            _focusIndex--;
-            _calculateAxisSpacing();
-            _rearrangeAxes();
+            _setFocusIndex( _focusIndex - 1 );
         }
     };
 
@@ -344,6 +494,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             .attr( 'id', _id + '_ParentGrp' )
             .attr( 'transform', 'translate(' + _xPos + ',' + _yPos + ')' );
         _initializeClipping();
+
+        _createStyles();
 
         _paracoordHolder = _parentGroup
             .append( 'g' )
@@ -380,7 +532,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         var
             attributes = MoInVis.Paracoords.Data.wasteAttributes,
             items = MoInVis.Paracoords.Data.itemsForWaste,
-            extent;
+            extent, ciSize = 100;
 
         this.drawPaths();
 
@@ -397,12 +549,9 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         this.drawAttributeAxes();
 
-        // Draw buttons
-
-        //var size = 20;
-        //new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top - size, size, '_LeftUpButton', true, _swipeDown );
-        //new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top + _innerPositionProps.height, size, '_LeftUpButton', false, _swipeUp );
-        // [TODO]:  Draw the paths for each region.
+        // Draw context indicators
+        _topCI = new MoInVis.Paracoords.contextIndicator( _parentGroup, _positionProps.left, 0, ciSize, _positionProps.width, 'TopCI', true, _quickScrollUp );
+        _bottomCI = new MoInVis.Paracoords.contextIndicator( _parentGroup, _positionProps.left, _height - ciSize, ciSize, _positionProps.width, 'BottomCI', false, _quickScrollDown );
 
         _calculateAxisSpacing();
         _rearrangeAxes();
