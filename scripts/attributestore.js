@@ -36,7 +36,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             _vueApp = self.initVue( _vueData, _vueMethods );
         };
 
-        _decreaseNumber = function (){
+    _decreaseNumber = function () {
+            // 'this' refer to the proxy of the sent data created by vue.
             this.numberAxesInFocus -= 1;
             console.log(_vueData.numberAxesInFocus);            
         };
