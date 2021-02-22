@@ -26,10 +26,10 @@
         <div id="entryStoreTab">
           <header class="entryStore">
             <h1>{{tabName}}</h1>
-            <h2>Total Number of entries: 42</h2>
+            <h2>Total Number of entries: {{ totalEntries }}</h2>
           </header>
           <main class="entryStore">
-            <li v-for="key in keys">{{ key }}</li>
+            <li v-for="item in items" :key="item">{{ item }}</li>
           </main>
         </div>
     </div>
