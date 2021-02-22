@@ -27,8 +27,8 @@
             <!-- <h1>{{tabName}}</h1> -->
             <header class="axisStore">
                 <button class = "minusButton" v-on:click = "decreaseNumber">minus</button>
-                <div class = "totalAxesInFocus">{{numberAxesInFocus}}</div>
-                <button class = "plusButton" >plus</button>
+                <output class = "totalAxesInFocus">{{numberAxesInFocus}}</output>
+                <button class = "plusButton" v-on:click = "increaseNumber" >plus</button>
                 <button class = "undoButton" >undo</button>
             </header>
             <main class="axisStore">

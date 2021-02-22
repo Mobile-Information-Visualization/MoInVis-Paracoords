@@ -32,7 +32,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 numberAxesInFocus:5            
             };
             _vueMethods = {
-                decreaseNumber: _decreaseNumber
+                decreaseNumber: _decreaseNumber,
+                increaseNumber: _increaseNumber
             };
             
             _vueApp = self.initVue( _vueData, _vueMethods );
@@ -43,10 +44,20 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             if (this.numberAxesInFocus <= this.maxAxesInFocus && this.numberAxesInFocus > this.minAxesInFocus){
 
                 this.numberAxesInFocus -= 1;
-                console.log(this.numberAxesInFocus);
+                console.log("current number of axes in focus view: " + this.numberAxesInFocus);
             }
                         
-        };
+    };
+
+    _increaseNumber = function () {
+        // 'this' refer to the proxy of the sent data created by vue.
+        if (this.numberAxesInFocus >= this.minAxesInFocus && this.numberAxesInFocus < this.maxAxesInFocus){
+
+            this.numberAxesInFocus += 1;
+            console.log("current number of axes in focus view: " + this.numberAxesInFocus);
+        }
+                    
+    };
 
     _init();
 };
