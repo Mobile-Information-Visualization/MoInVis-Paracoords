@@ -17,19 +17,24 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
     this.moin = moin;
     MoInVis.Paracoords.entryStore.baseCtor.call( this, parentDiv );
 
+    const keys = Object.keys(entries);
+
     var self = this,
         _parentDiv = parentDiv,
         _entries = entries,
         _vueData,
         _vueApp,
 
+
         _init = function () {
             _vueData = {
-                tabName: 'Enter the Entry Store!'
+                tabName: 'Entry Store!',
+                keys
             };
             _vueApp = self.initVue( _vueData );
         };
 
+    console.log(typeof"entries");
     _init();
 };
 
