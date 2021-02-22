@@ -50,16 +50,16 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         };
 
     // Instantiate the Vue app here.
-    /*Jimmy: 1. What is keyword this refer to?
-    2.  */
-    this.initVue = function ( vueData, vueMethods ) {
+    
+    this.initVue = function ( vueData, vueMethods, vueComputed ) {
         var mainApp =
             Vue.createApp( {
-                /* Jimmy:  */
+                
                 data: function () {
                     return vueData;
                 },
-                methods: vueMethods || {}
+                methods: vueMethods || {},
+                computed: vueComputed || {}
             } );
         mainApp.mount( _tabHandle.parentTab.node() );
         return mainApp;

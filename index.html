@@ -26,9 +26,9 @@
         <div id="attrStoreTab">
             <!-- <h1>{{tabName}}</h1> -->
             <header class="axisStore">
-                <button class = "minusButton" v-on:click = "decreaseNumber" v-show="true">-</button>
+                <button class = "minusButton" v-on:click = "decreaseNumber" v-show="isMinusButtonDisabled">-</button>
                 <output class = "totalAxesInFocus">{{numberAxesInFocus}}</output>
-                <button class = "plusButton" v-on:click = "increaseNumber" >+</button>
+                <button class = "plusButton" v-on:click = "increaseNumber" v-show = "isPlusButtonDisabled" >+</button>
                 <button class = "undoButton" >undo</button>
             </header>
             <main class="axisStore">

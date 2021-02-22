@@ -21,6 +21,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _axes = axes,
         _vueData,
         _vueMethods,
+        _vueComputed,
         _vueApp,
 
         _init = function () {
@@ -29,17 +30,25 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 axesArray: _axes,
                 maxAxesInFocus: 6,
                 minAxesInFocus: 2,
-                numberAxesInFocus:5            
+                numberAxesInFocus:5,            
             };
             _vueMethods = {
                 decreaseNumber: _decreaseNumber,
                 increaseNumber: _increaseNumber,
-                isMinusButtonDisabled: _isMinusButtonDisabled
+                
             };
+
+            _vueComputed ={
+
+                isMinusButtonDisabled: _isMinusButtonDisabled,
+                isPlusButtonDisabled: _isPlusButtonDisabled
+
+            }
             
-            _vueApp = self.initVue( _vueData, _vueMethods );
+            _vueApp = self.initVue( _vueData, _vueMethods, _vueComputed );
         };
 
+    //methods
     _decreaseNumber = function () {
             // 'this' refer to the proxy of the sent data created by vue.
             if (this.numberAxesInFocus <= this.maxAxesInFocus && this.numberAxesInFocus > this.minAxesInFocus){
@@ -59,7 +68,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         }
                     
     };
-
+    //computed component
     _isMinusButtonDisabled = function () {
 
         if(this.numberAxesInFocus == this.minAxesInFocus){
@@ -70,6 +79,16 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         }
         
         
+    }
+
+    _isPlusButtonDisabled = function () {
+        
+        if(this.numberAxesInFocus == this.maxAxesInFocus){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
 
