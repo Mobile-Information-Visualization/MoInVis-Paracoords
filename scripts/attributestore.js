@@ -27,6 +27,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             _vueData = {
                 tabName: 'I am the Attribute Store!',
                 axesArray: _axes,
+                maxAxesInFocus: 6,
+                minAxesInFocus: 2,
                 numberAxesInFocus:5            
             };
             _vueMethods = {
@@ -36,17 +38,14 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             _vueApp = self.initVue( _vueData, _vueMethods );
         };
 
-<<<<<<< Updated upstream
     _decreaseNumber = function () {
             // 'this' refer to the proxy of the sent data created by vue.
-            this.numberAxesInFocus -= 1;
-            console.log(_vueData.numberAxesInFocus);            
-=======
-        _decreaseNumber = function (){
-            console.log(_vueData.numberAxesInFocus);
-            
-            
->>>>>>> Stashed changes
+            if (this.numberAxesInFocus <= this.maxAxesInFocus && this.numberAxesInFocus > this.minAxesInFocus){
+
+                this.numberAxesInFocus -= 1;
+                console.log(this.numberAxesInFocus);
+            }
+                        
         };
 
     _init();
