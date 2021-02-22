@@ -49,20 +49,21 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
             self.activateEvent( 'swiperight' );
         };
 
-        // Instantiate the Vue app here.
-        /*Jimmy: 1. What is keyword this refer to?
-        2.  */
-        this.initVue = function (vueData) {
-            var mainApp =
-                Vue.createApp( {
-                    /* Jimmy:  */
-                    data: function () {
-                        return vueData;
-                    }
-                } );
-            mainApp.mount( _tabHandle.parentTab.node() );
-            return mainApp;
-        };
+    // Instantiate the Vue app here.
+    /*Jimmy: 1. What is keyword this refer to?
+    2.  */
+    this.initVue = function ( vueData, vueMethods ) {
+        var mainApp =
+            Vue.createApp( {
+                /* Jimmy:  */
+                data: function () {
+                    return vueData;
+                },
+                methods: vueMethods || {}
+            } );
+        mainApp.mount( _tabHandle.parentTab.node() );
+        return mainApp;
+    };
 
     this.swipeRight = function () {
         this.moin.tabManager.swipeRight();

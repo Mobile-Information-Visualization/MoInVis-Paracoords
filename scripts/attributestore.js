@@ -20,27 +20,25 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _parentDiv = parentDiv,
         _axes = axes,
         _vueData,
+        _vueMethods,
         _vueApp,
 
         _init = function () {
             _vueData = {
                 tabName: 'I am the Attribute Store!',
                 axesArray: _axes,
-                numberAxesInFocus:5,
-                methods: {
-                    decreaseNumber: _decreaseNumber
-                   
-                }
-            
+                numberAxesInFocus:5            
+            };
+            _vueMethods = {
+                decreaseNumber: _decreaseNumber
             };
             
-            _vueApp = self.initVue( _vueData );
+            _vueApp = self.initVue( _vueData, _vueMethods );
         };
 
         _decreaseNumber = function (){
-            console.log(_vueData.numberAxesInFocus);
-            _vueData.numberAxesInFocus -= 1;
-            
+            this.numberAxesInFocus -= 1;
+            console.log(_vueData.numberAxesInFocus);            
         };
 
     _init();
