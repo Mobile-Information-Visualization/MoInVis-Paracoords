@@ -18,7 +18,6 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         _pathElement,
         _paracoorder = paracoorder,
         _id,
-        _transitionSpeed = MoInVis.Paracoords.TransitionSpeed,
         _chosenYear,
         _pathWidth = 2,
         _points = [],
@@ -71,7 +70,7 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         } else {
             _pathElement
                 .transition()
-                .duration( _transitionSpeed )
+                .duration( MoInVis.Paracoords.TransitionSpeed )
                 .ease( d3.easeCubicOut )
                 .attr( "d", d3.line()( _points ) );
         }
@@ -81,7 +80,7 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         //this.yPos = newY;
         //_axisGroup
         //    .transition()
-        //    .duration( _transitionSpeed)
+        //    .duration( MoInVis.Paracoords.TransitionSpeed)
         //    .attr( 'transform', 'translate(0,' + this.yPos + ')' );
     };
 

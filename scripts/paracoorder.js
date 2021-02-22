@@ -47,7 +47,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _scrolling = {
             deltaY: 0, // Stores the deltaY value from last pan event.
             overflowY: 0, // Stores the amount moved by axis (overflowing above current position).
-            lastAxisRearrangement: 0 // Time of last axis rearrangement.
+            lastAxisRearrangement: 0, // Time of last axis rearrangement.
+            scrollTransitionSpeed: MoInVis.Paracoords.FastTransitionSpeed // Transition speed to be used during scrolling to make it more responsive.
         },
         _xPos = 0,
         _yPos = 0,
@@ -352,7 +353,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             var deltaY = ( event.deltaY - _scrolling.deltaY ) / 5; // Scale down panning values.
             _scrolling.deltaY = event.deltaY;
             // Do not rearrange if rearrangement is still in progress.
-            if ( Date.now() - _scrolling.lastAxisRearrangement > MoInVis.Paracoords.TransitionSpeed ) {
+            if ( Date.now() - _scrolling.lastAxisRearrangement > _scrolling.scrollTransitionSpeed ) {
                 if ( deltaY < 0 ) {
                     if ( _focusIndex < _visibleAxes.length - _axesInFocus ) {
                         // Scroll up - move axes up.
@@ -360,8 +361,12 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                         // If overflow exceeds the specified overflow limit, shift point of focus.
                         if ( _scrolling.overflowY <= -_focusAndContextSettings.contextAxisOverflow ) {
                             _scrolling.overflowY = 0;
+                            // Set the tranition speed to scrolling transition speed.
+                            MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
                             _setFocusIndex( _focusIndex + 1 );
                             _scrolling.lastAxisRearrangement = Date.now();
+                            // Reset the transition speed to normal.
+                            MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
                         } else { // If overflow is not exceeded, shift axes by delta pixels.
                             _shiftAxisByPixels( deltaY );
                         }
@@ -373,8 +378,12 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                         // If overflow exceeds the specified overflow limit, shift point of focus.
                         if ( _scrolling.overflowY >= _focusAndContextSettings.contextAxisOverflow ) {
                             _scrolling.overflowY = 0;
+                            // Set the tranition speed to scrolling transition speed.
+                            MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
                             _setFocusIndex( _focusIndex - 1 );
                             _scrolling.lastAxisRearrangement = Date.now();
+                            // Reset the transition speed to normal.
+                            MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
                         } else { // If overflow is not exceeded, shift axes by delta pixels.
                             _shiftAxisByPixels( deltaY );
                         }
@@ -419,8 +428,12 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             _scrolling.deltaY = 0;
             _scrolling.overflowY = 0;
             // Do not rearrange if rearrangement is still in progress.
-            if ( Date.now() - _scrolling.lastAxisRearrangement > MoInVis.Paracoords.TransitionSpeed ) {
+            if ( Date.now() - _scrolling.lastAxisRearrangement > _scrolling.scrollTransitionSpeed ) {
+                // Set the tranition speed to scrolling transition speed.
+                MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
                 _rearrangeAxes(); // Move them back to their original positions.
+                // Reset the transition speed to normal.
+                MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
             }
         },
 

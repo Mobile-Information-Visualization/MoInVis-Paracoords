@@ -12,8 +12,10 @@ MoInVis.Paracoords.IdStore.paraCoordGroup = 'MoInVis_ParaCoords';
 MoInVis.Paracoords.IdStore.parentSvg = 'ParaCoordContainerSVG';
 MoInVis.Paracoords.IdStore.defs = 'MoInVisParaCoordDefs';
 MoInVis.Paracoords.Count = MoInVis.Paracoords.Count || 0;
-MoInVis.Paracoords.TransitionSpeed = 1000;
+MoInVis.Paracoords.NormalTransitionSpeed = 1000;
+MoInVis.Paracoords.FastTransitionSpeed = 500;
 MoInVis.Paracoords.DeleteTransitionSpeed = 500;
+MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
 MoInVis.Paracoords.HammerSettings = {
     events: {
         swipeUp: 'swipeup',
