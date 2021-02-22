@@ -2,6 +2,10 @@ div#attrStoreTab {
   width: 100% !important;
 }
 header.axisStore {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  justify-content: center;
   background-color: #525252;
   height: 10%;
 }
@@ -14,4 +18,20 @@ main.axisStore {
 ul.axisStore {
   margin: 0%;
   /* padding: 1em; */
+}
+
+output.totalAxesInFocus {
+  /* text-align: center; */
+}
+
+button.minusButton,
+button.plusButton {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }
