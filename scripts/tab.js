@@ -50,12 +50,13 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         };
 
         // Instantiate the Vue app here.
-        this.initVue = function (vueData) {
+        this.initVue = function (vueData, vueMethods) {
             var mainApp =
                 Vue.createApp( {
                     data: function () {
                         return vueData;
-                    }
+                    },
+                    methods: vueMethods || {}
                 } );
             mainApp.mount( _tabHandle.parentTab.node() );
             return mainApp;
