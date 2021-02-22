@@ -33,7 +33,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             };
             _vueMethods = {
                 decreaseNumber: _decreaseNumber,
-                increaseNumber: _increaseNumber
+                increaseNumber: _increaseNumber,
+                isMinusButtonDisabled: _isMinusButtonDisabled
             };
             
             _vueApp = self.initVue( _vueData, _vueMethods );
@@ -58,6 +59,20 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         }
                     
     };
+
+    _isMinusButtonDisabled = function () {
+
+        if(this.numberAxesInFocus == this.minAxesInFocus){
+            return false;
+        }
+        else{
+            return true;
+        }
+        
+        
+    }
+
+
 
     _init();
 };
