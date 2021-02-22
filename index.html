@@ -29,7 +29,12 @@
             <h2>Total Number of entries: {{ totalEntries }}</h2>
           </header>
           <main class="entryStore">
-            <li v-for="item in items" :key="item">{{ item }}</li>
+            <li v-for="item in items" :key="item">
+                                                  <input type="checkbox">
+                                                  {{ item }}
+                                                  <input type="color" id="favcolor" name="favcolor" value="#ff0000">
+
+            </li>
           </main>
         </div>
     </div>
