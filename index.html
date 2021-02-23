@@ -35,7 +35,9 @@
             </header>
             <main class="axisStore">
                 <ul class = "axisStore">
-                    <li v-for = "axis in axesArray" :key = "axis.attribute">{{axis.attributeLabel}}</li>
+                    <li v-for = "axis in axesArray" :key = "axis.attribute">{{axis.attributeLabel}}
+                        <input type="checkbox">
+                    </li>
                     <!-- <li v-for = "detail in details">{{details}}</li> -->
                 </ul>
                 
