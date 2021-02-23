@@ -25,7 +25,7 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
 
     var self = this,
         _parentDiv = parentDiv,
-        /*_entries = entries, */
+        _entries = entries,
         _vueData,
         _vueApp,
 
@@ -35,7 +35,7 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
             _vueData = {
                 tabName: 'Entry Store!',
                 totalEntries: totalEntries,
-                items
+                entries: entries
             };
             _vueApp = self.initVue( _vueData );
         };

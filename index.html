@@ -25,14 +25,14 @@
         </div>
         <div id="entryStoreTab">
           <header class="entryStore">
-            <h1>{{tabName}}</h1>
-            <h2>Total Number of entries: {{ totalEntries }}</h2>
+            <h1 id="entryHeader">{{tabName}}</h1>
+            <h2 id="entryHeader">Total Number of entries: {{ totalEntries }}</h2>
           </header>
           <main class="entryStore">
-            <li v-for="item in items" :key="item">
-                                                  <input type="checkbox">
-                                                  {{ item }}
-                                                  <input type="color" id="favcolor" name="favcolor" value="#ff0000">
+            <li v-for="entry in entries" :key="entry">
+              <input type="checkbox" v-model="entry.visible">
+                                                  {{ entry.itemText }}
+                                                  <input type="color" id="favcolor" name="favcolor" v-model="entry.colour">
 
             </li>
           </main>
