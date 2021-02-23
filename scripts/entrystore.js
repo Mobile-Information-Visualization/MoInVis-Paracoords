@@ -31,9 +31,10 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
 
 
         _init = function () {
+            // _parentDiv.style.overflow = 'scroll';
             _vueData = {
                 tabName: 'Entry Store!',
-                totalEntries,
+                totalEntries: totalEntries,
                 items
             };
             _vueApp = self.initVue( _vueData );
