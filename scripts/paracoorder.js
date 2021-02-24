@@ -9,8 +9,11 @@
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
-MoInVis.Paracoords.IdStore.paraCoordGroup = 'MoInVis_ParaCoords';
 MoInVis.Paracoords.IdStore.paracoordClipper = 'ParaCoordClipper';
+MoInVis.Paracoords.IdStore.TopCIGradNormal = 'TopCIGradNormal';
+MoInVis.Paracoords.IdStore.BottomCIGradNormal = 'BottomCIGradNormal';
+MoInVis.Paracoords.IdStore.TopCIGradPressed = 'TopCIGradPressed';
+MoInVis.Paracoords.IdStore.BottomCIGradPressed = 'BottomCIGradPressed';
 
 MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
     this.moin = moin;
@@ -22,15 +25,17 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _parentDiv = parentDiv,
         _tabHandle,
         _chosenYear = 2018, // Since we are concentrating on the year 2018. The data structure allows for storage of more than a year.
-        _id = MoInVis.Paracoords.IdStore.paraCoordGroup + '_' + ( MoInVis.Paracoords.Count++ ),
+        _id = moin.id + '_svg',
         _axisIndexMap,
         _visibleAxes = [],
         _axisHeight,
         _focusAndContextSettings = { // Settings for focus and context.
             focusIndex: 1,
             axesInContext: 2,
-            axesInFocus: 2,
-            extraGapFactor: 7 // Factor indicating how much more space axes in focus have between each other w.r.t axes in context.
+            axesInFocus: 4,
+            extraGapFactor: 7, // Factor indicating how much more space axes in focus have between each other w.r.t axes in context.
+            contextAxisOverflow: 0, // Gap between two context axes in pixels
+            contextAxisOverflowFactor: 0.5
         },
         _focusIndex = _focusAndContextSettings.focusIndex,
         _axesInFocus,
@@ -39,6 +44,12 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _axesInTopContext,
         _axesInViewPortCount, // _axesInFocus and the _axesInContext.
         _axesPositions = [],
+        _scrolling = {
+            deltaY: 0, // Stores the deltaY value from last pan event.
+            overflowY: 0, // Stores the amount moved by axis (overflowing above current position).
+            lastAxisRearrangement: 0, // Time of last axis rearrangement.
+            scrollTransitionSpeed: MoInVis.Paracoords.FastTransitionSpeed // Transition speed to be used during scrolling to make it more responsive.
+        },
         _xPos = 0,
         _yPos = 0,
         _parentGroup,
@@ -47,6 +58,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _pathParentGroup,
         _height = moin.height,
         _width = moin.width,
+        _topCI,
+        _bottomCI,
         _attrScales = new Map(),
         _margins = { left: 20, right: 20, top: 10, bottom: 10 }, // Margins for our content, including texts.
         _positionProps = { // Positions for our content, including texts.
@@ -77,6 +90,90 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 .attr( 'y', _positionProps.top )
                 .attr( 'height', _positionProps.height )
                 .attr( 'width', _positionProps.width );
+        },
+
+        // Creates gradient for the context indicators.
+        _createStyles = function () {
+            var defs = document.getElementById( self.moin.id + '_' + MoInVis.Paracoords.IdStore.defs ), linearGrad, stopElement;
+            // Top CI gradient - Normal
+            linearGrad = document.createElementNS( 'http://www.w3.org/2000/svg', 'linearGradient' );
+            linearGrad.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.TopCIGradNormal );
+            linearGrad.setAttributeNS( null, 'x1', '0%' );
+            linearGrad.setAttributeNS( null, 'x2', '0%' );
+            linearGrad.setAttributeNS( null, 'y1', '0%' );
+            linearGrad.setAttributeNS( null, 'y2', '100%' );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '0%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(0,0,0,1)' );
+            linearGrad.appendChild( stopElement );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '100%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(47,79,79,0)' );
+            linearGrad.appendChild( stopElement );
+
+            defs.appendChild( linearGrad );
+
+            // Top CI gradient - Pressed
+            linearGrad = document.createElementNS( 'http://www.w3.org/2000/svg', 'linearGradient' );
+            linearGrad.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.TopCIGradPressed );
+            linearGrad.setAttributeNS( null, 'x1', '0%' );
+            linearGrad.setAttributeNS( null, 'x2', '0%' );
+            linearGrad.setAttributeNS( null, 'y1', '0%' );
+            linearGrad.setAttributeNS( null, 'y2', '100%' );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '25%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(0,0,0,1)' );
+            linearGrad.appendChild( stopElement );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '100%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(47,79,79,0)' );
+            linearGrad.appendChild( stopElement );
+
+            defs.appendChild( linearGrad );
+
+            // Bottom gradient - Normal
+            linearGrad = document.createElementNS( 'http://www.w3.org/2000/svg', 'linearGradient' );
+            linearGrad.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.BottomCIGradNormal );
+            linearGrad.setAttributeNS( null, 'x1', '0%' );
+            linearGrad.setAttributeNS( null, 'x2', '0%' );
+            linearGrad.setAttributeNS( null, 'y1', '0%' );
+            linearGrad.setAttributeNS( null, 'y2', '100%' );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '0%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(47,79,79,0)' );
+            linearGrad.appendChild( stopElement );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '100%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(0,0,0,1)' );
+            linearGrad.appendChild( stopElement );
+
+            defs.appendChild( linearGrad );
+
+            // Bottom gradient - Pressed
+            linearGrad = document.createElementNS( 'http://www.w3.org/2000/svg', 'linearGradient' );
+            linearGrad.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.BottomCIGradPressed );
+            linearGrad.setAttributeNS( null, 'x1', '0%' );
+            linearGrad.setAttributeNS( null, 'x2', '0%' );
+            linearGrad.setAttributeNS( null, 'y1', '0%' );
+            linearGrad.setAttributeNS( null, 'y2', '100%' );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '0%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(47,79,79,0)' );
+            linearGrad.appendChild( stopElement );
+
+            stopElement = document.createElementNS( 'http://www.w3.org/2000/svg', 'stop' );
+            stopElement.setAttributeNS( null, 'offset', '75%' );
+            stopElement.setAttributeNS( null, 'stop-color', 'rgba(0,0,0,1)' );
+            linearGrad.appendChild( stopElement );
+
+            defs.appendChild( linearGrad );
         },
 
         _getYPositionOfAttribute = function ( attr ) {
@@ -131,7 +228,12 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 gapUnits += ( _axesInFocus - 1 ) * _focusAndContextSettings.extraGapFactor;
             }
             contextAxisGap = unusedSpace / gapUnits;
+            _focusAndContextSettings.contextAxisOverflow = contextAxisGap * _focusAndContextSettings.contextAxisOverflowFactor;
             focusAxisGap = contextAxisGap * _focusAndContextSettings.extraGapFactor;
+
+            // Set positions for hidden axes depending on the gap between context axes.
+            _innerPositionProps.hideAtTop = - contextAxisGap;
+            _innerPositionProps.hideAtBottom = _positionProps.top + _innerMargins.top + _positionProps.height + contextAxisGap;
 
             // [TODO]: Adjust positions such that all the axis, are inside the bounds defined by _innerPositionProps
             _axesPositions = [];
@@ -184,30 +286,202 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             }
         },
 
+        // Shifts the displayed axes by specified pixels.
+        _shiftAxisByPixels = function ( pixels ) {
+            var length = _axesInFocus + _focusIndex + _axesInBottomContext, i = _focusIndex - _axesInTopContext, path, axis,
+                focusStartPos = _axesPositions[_axesInTopContext],
+                focusEndPos = _axesPositions[_axesInTopContext + _axesInFocus - 1];
+
+            if ( pixels < 0 ) { // Shifting axes upwards.
+                if ( length < _visibleAxes.length - 1 ) { // Include the axis outside viewport.
+                    length++;
+                } else if ( length === _visibleAxes.length ) { // If last axis is reached, do not move the last axis.
+                    length--;
+                }
+                if ( _axesInTopContext === 0 ) { // Do not move first axis until top context area contains axes.
+                    i++;
+                }
+                for ( i; i < length; i++ ) {
+                    axis = _visibleAxes[i];
+                    if ( axis.yPos > focusStartPos && axis.yPos <= focusEndPos ) {
+                        // For axes moving around in the focus area, the movement is scaled.
+                        axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor );
+                    } else {
+                        axis.setY( axis.yPos + pixels );
+                    }
+                }
+            } else { // Shifting axes downwards.
+                if ( _axesInBottomContext === 0 ) { // Do not move last axis until bottom context area contains axes.
+                    length--;
+                }
+                if ( i === 0 ) { // If first axis is reached, do not move the first axis.
+                    i++;
+                } else if ( i > 1 ) { // Include the axis outside viewport.
+                    i--;
+                }
+                for ( i; i < length; i++ ) {
+                    axis = _visibleAxes[i];
+                    axis.setY( axis.yPos + pixels );
+                    if ( axis.yPos >= focusStartPos && axis.yPos < focusEndPos ) {
+                        // For axes moving around in the focus area, the movement is scaled.
+                        axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor );
+                    } else {
+                        axis.setY( axis.yPos + pixels );
+                    }
+                }
+            }
+
+            // Recalculate paths and draw
+            for ( path in self.paths ) {
+                if ( self.paths[path].visible ) {
+                    // Since elements are moved in tiny amounts, transitions are not needed. They will only slow rendering down.
+                    self.paths[path].recalculate( true );
+                }
+            }
+        },
+
         _onScroll = function ( evt ) {
-            console.log( 'Scrolling: ' + evt.wheelDeltaY );
             if ( evt.wheelDeltaY >= 180 ) {
                 self.swipeDown();
             } else if ( evt.wheelDeltaY <= -180 ) {
                 self.swipeUp();
+            }
+        },
+
+        // Handles the scrolling of the axes from the pan event.
+        _panUpDown = function ( event ) {
+            var deltaY = ( event.deltaY - _scrolling.deltaY ) / 5; // Scale down panning values.
+            _scrolling.deltaY = event.deltaY;
+            // Do not rearrange if rearrangement is still in progress.
+            if ( Date.now() - _scrolling.lastAxisRearrangement > _scrolling.scrollTransitionSpeed ) {
+                if ( deltaY < 0 ) {
+                    if ( _focusIndex < _visibleAxes.length - _axesInFocus ) {
+                        // Scroll up - move axes up.
+                        _scrolling.overflowY += deltaY; // Update overflow (amount moved by axis)
+                        // If overflow exceeds the specified overflow limit, shift point of focus.
+                        if ( _scrolling.overflowY <= -_focusAndContextSettings.contextAxisOverflow ) {
+                            _scrolling.overflowY = 0;
+                            // Set the tranition speed to scrolling transition speed.
+                            MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
+                            _setFocusIndex( _focusIndex + 1 );
+                            _scrolling.lastAxisRearrangement = Date.now();
+                            // Reset the transition speed to normal.
+                            MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
+                        } else { // If overflow is not exceeded, shift axes by delta pixels.
+                            _shiftAxisByPixels( deltaY );
+                        }
+                    }
+                } else if ( deltaY > 0 ) {
+                    if ( _focusIndex > 0 ) {
+                        // Scroll down - move axes down.
+                        _scrolling.overflowY += deltaY; // Update overflow (amount moved by axis)
+                        // If overflow exceeds the specified overflow limit, shift point of focus.
+                        if ( _scrolling.overflowY >= _focusAndContextSettings.contextAxisOverflow ) {
+                            _scrolling.overflowY = 0;
+                            // Set the tranition speed to scrolling transition speed.
+                            MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
+                            _setFocusIndex( _focusIndex - 1 );
+                            _scrolling.lastAxisRearrangement = Date.now();
+                            // Reset the transition speed to normal.
+                            MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
+                        } else { // If overflow is not exceeded, shift axes by delta pixels.
+                            _shiftAxisByPixels( deltaY );
+                        }
+                    }
+                }
+            }
+        },
+
+        // Sets the focus index, shows/hides the context indicators appropriately, and recalculates axes positions and rearranges the axes.
+        _setFocusIndex = function ( newFI ) {
+            _focusIndex = newFI;
+            if ( _focusIndex === 0 ) {
+                if ( _topCI.visible ) {
+                    _topCI.setVisibility( false );
+                }
+            } else {
+                if ( _topCI.visible === false ) {
+                    _topCI.setVisibility( true );
+                }
+                if ( _focusIndex === _visibleAxes.length - _axesInFocus ) {
+                    if ( _bottomCI.visible ) {
+                        _bottomCI.setVisibility( false );
+                    }
+                } else if ( _bottomCI.visible === false ) {
+                    _bottomCI.setVisibility( true );
+                }
+            }
+            _calculateAxisSpacing();
+            _rearrangeAxes();
+        },
+
+        // Called when pan event starts.
+        _panStart = function () {
+            // Reset scrolling variables.
+            _scrolling.deltaY = 0;
+            _scrolling.overflowY = 0;
+        },
+
+        // Called when pan event ends.
+        _panEnd = function () {
+            // Reset scrolling variables.
+            _scrolling.deltaY = 0;
+            _scrolling.overflowY = 0;
+            // Do not rearrange if rearrangement is still in progress.
+            if ( Date.now() - _scrolling.lastAxisRearrangement > _scrolling.scrollTransitionSpeed ) {
+                // Set the tranition speed to scrolling transition speed.
+                MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
+                _rearrangeAxes(); // Move them back to their original positions.
+                // Reset the transition speed to normal.
+                MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
+            }
+        },
+
+        // Handles quick scrolling up when the context indicators are tapped.
+        // {param} fullScroll indicates a double tap and that scrolling is to happen to the end.
+        _quickScrollUp = function ( fullScroll ) {
+            var newFI = _focusIndex;
+            if ( newFI > 0 ) {
+                if ( fullScroll ) {
+                    newFI = 0;
+                } else {
+                    newFI -= _axesInFocus - 1;
+                    if ( newFI < 0 ) {
+                        newFI = 0;
+                    }
+                }
+                _setFocusIndex( newFI );
+            }
+        },
+
+        // Handles quick scrolling down when the context indicators are tapped.
+        // {param} fullScroll indicates a double tap and that scrolling is to happen to the end.
+        _quickScrollDown = function ( fullScroll ) {
+            var newFI = _focusIndex;
+            if ( newFI < _visibleAxes.length - _axesInFocus ) {
+                if ( fullScroll ) {
+                    newFI = _visibleAxes.length - _axesInFocus;
+                } else {
+                    newFI += _axesInFocus - 1;
+                    if ( newFI > _visibleAxes.length - _axesInFocus ) {
+                        newFI = _visibleAxes.length - _axesInFocus;
+                    }
+                }
+                _setFocusIndex( newFI );
             }
         };
 
     // Overriding base class method.
     this.swipeUp = function () {
         if ( _focusIndex < _visibleAxes.length - _axesInFocus ) {
-            _focusIndex++;
-            _calculateAxisSpacing();
-            _rearrangeAxes();
+            _setFocusIndex( _focusIndex + 1 );
         }
     };
 
     // Overriding base class method.
     this.swipeDown = function () {
         if ( _focusIndex > 0 ) {
-            _focusIndex--;
-            _calculateAxisSpacing();
-            _rearrangeAxes();
+            _setFocusIndex( _focusIndex - 1 );
         }
     };
 
@@ -220,6 +494,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             .attr( 'id', _id + '_ParentGrp' )
             .attr( 'transform', 'translate(' + _xPos + ',' + _yPos + ')' );
         _initializeClipping();
+
+        _createStyles();
 
         _paracoordHolder = _parentGroup
             .append( 'g' )
@@ -239,8 +515,14 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             .attr( 'fill', 'black' );
 
 
-        self.activateEvent( 'swipeup' );
-        self.activateEvent( 'swipedown' );
+        //self.activateEvent( 'swipeup' );
+        //self.activateEvent( 'swipedown' );
+
+
+        self.addEventType( 'Pan', { event: 'pan', pointers: 1, direction: Hammer.DIRECTION_VERTICAL, threshold: 50 } );
+        self.addEvent( 'pan', _panUpDown );
+        self.addEvent( 'panstart', _panStart );
+        self.addEvent( 'panend', _panEnd );
     };
 
     this.paths = {};
@@ -250,7 +532,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         var
             attributes = MoInVis.Paracoords.Data.wasteAttributes,
             items = MoInVis.Paracoords.Data.itemsForWaste,
-            extent;
+            extent, ciSize = 100;
 
         this.drawPaths();
 
@@ -267,12 +549,9 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         this.drawAttributeAxes();
 
-        // Draw buttons
-
-        //var size = 20;
-        //new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top - size, size, '_LeftUpButton', true, _swipeDown );
-        //new MoInVis.Paracoords.button( _paracoordHolder, _innerPositionProps.left - 2 * size, _innerPositionProps.top + _innerPositionProps.height, size, '_LeftUpButton', false, _swipeUp );
-        // [TODO]:  Draw the paths for each region.
+        // Draw context indicators
+        _topCI = new MoInVis.Paracoords.contextIndicator( _parentGroup, _positionProps.left, 0, ciSize, _positionProps.width, 'TopCI', true, _quickScrollUp );
+        _bottomCI = new MoInVis.Paracoords.contextIndicator( _parentGroup, _positionProps.left, _height - ciSize, ciSize, _positionProps.width, 'BottomCI', false, _quickScrollDown );
 
         _calculateAxisSpacing();
         _rearrangeAxes();
@@ -290,6 +569,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             axis.draw( _innerPositionProps.left, -100 );
         }
         _axisHeight = axis.height;
+
         // [TODO]: Change this.
         _visibleAxes = this.axes;
     };
@@ -315,13 +595,16 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
     };
 
     this.getPathPoints = function ( itemName ) {
-        var axisIndex = _focusIndex - _axesInTopContext, length = _focusIndex + _axesInFocus + _axesInBottomContext,
+        var axisIndex = 0,
+            //axisIndex = _focusIndex - _axesInTopContext,
+            //length = _focusIndex + _axesInFocus + _axesInBottomContext,
+            length = _visibleAxes.length,
             axis,
             points = [],
             value,
             data = MoInVis.Paracoords.Data.wasteByCountries[itemName].data[_chosenYear];
 
-        for ( axisIndex = 0; axisIndex < length; axisIndex++ ) {
+        for ( axisIndex; axisIndex < length; axisIndex++ ) {
             axis = _visibleAxes[axisIndex];
             value = data[axis.attribute];
             if ( value !== null && value !== '' ) {

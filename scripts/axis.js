@@ -20,8 +20,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _paracoorder = paracoorder,
         _id,
         _class = MoInVis.Paracoords.IdStore.AxisClass,
-        _attrScale = attrScale,
-        _transitionSpeed = MoInVis.Paracoords.TransitionSpeed;
+        _attrScale = attrScale;
 
     this.attribute = attributeProps.prop;
     this.attributeLabel = attributeProps.text;
@@ -80,7 +79,8 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         this.yPos = newY;
         _axisGroup
             .transition()
-            .duration( _transitionSpeed )
+            .duration( MoInVis.Paracoords.TransitionSpeed )
+            .ease( d3.easeCubicOut )
             .attr( 'transform', 'translate(0,' + this.yPos + ')' );
     };
 

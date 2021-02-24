@@ -8,11 +8,14 @@
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
-MoInVis.Paracoords.IdStore.parentSvg = 'ParaCoordContainerSVG';
-MoInVis.Paracoords.IdStore.defs = 'MoInVisParaCoordDefs';
+MoInVis.Paracoords.IdStore.moin = 'MoInVis_ParaCoords';
+MoInVis.Paracoords.IdStore.parentSvg = 'ContainerSVG';
+MoInVis.Paracoords.IdStore.defs = 'SVGDefs';
 MoInVis.Paracoords.Count = MoInVis.Paracoords.Count || 0;
-MoInVis.Paracoords.TransitionSpeed = 1000;
+MoInVis.Paracoords.NormalTransitionSpeed = 1000;
+MoInVis.Paracoords.FastTransitionSpeed = 500;
 MoInVis.Paracoords.DeleteTransitionSpeed = 500;
+MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
 MoInVis.Paracoords.HammerSettings = {
     events: {
         swipeUp: 'swipeup',
@@ -34,16 +37,18 @@ MoInVis.Paracoords.moin = function ( width, height ) {
             var defs = document.createElementNS( 'http://www.w3.org/2000/svg', 'defs' ),
                 paracoordTab = d3.select( '#paracoordTab' );
 
+            self.width = width;
+            self.height = height;
+            self.id = MoInVis.Paracoords.IdStore.moin + '_' + ( MoInVis.Paracoords.Count++ );
+
             _parentSVG = document.createElementNS( 'http://www.w3.org/2000/svg', 'svg' );
             _parentSVG.setAttributeNS( null, 'width', '100%' );
             _parentSVG.setAttributeNS( null, 'height', '100%' );
-            _parentSVG.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.parentSvg );
+            _parentSVG.setAttributeNS( null, 'id', self.id + '_' + MoInVis.Paracoords.IdStore.parentSvg );
 
-            defs.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.defs );
+            defs.setAttributeNS( null, 'id', self.id + '_' + MoInVis.Paracoords.IdStore.defs );
             _parentSVG.appendChild( defs );
 
-            self.width = width;
-            self.height = height;
 
             paracoordTab.node().appendChild( _parentSVG );
 
