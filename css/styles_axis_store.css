@@ -3,7 +3,7 @@ div#attrStoreTab {
 }
 header.axisStore {
   background-color: #252525;
-  height: 10%;
+  height: 20%;
   display: grid;
   grid-template-columns: 1fr repeat(3, 2fr) 1fr;
 
@@ -77,7 +77,7 @@ header.axisStore {
 }
 
 main.axisStore {
-  height: 90%;
+  height: 80%;
   background-color: #969696;
 }
 
