@@ -35,23 +35,15 @@
                 
                 <button class = "undoButton" >&#9100;</button>
             </header>
-            <main class="axisStore">
+            <main class="axisStore axesLists">
                 <ul class = "axisStore">
                     <li v-for = "axis in axesArray" :key = "axis.attribute">{{axis.attributeLabel}}
                         <input type="checkbox" v-model= "checked">
                     </li>
                     <!-- <li v-for = "detail in details">{{details}}</li> -->
                 </ul>
-                <div class="dragPanel" id="contextView">Drag Me
-                    <div class="dragPanel" id="dragHandle">Thanks for the fish
-
-                    </div>
-                    <div class="dragPanel" id="focusView">Thanks for the fish
-
-                    </div>
-
-
-                </div>
+               
+                
 
                 
 

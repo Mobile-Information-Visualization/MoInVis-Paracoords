@@ -98,3 +98,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
 MoInVis.Paracoords.attributeStore.baseCtor = MoInVis.Paracoords.tab;
 
+
+  
+
