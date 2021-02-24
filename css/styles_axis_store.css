@@ -1,11 +1,11 @@
-div#attrStoreTab {
+#attrStoreTab {
   width: 100% !important;
 }
 header.axisStore {
   background-color: #252525;
-  height: 20%;
+  height: 10%;
   display: grid;
-  grid-template-columns: 1fr repeat(3, 2fr) 1fr;
+  grid-template-columns: 1fr repeat(3, 1fr) 1fr;
 
   justify-items: center;
 }
@@ -20,20 +20,23 @@ header.axisStore {
   font-size: 6em;
   font-weight: 100;
 
-  padding: 0 20%;
+  padding: 0 10%;
   border-top: none;
   border-bottom: none;
   border-left: none;
   border-right: solid;
   border-color: #969696;
 }
+
 .totalAxesInFocus {
   color: #f0f0f0;
   grid-column-start: 3;
   grid-column-end: 4;
-  font-size: 6em;
-  font-weight: 100;
-  padding: 0% 20%;
+
+  font-size: xxx-large;
+
+  font-weight: 400;
+
   border: none;
   border-color: #969696;
 
@@ -50,7 +53,7 @@ header.axisStore {
   font-size: 6em;
   font-weight: 100;
 
-  padding: 0 20%;
+  padding: 0 10%;
   border-top: none;
   border-bottom: none;
   border-right: none;
@@ -68,22 +71,12 @@ header.axisStore {
   font-size: 6em;
   font-weight: 100;
 
-  /* padding: 0 20%; */
   border: none;
-  /* border-bottom: none;
-  border-right: none;
-  border-left: solid;
-  border-color: #969696; */
 }
 
 main.axisStore {
-  height: 80%;
+  height: 90%;
   background-color: #969696;
-}
-
-ul.axisStore {
-  margin: 0%;
-  /* padding: 1em; */
 }
 
 .minusButton,
@@ -97,15 +90,6 @@ ul.axisStore {
   color: #252525;
 }
 
-.dragPanel {
-  background: rgb(197, 197, 219, 0.5);
-  height: 140px;
-  width: 140px;
-  left: 30px;
-  top: 30px;
-  /* position: absolute; */
-  font: 25px Helvetica, Arial, sans-serif;
-  color: white;
-  line-height: 140px;
-  text-align: center;
+ul.axisStore {
+  margin: 0%;
 }
