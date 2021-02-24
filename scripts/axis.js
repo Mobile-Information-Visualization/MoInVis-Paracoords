@@ -32,6 +32,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
     this.init = function () {
     };
 
+
     this.visible = true;
 
     this.setVisibility = function ( visible ) {
