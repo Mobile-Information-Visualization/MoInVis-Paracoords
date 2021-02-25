@@ -20,7 +20,8 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _paracoorder = paracoorder,
         _id,
         _class = MoInVis.Paracoords.IdStore.AxisClass,
-        _attrScale = attrScale;
+        _attrScale = attrScale,
+        _brushManager;
 
     this.attribute = attributeProps.prop;
     this.attributeLabel = attributeProps.text;
@@ -70,6 +71,8 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             .attr( 'transform', 'translate(' + this.xPos + ',' + ( - 10 ) + ')' )
             .attr( 'text-anchor', "start" )
             .text( this.attributeLabel );
+
+        _brushManager = new MoInVis.Paracoords.brushManager( _axisGroup, _id, _attrScale, _paracoorder, this.xPos );
 
         this.height = _axisGroup.node().getBBox().height;
     };

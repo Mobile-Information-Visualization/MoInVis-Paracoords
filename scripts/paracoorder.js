@@ -350,45 +350,49 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         // Handles the scrolling of the axes from the pan event.
         _panUpDown = function ( event ) {
-            var deltaY = ( event.deltaY - _scrolling.deltaY ) / 5; // Scale down panning values.
-            _scrolling.deltaY = event.deltaY;
-            // Do not rearrange if rearrangement is still in progress.
-            if ( Date.now() - _scrolling.lastAxisRearrangement > _scrolling.scrollTransitionSpeed ) {
-                if ( deltaY < 0 ) {
-                    if ( _focusIndex < _visibleAxes.length - _axesInFocus ) {
-                        // Scroll up - move axes up.
-                        _scrolling.overflowY += deltaY; // Update overflow (amount moved by axis)
-                        // If overflow exceeds the specified overflow limit, shift point of focus.
-                        if ( _scrolling.overflowY <= -_focusAndContextSettings.contextAxisOverflow ) {
-                            _scrolling.overflowY = 0;
-                            // Set the tranition speed to scrolling transition speed.
-                            MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
-                            _setFocusIndex( _focusIndex + 1 );
-                            _scrolling.lastAxisRearrangement = Date.now();
-                            // Reset the transition speed to normal.
-                            MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
-                        } else { // If overflow is not exceeded, shift axes by delta pixels.
-                            _shiftAxisByPixels( deltaY );
+            if ( self.scrollingInProgress ) {
+                var deltaY = ( event.deltaY - _scrolling.deltaY ) / 5; // Scale down panning values.
+                _scrolling.deltaY = event.deltaY;
+                // Do not rearrange if rearrangement is still in progress.
+                if ( Date.now() - _scrolling.lastAxisRearrangement > _scrolling.scrollTransitionSpeed ) {
+                    if ( deltaY < 0 ) {
+                        if ( _focusIndex < _visibleAxes.length - _axesInFocus ) {
+                            // Scroll up - move axes up.
+                            _scrolling.overflowY += deltaY; // Update overflow (amount moved by axis)
+                            // If overflow exceeds the specified overflow limit, shift point of focus.
+                            if ( _scrolling.overflowY <= -_focusAndContextSettings.contextAxisOverflow ) {
+                                _scrolling.overflowY = 0;
+                                // Set the tranition speed to scrolling transition speed.
+                                MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
+                                _setFocusIndex( _focusIndex + 1 );
+                                _scrolling.lastAxisRearrangement = Date.now();
+                                // Reset the transition speed to normal.
+                                MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
+                            } else { // If overflow is not exceeded, shift axes by delta pixels.
+                                _shiftAxisByPixels( deltaY );
+                            }
                         }
-                    }
-                } else if ( deltaY > 0 ) {
-                    if ( _focusIndex > 0 ) {
-                        // Scroll down - move axes down.
-                        _scrolling.overflowY += deltaY; // Update overflow (amount moved by axis)
-                        // If overflow exceeds the specified overflow limit, shift point of focus.
-                        if ( _scrolling.overflowY >= _focusAndContextSettings.contextAxisOverflow ) {
-                            _scrolling.overflowY = 0;
-                            // Set the tranition speed to scrolling transition speed.
-                            MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
-                            _setFocusIndex( _focusIndex - 1 );
-                            _scrolling.lastAxisRearrangement = Date.now();
-                            // Reset the transition speed to normal.
-                            MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
-                        } else { // If overflow is not exceeded, shift axes by delta pixels.
-                            _shiftAxisByPixels( deltaY );
+                    } else if ( deltaY > 0 ) {
+                        if ( _focusIndex > 0 ) {
+                            // Scroll down - move axes down.
+                            _scrolling.overflowY += deltaY; // Update overflow (amount moved by axis)
+                            // If overflow exceeds the specified overflow limit, shift point of focus.
+                            if ( _scrolling.overflowY >= _focusAndContextSettings.contextAxisOverflow ) {
+                                _scrolling.overflowY = 0;
+                                // Set the tranition speed to scrolling transition speed.
+                                MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
+                                _setFocusIndex( _focusIndex - 1 );
+                                _scrolling.lastAxisRearrangement = Date.now();
+                                // Reset the transition speed to normal.
+                                MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
+                            } else { // If overflow is not exceeded, shift axes by delta pixels.
+                                _shiftAxisByPixels( deltaY );
+                            }
                         }
                     }
                 }
+            } else if ( self.brushingInProgress ) {
+                self.stopEvent();
             }
         },
 
@@ -417,23 +421,31 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         // Called when pan event starts.
         _panStart = function () {
-            // Reset scrolling variables.
-            _scrolling.deltaY = 0;
-            _scrolling.overflowY = 0;
+            if ( self.brushingInProgress ) {
+                self.stopEvent();
+            } else {
+                // Reset scrolling variables.
+                _scrolling.deltaY = 0;
+                _scrolling.overflowY = 0;
+                self.scrollingInProgress = true;
+            }
         },
 
         // Called when pan event ends.
         _panEnd = function () {
-            // Reset scrolling variables.
-            _scrolling.deltaY = 0;
-            _scrolling.overflowY = 0;
-            // Do not rearrange if rearrangement is still in progress.
-            if ( Date.now() - _scrolling.lastAxisRearrangement > _scrolling.scrollTransitionSpeed ) {
-                // Set the tranition speed to scrolling transition speed.
-                MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
-                _rearrangeAxes(); // Move them back to their original positions.
-                // Reset the transition speed to normal.
-                MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
+            if ( self.scrollingInProgress ) {
+                // Reset scrolling variables.
+                _scrolling.deltaY = 0;
+                _scrolling.overflowY = 0;
+                // Do not rearrange if rearrangement is still in progress.
+                if ( Date.now() - _scrolling.lastAxisRearrangement > _scrolling.scrollTransitionSpeed ) {
+                    // Set the tranition speed to scrolling transition speed.
+                    MoInVis.Paracoords.TransitionSpeed = _scrolling.scrollTransitionSpeed;
+                    _rearrangeAxes(); // Move them back to their original positions.
+                    // Reset the transition speed to normal.
+                    MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
+                }
+                self.scrollingInProgress = false;
             }
         },
 
@@ -470,6 +482,9 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 _setFocusIndex( newFI );
             }
         };
+
+    this.scrollingInProgress = false;
+    this.brushingInProgress = false;
 
     // Overriding base class method.
     this.swipeUp = function () {
