@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js"></script>
 
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" type="text/css" href="css/styles_axis_store.css">
     <link rel="stylesheet" type="text/css" href="css/styles_universal.css">
@@ -37,9 +37,10 @@
             </header>
             <main class="axisStore axesLists">
                 <ol class = "axisStore">
-                    <li v-for = "axis in axesArray" :key = "axis.attribute" >{{axis.attributeLabel}}
+                    <li v-for = "axis in axesArray" :key = "axis.attribute" >
+                        <label for = "axis.attribute">{{ axis.attributeLabel }}</label>
                         <input type="checkbox" :id = "axis.attribute" v-model= "axis.visible">
-                        <label for = "axis.attribute">{{ axesArray }}</label>
+                    
                     </li>
                     <!-- <li v-for = "detail in details">{{details}}</li> -->
                 </ol>

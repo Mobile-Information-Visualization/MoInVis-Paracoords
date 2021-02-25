@@ -8,6 +8,10 @@ header.axisStore {
   grid-template-columns: 1fr repeat(3, 1fr) 1fr;
 
   justify-items: center;
+
+  border-color: #f0f0f0;
+  border-bottom: solid;
+  border-width: 1px;
 }
 
 .minusButton {
@@ -25,7 +29,7 @@ header.axisStore {
   border-bottom: none;
   border-left: none;
   border-right: solid;
-  border-color: #969696;
+  border-color: #525252;
 }
 
 .totalAxesInFocus {
@@ -38,7 +42,7 @@ header.axisStore {
   font-weight: 400;
 
   border: none;
-  border-color: #969696;
+  border-color: #525252;
 
   margin: auto;
 }
@@ -58,7 +62,7 @@ header.axisStore {
   border-bottom: none;
   border-right: none;
   border-left: solid;
-  border-color: #969696;
+  border-color: #525252;
 }
 
 .undoButton {
@@ -76,7 +80,7 @@ header.axisStore {
 
 main.axisStore {
   height: 90%;
-  background-color: #969696;
+  background-color: #252525;
 }
 
 .minusButton,
@@ -90,6 +94,17 @@ main.axisStore {
   color: #252525;
 }
 
-ul.axisStore {
+ol.axisStore {
   margin: 0%;
+  padding: 6%;
+  list-style-type: none;
+}
+
+label {
+  font-size: xxx-large;
+  font-weight: 100;
+}
+
+li {
+  margin: 3%;
 }
