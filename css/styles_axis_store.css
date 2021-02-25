@@ -99,12 +99,55 @@ ol.axisStore {
   padding: 6%;
   list-style-type: none;
 }
+li {
+  margin: 3%;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  align-items: center;
+}
 
 label {
   font-size: xxx-large;
   font-weight: 100;
+
+  grid-column-start: 2;
+  grid-column-end: 3;
 }
 
-li {
-  margin: 3%;
+input.axisStore {
+  grid-column-start: 3;
+  grid-column-end: 4;
+
+  margin-left: auto;
+
+  height: 100%;
+  width: 50%;
+}
+
+input.axisStore:after {
+  line-height: 80%;
+
+  content: "";
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  /* margin-top: -4px;
+  margin-left: -4px; */
+  border-bottom: 1px solid #f0f0f0;
+  /* border-radius: 0.25em; */
+  background: #252525;
+}
+
+input.axisStore:checked:after {
+  width: 100%;
+  height: 100%;
+  content: "\2228";
+  font-size: 50px;
+  color: #f0f0f0;
+  text-align: center;
+  /* border-left: solid;
+  border-color: #525252; */
+  background-color: #252525;
+
+  /* border: 3px solid #00ff00; */
 }

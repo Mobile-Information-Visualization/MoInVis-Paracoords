@@ -39,7 +39,7 @@
                 <ol class = "axisStore">
                     <li v-for = "axis in axesArray" :key = "axis.attribute" >
                         <label for = "axis.attribute">{{ axis.attributeLabel }}</label>
-                        <input type="checkbox" :id = "axis.attribute" v-model= "axis.visible">
+                        <input class = "axisStore" type="checkbox" :id = "axis.attribute" v-model= "axis.visible">
                     
                     </li>
                     <!-- <li v-for = "detail in details">{{details}}</li> -->
