@@ -1,0 +1,43 @@
+#entryStoreTab {
+  width: 100% !important;
+}
+
+header.entryStore {
+  background-color: #252525;
+  height: 10%;
+  width:100%;
+  /*flex-direction: row; */
+
+  justify-items: center;
+
+  text-align: center;
+  font-size: x-large;
+  border-color: #f0f0f0;
+  border-bottom: solid;
+  border-width: 1px;
+}
+
+main.entryStore {
+  height: 90%;
+  background-color: #252525;
+
+  font-size: xxx-large;
+}
+
+/* */
+main.entryColour{
+  align: right;
+}
+
+main.entryCheckbox{
+  background-color: #252525;
+  color: #f0f0f0;
+  width: 50%;
+
+
+}
+
+ul.entryStore {
+  margin: 0%;
+  /* padding: 1em; */
+}

@@ -7,6 +7,9 @@
     <script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js"></script>
 
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles_entry_store.css">
+    <link rel="stylesheet" type="text/css" href="css/styles_universal.css">
+
     <script src="data/json/chemwaste.json"></script>
     <script src="data/json/glasswaste.json"></script>
     <script src="data/json/healthcarebiowaste.json"></script>
@@ -25,15 +28,14 @@
         </div>
         <div id="entryStoreTab">
           <header class="entryStore">
-            <h1 id="entryHeader">{{tabName}}</h1>
-            <h2 id="entryHeader">Total Number of entries: {{ totalEntries }}</h2>
+            <h1>{{tabName}} <br>
+            Total Number of entries: {{ totalEntries }}</h1>
           </header>
           <main class="entryStore">
             <li v-for="entry in entries" :key="entry">
-              <input type="checkbox" v-model="entry.visible">
-                                                  {{ entry.itemText }}
-                                                  <input type="color" id="favcolor" name="favcolor" v-model="entry.colour">
-
+                    <input type="checkbox" id="entryCheckbox" v-model="entry.visible">
+                    {{ entry.itemText }}
+                    <input type="color" id="entryColour" v-model="entry.colour">
             </li>
           </main>
         </div>
