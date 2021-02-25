@@ -36,12 +36,13 @@
                 <button class = "undoButton" >&#9100;</button>
             </header>
             <main class="axisStore axesLists">
-                <ul class = "axisStore">
-                    <li v-for = "axis in axesArray" :key = "axis.attribute">{{axis.attributeLabel}}
-                        <input type="checkbox" v-model= "checked">
+                <ol class = "axisStore">
+                    <li v-for = "axis in axesArray" :key = "axis.attribute" >{{axis.attributeLabel}}
+                        <input type="checkbox" :id = "axis.attribute" v-model= "axis.visible">
+                        <label for = "axis.attribute">{{ axesArray }}</label>
                     </li>
                     <!-- <li v-for = "detail in details">{{details}}</li> -->
-                </ul>
+                </ol>
                
                 
 
