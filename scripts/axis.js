@@ -43,6 +43,10 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         return [_attrScale( value ), this.yPos];
     };
 
+    this.checkPathBrushed = function ( xPos ) {
+        return _brushManager.checkPathBrushed( xPos );
+    };
+
     this.draw = function ( xPos, yPos ) {
         this.xPos = xPos;
         this.yPos = yPos;

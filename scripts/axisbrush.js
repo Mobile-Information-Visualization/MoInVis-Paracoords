@@ -94,10 +94,6 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         }
     };
 
-    this.getXY = function ( value ) {
-        return [_attrScale( value ), this.yPos];
-    };
-
     this.draw = function ( xPos, yPos ) {
         _brushStart = xPos;
         _brushEnd = _brushStart + 1;
@@ -218,7 +214,7 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         _handleTimer = d3.interval( _hideHandles, 2500 );
         _brushGroup
             .transition()
-            .duration( 500 )
+            .duration( MoInVis.Paracoords.FastTransitionSpeed )
             .attr( 'stroke-opacity', 0 );
     };
 
@@ -264,8 +260,8 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
     };
 
     this.isInterfering = function ( probableHandlePos ) {
-        var handlePos = [_brushStart, _brushEnd].sort( ( a, b ) => a - b );
-        return !( probableHandlePos[1] < handlePos[0] || probableHandlePos[0] > handlePos[1] );
+        var brushBounds = [_brushStart, _brushEnd].sort( ( a, b ) => a - b );
+        return !( probableHandlePos[1] < brushBounds[0] || probableHandlePos[0] > brushBounds[1] );
     };
 
     this.getProbableHandlePos = function ( xPos ) {
@@ -276,5 +272,10 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             probableHandlePos = [_brushStart, xPos];
         }
         return probableHandlePos.sort( ( a, b ) => a - b );
-    }
+    };
+
+    this.checkPathBrushed = function ( xPos ) {
+        var brushBounds = [_brushStart, _brushEnd].sort( ( a, b ) => a - b );
+        return xPos >= brushBounds[0] && xPos <= brushBounds[1];
+    };
 };

@@ -609,13 +609,15 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         this.paths.length = length;
     };
 
-    this.getPathPoints = function ( itemName ) {
+    this.getPathPointsInfo = function ( itemName ) {
         var axisIndex = 0,
             //axisIndex = _focusIndex - _axesInTopContext,
             //length = _focusIndex + _axesInFocus + _axesInBottomContext,
             length = _visibleAxes.length,
             axis,
+            emphasis = true,
             points = [],
+            point,
             value,
             data = MoInVis.Paracoords.Data.wasteByCountries[itemName].data[_chosenYear];
 
@@ -623,10 +625,39 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             axis = _visibleAxes[axisIndex];
             value = data[axis.attribute];
             if ( value !== null && value !== '' ) {
-                points.push( axis.getXY( value ) );
+                point = axis.getXY( value );
+                points.push( point );
+                emphasis = emphasis && axis.checkPathBrushed( point[0] );
             }
         }
-        return points;
+        return { points, emphasis };
+    };
+
+    this.brushPaths = function () {
+        var path, item,
+            axisIndex = 0,
+            length = _visibleAxes.length,
+            axis, emphasis,
+            value,
+            data;
+        for ( path in this.paths ) {
+            item = this.paths[path];
+            emphasis = true;
+            if ( item.visible ) {
+                data = MoInVis.Paracoords.Data.wasteByCountries[item.itemName].data[_chosenYear];
+                for ( axisIndex = 0; axisIndex < length; axisIndex++ ) {
+                    axis = _visibleAxes[axisIndex];
+                    value = data[axis.attribute];
+                    if ( value !== null && value !== '' ) {
+                        if ( axis.checkPathBrushed( axis.getXY( value )[0] ) === false ) {
+                            emphasis = false;
+                            break;
+                        }
+                    }
+                }
+                item.setEmphasis( emphasis );
+            }
+        }
     };
 
     //[TODO]: Write Clean up method.

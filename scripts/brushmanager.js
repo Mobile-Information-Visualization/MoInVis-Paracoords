@@ -25,6 +25,7 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
         _ecHeight = 80,
         _brushHeight = 30,
         _xPos = xPos,
+        _gesturePos,
         _hammerMan,
         _brushHandlePanning = false,
 
@@ -100,16 +101,16 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
         // Handles the panning motion.
         _onPan = function ( event ) {
             // [TODO]: Handle panning with deltas instead of exact values.
-            var xPos;
             if ( _activeBrush ) {
-                xPos = event.center.x;
+                _gesturePos = event.center.x;
                 // Check for interference with other brushes
-                if ( _isValidMove( xPos ) ) {
+                if ( _isValidMove() ) {
                     if ( _brushHandlePanning ) {
-                        _activeBrush.moveBrushHandle( xPos );
+                        _activeBrush.moveBrushHandle( _gesturePos );
                     } else {
-                        _activeBrush.setBrushEnd( xPos );
+                        _activeBrush.setBrushEnd( _gesturePos );
                     }
+                    _paracoorder.brushPaths();
                 }
             }
         },
@@ -118,33 +119,35 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
         _panEnd = function ( event ) {
             _paracoorder.brushingInProgress = false;
             if ( _activeBrush ) {
+                _gesturePos = event.center.x;
                 if ( _brushHandlePanning ) {
                     // Check for interference with other brushes
-                    if ( _isValidMove( event.center.x ) ) {
-                        _activeBrush.moveBrushHandle( event.center.x );
+                    if ( _isValidMove() ) {
+                        _activeBrush.moveBrushHandle( _gesturePos );
                         _brushHandlePanning = false;
                     }
                 } else {
                     // Check for interference with other brushes
-                    if ( _isValidMove( event.center.x ) ) {
-                        _activeBrush.setBrushEnd( event.center.x );
+                    if ( _isValidMove() ) {
+                        _activeBrush.setBrushEnd( _gesturePos );
                     }
                 }
                 _activeBrush.onBrushingEnd();
                 _activeBrush = null;
+                _paracoorder.brushPaths();
             }
         },
 
         // Checks if movement of brush edge is valid.
-        _isValidMove = function ( xPos ) {
+        _isValidMove = function () {
             var length = _activeBrushes.length, i, validMove = true, probableHandlePos, range = _attrScale.range();
-            if ( xPos <= range[1] ) {
-                xPos = range[1];
-            } else if ( xPos >= range[0] ) {
-                xPos = range[0];
+            if ( _gesturePos >= range[1] ) {
+                _gesturePos = range[1];
+            } else if ( _gesturePos <= range[0] ) {
+                _gesturePos = range[0];
             }
             if ( length > 1 ) {
-                probableHandlePos = _activeBrush.getProbableHandlePos( xPos );
+                probableHandlePos = _activeBrush.getProbableHandlePos( _gesturePos );
                 for ( i = 0; i < length; i++ ) {
                     if ( _activeBrushes[i] !== _activeBrush ) {
                         if ( _activeBrushes[i].isInterfering( probableHandlePos ) ) { // [TODO]: Add robustness, so handle positions update to best possible change.
@@ -193,6 +196,14 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
                 }
             }
         };
+
+    this.checkPathBrushed = function ( xPos ) {
+        var i, length = _activeBrushes.length, brushed = length === 0;
+        for ( i = 0; i < length; i++ ) {
+            brushed = brushed || _activeBrushes[i].checkPathBrushed( xPos );
+        }
+        return brushed;
+    };
 
     _init();
 };
