@@ -21,23 +21,24 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         _brushColour = 'red',
         _brushOpacity = 0.4,
         _brushRect,
+        _brushStrokeWidth = 4,
         _handleStart,
         _handleEnd,
         _handleStartGrp,
         _handleEndGrp,
-        _handleWidth = 30,
-        _handleSlantHeight = 26,
-        _handleCurveHeight = 22,
+        _handleWidth = 50,
+        _handleSlantHeight = 44,
+        _handleCurveHeight = 40,
         _handleLeft = - _handleWidth / 2,
         _eHTop = -_handleSlantHeight,
         _sHTop = _handleSlantHeight,
         _eHCurveTop = _eHTop - _handleCurveHeight,
         _sHCurveBottom = _sHTop + _handleCurveHeight,
-        _fatFingerMargin = 5,
+        _fatFingerMargin = 15,
         _handleGestureChecker = {
             topHBottom: -_brushHeight / 2 + _fatFingerMargin,
-            topHTop: -_brushHeight / 2 + _eHCurveTop - _fatFingerMargin,
-            bottomHBottom: _brushHeight / 2 + _sHCurveBottom + _fatFingerMargin,
+            topHTop: -_brushHeight / 2 + _eHCurveTop - 2 * _fatFingerMargin,
+            bottomHBottom: _brushHeight / 2 + _sHCurveBottom + 2 * _fatFingerMargin,
             bottomHTop: _brushHeight / 2 - _fatFingerMargin,
             leftRightMargin: _handleWidth / 2 + _fatFingerMargin,
         },
@@ -87,7 +88,9 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
     this.setColour = function ( colour ) {
         _brushColour = colour;
         if ( _brushRect ) {
-            _brushRect.attr( 'fill', _brushColour );
+            _brushRect
+                .attr( 'stroke', _brushColour )
+                .attr( 'fill', _brushColour );
         }
     };
 
@@ -101,7 +104,8 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         _brushTop = yPos - _brushHeight / 2;
         _brushGroup = _brushParent
             .append( 'g' )
-            .attr( 'id', this.id + '_grp' );
+            .attr( 'id', this.id + '_grp' )
+            .attr( 'stroke-opacity', 0 );
 
         _brushRect = _brushGroup
             .append( 'rect' )
@@ -110,19 +114,26 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             .attr( 'y', _brushTop )
             .attr( 'height', _brushHeight )
             .attr( 'width', _brushEnd - _brushStart )
-            .attr( 'opacity', _brushOpacity )
+            .attr( 'rx', _brushHeight / 2 )
+            .attr( 'stroke-width', _brushStrokeWidth )
+            .attr( 'fill-opacity', _brushOpacity )
+            .attr( 'stroke-opacity', 'inherit' )
+            .attr( 'stroke', _brushColour )
             .attr( 'fill', _brushColour );
 
         _handleStartGrp = _brushGroup
             .append( 'g' )
             .attr( 'id', this.id + '_handle_start_grp' )
+            .attr( 'stroke-opacity', 'inherit' )
             .attr( 'opacity', 0 );
 
         _handleStart = _handleStartGrp
             .append( 'path' )
             .attr( 'id', this.id + '_HandleEndPath' )
-            .attr( 'stroke-width', 0 )
+            .attr( 'stroke-width', _brushStrokeWidth )
+            .attr( 'stroke-opacity', 'inherit' )
             .attr( 'stroke', _handleColour )
+            .attr( 'fill-opacity', 0.8 )
             .attr( 'fill', _handleColour )
             //.attr( 'd', 'M -8 14 C -8 26 8 26 8 14 L 0 0 L -8 14' )
             .attr( 'd', 'M ' + _handleLeft + ' ' + _sHTop + ' C ' + _handleLeft + ' ' + ( _sHCurveBottom ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + ( _sHCurveBottom ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + _sHTop + ' L 0 0 L ' + _handleLeft + ' ' + _sHTop );
@@ -130,12 +141,15 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         _handleEndGrp = _brushGroup
             .append( 'g' )
             .attr( 'id', this.id + '_handle_end_grp' )
+            .attr( 'stroke-opacity', 'inherit' )
             .attr( 'opacity', 0 );
 
         _handleEnd = _handleEndGrp
             .append( 'path' )
             .attr( 'id', this.id + '_HandleEndPath' )
-            .attr( 'stroke-width', 0 )
+            .attr( 'stroke-width', _brushStrokeWidth )
+            .attr( 'stroke-opacity', 'inherit' )
+            .attr( 'fill-opacity', 0.8 )
             .attr( 'stroke', _handleColour )
             .attr( 'fill', _handleColour )
             //.attr( 'd', 'M -8 -14 C -8 -26 8 -26 8 -14 L 0 0 L -8 -14' )
@@ -202,6 +216,10 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             .style( 'display', 'inherit' )
             .attr( 'opacity', 1 );
         _handleTimer = d3.interval( _hideHandles, 2500 );
+        _brushGroup
+            .transition()
+            .duration( 500 )
+            .attr( 'stroke-opacity', 0 );
     };
 
     this.onBrushTapped = function () {
@@ -216,6 +234,7 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
     this.checkHandleInteraction = function ( gestureOrigin ) {
         var leftBound, rightBound;
         _shInteraction = _ehInteraction = false;
+        console.log( 'gestureOrigin.y: ' + gestureOrigin.y );
         if ( _handleVisibility ) {
             if ( gestureOrigin.y <= ( _handleGestureChecker.topHBottom ) ) {
                 // Check for end handle interaction.
@@ -225,6 +244,7 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
                     if ( gestureOrigin.x >= leftBound && gestureOrigin.x <= rightBound ) {
                         _ehInteraction = true;
                         _stopTimer();
+                        _brushGroup.attr( 'stroke-opacity', 1 );
                     }
                 }
             } else if ( gestureOrigin.y >= _handleGestureChecker.bottomHTop ) {
@@ -235,6 +255,7 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
                     if ( gestureOrigin.x >= leftBound && gestureOrigin.x <= rightBound ) {
                         _shInteraction = true;
                         _stopTimer();
+                        _brushGroup.attr( 'stroke-opacity', 1 );
                     }
                 }
             }
@@ -243,7 +264,7 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
     };
 
     this.isInterfering = function ( probableHandlePos ) {
-        var handlePos = [_brushStart, _brushEnd].sort( ( a, b ) => a - b);
+        var handlePos = [_brushStart, _brushEnd].sort( ( a, b ) => a - b );
         return !( probableHandlePos[1] < handlePos[0] || probableHandlePos[0] > handlePos[1] );
     };
 
@@ -254,6 +275,6 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         } else {
             probableHandlePos = [_brushStart, xPos];
         }
-        return probableHandlePos.sort( ( a, b ) => a - b);
+        return probableHandlePos.sort( ( a, b ) => a - b );
     }
 };

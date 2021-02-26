@@ -22,7 +22,7 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
         _axisId = axisId,
         _attrScale = attrScale,
         _eventCatcher,
-        _ecHeight = 40,
+        _ecHeight = 80,
         _brushHeight = 30,
         _xPos = xPos,
         _hammerMan,
@@ -45,7 +45,7 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
                 .attr( 'fill', 'black' );
 
             _hammerMan = new Hammer.Manager( _brushParent.node() );
-            _hammerMan.add( new Hammer.Pan( { event: 'pan', pointers: 1, direction: Hammer.DIRECTION_HORIZONTAL, threshold: 20 } ) );
+            _hammerMan.add( new Hammer.Pan( { event: 'pan', pointers: 1, direction: Hammer.DIRECTION_HORIZONTAL, threshold: 10 } ) );
             _hammerMan.on( 'panstart', _panStart );
             _hammerMan.on( 'panend', _panEnd );
             _hammerMan.on( 'pan', _onPan );
