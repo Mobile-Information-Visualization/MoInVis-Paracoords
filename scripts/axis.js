@@ -72,7 +72,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
         _textGroup.append( 'text' )
             .attr( 'class', 'attrNameText' )
-            .attr( 'transform', 'translate(' + this.xPos + ',' + ( - 10 ) + ')' )
+            .attr( 'transform', 'translate(' + this.xPos + ',' + ( - 15 ) + ')' )
             .attr( 'text-anchor', "start" )
             .text( this.attributeLabel );
 
