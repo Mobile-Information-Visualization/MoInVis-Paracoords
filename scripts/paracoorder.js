@@ -627,7 +627,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             if ( value !== null && value !== '' ) {
                 point = axis.getXY( value );
                 points.push( point );
-                emphasis = emphasis && axis.checkPathBrushed( point[0] );
+                emphasis = emphasis && axis.checkPathBrushed( point[0] ); // A path should be brushed on each axis to be emphasized.
             }
         }
         return { points, emphasis };
@@ -650,6 +650,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                     value = data[axis.attribute];
                     if ( value !== null && value !== '' ) {
                         if ( axis.checkPathBrushed( axis.getXY( value )[0] ) === false ) {
+                            // De-emphasize path when it doesn't meet the brush requirements of even one axis.
                             emphasis = false;
                             break;
                         }

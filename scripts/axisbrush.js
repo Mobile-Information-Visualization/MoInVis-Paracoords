@@ -152,6 +152,7 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             .attr( 'd', 'M ' + _handleLeft + ' ' + _eHTop + ' C ' + _handleLeft + ' ' + ( _eHCurveTop ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + ( _eHCurveTop ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + _eHTop + ' L 0 0 L ' + _handleLeft + ' ' + _eHTop );
     };
 
+    // Resets brush after activation.
     this.resetBrush = function ( xPos ) {
         _brushStart = xPos;
         _brushEnd = _brushStart + 1;
@@ -160,6 +161,7 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             .attr( 'width', _brushEnd - _brushStart );
     };
 
+    // Sets the start bound of the brush.
     this.setBrushStart = function ( brushStart ) {
         _brushStart = brushStart;
         if ( _brushEnd < _brushStart ) {
@@ -178,6 +180,7 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             .attr( 'transform', 'translate(' + _brushStart + ',' + ( _brushHeight / 2 ) + ')' );
     };
 
+    // Sets the end bound of the brush.
     this.setBrushEnd = function ( brushEnd ) {
         _brushEnd = brushEnd;
         if ( _brushEnd < _brushStart ) {
@@ -194,6 +197,7 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             .attr( 'transform', 'translate(' + _brushStart + ',' + ( _brushHeight / 2 ) + ')' );
     };
 
+    // Moves active handle of the brush.
     this.moveBrushHandle = function ( handlePos ) {
         if ( _ehInteraction ) {
             this.setBrushEnd( handlePos );
@@ -202,6 +206,7 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         }
     };
 
+    // End brushing.
     this.onBrushingEnd = function () {
         _shInteraction = _ehInteraction = false;
         _handleVisibility = true;
@@ -218,6 +223,7 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             .attr( 'stroke-opacity', 0 );
     };
 
+    // Handles taps on the brush.
     this.onBrushTapped = function () {
         if ( _handleTimer ) {
             _handleTimer.restart( _hideHandles, 2500 );
@@ -259,11 +265,13 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         return _shInteraction || _ehInteraction;
     };
 
+    // Check if probable handle positions of other brushes due to movement are interfering with this brush.
     this.isInterfering = function ( probableHandlePos ) {
         var brushBounds = [_brushStart, _brushEnd].sort( ( a, b ) => a - b );
         return !( probableHandlePos[1] < brushBounds[0] || probableHandlePos[0] > brushBounds[1] );
     };
 
+    // Get the probable future handle position of this brush due to movement.
     this.getProbableHandlePos = function ( xPos ) {
         var probableHandlePos = [];
         if ( _shInteraction ) {
@@ -274,6 +282,7 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         return probableHandlePos.sort( ( a, b ) => a - b );
     };
 
+    // Check if a point is brushed.
     this.checkPathBrushed = function ( xPos ) {
         var brushBounds = [_brushStart, _brushEnd].sort( ( a, b ) => a - b );
         return xPos >= brushBounds[0] && xPos <= brushBounds[1];

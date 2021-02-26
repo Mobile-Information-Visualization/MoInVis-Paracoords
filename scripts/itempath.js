@@ -69,13 +69,12 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         var pointsInfo = _paracoorder.getPathPointsInfo( this.itemName );
         _points = pointsInfo.points;
         _emphasis = pointsInfo.emphasis;
+        _pathElement.attr( 'opacity', _emphasis ? _emphasizedAlpha : _unemphasizedAlpha );
         if ( dontAnimate === true ) {
             _pathElement
-                .attr( "d", d3.line()( _points ) )
-                .attr( 'opacity', _emphasis ? _emphasizedAlpha : _unemphasizedAlpha );
+                .attr( "d", d3.line()( _points ) );
         } else {
             _pathElement
-                .attr( 'opacity', _emphasis ? _emphasizedAlpha : _unemphasizedAlpha )
                 .transition()
                 .duration( MoInVis.Paracoords.TransitionSpeed )
                 .ease( d3.easeCubicOut )
@@ -83,13 +82,12 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         }
     };
 
+    // Emphasizes or de-emphasizes the path.
     this.setEmphasis = function ( emphasis ) {
         if ( emphasis ) {
-            _pathElement
-                .attr( 'opacity', _emphasizedAlpha );
+            _pathElement.attr( 'opacity', _emphasizedAlpha );
         } else {
-            _pathElement
-                .attr( 'opacity', _unemphasizedAlpha );
+            _pathElement.attr( 'opacity', _unemphasizedAlpha );
         }
     };
 

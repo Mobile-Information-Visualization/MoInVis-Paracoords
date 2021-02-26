@@ -197,8 +197,9 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
             }
         };
 
+    // Checks if a point on the axis has been brushed.
     this.checkPathBrushed = function ( xPos ) {
-        var i, length = _activeBrushes.length, brushed = length === 0;
+        var i, length = _activeBrushes.length, brushed = length === 0; // When there are no brushes, then the point can said to have been brushed.
         for ( i = 0; i < length; i++ ) {
             brushed = brushed || _activeBrushes[i].checkPathBrushed( xPos );
         }
