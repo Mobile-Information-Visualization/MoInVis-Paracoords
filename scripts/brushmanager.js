@@ -26,7 +26,7 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
         _brushHeight = 30,
         _xPos = xPos,
         _hammerMan,
-        _handlePanning = false,
+        _brushHandlePanning = false,
 
         _init = function () {
             _brushParent = _axisGroup
@@ -41,13 +41,11 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
                 .attr( 'y', -_ecHeight / 2 )
                 .attr( 'height', _ecHeight )
                 .attr( 'width', _attrScale.range()[1] - _attrScale.range()[0] )
-                .attr( 'stroke', 'red' )
-                .attr( 'stroke-width', '1' )
-                .attr( 'opacity', 0.25 )
+                .attr( 'opacity', 0 )
                 .attr( 'fill', 'black' );
 
             _hammerMan = new Hammer.Manager( _brushParent.node() );
-            _hammerMan.add( new Hammer.Pan( { event: 'pan', pointers: 1, direction: Hammer.DIRECTION_HORIZONTAL, threshold: MoInVis.Paracoords.brushManager.panThreshold } ) );
+            _hammerMan.add( new Hammer.Pan( { event: 'pan', pointers: 1, direction: Hammer.DIRECTION_HORIZONTAL, threshold: 20 } ) );
             _hammerMan.on( 'panstart', _panStart );
             _hammerMan.on( 'panend', _panEnd );
             _hammerMan.on( 'pan', _onPan );
@@ -57,12 +55,13 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
             _hammerMan.on( 'tap', _onTap );
         },
 
+        // Prepares to handle panning gesture.
         _panStart = function ( event ) {
             var createNewBrush = true, gestureOrigin = {}, index, length, clientRect;
             if ( _paracoorder.scrollingInProgress ) {
+                // If scrolling is taking place, do not handle this event.
                 _hammerMan.stop( true );
             } else {
-                console.log( 'Brush pan start' );
                 _paracoorder.brushingInProgress = true;
                 gestureOrigin.x = event.center.x - event.deltaX;
                 gestureOrigin.y = event.center.y - event.deltaY;
@@ -74,47 +73,81 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
                         if ( _activeBrushes[i].checkHandleInteraction( gestureOrigin ) ) {
                             _activeBrush = _activeBrushes[i];
                             createNewBrush = false;
-                            _handlePanning = true;
-                            console.log( 'Brush handle panning start' );
+                            _brushHandlePanning = true;
                             break;
                         }
                     }
                 }
                 if ( createNewBrush ) {
-                    if ( _inactiveBrushes.length > 0 ) {
-                        _activeBrush = _inactiveBrushes.pop();
-                        _activeBrush.resetBrush( gestureOrigin.x )
-                    } else {
-                        _activeBrush = new MoInVis.Paracoords.axisBrush( _brushParent, _axisId + '_Brush_' + ( _brushes.length ), _brushHeight );
-                        _activeBrush.draw( gestureOrigin.x, 0 );
-                        _brushes.push( _activeBrush );
+                    if ( _activeBrushes.length === 0 ) { // [TODO]: Remove check to handle drawing of multiple brushes.
+                        //if ( _isValidStart( gestureOrigin.x ) ) { // [TODO]: Uncomment check to handle drawing of multiple brushes.
+                        if ( _inactiveBrushes.length > 0 ) {
+                            _activeBrush = _inactiveBrushes.pop();
+                            _activeBrush.resetBrush( gestureOrigin.x )
+                        } else {
+                            _activeBrush = new MoInVis.Paracoords.axisBrush( _brushParent, _axisId + '_Brush_' + ( _brushes.length ), _brushHeight );
+                            _activeBrush.draw( gestureOrigin.x, 0 );
+                            _brushes.push( _activeBrush );
+                        }
+                        // [TODO]: Create mechanism to select a colour for brushes.
+                        _activeBrush.setColour( 'red' );
+                        _activeBrushes.push( _activeBrush );
                     }
-                    _activeBrushes.push( _activeBrush );
                 }
             }
         },
 
-        _panEnd = function ( event ) {
-            console.log( 'Brush pan end' );
+        // Handles the panning motion.
+        _onPan = function ( event ) {
+            // [TODO]: Handle panning with deltas instead of exact values.
+            var xPos;
             if ( _activeBrush ) {
-                _paracoorder.brushingInProgress = false;
-                if ( _handlePanning ) {
-                    _activeBrush.moveBrushHandle( event.center.x );
-                    _handlePanning = false;
+                xPos = event.center.x;
+                // Check for interference with other brushes
+                if ( _isValidMove( xPos ) ) {
+                    if ( _brushHandlePanning ) {
+                        _activeBrush.moveBrushHandle( xPos );
+                    } else {
+                        _activeBrush.setBrushEnd( xPos );
+                    }
+                }
+            }
+        },
+
+        // Ends the pan event.
+        _panEnd = function ( event ) {
+            _paracoorder.brushingInProgress = false;
+            if ( _activeBrush ) {
+                if ( _brushHandlePanning ) {
+                    // Check for interference with other brushes
+                    if ( _isValidMove( event.center.x ) ) {
+                        _activeBrush.moveBrushHandle( event.center.x );
+                        _brushHandlePanning = false;
+                    }
                 } else {
-                    _activeBrush.setBrushEnd( event.center.x );
+                    // Check for interference with other brushes
+                    if ( _isValidMove( event.center.x ) ) {
+                        _activeBrush.setBrushEnd( event.center.x );
+                    }
                 }
                 _activeBrush.onBrushingEnd();
                 _activeBrush = null;
             }
         },
 
+        // Checks if movement of brush edge is valid.
         _isValidMove = function ( xPos ) {
-            var length = _activeBrushes.length, i, validMove = true;
+            var length = _activeBrushes.length, i, validMove = true, probableHandlePos, range = _attrScale.range();
+            if ( xPos <= range[1] ) {
+                xPos = range[1];
+            } else if ( xPos >= range[0] ) {
+                xPos = range[0];
+            }
             if ( length > 1 ) {
+                probableHandlePos = _activeBrush.getProbableHandlePos( xPos );
                 for ( i = 0; i < length; i++ ) {
                     if ( _activeBrushes[i] !== _activeBrush ) {
-                        if ( _activeBrushes[i].isInterfering( xPos ) ) {
+                        if ( _activeBrushes[i].isInterfering( probableHandlePos ) ) { // [TODO]: Add robustness, so handle positions update to best possible change.
                             validMove = false;
                             break;
                         }
@@ -124,24 +157,27 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
             return validMove;
         },
 
-        _onPan = function ( event ) {
-            var xPos;
-            console.log( 'Brush pan happening' );
-            if ( _activeBrush ) {
-                xPos = event.center.x;
-                // Check for interference with other brushes
-                if ( _isValidMove( xPos ) ) {
-                    if ( _handlePanning ) {
-                        _activeBrush.moveBrushHandle( xPos );
-                    } else {
-                        _activeBrush.setBrushEnd( xPos );
+        // Checks if start of brush is valid.
+        _isValidStart = function ( xPos ) {
+            var length = _activeBrushes.length, i, validMove = true, probableHandlePos, range = _attrScale.range();
+            if ( xPos <= range[1] && xPos >= range[0] ) {
+                if ( length ) {
+                    probableHandlePos = [xPos, xPos];
+                    for ( i = 0; i < length; i++ ) {
+                        if ( _activeBrushes[i].isInterfering( probableHandlePos ) ) {
+                            validMove = false;
+                            break;
+                        }
                     }
+
                 }
             } else {
-                _hammerMan.stop( true );
+                validMove = false;
             }
+            return validMove;
         },
 
+        // If a brush is tapped, show its handles.
         _onTap = function ( event ) {
             var id, index;
             if ( _activeBrushes.length > 0 ) {
@@ -158,27 +194,5 @@ MoInVis.Paracoords.brushManager = function ( axisGroup, axisId, attrScale, parac
             }
         };
 
-    this.createBrush = function () {
-
-    };
-
-    this.visible = true;
-
-    this.setVisibility = function ( visible ) {
-        this.visible = visible;
-        // [TODO]: Make _brushGroup visible or invisible.
-    };
-
-    this.getXY = function ( value ) {
-        return [_attrScale( value ), this.yPos];
-    };
-
-    this.draw = function ( xPos, yPos ) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-    };
-
     _init();
 };
-
-MoInVis.Paracoords.brushManager.panThreshold = 20;

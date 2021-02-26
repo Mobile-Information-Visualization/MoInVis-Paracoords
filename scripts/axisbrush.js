@@ -1,6 +1,6 @@
 /*
 *
-* Descr.: Creates an individual brush for an axis.
+* Descr.: Class for an individual brush.
 *
 * <Description>
 */
@@ -18,8 +18,9 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         _brushParent = brushParent,
         _brushGroup,
         _brushHeight = brushHeight,
+        _brushColour = 'red',
+        _brushOpacity = 0.4,
         _brushRect,
-        _id = id,
         _handleStart,
         _handleEnd,
         _handleStartGrp,
@@ -33,6 +34,13 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         _eHCurveTop = _eHTop - _handleCurveHeight,
         _sHCurveBottom = _sHTop + _handleCurveHeight,
         _fatFingerMargin = 5,
+        _handleGestureChecker = {
+            topHBottom: -_brushHeight / 2 + _fatFingerMargin,
+            topHTop: -_brushHeight / 2 + _eHCurveTop - _fatFingerMargin,
+            bottomHBottom: _brushHeight / 2 + _sHCurveBottom + _fatFingerMargin,
+            bottomHTop: _brushHeight / 2 - _fatFingerMargin,
+            leftRightMargin: _handleWidth / 2 + _fatFingerMargin,
+        },
         _shInteraction = false,
         _ehInteraction = false,
         _handleColour = 'red',
@@ -63,6 +71,8 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             _handleVisibility = false;
         };
 
+    this.id = id;
+
     // Public methods
     this.init = function () {
     };
@@ -72,6 +82,13 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
     this.setVisibility = function ( visible ) {
         this.visible = visible;
         // [TODO]: Make _brushGroup visible or invisible.
+    };
+
+    this.setColour = function ( colour ) {
+        _brushColour = colour;
+        if ( _brushRect ) {
+            _brushRect.attr( 'fill', _brushColour );
+        }
     };
 
     this.getXY = function ( value ) {
@@ -84,67 +101,45 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         _brushTop = yPos - _brushHeight / 2;
         _brushGroup = _brushParent
             .append( 'g' )
-            .attr( 'id', _id + '_grp' );
+            .attr( 'id', this.id + '_grp' );
+
         _brushRect = _brushGroup
             .append( 'rect' )
-            .attr( 'id', _id + '_rect' )
+            .attr( 'id', this.id + '_rect' )
             .attr( 'x', _brushStart )
             .attr( 'y', _brushTop )
             .attr( 'height', _brushHeight )
             .attr( 'width', _brushEnd - _brushStart )
-            .attr( 'stroke', 'red' )
-            .attr( 'stroke-width', '1' )
-            .attr( 'opacity', 0.25 )
-            .attr( 'fill', 'red' );
+            .attr( 'opacity', _brushOpacity )
+            .attr( 'fill', _brushColour );
 
         _handleStartGrp = _brushGroup
             .append( 'g' )
-            .attr( 'id', _id + '_handle_start_grp' )
-            .attr( 'opacity', 0 );
-        _handleEndGrp = _brushGroup
-            .append( 'g' )
-            .attr( 'id', _id + '_handle_end_grp' )
+            .attr( 'id', this.id + '_handle_start_grp' )
             .attr( 'opacity', 0 );
 
-        _handleEnd = _handleEndGrp
-            .append( 'path' )
-            .attr( 'id', _id + '_HandleEndPath' )
-            .attr( 'stroke-width', 0 )
-            .attr( 'stroke', _handleColour )
-            .attr( 'fill', _handleColour )
-            //.attr( 'd', 'M -8 -14 C -8 -26 8 -26 8 -14 L 0 0 L -8 -14' )
-            .attr( 'd', 'M ' + _handleLeft + ' ' + _eHTop + ' C ' + _handleLeft + ' ' + ( _eHCurveTop ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + ( _eHCurveTop ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + _eHTop + ' L 0 0 L ' + _handleLeft + ' ' + _eHTop );
-
-        _handleEndGrp
-            .append( 'rect' )
-            .attr( 'id', _id + '_handleEndECRect' )
-            .attr( 'x', -MoInVis.Paracoords.brushManager.panThreshold )
-            .attr( 'y', _eHCurveTop )
-            .attr( 'height', - _eHCurveTop )
-            .attr( 'width', 2 * MoInVis.Paracoords.brushManager.panThreshold )
-            .attr( 'stroke', 'red' )
-            .attr( 'stroke-width', '1' )
-            .attr( 'opacity', 0.25 )
-            .attr( 'fill', 'blue' );
         _handleStart = _handleStartGrp
             .append( 'path' )
-            .attr( 'id', _id + '_HandleEndPath' )
+            .attr( 'id', this.id + '_HandleEndPath' )
             .attr( 'stroke-width', 0 )
             .attr( 'stroke', _handleColour )
             .attr( 'fill', _handleColour )
             //.attr( 'd', 'M -8 14 C -8 26 8 26 8 14 L 0 0 L -8 14' )
             .attr( 'd', 'M ' + _handleLeft + ' ' + _sHTop + ' C ' + _handleLeft + ' ' + ( _sHCurveBottom ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + ( _sHCurveBottom ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + _sHTop + ' L 0 0 L ' + _handleLeft + ' ' + _sHTop );
-        _handleStartGrp
-            .append( 'rect' )
-            .attr( 'id', _id + '_handleStartECRect' )
-            .attr( 'x', -MoInVis.Paracoords.brushManager.panThreshold )
-            .attr( 'y', 0 )
-            .attr( 'height', _sHCurveBottom )
-            .attr( 'width', 2 * MoInVis.Paracoords.brushManager.panThreshold )
-            .attr( 'stroke', 'red' )
-            .attr( 'stroke-width', '1' )
-            .attr( 'opacity', 0.25 )
-            .attr( 'fill', 'blue' );
+
+        _handleEndGrp = _brushGroup
+            .append( 'g' )
+            .attr( 'id', this.id + '_handle_end_grp' )
+            .attr( 'opacity', 0 );
+
+        _handleEnd = _handleEndGrp
+            .append( 'path' )
+            .attr( 'id', this.id + '_HandleEndPath' )
+            .attr( 'stroke-width', 0 )
+            .attr( 'stroke', _handleColour )
+            .attr( 'fill', _handleColour )
+            //.attr( 'd', 'M -8 -14 C -8 -26 8 -26 8 -14 L 0 0 L -8 -14' )
+            .attr( 'd', 'M ' + _handleLeft + ' ' + _eHTop + ' C ' + _handleLeft + ' ' + ( _eHCurveTop ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + ( _eHCurveTop ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + _eHTop + ' L 0 0 L ' + _handleLeft + ' ' + _eHTop );
     };
 
     this.resetBrush = function ( xPos ) {
@@ -219,26 +214,24 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
 
     // Check if panning originated on the handles.
     this.checkHandleInteraction = function ( gestureOrigin ) {
-        var leftBound, rightBound, endBound;
+        var leftBound, rightBound;
         _shInteraction = _ehInteraction = false;
         if ( _handleVisibility ) {
-            if ( gestureOrigin.y <= (-_brushHeight / 2 + _fatFingerMargin) ) {
+            if ( gestureOrigin.y <= ( _handleGestureChecker.topHBottom ) ) {
                 // Check for end handle interaction.
-                endBound = -_brushHeight / 2 + _eHCurveTop - _fatFingerMargin;
-                if ( gestureOrigin.y >= endBound ) {
-                    leftBound = _brushEnd - _handleWidth / 2 - _fatFingerMargin;
-                    rightBound = _brushEnd + _handleWidth / 2 + _fatFingerMargin;
+                if ( gestureOrigin.y >= _handleGestureChecker.topHTop ) {
+                    leftBound = _brushEnd - _handleGestureChecker.leftRightMargin;
+                    rightBound = _brushEnd + _handleGestureChecker.leftRightMargin;
                     if ( gestureOrigin.x >= leftBound && gestureOrigin.x <= rightBound ) {
                         _ehInteraction = true;
                         _stopTimer();
                     }
                 }
-            } else if ( gestureOrigin.y >= _brushHeight / 2 - _fatFingerMargin ) {
+            } else if ( gestureOrigin.y >= _handleGestureChecker.bottomHTop ) {
                 // Check for start handle interaction.
-                endBound = _brushHeight / 2 + _sHCurveBottom + _fatFingerMargin;
-                if ( gestureOrigin.y <= endBound ) {
-                    leftBound = _brushStart - _handleWidth / 2 - _fatFingerMargin;
-                    rightBound = _brushStart + _handleWidth / 2 + _fatFingerMargin;
+                if ( gestureOrigin.y <= _handleGestureChecker.bottomHBottom ) {
+                    leftBound = _brushStart - _handleGestureChecker.leftRightMargin;
+                    rightBound = _brushStart + _handleGestureChecker.leftRightMargin;
                     if ( gestureOrigin.x >= leftBound && gestureOrigin.x <= rightBound ) {
                         _shInteraction = true;
                         _stopTimer();
@@ -249,15 +242,18 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         return _shInteraction || _ehInteraction;
     };
 
-    this.isInterfering = function (xPos) {
-        var leftBound, rightBound;
-        if ( _brushEnd < _brushStart ) {
-            leftBound = _brushEnd;
-            rightBound = _brushStart;
-        } else {
-            leftBound = _brushStart;
-            rightBound = _brushEnd;
-        }
-        return ( xPos >= leftBound && xPos <= rightBound );
+    this.isInterfering = function ( probableHandlePos ) {
+        var handlePos = [_brushStart, _brushEnd].sort( ( a, b ) => a - b);
+        return !( probableHandlePos[1] < handlePos[0] || probableHandlePos[0] > handlePos[1] );
     };
+
+    this.getProbableHandlePos = function ( xPos ) {
+        var probableHandlePos = [];
+        if ( _shInteraction ) {
+            probableHandlePos = [xPos, _brushEnd];
+        } else {
+            probableHandlePos = [_brushStart, xPos];
+        }
+        return probableHandlePos.sort( ( a, b ) => a - b);
+    }
 };
