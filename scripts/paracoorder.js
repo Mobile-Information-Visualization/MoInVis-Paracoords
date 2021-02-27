@@ -232,8 +232,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             focusAxisGap = contextAxisGap * _focusAndContextSettings.extraGapFactor;
 
             // Set positions for hidden axes depending on the gap between context axes.
-            _innerPositionProps.hideAtTop = - contextAxisGap;
-            _innerPositionProps.hideAtBottom = _positionProps.top + _innerMargins.top + _positionProps.height + contextAxisGap;
+            _innerPositionProps.hideAtTop = - 4 * contextAxisGap;
+            _innerPositionProps.hideAtBottom = _positionProps.top + _innerMargins.top + _positionProps.height + 4 * contextAxisGap;
 
             // [TODO]: Adjust positions such that all the axis, are inside the bounds defined by _innerPositionProps
             _axesPositions = [];
