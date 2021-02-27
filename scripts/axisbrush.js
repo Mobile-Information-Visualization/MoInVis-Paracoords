@@ -236,7 +236,6 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
     this.checkHandleInteraction = function ( gestureOrigin ) {
         var leftBound, rightBound;
         _shInteraction = _ehInteraction = false;
-        console.log( 'gestureOrigin.y: ' + gestureOrigin.y );
         if ( _handleVisibility ) {
             if ( gestureOrigin.y <= ( _handleGestureChecker.topHBottom ) ) {
                 // Check for end handle interaction.

@@ -21,7 +21,8 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _id,
         _class = MoInVis.Paracoords.IdStore.AxisClass,
         _attrScale = attrScale,
-        _brushManager;
+        _brushManager,
+        _interationManager;
 
     this.attribute = attributeProps.prop;
     this.attributeLabel = attributeProps.text;
@@ -76,9 +77,11 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             .attr( 'text-anchor', "start" )
             .text( this.attributeLabel );
 
-        _brushManager = new MoInVis.Paracoords.brushManager( _axisGroup, _id, _attrScale, _paracoorder, this.xPos );
-
         this.height = _axisGroup.node().getBBox().height;
+
+        _interationManager = new MoInVis.Paracoords.axisInteractionManager( this, _axisGroup, _id, _attrScale, _paracoorder );
+        _brushManager = new MoInVis.Paracoords.brushManager( _id, _attrScale, _paracoorder );
+        _interationManager.init( _brushManager );
     };
 
     this.transitionY = function ( newY ) {
