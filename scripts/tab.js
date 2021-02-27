@@ -62,7 +62,11 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
                 methods: vueMethods || {},
                 computed: vueComputed || {}
             } );
+        
+        
+       
         mainApp.mount( _tabHandle.parentTab.node() );
+        
         return mainApp;
     };
 

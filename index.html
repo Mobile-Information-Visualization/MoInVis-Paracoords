@@ -5,9 +5,15 @@
     <script src="scripts/libs/d3.js"></script>
     <script src="scripts/libs/hammer.js"></script>
     <script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js"></script>
+    <!-- Import Components -->
+    <script src="scripts/components/movable.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
+    <!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.24.3/vuedraggable.umd.js"></script>
+    
 
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" type="text/css" href="css/styles_axis_store.css">
     <link rel="stylesheet" type="text/css" href="css/styles_universal.css">
@@ -20,6 +26,7 @@
     <script src="data/json/rubberwaste.json"></script>
     <script src="data/json/secwaste.json"></script>
     <script src="data/json/totalwaste.json"></script>
+
 </head>
 <body style="background-color:darkslategrey;">
     <div id="mainDiv">
@@ -37,17 +44,16 @@
             </header>
             <main class="axisStore axesLists">
                 <ol class = "axisStore">
-                    <li v-for = "axis in axesArray" :key = "axis.attribute" >
+                    <li v-for = "axis in axesArray" :key = "axis.attribute" draggable="true" >
                         <label for = "axis.attribute">{{ axis.attributeLabel }}</label>
                         <input class = "axisStore" type="checkbox" :id = "axis.attribute" v-model= "axis.visible">
                     
                     </li>
-                    <!-- <li v-for = "detail in details">{{details}}</li> -->
+                    
                 </ol>
-               
-                
 
-                
+                <draggable></draggable>
+               
 
             </main>
         </div>
@@ -68,5 +74,6 @@
     <script type="text/javascript" src="scripts/attributestore.js"></script>
     <script type="text/javascript" src="scripts/moin.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>
+       
 </body>
 </html>
