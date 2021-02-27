@@ -11,7 +11,7 @@ header.entryStore {
   justify-items: center;
 
   text-align: center;
-  font-size: large;
+  font-size: x-large;
   border-color: #f0f0f0;
   border-bottom: solid;
   border-width: 1px;
@@ -31,7 +31,7 @@ main.entryColour{
 
 .grid-container {
   display: grid;
-  grid-template-columns: auto fit-content(80%) auto;
+  grid-template-columns: min-content fit-content(80%) auto;
 }
 
 .grid-left {
@@ -46,9 +46,13 @@ main.entryColour{
   text-align: right
 }
 
-.entryCheckbox{
+input.entryCheckbox{
   transform: scale(3);
   margin: 30px;
+
+  display:inline-block;
+  content: "";
+  border-bottom: 1px solid #525252;
   background: #252525;
 }
 
