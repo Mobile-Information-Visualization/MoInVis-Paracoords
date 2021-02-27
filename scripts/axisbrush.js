@@ -21,6 +21,8 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         _brushColour = 'red',
         _brushOpacity = 0.4,
         _brushRect,
+        _tapCapturer,
+        _tapHeight = 40,
         _brushStrokeWidth = 4,
         _handleStart,
         _handleEnd,
@@ -34,11 +36,11 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         _sHTop = _handleSlantHeight,
         _eHCurveTop = _eHTop - _handleCurveHeight,
         _sHCurveBottom = _sHTop + _handleCurveHeight,
-        _fatFingerMargin = 15,
+        _fatFingerMargin = 10,
         _handleGestureChecker = {
             topHBottom: -_brushHeight / 2 + _fatFingerMargin,
-            topHTop: -_brushHeight / 2 + _eHCurveTop - 2 * _fatFingerMargin,
-            bottomHBottom: _brushHeight / 2 + _sHCurveBottom + 2 * _fatFingerMargin,
+            topHTop: -_brushHeight / 2 + _eHCurveTop - _fatFingerMargin,
+            bottomHBottom: _brushHeight / 2 + _sHCurveBottom + _fatFingerMargin,
             bottomHTop: _brushHeight / 2 - _fatFingerMargin,
             leftRightMargin: _handleWidth / 2 + _fatFingerMargin,
         },
@@ -116,6 +118,16 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             .attr( 'stroke-opacity', 'inherit' )
             .attr( 'stroke', _brushColour )
             .attr( 'fill', _brushColour );
+        _tapCapturer = _brushGroup
+            .append( 'rect' )
+            .attr( 'id', this.id + '_TapCapturer' )
+            .attr( 'x', _brushStart )
+            .attr( 'y', yPos - _tapHeight / 2 )
+            .attr( 'height', _tapHeight )
+            .attr( 'width', _brushEnd - _brushStart )
+            .attr( 'stroke-width', _brushStrokeWidth )
+            .attr( 'opacity', 0 )
+            .attr( 'fill', 'black' );
 
         _handleStartGrp = _brushGroup
             .append( 'g' )
@@ -133,6 +145,15 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             .attr( 'fill', _handleColour )
             //.attr( 'd', 'M -8 14 C -8 26 8 26 8 14 L 0 0 L -8 14' )
             .attr( 'd', 'M ' + _handleLeft + ' ' + _sHTop + ' C ' + _handleLeft + ' ' + ( _sHCurveBottom ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + ( _sHCurveBottom ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + _sHTop + ' L 0 0 L ' + _handleLeft + ' ' + _sHTop );
+        _handleStartGrp
+            .append( 'rect' )
+            .attr( 'id', this.id + '_HandleEndRect' )
+            .attr( 'x', - _handleGestureChecker.leftRightMargin )
+            .attr( 'y', 0 )
+            .attr( 'width', 2 * _handleGestureChecker.leftRightMargin )
+            .attr( 'height', _sHCurveBottom + _fatFingerMargin )
+            .attr( 'opacity', 0 )
+            .attr( 'fill', 'black' );
 
         _handleEndGrp = _brushGroup
             .append( 'g' )
@@ -150,6 +171,16 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             .attr( 'fill', _handleColour )
             //.attr( 'd', 'M -8 -14 C -8 -26 8 -26 8 -14 L 0 0 L -8 -14' )
             .attr( 'd', 'M ' + _handleLeft + ' ' + _eHTop + ' C ' + _handleLeft + ' ' + ( _eHCurveTop ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + ( _eHCurveTop ) + ' ' + ( _handleLeft + _handleWidth ) + ' ' + _eHTop + ' L 0 0 L ' + _handleLeft + ' ' + _eHTop );
+        _handleEndGrp
+            .append( 'rect' )
+            .attr( 'id', this.id + '_HandleEndRect' )
+            .attr( 'x', - _handleGestureChecker.leftRightMargin )
+            .attr( 'y', _eHCurveTop - _fatFingerMargin )
+            .attr( 'width', 2 * _handleGestureChecker.leftRightMargin )
+            .attr( 'height', Math.abs( _eHCurveTop - _fatFingerMargin ) )
+            .attr( 'opacity', 0 )
+            .attr( 'fill', 'black' );
+
     };
 
     // Resets brush after activation.
@@ -157,6 +188,9 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         _brushStart = xPos;
         _brushEnd = _brushStart + 1;
         _brushRect
+            .attr( 'x', _brushStart )
+            .attr( 'width', _brushEnd - _brushStart );
+        _tapCapturer
             .attr( 'x', _brushStart )
             .attr( 'width', _brushEnd - _brushStart );
     };
@@ -168,10 +202,15 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             _brushRect
                 .attr( 'x', _brushEnd )
                 .attr( 'width', _brushStart - _brushEnd );
+            _tapCapturer
+                .attr( 'x', _brushEnd )
+                .attr( 'width', _brushStart - _brushEnd );
         } else {
             _brushRect
                 .attr( 'x', _brushStart )
-            _brushRect
+                .attr( 'width', _brushEnd - _brushStart );
+            _tapCapturer
+                .attr( 'x', _brushStart )
                 .attr( 'width', _brushEnd - _brushStart );
         }
         _handleEndGrp
@@ -187,8 +226,13 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             _brushRect
                 .attr( 'x', _brushEnd )
                 .attr( 'width', _brushStart - _brushEnd );
+            _tapCapturer
+                .attr( 'x', _brushEnd )
+                .attr( 'width', _brushStart - _brushEnd );
         } else {
             _brushRect
+                .attr( 'width', _brushEnd - _brushStart );
+            _tapCapturer
                 .attr( 'width', _brushEnd - _brushStart );
         }
         _handleEndGrp

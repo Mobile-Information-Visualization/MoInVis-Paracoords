@@ -20,7 +20,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
         _paracoorder = paracoorder,
         _axisId = axisId,
         _attrScale = attrScale,
-        _brushHeight = 30,
+        _brushHeight = 15,
         _gesturePos,
         _hammerMan,
         _brushHandlePanning = false,
