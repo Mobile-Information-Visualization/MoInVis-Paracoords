@@ -11,7 +11,7 @@ header.entryStore {
   justify-items: center;
 
   text-align: center;
-  font-size: x-large;
+  font-size: large;
   border-color: #f0f0f0;
   border-bottom: solid;
   border-width: 1px;
@@ -29,12 +29,33 @@ main.entryColour{
   align: right;
 }
 
-main.entryCheckbox{
-  background-color: #252525;
-  color: #f0f0f0;
-  width: 50%;
+.grid-container {
+  display: grid;
+  grid-template-columns: auto fit-content(80%) auto;
+}
 
+.grid-left {
+  text-align: left
+}
 
+.grid-center {
+  text-align: left
+}
+
+.grid-right {
+  text-align: right
+}
+
+.entryCheckbox{
+  transform: scale(3);
+  margin: 30px;
+  background: #252525;
+}
+
+.entryColour{
+  transform: scale(3);
+  margin: 30px;
+  background: #252525;
 }
 
 ul.entryStore {
