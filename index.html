@@ -28,15 +28,21 @@
         </div>
         <div id="entryStoreTab">
           <header class="entryStore">
-            <h1>{{tabName}} <br>
-            Total Number of entries: {{ totalEntries }}</h1>
+            <h1>{{tabName}}</h1>
+            <h1>Total Number of entries: {{ totalEntries }}</h1>
           </header>
           <main class="entryStore">
-            <li v-for="entry in entries" :key="entry">
-                    <input type="checkbox" id="entryCheckbox" v-model="entry.visible">
+            <div class="grid-container" v-for="entry in entries" :key="entry">
+              <div class="grid-left">
+                <input type="checkbox" class="entryCheckbox" v-model="entry.visible">
+              </div>
+              <div class="grid-center">
                     {{ entry.itemText }}
+              </div>
+              <div class="grid-right">
                     <input type="color" id="entryColour" v-model="entry.colour">
-            </li>
+              </div>
+            </div>
           </main>
         </div>
     </div>
