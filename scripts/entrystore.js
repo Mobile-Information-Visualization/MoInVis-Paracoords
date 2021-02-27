@@ -21,24 +21,39 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
     var totalEntries = items.length;
     console.log("Total length of Entries: " + totalEntries);
     console.log("items is type of: " + typeof"items");
-  console.log(items);
+    console.log(items);
+
+    console.log("Redraw flag: "+ MoInVis.Paracoords.ParaCoorderRedrawReq);
+
+
 
     var self = this,
         _parentDiv = parentDiv,
         _entries = entries,
         _vueData,
+        _vueMethods,
         _vueApp,
-
 
         _init = function () {
             // _parentDiv.style.overflow = 'scroll';
             _vueData = {
                 tabName: 'Entry Store!',
                 totalEntries: totalEntries,
-                entries: entries
+                entries: entries,
+                flag : MoInVis.Paracoords.ParaCoorderRedrawReq,
             };
-            _vueApp = self.initVue( _vueData );
+            _vueMethods = {
+              changed: _changed,
+            };
+
+            _vueApp = self.initVue( _vueData, _vueMethods);
         };
+
+     _changed = function(){
+      console.log("Changed")
+      MoInVis.Paracoords.Flag = true;
+    };
+
     _init();
 };
 
