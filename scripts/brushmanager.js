@@ -69,7 +69,9 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
 
     // Initializes the brush manager with hammer instance and brush parent group.
     this.init = function ( brushParent, hammerMan ) {
-        _brushParent = brushParent;
+        _brushParent = brushParent
+            .append( 'g' )
+            .attr( 'id', _axisId + '_BrushParent' );
         _hammerMan = hammerMan;
     };
 

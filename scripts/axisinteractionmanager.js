@@ -16,7 +16,6 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisId, 
         _axisGroup = axisGroup,
         _axisId = axisId,
         _attrScale = attrScale,
-        _interactionGroup,
         _eventCatcher,
         _hammerMan,
         _brushManager,
@@ -25,13 +24,10 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisId, 
         _paracoorder = paracoorder;
 
     this.init = function ( brushManager ) {
-        _interactionGroup = _axisGroup
-            .append( 'g' )
-            .attr( 'id', _axisId + '_InteractionGroup' );
 
         // Draw the event catcher.
-        _eventCatcher = _interactionGroup
-            .append( 'rect' )
+        _eventCatcher = _axisGroup
+            .insert( 'rect', ':first-child' )
             .attr( 'id', _axisId + '_EventCatcher' )
             .attr( 'x', _axis.xPos )
             .attr( 'y', -_axis.height / 2 )
@@ -41,12 +37,12 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisId, 
             .attr( 'fill', 'black' );
 
 
-        _hammerMan = new Hammer.Manager( _interactionGroup.node() );
+        _hammerMan = new Hammer.Manager( _axisGroup.node() );
         _hammerMan.add( new Hammer.Pan( { event: 'pan', pointers: 1, direction: Hammer.DIRECTION_HORIZONTAL, threshold: 10 } ) );
         _hammerMan.add( new Hammer.Tap( { event: 'tap', pointers: 1 } ) );
 
         _brushManager = brushManager;
-        _brushManager.init( _interactionGroup, _hammerMan );
+        _brushManager.init( _axisGroup, _hammerMan );
 
 
         _brushMode = true; // Brush mode is on for initial operation.
