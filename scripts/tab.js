@@ -52,7 +52,7 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
 
     // Instantiate the Vue app here.
     
-    this.initVue = function ( vueData, vueMethods, vueComputed ) {
+    this.initVue = function ( vueData, vueMethods, vueComputed, vueComponents ) {
         var mainApp =
             Vue.createApp( {
                 
@@ -60,7 +60,8 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
                     return vueData;
                 },
                 methods: vueMethods || {},
-                computed: vueComputed || {}
+                computed: vueComputed || {},
+                components: vueComponents || {}
             } );
         
         

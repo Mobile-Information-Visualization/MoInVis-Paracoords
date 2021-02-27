@@ -13,8 +13,6 @@ MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 
 MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
-    import draggable from 'vuedraggable'
-
 
     this.moin = moin;
     MoInVis.Paracoords.attributeStore.baseCtor.call( this, parentDiv );
@@ -29,9 +27,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _vueMethods,
         _vueComputed,
         _vueApp,
-
-
-
 
         _init = function () {
             _vueData = {
@@ -52,26 +47,27 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 isMinusButtonDisabled: _isMinusButtonDisabled,
                 isPlusButtonDisabled: _isPlusButtonDisabled
 
-            }
-            
-            _vueApp = self.initVue( _vueData, _vueMethods, _vueComputed );
-            _vueApp.component('draggable', {
-                template: /*html*/
-                `
+            };
+
+            _vueComponents ={
+
+                'component-a': ComponentA
+
                 
-                <draggable 
-                v-model="myArray" 
-                group="people" 
-                @start="drag=true" 
-                @end="drag=false" 
-                item-key="id">
-                    <template #item="{element}">
-                        <div>{{element.name}}</div>
-                    </template>
-                </draggable>
-                `
-              });
+
+            };
+
+            
+            _vueApp = self.initVue( _vueData, _vueMethods, _vueComputed, _vueComponents );
+           
         };
+
+        const ComponentA = {
+            /* ... */
+            template: 
+            /*html*/ 
+            `<div>g</div>`
+        }
 
         //methods
         _decreaseNumber = function () {
