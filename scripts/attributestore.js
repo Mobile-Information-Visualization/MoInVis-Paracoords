@@ -6,17 +6,19 @@
 * <Description>
 */
 
-  
+
+
 var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 
 MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
+    
 
 
     this.moin = moin;
     MoInVis.Paracoords.attributeStore.baseCtor.call( this, parentDiv );
-
+    
     console.log(axes); //Jimmy: Debug
     console.log(MoInVis.Paracoords.tab.initVue);
 
@@ -63,10 +65,13 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         };
 
         const ComponentA = {
+            
+            
             /* ... */
             template: 
             /*html*/ 
-            `<div>g</div>`
+            `<script>Sortable.create(simpleList, { /* options */ });</script>`,
+            
         }
 
         //methods

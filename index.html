@@ -5,13 +5,12 @@
     <script src="scripts/libs/d3.js"></script>
     <script src="scripts/libs/hammer.js"></script>
     <script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js"></script>
-    <!-- Import Components -->
-    <script src="scripts/components/movable.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
-    <!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.24.3/vuedraggable.umd.js"></script>
     
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+   
+   
+    
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -43,8 +42,8 @@
                 <button class = "undoButton" >&#9100;</button>
             </header>
             <main class="axisStore axesLists">
-                <ol class = "axisStore">
-                    <li v-for = "axis in axesArray" :key = "axis.attribute" draggable="true" >
+                <ol class = "axisStore" id="simpleList">
+                    <li v-for = "axis in axesArray" :key = "axis.attribute">
                         <label for = "axis.attribute">{{ axis.attributeLabel }}</label>
                         <input class = "axisStore" type="checkbox" :id = "axis.attribute" v-model= "axis.visible">
                     
@@ -74,6 +73,10 @@
     <script type="text/javascript" src="scripts/attributestore.js"></script>
     <script type="text/javascript" src="scripts/moin.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>
+    <!-- <script>Sortable.create(simpleList, { /* options */ });</script> -->
+    
+
+    
        
 </body>
 </html>
