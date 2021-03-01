@@ -100,7 +100,7 @@ ol.axisStore {
   list-style-type: none;
 }
 li {
-  margin: 6%;
+  margin: 12%;
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   align-items: center;
