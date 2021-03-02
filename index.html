@@ -44,25 +44,17 @@
             <main class="axisStore axesLists">
                 <ol class = "axisStore" id="simpleList">
                     <li v-for = "axis in axesArray" :key = "axis.attribute">
-                        <label for = "axis.attribute" class="my-handle">{{ axis.attributeLabel }}</label>
+                        <label class="my-handle">&horbar;</label>
+                        <label class="attribute" for = "axis.attribute" >{{ axis.attributeLabel }}</label>
                         <label class="container">
                             
                             <input class = "axisStore" type="checkbox" checked="checked" :id = "axis.attribute" v-model= "axis.visible">
                             <span class="checkmark"></span>
                             
                         </label>
-                        
-                            
-                          
-                        
-
-                        
-                    
                     </li>
                     
-                    
                 </ol>
-
                 <component-a></component-a>
                
 

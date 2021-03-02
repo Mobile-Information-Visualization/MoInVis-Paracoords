@@ -78,17 +78,17 @@ header.axisStore {
   border: none;
 }
 
-main.axisStore {
-  height: 90%;
-  background-color: #252525;
-  overflow-y: scroll;
-}
-
 .minusButton,
 .plusButton,
 .undoButton {
   text-align: center;
   text-decoration: none;
+}
+
+main.axisStore {
+  height: 100%;
+  background-color: #252525;
+  overflow-y: scroll;
 }
 
 .disableButton {
@@ -101,19 +101,27 @@ ol.axisStore {
   list-style-type: none;
 }
 li {
-  margin: 12%;
+  margin: 12% 6%;
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 1fr 5fr 1fr;
   align-items: center;
   cursor: move;
 }
 
-label {
+label.my-handle {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  text-align: right;
+}
+
+label.attribute {
   font-size: xxx-large;
   font-weight: 100;
 
   grid-column-start: 2;
   grid-column-end: 3;
+
+  text-align: center;
 }
 /* 
 input.axisStore {
