@@ -6,17 +6,17 @@
     <script src="scripts/libs/hammer.js"></script>
     <script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js"></script>
     
-    
+    <!-- https://github.com/SortableJS/Sortable -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-   
-   
     
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" type="text/css" href="css/styles_axis_store.css">
     <link rel="stylesheet" type="text/css" href="css/styles_universal.css">
-
+    
+    
+    
     <script src="data/json/chemwaste.json"></script>
     <script src="data/json/glasswaste.json"></script>
     <script src="data/json/healthcarebiowaste.json"></script>
@@ -44,10 +44,22 @@
             <main class="axisStore axesLists">
                 <ol class = "axisStore" id="simpleList">
                     <li v-for = "axis in axesArray" :key = "axis.attribute">
-                        <label for = "axis.attribute">{{ axis.attributeLabel }}</label>
-                        <input class = "axisStore" type="checkbox" :id = "axis.attribute" v-model= "axis.visible">
+                        <label for = "axis.attribute" class="my-handle">{{ axis.attributeLabel }}</label>
+                        <label class="container">
+                            
+                            <input class = "axisStore" type="checkbox" checked="checked" :id = "axis.attribute" v-model= "axis.visible">
+                            <span class="checkmark"></span>
+                            
+                        </label>
+                        
+                            
+                          
+                        
+
+                        
                     
                     </li>
+                    
                     
                 </ol>
 

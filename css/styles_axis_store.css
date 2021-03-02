@@ -81,6 +81,7 @@ header.axisStore {
 main.axisStore {
   height: 90%;
   background-color: #252525;
+  overflow-y: scroll;
 }
 
 .minusButton,
@@ -114,7 +115,7 @@ label {
   grid-column-start: 2;
   grid-column-end: 3;
 }
-
+/* 
 input.axisStore {
   grid-column-start: 3;
   grid-column-end: 4;
@@ -123,19 +124,88 @@ input.axisStore {
 
   height: 100%;
   width: 50%;
+} */
+
+label.container {
+  grid-column-start: 3;
+  grid-column-end: 4;
+
+  margin-left: auto;
+
+  height: 100%;
+  width: 50%;
+}
+/* The container */
+.container {
+  display: block;
+  position: relative;
+
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-input.axisStore:after {
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #252525;
+  border-bottom: 3px solid #525252;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #252525;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 50%;
+  top: 15%;
+  width: 20%;
+  height: 50%;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+/* input.axisStore:after {
   line-height: 80%;
 
   content: "";
   display: inline-block;
   width: 100%;
   height: 100%;
-  /* margin-top: -4px;
-  margin-left: -4px; */
+ 
   border-bottom: 1px solid #525252;
-  /* border-radius: 0.25em; */
   background: #252525;
 }
 
@@ -146,9 +216,7 @@ input.axisStore:checked:after {
   font-size: 50px;
   color: #f0f0f0;
   text-align: center;
-  /* border-left: solid;
-  border-color: #525252; */
+  
   background-color: #252525;
 
-  /* border: 3px solid #00ff00; */
-}
+} */

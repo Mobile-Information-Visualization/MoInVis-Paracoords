@@ -70,7 +70,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             /* ... */
             template: 
             /*html*/ 
-            `<script>Sortable.create(simpleList, { /* options */ });</script>`,
+            `<script>Sortable.create(simpleList, { handle: ".my-handle" });</script>`,
             
         }
 
