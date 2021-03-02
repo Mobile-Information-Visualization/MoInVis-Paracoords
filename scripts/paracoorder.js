@@ -661,6 +661,15 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         }
     };
 
+    // Called whenever this tab comes into focus.
+    this.onTabFocus = function () {
+        if ( this.moin.paraCoorderRedrawReq ) {
+            _calculateAxisSpacing();
+            _rearrangeAxes();
+            this.moin.paraCoorderRedrawReq = false;
+        }
+    };
+
     //[TODO]: Write Clean up method.
 };
 
