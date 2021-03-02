@@ -112,6 +112,8 @@ label.my-handle {
   grid-column-start: 1;
   grid-column-end: 2;
   text-align: right;
+
+  font-size: xxx-large;
 }
 
 label.attribute {

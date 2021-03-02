@@ -20,8 +20,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
     MoInVis.Paracoords.attributeStore.baseCtor.call( this, parentDiv );
     
     console.log(axes); //Jimmy: Debug
-    console.log(MoInVis.Paracoords.tab.initVue);
-
+    
     var self = this,
         _parentDiv = parentDiv,
         _axes = axes,
@@ -29,6 +28,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _vueMethods,
         _vueComputed,
         _vueApp,
+        _getAxes = function(){return _axes;},
+       
 
         _init = function () {
             _vueData = {
@@ -120,9 +121,11 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
 
     _init();
+    MoInVis.Paracoords.attributeStore.getAxes = _getAxes;
 };
 
 MoInVis.Paracoords.attributeStore.baseCtor = MoInVis.Paracoords.tab;
+
 
 
   

@@ -44,7 +44,7 @@
             <main class="axisStore axesLists">
                 <ol class = "axisStore" id="simpleList">
                     <li v-for = "axis in axesArray" :key = "axis.attribute">
-                        <label class="my-handle">&horbar;</label>
+                        <label class="my-handle">&LeftUpDownVector; </label>
                         <label class="attribute" for = "axis.attribute" >{{ axis.attributeLabel }}</label>
                         <label class="container">
                             
@@ -52,9 +52,11 @@
                             <span class="checkmark"></span>
                             
                         </label>
+                        
                     </li>
                     
                 </ol>
+                <p>{{ axesArray }}</p>
                 <component-a></component-a>
                
 
