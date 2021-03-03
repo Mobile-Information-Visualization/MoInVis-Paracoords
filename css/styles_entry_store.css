@@ -28,32 +28,33 @@ main.entryColour{
   align: right;
 }
 
+/* Entries */
 .grid-container {
   display: grid;
-  grid-template-columns: min-content fit-content(80%) auto;
+  grid-template-columns: 1fr 8fr 1fr;
 }
 
-.grid-left {
-  text-align: left
-}
-
-.grid-center {
-  text-align: center;
-  font-size: xxx-large;
-  font-weight: 100;
-}
-
-.grid-right {
-  text-align: right
-}
-
-/* Hide the browser's default checkbox */
-.container input {
+/* Checkbox and hide the browser's default checkbox */
+.grid-left input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
   height: 100%;
   width: 100%;
+  display : none;
+}
+
+/* The container */
+.container {
+  display: block;
+  position: relative;
+
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -81,6 +82,19 @@ main.entryColour{
   transform: rotate(45deg);
 }
 
+/* Entries */
+.grid-center {
+  text-align: center;
+  font-size: xxx-large;
+  font-weight: 100;
+}
+
+/* Color picker */
+/*
+.grid-right {
+  text-align: right
+}
+*/
 /*
 input.entryCheckbox{
   transform: scale(1);
@@ -107,12 +121,4 @@ ol.entryStore {
   margin: 0%;
   padding: 6%;
   list-style-type: none;
-}
-
-label.attribute {
-
-  grid-column-start: 2;
-  grid-column-end: 3;
-
-  text-align: center;
 }

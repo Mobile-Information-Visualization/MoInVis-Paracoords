@@ -30,22 +30,23 @@
         </div>
         <div id="entryStoreTab">
           <header class="entryStore">
-            Total Number of entries: {{ totalEntries }}
+            Total Number of entries: {{ totalEntries }} <p>
           </header>
           <main class="entryStore">
-
             <div class="grid-container" v-for="entry in entries" :key="entry">
               <div class="grid-left">
               <!-- <input type="checkbox" class="entryCheckbox" v-model="entry.visible"> --!>
+                <label class="container">
                 <input class="entryStore" type="checkbox" checked="checked"  v-model="entry.visible" @change="changed">
                 <span class="checkmark"></span>
+                </label>
               </div>
               <div class="grid-center">
                     {{ entry.itemText }}
               </div>
-              <div class="grid-right">
+              <!--<div class="grid-right">
                     <input type="color" id="entryColour" v-model="entry.colour">
-              </div>
+                    </div> --!>
             </div>
           </main>
         </div>
