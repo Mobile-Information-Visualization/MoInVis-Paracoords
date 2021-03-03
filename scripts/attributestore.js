@@ -67,12 +67,54 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
         const ComponentA = {
             
-            
+            props:{
+
+                data:{
+                    type: Array
+                }
+
+            },
+           
             /* ... */
             template: 
             /*html*/ 
-            `<script>Sortable.create(simpleList, { handle: ".my-handle" });</script>`,
+            `<script>
             
+
+        
+            //var a = data;
+
+            Sortable.create(simpleList, { handle: ".my-handle",
+            onEnd: function (/**Event*/evt) {
+                var itemEl = evt.item;  
+                evt.to;    
+                evt.from;  
+                evt.oldIndex; 
+                evt.newIndex;  
+                evt.oldDraggableIndex; 
+                evt.newDraggableIndex; 
+                evt.clone 
+                evt.pullMode; 
+
+                
+                console.log(a)
+                //a.shift();
+                console.log("dragged element's old index: " + evt.oldIndex);
+
+                console.log("dragged element's new index: " + evt.newIndex);
+            }
+        
+        
+        
+            });
+            
+
+            </script>`,
+            data(){
+                return {
+
+                }
+            },
         }
 
         //methods

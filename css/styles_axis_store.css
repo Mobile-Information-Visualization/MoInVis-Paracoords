@@ -207,26 +207,7 @@ label.container {
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-/* input.axisStore:after {
-  line-height: 80%;
 
-  content: "";
-  display: inline-block;
-  width: 100%;
-  height: 100%;
- 
-  border-bottom: 1px solid #525252;
-  background: #252525;
+.movable {
+  background-color: orange;
 }
-
-input.axisStore:checked:after {
-  width: 100%;
-  height: 100%;
-  content: "\2228";
-  font-size: 50px;
-  color: #f0f0f0;
-  text-align: center;
-  
-  background-color: #252525;
-
-} */
