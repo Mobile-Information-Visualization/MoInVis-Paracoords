@@ -7,21 +7,20 @@ header.entryStore {
   height: 10%;
   width:100%;
   /*flex-direction: row; */
-
   justify-items: center;
-
   text-align: center;
-  font-size: x-large;
-  border-color: #f0f0f0;
+
+  font-size: xxx-large;
+  border-color: #525252;
   border-bottom: solid;
   border-width: 1px;
 }
 
 main.entryStore {
-  height: 90%;
+  height: 100%;
   background-color: #252525;
-
-  font-size: xxx-large;
+  overflow-y: scroll;
+  /* font-size: xxx-large; */
 }
 
 /* */
@@ -39,15 +38,52 @@ main.entryColour{
 }
 
 .grid-center {
-  text-align: left
+  text-align: center;
+  font-size: xxx-large;
+  font-weight: 100;
 }
 
 .grid-right {
   text-align: right
 }
 
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 50%;
+  top: 15%;
+  width: 20%;
+  height: 50%;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/*
 input.entryCheckbox{
-  transform: scale(3);
+  transform: scale(1);
   margin: 30px;
 
   display:inline-block;
@@ -61,8 +97,22 @@ input.entryCheckbox{
   margin: 30px;
   background: #252525;
 }
-
+*/
 ul.entryStore {
   margin: 0%;
   /* padding: 1em; */
+}
+
+ol.entryStore {
+  margin: 0%;
+  padding: 6%;
+  list-style-type: none;
+}
+
+label.attribute {
+
+  grid-column-start: 2;
+  grid-column-end: 3;
+
+  text-align: center;
 }

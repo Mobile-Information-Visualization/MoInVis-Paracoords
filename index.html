@@ -6,6 +6,8 @@
     <script src="scripts/libs/hammer.js"></script>
     <script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js"></script>
 
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" type="text/css" href="css/styles_entry_store.css">
     <link rel="stylesheet" type="text/css" href="css/styles_universal.css">
@@ -28,15 +30,15 @@
         </div>
         <div id="entryStoreTab">
           <header class="entryStore">
-          <!--<h1>{{tabName}}</h1> --!>
-            <h1> {{ flag }} </h1>
-            <h1>Total Number of entries: {{ totalEntries }}</h1>
+            Total Number of entries: {{ totalEntries }}
           </header>
           <main class="entryStore">
+
             <div class="grid-container" v-for="entry in entries" :key="entry">
               <div class="grid-left">
               <!-- <input type="checkbox" class="entryCheckbox" v-model="entry.visible"> --!>
-                <input type="checkbox" class="entryCheckbox" v-model="entry.visible" @change="changed">
+                <input class="entryStore" type="checkbox" checked="checked"  v-model="entry.visible" @change="changed">
+                <span class="checkmark"></span>
               </div>
               <div class="grid-center">
                     {{ entry.itemText }}
