@@ -398,7 +398,12 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         // Sets the focus index, shows/hides the context indicators appropriately, and recalculates axes positions and rearranges the axes.
         _setFocusIndex = function ( newFI ) {
+            var topHiddenAxes = 0, bottomHiddenAxes = 0;
             _focusIndex = newFI;
+
+            _calculateAxisSpacing();
+            _rearrangeAxes();
+
             if ( _focusIndex === 0 ) {
                 if ( _topCI.visible ) {
                     _topCI.setVisibility( false );
@@ -415,8 +420,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                     _bottomCI.setVisibility( true );
                 }
             }
-            _calculateAxisSpacing();
-            _rearrangeAxes();
+            topHiddenAxes = _focusIndex - _axesInTopContext;
+            bottomHiddenAxes = _visibleAxes.length - _focusIndex - _axesInFocus - _axesInBottomContext;
+            _topCI.setContextText( topHiddenAxes );
+            _bottomCI.setContextText( bottomHiddenAxes );
         },
 
         // Called when pan event starts.
@@ -568,8 +575,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _topCI = new MoInVis.Paracoords.contextIndicator( _parentGroup, _positionProps.left, 0, ciSize, _positionProps.width, 'TopCI', true, _quickScrollUp );
         _bottomCI = new MoInVis.Paracoords.contextIndicator( _parentGroup, _positionProps.left, _height - ciSize, ciSize, _positionProps.width, 'BottomCI', false, _quickScrollDown );
 
-        _calculateAxisSpacing();
-        _rearrangeAxes();
+        _setFocusIndex( _focusIndex );
     };
 
     this.drawAttributeAxes = function () {
