@@ -101,7 +101,7 @@ ol.axisStore {
   list-style-type: none;
 }
 li {
-  margin: 12% 6%;
+  margin: 6% 6%;
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
   align-items: center;

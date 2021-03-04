@@ -66,6 +66,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
             Sortable.create( simpleList, {
                 handle: ".my-handle",
+                direction: 'vertical',
+                delay: 30,
                 onEnd: function (/**Event*/evt ) {
                     var itemEl = evt.item;
                     evt.to;
