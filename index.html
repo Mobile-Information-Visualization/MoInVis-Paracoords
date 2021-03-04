@@ -57,6 +57,19 @@
                         </label>
                         
                     </li>
+<!-- duplicate -->
+                    <li v-for = "axis in axesArray" :key = "axis.attribute">
+                        <label class="my-handle">&LeftUpDownVector; </label>
+                        <label class="attribute my-handle" for = "axis.attribute" >{{ axis.attributeLabel + " duplicate " }}</label>
+                        <label class="container">
+                            
+                            <input class = "axisStore" type="checkbox" checked="checked" :id = "axis.attribute" v-model= "axis.visible">
+                            <span class="checkmark"></span>
+                            
+                        </label>
+                        
+                    </li>
+<!-- duplicate  -->
                     
                 </ol>
                 <!-- <div class="movable">{{ axesArray }}</div> -->

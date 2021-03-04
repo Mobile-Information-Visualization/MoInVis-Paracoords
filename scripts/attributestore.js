@@ -30,6 +30,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _vueComponents,
         _vueApp,
         _getAxes = function () { return _axes; },
+        _sortable,
+        _getSortable = function(){ return _sortable}
 
 
         _init = function () {
@@ -64,10 +66,12 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
             _vueApp = self.initVue( _vueData, _vueMethods, _vueComputed );
 
-            Sortable.create( simpleList, {
+            _sortable = Sortable.create( simpleList, {
                 handle: ".my-handle",
                 direction: 'vertical',
-                delay: 30,
+                //fallbackTolerance: 50,
+                delay: 100,
+                //touchStartThreshold: 5,
                 onEnd: function (/**Event*/evt ) {
                     var itemEl = evt.item;
                     evt.to;
@@ -87,6 +91,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                     console.log( "dragged element's new index: " + evt.newIndex );
                 }
             } );
+            
+            
 
         },
 
@@ -189,6 +195,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
     _init();
     MoInVis.Paracoords.attributeStore.getAxes = _getAxes;
+    MoInVis.Paracoords.attributeStore.getSortable = _getSortable;
 };
 
 MoInVis.Paracoords.attributeStore.baseCtor = MoInVis.Paracoords.tab;

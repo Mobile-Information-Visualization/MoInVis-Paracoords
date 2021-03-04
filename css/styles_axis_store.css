@@ -1,5 +1,6 @@
 #attrStoreTab {
   width: 100% !important;
+  height: 100% !important;
 }
 header.axisStore {
   background-color: #252525;
@@ -86,7 +87,7 @@ header.axisStore {
 }
 
 main.axisStore {
-  height: 100%;
+  height: 90%;
   background-color: #252525;
   overflow-y: scroll;
 }
@@ -101,7 +102,8 @@ ol.axisStore {
   list-style-type: none;
 }
 li {
-  margin: 6% 6%;
+  margin: 3% 3%;
+  padding: 3% 3%;
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
   align-items: center;

@@ -22,6 +22,7 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         // Method for dubugging purposes.
         _setText = function ( text, event ) {
             console.log( text );
+            
             if ( event ) {
                 console.log( 'Velocity: ' + event.velocity );
             }
@@ -117,16 +118,24 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
                 _setText( 'swipeleft', event );
                 event.preventDefault();
                 self.swipeLeft();
+
+                
             } )
+        
     };
     this.switchOnSwipeRightEvent = function () {
         _hammerMan
             .on( 'swiperight', function ( event ) {
+                
                 _setText( 'swiperight', event );
                 event.preventDefault();
                 self.swipeRight();
+                
+                
 
             } );
+        
+        
     };
 
     this.addEventType = function ( eventType, eventProps ) {
