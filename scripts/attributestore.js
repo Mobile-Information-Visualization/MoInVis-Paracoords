@@ -70,7 +70,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 handle: ".my-handle",
                 direction: 'vertical',
                 //fallbackTolerance: 50,
-                delay: 100,
+                delay: 80,
                 //touchStartThreshold: 5,
                 onEnd: function (/**Event*/evt ) {
                     var itemEl = evt.item;
