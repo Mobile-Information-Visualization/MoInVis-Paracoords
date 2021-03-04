@@ -30,7 +30,9 @@
         </div>
         <div id="entryStoreTab">
           <header class="entryStore">
-            Total Number of entries: {{ totalEntries }} <p>
+            <output>{{ totalEntries }}</output>
+            <label>Total entries</label>
+            
           </header>
           <main class="entryStore">
             <div class="grid-container" v-for="entry in entries" :key="entry">
