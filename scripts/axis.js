@@ -18,7 +18,6 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _textGroup,
         _axis,
         _paracoorder = paracoorder,
-        _id,
         _class = MoInVis.Paracoords.IdStore.AxisClass,
         _attrScale = attrScale,
         _brushManager,
@@ -27,7 +26,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
     this.attribute = attributeProps.prop;
     this.attributeLabel = attributeProps.text;
 
-    _id = id + '_Axis_' + this.attribute;
+    this.id = id + '_Axis_' + this.attribute;
 
     // Public methods
     this.init = function () {
@@ -37,7 +36,11 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
     this.setVisibility = function ( visible ) {
         this.visible = visible;
-        // [TODO]: Make _axisGroup visible or invisible.
+        _axisGroup.style( 'display', visible ? 'inherit' : 'none' );
+    };
+
+    this.setAxisRange = function (newRange) {
+        _attrScale.domain( newRange );
     };
 
     this.getXY = function ( value ) {
@@ -53,7 +56,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         this.yPos = yPos;
         _axisGroup = _axisParentGroup
             .append( 'g' )
-            .attr( 'id', _id )
+            .attr( 'id', this.id )
             .attr( 'class', _class )
             .attr( 'transform', 'translate(0,' + this.yPos + ')' );
 
@@ -69,19 +72,19 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
         _textGroup = _axisGroup
             .append( "g" )
-            .attr( 'id', _id + '_TextGroup' );
+            .attr( 'id', this.id + '_TextGroup' );
 
         _textGroup.append( 'text' )
             .attr( 'class', 'attrNameText' )
-            .attr( 'id', _id + '_LabelText' )
+            .attr( 'id', this.id + '_LabelText' )
             .attr( 'transform', 'translate(' + this.xPos + ',' + ( - 15 ) + ')' )
             .attr( 'text-anchor', "start" )
             .text( this.attributeLabel );
 
         this.height = _axisGroup.node().getBBox().height;
 
-        _interationManager = new MoInVis.Paracoords.axisInteractionManager( this, _axisGroup, _id, _attrScale, _paracoorder );
-        _brushManager = new MoInVis.Paracoords.brushManager( _id, _attrScale, _paracoorder );
+        _interationManager = new MoInVis.Paracoords.axisInteractionManager( this, _axisGroup, this.id, _attrScale, _paracoorder );
+        _brushManager = new MoInVis.Paracoords.brushManager( this.id, _attrScale, _paracoorder );
         _interationManager.init( _brushManager );
     };
 

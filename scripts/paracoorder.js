@@ -263,7 +263,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         // Rearranges the axes according to positions calculated.
         _rearrangeAxes = function () {
-            var i, length = _axesInFocus + _axesInTopContext + _axesInBottomContext, axisIndex = _focusIndex - _axesInTopContext, path;
+            var i, length = _axesInFocus + _axesInTopContext + _axesInBottomContext, axisIndex = _focusIndex - _axesInTopContext;
             // Hide axes until the top context axes at the top.
             for ( i = 0; i < axisIndex; i++ ) {
                 _visibleAxes[i].transitionY( _innerPositionProps.hideAtTop );
@@ -278,12 +278,31 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 _visibleAxes[i].transitionY( _innerPositionProps.hideAtBottom );
             }
 
+            _redrawPaths();
+        },
+
+        _redrawPaths = function () {
+            var path;
             // Recalculate paths and draw
             for ( path in self.paths ) {
                 if ( self.paths[path].visible ) {
                     self.paths[path].recalculate();
                 }
             }
+        },
+
+        _setVisibleAxes = function () {
+            _visibleAxes = self.axes.filter( axis => axis.visible );
+        },
+
+        _resetAxesRanges = function () {
+            var extent;
+            // Reset the scales for the axes.
+            self.axes.forEach( function ( axis ) {
+                extent = d3.extent( items.map( region => self.paths[region].visible ? self.paths[region].data[_chosenYear][axis.attribute] : null ) );
+                axis.setAxisRange( extent );
+            } );
+            //_redrawPaths();
         },
 
         // Shifts the displayed axes by specified pixels.
@@ -585,8 +604,11 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         }
         _axisHeight = axis.height;
 
-        // [TODO]: Change this.
-        _visibleAxes = this.axes;
+        _setVisibleAxes();
+    };
+
+    this.setFocusIndexById = function ( id ) {
+        _focusIndex = _visibleAxes.findIndex( axis => axis.id === id );
     };
 
     this.drawPaths = function () {
@@ -664,6 +686,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
     // Called whenever this tab comes into focus.
     this.onTabFocus = function () {
         if ( this.moin.paraCoorderRedrawReq ) {
+            _setVisibleAxes();
+            _resetAxesRanges();
             _calculateAxisSpacing();
             _rearrangeAxes();
             this.moin.paraCoorderRedrawReq = false;
