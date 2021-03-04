@@ -35,23 +35,21 @@
             
           </header>
           <main class="entryStore">
-            <div class="grid-container" v-for="entry in entries" :key="entry">
-              <div class="grid-left">
-              <!-- <input type="checkbox" class="entryCheckbox" v-model="entry.visible"> --!>
+            <ol class = "entryStore">
+              <li v-for = "entry in entries" :key = "entry">
+
                 <label class="container">
-                <input class="entryStore" type="checkbox" checked="checked"  v-model="entry.visible" @change="changed">
-                <span class="checkmark"></span>
+                      
+                  <input class = "entryStore" type="checkbox" checked="checked" :id = "entry.attribute" v-model= "entry.visible">
+                  <span class="checkmark"></span>
+                      
                 </label>
-              </div>
-              <div class="grid-center">
-                    {{ entry.itemText }}
-              </div>
-              <!--<div class="grid-right">
-                    <input type="color" id="entryColour" v-model="entry.colour">
-                    </div> --!>
-            </div>
+                  
+                <label class="entryText" for = "entry.itemText" >{{ entry.itemText }}</label>
+                
+                  
+              </li>
           </main>
-        </div>
     </div>
     <script type="text/javascript" src="scripts/datahandler.js"></script>
     <script type="text/javascript" src="scripts/button.js"></script>

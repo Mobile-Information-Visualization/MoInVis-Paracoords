@@ -14,8 +14,8 @@ header.entryStore {
   height: 10%;
   display: grid;
   grid-template:
-    "a" 80%
-    "b" 20%;
+    "a" 70%
+    "b" 30%;
 
   justify-items: center;
 
@@ -30,7 +30,7 @@ header output {
   grid-row-start: 1;
   grid-row-end: 1;
 
-  font-size: xxx-large;
+  font-size: 6em;
 
   font-weight: 400;
 
@@ -43,7 +43,7 @@ header label {
   grid-row-start: 2;
   grid-row-end: 3;
 
-  margin: auto;
+  font-size: 2em;
 }
 
 main.entryStore {
@@ -53,25 +53,37 @@ main.entryStore {
   /* font-size: xxx-large; */
 }
 
-/* */
-main.entryColour {
-  align: right;
+ol.entryStore {
+  margin: 0%;
+  padding: 6%;
+  list-style-type: none;
 }
-
-/* Entries */
-.grid-container {
+li {
+  margin: 3% 3%;
+  padding: 3% 3%;
   display: grid;
-  grid-template-columns: 1fr 8fr 1fr;
+  grid-template-columns: 2fr 8fr;
+  align-items: center;
+  cursor: move;
 }
 
-/* Checkbox and hide the browser's default checkbox */
-.grid-left input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
+label.container {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  margin: auto;
+
   height: 100%;
-  width: 100%;
-  display: none;
+  width: 50%;
+}
+
+label.entryText {
+  font-size: xxx-large;
+  font-weight: 100;
+
+  grid-column-start: 2;
+  grid-column-end: 3;
+
+  text-align: left;
 }
 
 /* The container */
@@ -85,6 +97,31 @@ main.entryColour {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #252525;
+  border-bottom: 3px solid #525252;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #252525;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -110,45 +147,4 @@ main.entryColour {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
-}
-
-/* Entries */
-.grid-center {
-  text-align: center;
-  font-size: xxx-large;
-  font-weight: 100;
-}
-
-/* Color picker */
-/*
-.grid-right {
-  text-align: right
-}
-*/
-/*
-input.entryCheckbox{
-  transform: scale(1);
-  margin: 30px;
-
-  display:inline-block;
-  content: "";
-  border-bottom: 1px solid #525252;
-  background: #252525;
-}
-
-.entryColour{
-  transform: scale(3);
-  margin: 30px;
-  background: #252525;
-}
-*/
-ul.entryStore {
-  margin: 0%;
-  /* padding: 1em; */
-}
-
-ol.entryStore {
-  margin: 0%;
-  padding: 6%;
-  list-style-type: none;
 }
