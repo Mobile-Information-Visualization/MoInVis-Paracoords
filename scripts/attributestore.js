@@ -97,7 +97,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 evt.pullMode; 
 
                 
-                console.log(a)
+                //console.log(a)
                 //a.shift();
                 console.log("dragged element's old index: " + evt.oldIndex);
 
