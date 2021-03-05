@@ -50,18 +50,18 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
             self.activateEvent( 'swiperight' );
         };
 
-        // Instantiate the Vue app here.
-        this.initVue = function (vueData, vueMethods) {
-            var mainApp =
-                Vue.createApp( {
-                    data: function () {
-                        return vueData;
-                    },
-                    methods: vueMethods || {}
-                } );
-            mainApp.mount( _tabHandle.parentTab.node() );
-            return mainApp;
-        };
+    // Instantiate the Vue app here.
+    this.initVue = function ( vueData, vueMethods ) {
+        var mainApp =
+            Vue.createApp( {
+                data: function () {
+                    return vueData;
+                },
+                methods: vueMethods || {}
+            } );
+        mainApp.mount( _tabHandle.parentTab.node() );
+        return mainApp;
+    };
 
     this.swipeRight = function () {
         this.moin.tabManager.swipeRight();
@@ -125,9 +125,13 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         _hammerMan.add( new Hammer[eventType]( eventProps ) );
     };
 
-    this.addEvent = function (event, cb) {
+    this.addEvent = function ( event, cb ) {
         _addedEvents[event] = cb;
         this.activateEvent( event );
+    };
+
+    this.stopEvent = function () {
+        _hammerMan.stop( true );
     };
 
     this.switchOnEvents = function () {
@@ -158,18 +162,26 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
             .off( 'swiperight' )
             .off( 'swipedown' );
         for ( evt in _addedEvents ) {
-                _hammerMan.off( evt );
+            _hammerMan.off( evt );
+        }
+    };
+
+    this.getTabHandle = function () {
+        return _tabHandle;
+    };
+
+    // Called whenever this tab comes into focus.
+    this.onTabInFocus = function () {
+        if ( this.onTabFocus ) {
+            this.onTabFocus();
         }
     };
 
     _tabHandle = {
         parentTab: parentDiv,
         switchOnEvents: this.switchOnEvents.bind( this ),
-        switchOffEvents: this.switchOffEvents.bind( this )
-    };
-
-    this.getTabHandle = function () {
-        return _tabHandle;
+        switchOffEvents: this.switchOffEvents.bind( this ),
+        onTabInFocus: this.onTabInFocus.bind( this )
     };
 
     _init();

@@ -3,13 +3,13 @@
     font-family: Bahnschrift;
     font-weight: bold;
     fill: #fcfcfc;
-    font-size: 45px;
+    font-size: 3.5em;
     font-style: normal;
 }
 
 .ParaCoord_Axis_Class .tick text {
     font-family: Bahnschrift;
     fill: #fcfcfc;
-    font-size: 25px;
+    font-size: 2.5em;
     font-style: normal;
 }
