@@ -46,7 +46,7 @@
             </header>
             <main class="axisStore axesLists">
                 <ol class = "axisStore" id="simpleList">
-                    <li v-for = "axis in axesArray" :key = "axis.attribute">
+                    <li v-for = "axis in axesArray" :key = "axis.attribute" :id = "axis.attribute">
                         <label class="my-handle">&LeftUpDownVector; </label>
                         <label class="attribute my-handle" for = "axis.attribute" >{{ axis.attributeLabel }}</label>
                         <label class="container">
