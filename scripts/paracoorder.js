@@ -554,7 +554,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         var
             attributes = MoInVis.Paracoords.Data.wasteAttributes,
             items = MoInVis.Paracoords.Data.itemsForWaste,
-            extent, ciSize = 100;
+            extent, ciSize;
 
         this.drawPaths();
 
@@ -571,6 +571,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         this.drawAttributeAxes();
 
+        ciSize = _axisHeight / 2;
         // Draw context indicators
         _topCI = new MoInVis.Paracoords.contextIndicator( _parentGroup, _positionProps.left, 0, ciSize, _positionProps.width, 'TopCI', true, _quickScrollUp );
         _bottomCI = new MoInVis.Paracoords.contextIndicator( _parentGroup, _positionProps.left, _height - ciSize, ciSize, _positionProps.width, 'BottomCI', false, _quickScrollDown );

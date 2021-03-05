@@ -6,12 +6,12 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
     var _height = height,
         _width = width,
         _isTop = isTop,
-        _arrowSize = height / 8,
+        _arrowSize = height / 3,
         _arrowCount = 1,
         _arrowGap = 10,
         _arrowX = _width / 2 + _arrowGap / 2,
         // _arrowX = _width / 2 - ( _arrowSize * _arrowCount + _arrowGap * ( _arrowCount - 1 ) ) / 2,
-        _arrowY = _isTop ? 0.25 * _height : 0.75 * _height - _arrowSize,
+        _arrowY = _isTop ? 0.5 * _height : 0.5 * _height - _arrowSize,
         _xPos = x,
         _yPos = y,
         _id = id,
@@ -21,6 +21,7 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
         _buttonElementsGroup,
         _conTEXTEl,
         _context = '00',
+        _eventCatcher,
         _bgRect,
         _CIRect,
         _CIRectMargin,
@@ -66,6 +67,13 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
                         .attr( 'fill', 'url(#' + ( _isTop ? MoInVis.Paracoords.IdStore.TopCIGradNormal : MoInVis.Paracoords.IdStore.BottomCIGradNormal ) + ')' );
                 } );
 
+            // Draw event catcher
+            _eventCatcher = _clickableGroup
+                .append( 'rect' )
+                .attr( 'id', _id + '_EventCatcher' )
+                .attr( 'fill', 'black' )
+                .attr( 'opacity', 0 );
+
             // Draw background rect of button.
             _CIRect = _clickableGroup
                 .append( 'rect' )
@@ -108,6 +116,12 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
                 .attr( 'width', bBox.width + 2 * _CIRectMargin )
                 .attr( 'height', bBox.height + 2 * _CIRectMargin )
                 .attr( 'rx', bBox.width / 4 );
+
+            _eventCatcher
+                .attr( 'x', bBox.x - _CIRectMargin - bBox.width / 2 )
+                .attr( 'y', bBox.y - _CIRectMargin - bBox.height / 2 )
+                .attr( 'width', 2 * ( bBox.width + _CIRectMargin ) )
+                .attr( 'height', 2 * ( bBox.height + _CIRectMargin ) );
 
 
             // Initialize hammer events.
