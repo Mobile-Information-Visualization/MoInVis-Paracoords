@@ -19,6 +19,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _textGroup,
         _axis,
         _paracoorder = paracoorder,
+        _id,
         _class = MoInVis.Paracoords.IdStore.AxisClass,
         _attrScale = attrScale,
         _brushManager,
@@ -29,7 +30,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
     this.attribute = attributeProps.prop;
     this.attributeLabel = attributeProps.text;
 
-    this.id = id + '_Axis_' + this.attribute;
+    _id = id + '_Axis_' + this.attribute;
 
     // Public methods
     this.init = function () {
@@ -40,11 +41,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
     this.setVisibility = function ( visible ) {
         this.visible = visible;
-        _axisGroup.style( 'display', visible ? 'inherit' : 'none' );
-    };
-
-    this.setAxisRange = function (newRange) {
-        _attrScale.domain( newRange );
+        // [TODO]: Make _axisGroup visible or invisible.
     };
 
     this.getXY = function ( value ) {
@@ -60,7 +57,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         this.yPos = yPos;
         _axisGroup = _axisParentGroup
             .append( 'g' )
-            .attr( 'id', this.id )
+            .attr( 'id', _id )
             .attr( 'class', _class )
             .attr( 'transform', 'translate(0,' + this.yPos + ')' );
         _axisInnerGroup = _axisGroup
@@ -88,7 +85,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
         // [TODO]: Number of ticks must depend on font size, available width, and text lengths.
 
-      // label computation
+        // label computation
         const padding = { vertical: 10, horizontal: 20 }; // space between text and its box
         const margin = { vertical: 40, horizontal: 0 }; // space between box and its axis
 

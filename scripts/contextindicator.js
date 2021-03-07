@@ -6,25 +6,17 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
     var _height = height,
         _width = width,
         _isTop = isTop,
-        _arrowSize = height / 3,
-        _arrowCount = 1,
+        _arrowSize = height / 4,
+        _arrowCount = 3,
         _arrowGap = 10,
-        _arrowX = _width / 2 + _arrowGap / 2,
-        // _arrowX = _width / 2 - ( _arrowSize * _arrowCount + _arrowGap * ( _arrowCount - 1 ) ) / 2,
-        _arrowY = _isTop ? 0.5 * _height : 0.5 * _height - _arrowSize,
+        _arrowX = _width / 2 - ( _arrowSize * _arrowCount + _arrowGap * ( _arrowCount - 1 ) ) / 2,
+        _arrowY = _isTop ? 0.25 * _height : 0.75 * _height - _arrowSize,
         _xPos = x,
         _yPos = y,
         _id = id,
         _parent = parent,
         _ciSVG,
-        _clickableGroup,
-        _buttonElementsGroup,
-        _conTEXTEl,
-        _context = '00',
-        _eventCatcher,
-        _bgRect,
-        _CIRect,
-        _CIRectMargin,
+        _rect,
         _hammer,
         _transitionSpeed = MoInVis.Paracoords.TransitionSpeed,
         _callback = cbFunction,
@@ -35,16 +27,31 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
         },
 
         _init = function () {
-            var bBox, textBBox;
+            var i;
             // Create group for context indicator and append to parent svg
             _ciSVG = _parent
                 .append( 'g' )
                 .attr( 'id', _id )
-                .attr( 'transform', 'translate(' + _xPos + ',' + _yPos + ')' );
+                .attr( 'transform', 'translate(' + _xPos + ',' + _yPos + ')' )
+                .attr( 'cursor', 'pointer' )
+                .on( 'pointerdown', function () {
+                    _rect
+                        .attr( 'fill', 'url(#' + ( _isTop ? MoInVis.Paracoords.IdStore.TopCIGradPressed : MoInVis.Paracoords.IdStore.BottomCIGradPressed ) + ')' );
+                } )
+                .on( 'pointerup', function () {
+                    _rect
+                        .attr( 'fill', 'url(#' + ( _isTop ? MoInVis.Paracoords.IdStore.TopCIGradNormal : MoInVis.Paracoords.IdStore.BottomCIGradNormal ) + ')' );
+                } );
+
+            // Initialize hammer events.
+            _hammer = new Hammer( _ciSVG.node() );
+            _hammer.get( 'doubletap' ).set( { posThreshold: 50, interval: 500 } );
+            _hammer.on( 'tap', _onTap );
+            _hammer.on( 'doubletap', _onDoubleTap );
 
             // Draw the context indicator.
             // Rect handles the gradient
-            _bgRect = _ciSVG
+            _rect = _ciSVG
                 .append( 'rect' )
                 .attr( 'id', _id + '_Rect' )
                 .attr( 'x', 0 )
@@ -54,110 +61,32 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
                 .attr( 'stroke', 'none' )
                 .attr( 'fill', 'url(#' + ( _isTop ? MoInVis.Paracoords.IdStore.TopCIGradNormal : MoInVis.Paracoords.IdStore.BottomCIGradNormal ) + ')' );
 
-            _clickableGroup = _ciSVG
-                .append( 'g' )
-                .attr( 'id', _id + '_ClickableGroup' )
-                .attr( 'cursor', 'pointer' )
-                .on( 'pointerdown', function () {
-                    _bgRect
-                        .attr( 'fill', 'url(#' + ( _isTop ? MoInVis.Paracoords.IdStore.TopCIGradPressed : MoInVis.Paracoords.IdStore.BottomCIGradPressed ) + ')' );
-                } )
-                .on( 'pointerup', function () {
-                    _bgRect
-                        .attr( 'fill', 'url(#' + ( _isTop ? MoInVis.Paracoords.IdStore.TopCIGradNormal : MoInVis.Paracoords.IdStore.BottomCIGradNormal ) + ')' );
-                } );
-
-            // Draw event catcher
-            _eventCatcher = _clickableGroup
-                .append( 'rect' )
-                .attr( 'id', _id + '_EventCatcher' )
-                .attr( 'fill', 'black' )
-                .attr( 'opacity', 0 );
-
-            // Draw background rect of button.
-            _CIRect = _clickableGroup
-                .append( 'rect' )
-                .attr( 'id', _id + '_Rect' )
-                .attr( 'stroke', 'none' )
-                .attr( 'fill', 'grey' );
-
-            _buttonElementsGroup = _clickableGroup
-                .append( 'g' )
-                .attr( 'id', _id + '_BtnElementsGroup' )
-
-            // Draw arrow.
-            _buttonElementsGroup
-                .append( 'path' )
-                .attr( 'stroke', 'white' )
-                .attr( 'stroke-width', 2 )
-                .attr( 'stroke-opacity', 0.7 )
-                .attr( 'fill', 'white' )
-                .attr( 'd', d3.line()( _createPath() ) );
-
-            // Draw text
-            _conTEXTEl = _buttonElementsGroup
-                .append( 'text' )
-                .attr( 'class', 'CIText' )
-                .attr( 'id', _id + '_ConTEXT' )
-                .attr( 'transform', 'translate(0,0)' )
-                .attr( 'text-anchor', 'end' )
-                .text( _context );
-
-            textBBox = _conTEXTEl.node().getBBox();
-            _conTEXTEl
-                .attr( 'transform', 'translate(' + ( _arrowX - _arrowGap ) + ',' + ( _arrowY + _arrowSize / 2 + 0.35 * textBBox.height ) + ')' );
-
-            bBox = _buttonElementsGroup.node().getBBox();
-            _CIRectMargin = bBox.height / 4;
-
-            _CIRect
-                .attr( 'x', bBox.x - _CIRectMargin )
-                .attr( 'y', bBox.y - _CIRectMargin )
-                .attr( 'width', bBox.width + 2 * _CIRectMargin )
-                .attr( 'height', bBox.height + 2 * _CIRectMargin )
-                .attr( 'rx', bBox.width / 4 );
-
-            _eventCatcher
-                .attr( 'x', bBox.x - _CIRectMargin - bBox.width / 2 )
-                .attr( 'y', bBox.y - _CIRectMargin - bBox.height / 2 )
-                .attr( 'width', 2 * ( bBox.width + _CIRectMargin ) )
-                .attr( 'height', 2 * ( bBox.height + _CIRectMargin ) );
-
-
-            // Initialize hammer events.
-            _hammer = new Hammer( _clickableGroup.node() );
-            _hammer.get( 'doubletap' ).set( { posThreshold: 50, interval: 500 } );
-            _hammer.on( 'tap', _onTap );
-            _hammer.on( 'doubletap', _onDoubleTap );
+            // Draw arrows.
+            for ( i = 0; i < _arrowCount; i++ ) {
+                _ciSVG
+                    .append( 'path' )
+                    .attr( 'stroke', 'white' )
+                    .attr( 'stroke-width', 2 )
+                    .attr( 'stroke-opacity', 0.7 )
+                    .attr( 'fill', 'none' )
+                    .attr( 'd', d3.line()( _createPath( i ) ) );
+            }
         },
 
         // Creates path for the arrows.
-        _createPath = function () {
-            var path = [];
+        _createPath = function ( arrowNumber ) {
+            var path = [], arrowX = _arrowX + arrowNumber * ( _arrowSize + _arrowGap );
             if ( _isTop ) {
-                path.push( [_arrowX, _arrowSize + _arrowY] );
-                path.push( [_arrowX + _arrowSize * 0.5, _arrowY] );
-                path.push( [_arrowX + _arrowSize, _arrowSize + _arrowY] );
+                path.push( [arrowX, _arrowSize + _arrowY] );
+                path.push( [arrowX + _arrowSize * 0.5, _arrowY] );
+                path.push( [arrowX + _arrowSize, _arrowSize + _arrowY] );
             } else {
-                path.push( [_arrowX, _arrowY] );
-                path.push( [_arrowX + _arrowSize * 0.5, _arrowSize + _arrowY] );
-                path.push( [_arrowX + _arrowSize, _arrowY] );
+                path.push( [arrowX, _arrowY] );
+                path.push( [arrowX + _arrowSize * 0.5, _arrowSize + _arrowY] );
+                path.push( [arrowX + _arrowSize, _arrowY] );
             }
             return path;
         },
-        //_createPath = function ( arrowNumber ) {
-        //    var path = [], arrowX = _arrowX + arrowNumber * ( _arrowSize + _arrowGap );
-        //    if ( _isTop ) {
-        //        path.push( [arrowX, _arrowSize + _arrowY] );
-        //        path.push( [arrowX + _arrowSize * 0.5, _arrowY] );
-        //        path.push( [arrowX + _arrowSize, _arrowSize + _arrowY] );
-        //    } else {
-        //        path.push( [arrowX, _arrowY] );
-        //        path.push( [arrowX + _arrowSize * 0.5, _arrowSize + _arrowY] );
-        //        path.push( [arrowX + _arrowSize, _arrowY] );
-        //    }
-        //    return path;
-        //},
 
         // Handles the tap event.
         _onTap = function () {
@@ -199,20 +128,6 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
                     .on( 'end', _hide );
             }
         }
-    };
-
-    this.setContextText = function ( text ) {
-        text = text.toString();
-        _conTEXTEl
-            .text( text );
-        if ( text.length !== _context.length ) {
-            bBox = _buttonElementsGroup.node().getBBox();
-            _CIRect
-                .transition()
-                .attr( 'x', bBox.x - _CIRectMargin )
-                .attr( 'width', bBox.width + 2 * _CIRectMargin );
-        }
-        _context = text;
     };
 
     _init();
