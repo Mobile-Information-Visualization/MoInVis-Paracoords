@@ -9,7 +9,12 @@
     <!-- https://github.com/SortableJS/Sortable -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
-    <script src="https://daybrush.com/selecto/release/latest/dist/selecto.min.js"></script>
+    <script src="//daybrush.com/moveable/release/latest/dist/moveable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue3-draggable-resizable@1.5.4/src/index.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue-draggable-resizable@2.3.0/dist/VueDraggableResizable.umd.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue-draggable-resizable@2.3.0/dist/VueDraggableResizable.umd.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moveable/0.23.1/moveable.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script> -->
     
     
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
@@ -45,7 +50,11 @@
                 <button class = "undoButton" >&#9100;</button>
             </header>
             <main class="axisStore axesLists">
+
+                
                 <ol class = "axisStore" id="simpleList">
+                    
+                    <div class="focusPanel"></div>
                     <li v-for = "axis in axesArray" :key = "axis.attribute" :id = "axis.attribute">
                         <label class="my-handle">&LeftUpDownVector; </label>
                         <label class="attribute my-handle" for = "axis.attribute" >{{ axis.attributeLabel }}</label>
@@ -71,7 +80,9 @@
                     </li>
 <!-- duplicate  -->
                     
+                    
                 </ol>
+                
                 <!-- <div class="movable">{{ axesArray }}</div> -->
                 <!--<component-a :data = "axesArray"></component-a>-->
                

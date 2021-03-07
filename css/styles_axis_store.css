@@ -22,7 +22,7 @@ header.axisStore {
   grid-column-end: 3;
 
   margin: auto;
-  font-size: 6em;
+  font-size: 78px;
   font-weight: 100;
 
   padding: 0 10%;
@@ -38,7 +38,7 @@ header.axisStore {
   grid-column-start: 3;
   grid-column-end: 4;
 
-  font-size: 5em;
+  font-size: 56px;
 
   font-weight: 400;
 
@@ -120,7 +120,7 @@ label.my-handle {
 
 label.attribute {
   font-size: xxx-large;
-  font-weight: 100;
+  font-weight: lighter;
 
   grid-column-start: 2;
   grid-column-end: 3;
@@ -210,6 +210,10 @@ label.container {
   transform: rotate(45deg);
 }
 
-.movable {
+.focusPanel {
   background-color: orange;
+  opacity: 0.3;
+
+  width: 200px;
+  height: 200px;
 }

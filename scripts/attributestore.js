@@ -31,7 +31,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _vueApp,
         _getAxes = function () { return _axes; },
         _sortable,
-        _getSortable = function(){ return _sortable}
+        _getSortable = function(){ return _sortable},
+        _movable,
 
 
         _init = function () {
@@ -104,6 +105,39 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                       });
                 }
             } );
+
+            _movable = new Moveable(document.querySelector('main.axisStore'), {
+                // If you want to use a group, set multiple targets(type: Array<HTMLElement | SVGElement>).
+                target: document.querySelector('.focusPanel'),
+                container: document.querySelector('main.axisStore'),
+                draggable: true,
+                throttleDrag: 0,
+                edge: false,
+                scrollable: true,
+                scrollContainer: document.body,
+                scrollThreshold: 0,
+                getScrollPosition: ({ scrollContainer }) => ([scrollContainer.scrollLeft, scrollContainer.scrollTop]),
+            }).on("scroll", ({ scrollContainer, direction }) => {
+                scrollContainer.scrollLeft += direction[0] * 10;
+                scrollContainer.scrollTop += direction[1] * 10;
+            }).on("scrollGroup", ({ scrollContainer, direction }) => {
+                scrollContainer.scrollLeft += direction[0] * 10;
+                scrollContainer.scrollTop += direction[1] * 10;
+            });
+        
+            
+            const frame = {
+                translate: [0, 0],
+            };
+            _movable.on("dragStart", ({ set }) => {
+                set(frame.translate);
+            }).on("drag", ({ target, beforeTranslate }) => {
+                frame.translate = beforeTranslate;
+                target.style.transform
+                    = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`;
+            }).on("dragEnd", ({ target, isDrag, clientX, clientY }) => {
+                console.log("onDragEnd", target, isDrag);
+            });
             
             
 
