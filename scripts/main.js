@@ -15,8 +15,8 @@ MoInVis.Paracoords.handler.main = function () {
     // CRITICAL: Restrict browser from handling touch gestures for things like browser refresh, next tab, previous tab.
     document.body.style.touchAction = 'none';
 
-    var height = window.innerHeight - 0,
-        width = window.innerWidth - 0;
+    let height = window.innerHeight,
+        width = window.innerWidth;
 
     MoInVis.Paracoords.handler.moin = new MoInVis.Paracoords.moin( width, height );
 }();

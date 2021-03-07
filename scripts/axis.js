@@ -17,6 +17,8 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _axisGroup,
         _axisInnerGroup,
         _textGroup,
+        _textInnerGroup,
+        _textGroupCenter,
         _axis,
         _paracoorder = paracoorder,
         _id,
@@ -86,23 +88,27 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         // [TODO]: Number of ticks must depend on font size, available width, and text lengths.
 
         // label computation
-        const padding = { vertical: 10, horizontal: 20 }; // space between text and its box
-        const margin = { vertical: 40, horizontal: 0 }; // space between box and its axis
+        const padding = { vertical: 11, horizontal: 22 }; // space between text and its box
+        const margin = { vertical: 42, horizontal: 0 }; // space between box and its axis
 
         _textGroup = _axisInnerGroup
             .append( 'g' )
             .attr( 'id', _id + '_TextGroup' )
             .attr( 'transform', 'translate(' + ( this.xPos + margin.horizontal ) + ',' + ( - margin.vertical ) + ')' );
 
+        _textInnerGroup = _textGroup
+            .append( 'g' )
+            .attr( 'id', _id + '_TextInnerGroup' );
+
         // label box
-        _textGroup.append( 'rect' )
+        _textInnerGroup.append( 'rect' )
             .attr( 'class', 'attrNameTextBox' )
             .attr( 'id', _id + '_LabelTextBox' )
             .attr( 'x', 0 )
             .attr( 'y', 0 );
 
         // label text
-        _textGroup.append( 'text' )
+        _textInnerGroup.append( 'text' )
             .attr( 'class', 'attrNameText' )
             .attr( 'id', _id + '_LabelText' )
             //.attr( 'transform', 'translate(' + ( this.xPos + margins.horizontal ) + ',' + ( - 0 - margins.vertical ) + ')' )
@@ -112,14 +118,15 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             .text( this.attributeLabel );
 
         // adjust box size to text size
-        const measuredSize = _textGroup.select( 'text' )
+        const measuredSize = _textInnerGroup.select( 'text' )
             .node()
             .getBBox();
-        _textGroup.select( 'rect' )
+        _textInnerGroup.select( 'rect' )
             .attr( 'width', measuredSize.width + ( 2 * padding.horizontal ) )
             .attr( 'height', measuredSize.height + ( 2 * padding.vertical ) )
             .attr( 'y', ( measuredSize.y - padding.vertical ) )
             .attr( 'ry', ( measuredSize.height / 1.7 ) );
+        _textGroupCenter = ( measuredSize.width + ( 2 * padding.horizontal ) ) / 2;
 
         this.height = _axisGroup.node().getBBox().height;
 
@@ -154,20 +161,20 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
     this.startWiggling = function ( rotationCenterX ) {
         let seed = Math.random();
-        const amplitude = 0.4,
-            speed = 0.028;
+        const amplitude = 0.4 + 0.8,
+            speed = 0.025;
 
         _wigglingIntervalId = setInterval(function () {
             let y = Math.sin( 10 * seed ) * amplitude;
-            _axisInnerGroup
-                .attr( 'transform', 'rotate(' + y + ',' + rotationCenterX + ',0)' );
+            _textInnerGroup
+                .attr( 'transform', 'rotate(' + y + ',' + _textGroupCenter + ',0)' );
             seed = seed + speed;
         }, 10 );
     };
 
     this.stopWiggling = function () {
         clearInterval( _wigglingIntervalId );
-        _axisInnerGroup
+        _textInnerGroup
             .transition()
             .duration( MoInVis.Paracoords.FastTransitionSpeed )
             .ease( d3.easeExpOut )

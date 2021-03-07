@@ -30,12 +30,12 @@ body {
     font-weight: 400;
     /*letter-spacing: 0.01em;*/
     fill: #eeeeee;
-    font-size: 3.8em;
+    font-size: 3.7em;
     font-style: normal;
 }
 
 .attrNameTextBox {
-    fill: #606060;
+    fill: rgba( 96, 96, 96, 0.8 );
 }
 
 .ParaCoord_Axis_Class .tick text {

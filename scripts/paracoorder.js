@@ -79,6 +79,11 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             hideAtBottom: _positionProps.top + _innerMargins.top + 1.5 * _positionProps.height
         },
         _clipRect,
+        _lastPosY = 0,
+        _lastDeltaY = 0,
+        _isDragging = false,
+        _indexOfDraggedAxis = 0,
+        _yPosOfVisibleAxes = [],
 
         // Private methods.
         _initializeClipping = function () {
@@ -515,34 +520,16 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
     this.brushingInProgress = false;
 
     // Overriding base class method.
-    this.swipeRight = function () {
-        if ( !_axesReorderMode ) {
-            this.moin.tabManager.swipeRight();
-        }
-    };
-
-    // Overriding base class method.
-    this.swipeLeft = function () {
-        if ( !_axesReorderMode ) {
-            this.moin.tabManager.swipeLeft();
-        }
-    };
-
-    // Overriding base class method.
     this.swipeUp = function () {
-        if ( !_axesReorderMode ) {
-            if ( _focusIndex < _visibleAxes.length - _axesInFocus ) {
-                _setFocusIndex( _focusIndex + 1 );
-            }
+        if ( _focusIndex < _visibleAxes.length - _axesInFocus ) {
+            _setFocusIndex( _focusIndex + 1 );
         }
     };
 
     // Overriding base class method.
     this.swipeDown = function () {
-        if ( !_axesReorderMode ) {
-            if ( _focusIndex > 0 ) {
-                _setFocusIndex( _focusIndex - 1 );
-            }
+        if ( _focusIndex > 0 ) {
+            _setFocusIndex( _focusIndex - 1 );
         }
     };
 
@@ -691,25 +678,19 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         return { points, emphasis };
     };
 
-    this.lastPosY = 0;
-    this.lastDeltaY = 0;
-    this.isDragging = false;
-    this.indexOfDraggedAxis = 0;
-    this.xPosOfVisibleAxes = [];
-
     this.startAxisReordering = function ( yPos, id, index ) {
         let i = 0,
             length = _visibleAxes.length;
 
         _visibleAxes[index].setDragStatus( true );
 
-        this.lastPosY = yPos;
-        this.isDragging = true;
-        this.indexOfDraggedAxis = id;
+        _lastPosY = yPos;
+        _isDragging = true;
+        _indexOfDraggedAxis = id;
 
         // Prepare y-values for axis swap.
         for ( i; i < length; i++ ) {
-            this.xPosOfVisibleAxes.push( _visibleAxes[i].yPos );
+            _yPosOfVisibleAxes.push( _visibleAxes[i].yPos );
         }
 
         // bring touched axis to front
@@ -724,14 +705,14 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _rearrangeAxes();
 
         // Reset values.
-        this.isDragging = false;
-        this.lastDeltaY = 0;
-        this.xPosOfVisibleAxes = [];
+        _isDragging = false;
+        _lastDeltaY = 0;
+        _yPosOfVisibleAxes = [];
     };
 
     this.reorderAxis = function ( deltaY, index ) {
         // Compute new value.
-        const newPosY = deltaY + this.lastPosY;
+        const newPosY = deltaY + _lastPosY;
 
         // Move axis to new position.
         _visibleAxes[index].setY( newPosY );
@@ -739,7 +720,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         let passedAnotherAxis = false;
 
         // Check if axis was moved upwards or downwards.
-        if ( (deltaY ) > this.lastDeltaY ) {
+        if ( (deltaY ) > _lastDeltaY ) {
             // Was moved downwards.
 
             // Check screen position of moved axis.
@@ -776,7 +757,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             }
         }
         // Update deltaY;
-        this.lastDeltaY = deltaY;
+        _lastDeltaY = deltaY;
 
         // Adjust paths to new axis position.
         if ( !passedAnotherAxis ) {
@@ -821,6 +802,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             this.axes[i].startWiggling( rotationCenterX );
         }
         _axesReorderMode = true;
+        this.switchOffEvents( true );
     };
 
     this.leaveAxesReorderMode = function () {
@@ -829,6 +811,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             this.axes[i].stopWiggling();
         }
         _axesReorderMode = false;
+        this.switchOnEvents();
     };
 
     this.checkIfAxesReorderMode = function () {
@@ -847,14 +830,19 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         }
         // Offer normal interactions.
         else {
-            if ( eventType === 'panstart' ) {
-                _panStart();
-            }
-            else if ( eventType === 'pan' ) {
-                _panUpDown( event );
-            }
-            else if ( eventType === 'panend' ) {
-                _panEnd();
+            switch ( eventType ) {
+
+                case 'panstart':
+                    _panStart();
+                    break;
+
+                case 'pan':
+                    _panUpDown( event );
+                    break;
+
+                case 'panend':
+                    _panEnd();
+                    break;
             }
         }
     };

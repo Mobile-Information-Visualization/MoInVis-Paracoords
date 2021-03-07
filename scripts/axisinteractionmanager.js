@@ -95,33 +95,45 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
 
         // Offer reorder mode interactions.
         if ( _paracoorder.checkIfAxesReorderMode() ) {
-            // [TODO]: Include axis deleting/removing.
-            if ( eventType === 'panstart' ) {
-                _paracoorder.startAxisReordering( _axis.yPos, _axisId, _axis.indexInVisibilityArray );
-            }
-            else if ( eventType === 'pan' ) {
-                _paracoorder.reorderAxis( event.deltaY, _axis.indexInVisibilityArray );
-            }
-            else if ( eventType === 'panend' ) {
-                _paracoorder.stopAxisReordering( _axis.indexInVisibilityArray );
+            switch ( eventType ) {
+                // [TODO]: Include axis deleting/removing.
+
+                case 'panstart':
+                    _paracoorder.startAxisReordering( _axis.yPos, _axisId, _axis.indexInVisibilityArray );
+                    break;
+
+                case 'pan':
+                    _paracoorder.reorderAxis( event.deltaY, _axis.indexInVisibilityArray );
+                    break;
+
+                case 'panend':
+                    _paracoorder.stopAxisReordering( _axis.indexInVisibilityArray );
+                    break;
             }
         }
         // Offer normal interactions.
         else {
-            if ( eventType === 'panstart' ) {
-                _brushManager.panStart( event );
-            }
-            else if ( eventType === 'panend' ) {
-                _brushManager.panEnd( event );
-            }
-            else if ( eventType === 'pan' ) {
-                _brushManager.onPan( event );
-            }
-            else if ( eventType === 'tap' ) {
-                _brushManager.onTap( event );
-            }
-            else if ( eventType === 'press' ) {
-                _paracoorder.enterAxesReorderMode();
+            switch ( eventType ) {
+
+                case 'panstart':
+                    _brushManager.panStart( event );
+                    break;
+
+                case 'pan':
+                    _brushManager.onPan( event );
+                    break;
+
+                case 'panend':
+                    _brushManager.panEnd( event );
+                    break;
+
+                case 'tap':
+                    _brushManager.onTap( event );
+                    break;
+
+                case 'press':
+                    _paracoorder.enterAxesReorderMode();
+                    break;
             }
         }
     };
