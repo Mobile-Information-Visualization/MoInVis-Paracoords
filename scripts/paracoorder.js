@@ -864,23 +864,23 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         const eventType = event.type;
 
         // Offer reorder mode interactions.
-        if (_axesReorderMode) {
-            if (eventType === 'tap') {
+        if ( _axesReorderMode ) {
+            if ( eventType === 'tap' ) {
                 // [TODO] Behaviour of reorder mode (on/off) when context indicators were tapped.
                 self.leaveAxesReorderMode();
             }
         }
         // Offer normal interactions.
         else {
-            if (eventType === 'panstart') {
+            if ( eventType === 'panstart' ) {
                 _panStart();
-            } else if (eventType === 'pan') {
-                _panUpDown(event);
-            } else if (eventType === 'panend') {
+            }
+            else if ( eventType === 'pan' ) {
+                _panUpDown( event );
+            }
+            else if ( eventType === 'panend' ) {
                 _panEnd();
             }
-        }
-    };
           
     // Called whenever this tab comes into focus.
     this.onTabFocus = function () {

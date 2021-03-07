@@ -65,7 +65,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             .attr( 'transform', 'translate(0,' + this.yPos + ')' );
         _axisInnerGroup = _axisGroup
             .append( 'g' )
-            .attr( 'id', this.id + '_InnerGroup' )
+            .attr( 'id', _id + '_InnerGroup' )
             .attr( 'class', _class + '_InnerGroup' );
 
         // Drawing axes.
@@ -94,13 +94,13 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
         _textGroup = _axisInnerGroup
             .append( 'g' )
-            .attr( 'id', this.id + '_TextGroup' )
+            .attr( 'id', _id + '_TextGroup' )
             .attr( 'transform', 'translate(' + ( this.xPos + margin.horizontal ) + ',' + ( - margin.vertical ) + ')' );
 
         // label box
         _textGroup.append( 'rect' )
             .attr( 'class', 'attrNameTextBox' )
-            .attr( 'id', this.id + '_LabelTextBox' )
+            .attr( 'id', _id + '_LabelTextBox' )
             .attr( 'x', 0 )
             .attr( 'y', 0 )
             .attr( 'text-anchor', 'start' );
@@ -108,7 +108,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         // label text
         _textGroup.append( 'text' )
             .attr( 'class', 'attrNameText' )
-            .attr( 'id', this.id + '_LabelText' )
+            .attr( 'id', _id + '_LabelText' )
             //.attr( 'transform', 'translate(' + ( this.xPos + margins.horizontal ) + ',' + ( - 0 - margins.vertical ) + ')' )
             .attr( 'x', padding.horizontal )
             .attr( 'y', ( 0 ) )
@@ -131,11 +131,11 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             this,
             _axisGroup,
             _axisInnerGroup,
-            this.id,
+            _id,
             _attrScale,
             _paracoorder );
         _brushManager = new MoInVis.Paracoords.brushManager(
-            this.id,
+            _id,
             _attrScale,
             _paracoorder );
         _interactionManager.init( _brushManager );
