@@ -20,7 +20,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
         _paracoorder = paracoorder,
         _axisId = axisId,
         _attrScale = attrScale,
-        _brushHeight = 15,
+        _brushHeight = 24,
         _gesturePos,
         _hammerMan,
         _brushHandlePanning = false,
@@ -86,7 +86,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
             gestureOrigin.x = event.center.x - event.deltaX;
             gestureOrigin.y = event.center.y - event.deltaY;
             if ( ( length = _activeBrushes.length ) > 0 ) {
-                // Check to see if panning origninated on the handles.
+                // Check to see if panning originated on the handles.
                 clientRect = _brushParent.node().getBoundingClientRect();
                 gestureOrigin.y -= clientRect.top + clientRect.height / 2;
                 for ( i = 0; i < length; i++ ) {
@@ -159,7 +159,8 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
 
     // If a brush is tapped, show its handles.
     this.onTap = function ( event ) {
-        var id, index;
+        var id,
+            index;
         if ( _activeBrushes.length > 0 ) {
             id = event.changedPointers[0].target.id;
             if ( id ) {
@@ -176,7 +177,9 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
 
     // Checks if a point on the axis has been brushed.
     this.checkPathBrushed = function ( xPos ) {
-        var i, length = _activeBrushes.length, brushed = length === 0; // When there are no brushes, then the point can said to have been brushed.
+        var i,
+            length = _activeBrushes.length,
+            brushed = length === 0; // When there are no brushes, then the point can said to have been brushed.
         for ( i = 0; i < length; i++ ) {
             brushed = brushed || _activeBrushes[i].checkPathBrushed( xPos );
         }

@@ -66,19 +66,19 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
     };
 
     this.recalculate = function ( dontAnimate ) {
-        var pointsInfo = _paracoorder.getPathPointsInfo( this.itemName );
+        let pointsInfo = _paracoorder.getPathPointsInfo( this.itemName );
         _points = pointsInfo.points;
         _emphasis = pointsInfo.emphasis;
         _pathElement.attr( 'opacity', _emphasis ? _emphasizedAlpha : _unemphasizedAlpha );
         if ( dontAnimate === true ) {
             _pathElement
-                .attr( "d", d3.line()( _points ) );
+                .attr( 'd', d3.line()( _points ) );
         } else {
             _pathElement
                 .transition()
                 .duration( MoInVis.Paracoords.TransitionSpeed )
                 .ease( d3.easeCubicOut )
-                .attr( "d", d3.line()( _points ) );
+                .attr( 'd', d3.line()( _points ) );
         }
     };
 
@@ -91,17 +91,4 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         }
     };
 
-    this.transitionY = function () {
-        //this.yPos = newY;
-        //_axisGroup
-        //    .transition()
-        //    .duration( MoInVis.Paracoords.TransitionSpeed)
-        //    .attr( 'transform', 'translate(0,' + this.yPos + ')' );
-    };
-
-    this.setY = function () {
-        //this.yPos = newY;
-        //_axisGroup
-        //    .attr( 'transform', 'translate(0,' + this.yPos + ')' );
-    };
 };
