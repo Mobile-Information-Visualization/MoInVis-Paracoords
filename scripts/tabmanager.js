@@ -32,7 +32,7 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
                 .attr( 'id', moin.id + '_TabIndicatorParent' )
                 .style( 'width', _moin.width + 'px' )
                 .style( 'position', 'fixed' )
-                .style( 'left', (_moin.width / 2 - length * _tabIndicatorSize) + 'px' )
+                .style( 'left', ( _moin.width / 2 - length * _tabIndicatorSize ) + 'px' )
                 .style( 'display', 'none' );
 
             for ( i = 0; i < length; i++ ) {
@@ -95,6 +95,7 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
                 .on( 'end', _afterTransition );
             // Switch on events for new tab
             _tabHandlers[_currentTabIndex].switchOnEvents();
+            _tabHandlers[_currentTabIndex].onTabInFocus();
 
             // Activate the current tab indicator
             _tabIndicators[_currentTabIndex].style( 'opacity', 1 );
@@ -123,6 +124,7 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
                 .on( 'end', _afterTransition );
             // Switch on events for new tab
             _tabHandlers[_currentTabIndex].switchOnEvents();
+            _tabHandlers[_currentTabIndex].onTabInFocus();
 
             // Activate the current tab indicator
             _tabIndicators[_currentTabIndex].style( 'opacity', 1 );

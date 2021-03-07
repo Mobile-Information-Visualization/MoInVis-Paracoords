@@ -36,6 +36,12 @@ body {
 
 .attrNameTextBox {
     fill: #606060;
+
+.CIText {
+    font-family: Bahnschrift;
+    fill: #fcfcfc;
+    font-size: 1.5em;
+    font-style: normal;
 }
 
 .ParaCoord_Axis_Class .tick text {

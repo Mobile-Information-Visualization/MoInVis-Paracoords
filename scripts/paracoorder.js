@@ -290,7 +290,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 _visibleAxes[i].transitionY( _innerPositionProps.hideAtBottom );
             }
 
-            _shiftPaths( false );
+            _redrawPaths( false );
         },
 
         _swapAxes = function ( indexA, indexB ) {
@@ -298,10 +298,24 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             const helpVariable = _visibleAxes[indexA];
             _visibleAxes[indexA] = _visibleAxes[indexB];
             _visibleAxes[indexB] = helpVariable;
-
-            // Update indices stored in axes.
+          
+                      // Update indices stored in axes.
             _visibleAxes[indexA].indexInVisibilityArray = indexA;
             _visibleAxes[indexB].indexInVisibilityArray = indexB;
+        },
+          
+        _setVisibleAxes = function () {
+            _visibleAxes = self.axes.filter( axis => axis.visible );
+        },
+
+        _resetAxesRanges = function () {
+            var extent;
+            // Reset the scales for the axes.
+            self.axes.forEach( function ( axis ) {
+                extent = d3.extent( items.map( region => self.paths[region].visible ? self.paths[region].data[_chosenYear][axis.attribute] : null ) );
+                axis.setAxisRange( extent );
+            } );
+            //_redrawPaths();
         },
 
         // Shifts the displayed axes by specified pixels.
@@ -352,10 +366,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 }
             }
 
-            _shiftPaths( true );
+            _redrawPaths( true );
         },
 
-        _shiftPaths = function ( dontAnimate ) {
+        _redrawPaths = function ( dontAnimate ) {
             let path;
             // Recalculate paths and draw
             for ( path in self.paths ) {
@@ -426,7 +440,12 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         // Sets the focus index, shows/hides the context indicators appropriately,
         // and recalculates axes positions and rearranges the axes.
         _setFocusIndex = function ( newFI ) {
+            var topHiddenAxes = 0, bottomHiddenAxes = 0;
             _focusIndex = newFI;
+
+            _calculateAxisSpacing();
+            _rearrangeAxes();
+
             if ( _focusIndex === 0 ) {
                 if ( _topCI.visible ) {
                     _topCI.setVisibility( false );
@@ -443,8 +462,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                     _bottomCI.setVisibility( true );
                 }
             }
-            _calculateAxisSpacing();
-            _rearrangeAxes();
+            topHiddenAxes = _focusIndex - _axesInTopContext;
+            bottomHiddenAxes = _visibleAxes.length - _focusIndex - _axesInFocus - _axesInBottomContext;
+            _topCI.setContextText( topHiddenAxes );
+            _bottomCI.setContextText( bottomHiddenAxes );
         },
 
         // Called when pan event starts.
@@ -613,12 +634,12 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         this.drawAttributeAxes();
 
+        ciSize = _axisHeight / 2;
         // Draw context indicators
         _topCI = new MoInVis.Paracoords.contextIndicator( _parentGroup, _positionProps.left, 0, ciSize, _positionProps.width, 'TopCI', true, _quickScrollUp );
         _bottomCI = new MoInVis.Paracoords.contextIndicator( _parentGroup, _positionProps.left, _height - ciSize, ciSize, _positionProps.width, 'BottomCI', false, _quickScrollDown );
 
-        _calculateAxisSpacing();
-        _rearrangeAxes();
+        _setFocusIndex( _focusIndex );
     };
 
     this.drawAttributeAxes = function () {
@@ -639,11 +660,15 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _axisHeight = axis.height;
 
         // [TODO]: Change this.
-        _visibleAxes = this.axes;
+        _setVisibleAxes();
 
         for ( i = 0; i < _visibleAxes.length; i++ ) {
             _visibleAxes[i].indexInVisibilityArray = i;
         }
+    };
+  
+    this.setFocusIndexById = function ( id ) {
+        _focusIndex = _visibleAxes.findIndex( axis => axis.id === id );
     };
 
     this.drawPaths = function () {
@@ -781,7 +806,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         // Adjust paths to new axis position.
         if ( !passedAnotherAxis ) {
             // [TODO] Check if a way exists, that parts of the paths can be animated while dragged parts aren't.
-            _shiftPaths( false );
+            _redrawPaths( false );
         }
     };
 
@@ -856,6 +881,15 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             else if ( eventType === 'panend' ) {
                 _panEnd();
             }
+          
+    // Called whenever this tab comes into focus.
+    this.onTabFocus = function () {
+        if ( this.moin.paraCoorderRedrawReq ) {
+            _setVisibleAxes();
+            _resetAxesRanges();
+            _calculateAxisSpacing();
+            _rearrangeAxes();
+            this.moin.paraCoorderRedrawReq = false;
         }
     };
 
