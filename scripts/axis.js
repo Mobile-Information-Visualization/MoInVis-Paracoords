@@ -99,8 +99,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             .attr( 'class', 'attrNameTextBox' )
             .attr( 'id', _id + '_LabelTextBox' )
             .attr( 'x', 0 )
-            .attr( 'y', 0 )
-            .attr( 'text-anchor', 'start' );
+            .attr( 'y', 0 );
 
         // label text
         _textGroup.append( 'text' )
@@ -122,7 +121,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             .attr( 'y', ( measuredSize.y - padding.vertical ) )
             .attr( 'ry', ( measuredSize.height / 1.7 ) );
 
-        this.height = _axisInnerGroup.node().getBBox().height;
+        this.height = _axisGroup.node().getBBox().height;
 
         _interactionManager = new MoInVis.Paracoords.axisInteractionManager(
             this,
@@ -183,7 +182,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _isDragged = isDragged;
     };
 
-    this.isDragged = function () {
+    this.getDragStatus = function () {
         return _isDragged;
     };
 

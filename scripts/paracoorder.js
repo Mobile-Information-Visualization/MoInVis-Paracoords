@@ -280,7 +280,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             // Position context and focus axes as calculated.
             for ( i = 0; i < length; i++ ) {
                 // Only move when not dragged by user.
-                if ( !_visibleAxes[axisIndex].isDragged() ) {
+                if ( !_visibleAxes[axisIndex].getDragStatus() ) {
                     _visibleAxes[axisIndex].transitionY( _axesPositions[i] );
                 }
                 axisIndex++;
