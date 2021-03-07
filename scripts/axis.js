@@ -23,7 +23,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _class = MoInVis.Paracoords.IdStore.AxisClass,
         _attrScale = attrScale,
         _brushManager,
-        _interationManager,
+        _interactionManager,
         _wigglingIntervalId,
         _isDragged = false;
 
@@ -77,13 +77,11 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             _axis = d3.axisBottom( _attrScale )
                 .ticks( 3 )
         );
-
+        // Vertical values (height and margins) set.
         _axisInnerGroup.selectAll( 'line' )
-            .attr( 'y2', 8 );
-
+            .attr( 'y2', 8 ); // of tick lines
         _axisInnerGroup.selectAll( 'text' )
-            .attr( 'y', 12 );
-
+            .attr( 'y', 12 ); // of tick labels
 
         // [TODO]: Number of ticks must depend on font size, available width, and text lengths.
 
@@ -126,7 +124,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
         this.height = _axisInnerGroup.node().getBBox().height;
 
-        _interationManager = new MoInVis.Paracoords.axisInteractionManager(
+        _interactionManager = new MoInVis.Paracoords.axisInteractionManager(
             this,
             _axisGroup,
             _axisInnerGroup,
@@ -137,7 +135,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             _id,
             _attrScale,
             _paracoorder );
-        _interationManager.init( _brushManager );
+        _interactionManager.init( _brushManager );
     };
 
     this.transitionY = function ( newY ) {
@@ -178,7 +176,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
     };
 
     this.getInteractionManager = function () {
-        return _interationManager;
+        return _interactionManager;
     };
 
     this.setDragStatus = function ( isDragged ) {
