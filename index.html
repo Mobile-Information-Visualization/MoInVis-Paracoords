@@ -32,22 +32,23 @@
           <header class="entryStore">
             <output>{{ totalEntries }}</output>
             <label>Total entries</label>
-            
+
           </header>
           <main class="entryStore">
             <ol class = "entryStore">
               <li v-for = "entry in entries" :key = "entry">
 
                 <label class="container">
-                      
-                  <input class = "entryStore" type="checkbox" checked="checked" :id = "entry.attribute" v-model= "entry.visible">
+
+                  <input class = "entryStore" type="checkbox" checked="checked" :id = "entry.attribute" v-model= "entry.visible"
+                  @change=changed>
                   <span class="checkmark"></span>
-                      
+
                 </label>
-                  
-                <label class="entryText" for = "entry.itemText" >{{ entry.itemText }}</label>
-                
-                  
+
+                <label class="entryText" for = "entry.itemText" >{{ checkEntry(entry.itemText) }}</label>
+                <!-- <label class="entryText" for = "entry.itemText" >{{ entry.itemText }}</label> --!>
+
               </li>
           </main>
     </div>

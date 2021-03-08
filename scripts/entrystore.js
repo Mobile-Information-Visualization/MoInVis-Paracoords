@@ -44,16 +44,27 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
             };
             _vueMethods = {
               changed: _changed,
+              checkEntry: _checkEntry,
             };
 
             _vueApp = self.initVue( _vueData, _vueMethods);
         };
 
      _changed = function(){
-      console.log("Changed")
+      console.log("Changed");
       MoInVis.Paracoords.Flag = true;
     };
 
+    _checkEntry = function(entry){
+
+      if ( typeof entry === "undefined" ){
+        console.log ("Undefined entry!" );
+        return(" undefined ");
+      } else {
+        return (entry);
+      }
+
+    }
     _init();
 };
 
