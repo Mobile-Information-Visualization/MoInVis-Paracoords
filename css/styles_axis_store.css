@@ -22,7 +22,7 @@ header.axisStore {
   grid-column-end: 3;
 
   margin: auto;
-  font-size: 78px;
+  font-size: 6em;
   font-weight: 100;
 
   padding: 0 10%;
@@ -38,7 +38,7 @@ header.axisStore {
   grid-column-start: 3;
   grid-column-end: 4;
 
-  font-size: 56px;
+  font-size: 64px;
 
   font-weight: 400;
 
@@ -100,30 +100,32 @@ ol.axisStore {
   margin: 0%;
   padding: 6%;
   list-style-type: none;
+
+  position: relative;
 }
 li {
   margin: 3% 3%;
   padding: 3% 3%;
   display: grid;
-  grid-template-columns: 1fr 5fr 1fr;
+  grid-template-columns: 5fr 1fr 1fr;
   align-items: center;
   cursor: move;
 }
 
 label.my-handle {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  text-align: right;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  text-align: center;
 
   font-size: xxx-large;
 }
 
 label.attribute {
   font-size: xxx-large;
-  font-weight: lighter;
+  font-weight: 100;
 
-  grid-column-start: 2;
-  grid-column-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 2;
 
   text-align: center;
 }
@@ -211,9 +213,13 @@ label.container {
 }
 
 .focusPanel {
+  position: absolute;
   background-color: orange;
   opacity: 0.3;
 
   width: 200px;
   height: 200px;
+
+  touch-action: none;
+  user-select: none;
 }
