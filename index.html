@@ -53,9 +53,9 @@
                 
                 <ol class = "axisStore" id="simpleList">
 
-                    <div class="focusPanel draggable"></div>
+                    <div class="focusPanel draggable" :style = "{width: listWidth + 'px', height: boxHeight*numberAxesInFocus + 'px'}" ></div>
                     
-                    <li v-for = "axis in axesArray" :key = "axis.attribute" :id = "axis.attribute">
+                    <li class = "attList" v-for = "axis in axesArray" :key = "axis.attribute" :id = "axis.attribute">
                         
                         <label class="attribute my-handle" for = "axis.attribute" >{{ axis.attributeLabel }}</label>
                         <label class="my-handle">&duhar;  </label>

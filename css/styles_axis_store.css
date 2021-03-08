@@ -97,8 +97,8 @@ main.axisStore {
 }
 
 ol.axisStore {
-  margin: 0%;
-  padding: 6%;
+  margin: 3%;
+  padding: 0%;
   list-style-type: none;
 
   position: relative;
@@ -216,9 +216,6 @@ label.container {
   position: absolute;
   background-color: orange;
   opacity: 0.3;
-
-  width: 200px;
-  height: 200px;
 
   touch-action: none;
   user-select: none;

@@ -31,7 +31,10 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _vueApp,
         _getAxes = function () { return _axes; },
         _sortable,
-        _getSortable = function(){ return _sortable}
+        _getSortable = function(){ return _sortable},
+        // position the focus panel based on the main tab visualisation
+        _focusPanelStartPosition = {x:0, y:0},
+        _getFocusPanelStartPosition = function(){ return _focusPanelStartPosition},
 
 
         _init = function () {
@@ -41,6 +44,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 maxAxesInFocus: 6,
                 minAxesInFocus: 2,
                 numberAxesInFocus: 5,
+                listWidth: document.querySelector('label.attribute').offsetWidth,
+                boxHeight: document.querySelector('label.attribute').offsetHeight,
             };
             _vueMethods = {
                 decreaseNumber: _decreaseNumber,
@@ -51,7 +56,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             _vueComputed = {
 
                 isMinusButtonDisabled: _isMinusButtonDisabled,
-                isPlusButtonDisabled: _isPlusButtonDisabled
+                isPlusButtonDisabled: _isPlusButtonDisabled,
+                computeListWidth: _listWidth,
 
             };
 
@@ -106,7 +112,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 }
             } );
 
-            const position = {x:0, y:0}
+            
             interact('.draggable').draggable({
                 startAxis: 'y',
                 lockAxis: 'y',
@@ -117,26 +123,42 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                         restriction: 'parent'
                     })
                 ],
+                // enable autoScroll
                 
+
+                autoScroll: {
+                    container: document.querySelector('main.axisStore'),
+                    margin: 100,
+                    distance: 5,
+                    interval: 10,
+                    speed: 600,
+                  },
+
                 
                
                 listeners: {
                     start (event) {
-                    console.log(event.type, event.target)
-                  },
+                        console.log(event.type, event.target)
+                    },
                     move (event) {
-                    position.x += event.dx
-                    position.y += event.dy
+                        // position.x += event.dx
+                        _focusPanelStartPosition.y += event.dy
               
-                    event.target.style.transform =
-                      `translate(${position.x}px, ${position.y}px)`
-                  },
+                        event.target.style.transform =
+                        `translate(${ _focusPanelStartPosition.x}px, ${ _focusPanelStartPosition.y}px)`
+
+                       
+
+                    
+                    },
+                    
                 }
-              })
+            });
             
             
 
         },
+
 
         //methods
         _decreaseNumber = function () {
@@ -179,6 +201,13 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             else {
                 return true;
             }
+        },
+
+        _listWidth = function () {
+
+            // this.listWidth = this.numberAxesInFocus * document.querySelector('.attList').offsetWidth;
+            // return this.listWidth;
+            
         };
 
     //const ComponentA = {
@@ -238,6 +267,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
     _init();
     MoInVis.Paracoords.attributeStore.getAxes = _getAxes;
     MoInVis.Paracoords.attributeStore.getSortable = _getSortable;
+    MoInVis.Paracoords.attributeStore._getFocusPanelStartPosition = _getFocusPanelStartPosition;
 };
 
 MoInVis.Paracoords.attributeStore.baseCtor = MoInVis.Paracoords.tab;
