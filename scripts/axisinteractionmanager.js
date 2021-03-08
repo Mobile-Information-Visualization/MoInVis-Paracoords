@@ -59,6 +59,7 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
         _hammerMan.add( _horizontalPanRecognizer ); // Start simple.
         _hammerMan.add( new Hammer.Tap( { event: 'tap', pointers: 1 } ) );
         _hammerMan.add( new Hammer.Press( { event: 'press', pointers: 1, time: 500 } ) );
+        _hammerMan.add( new Hammer.Swipe( { event: 'swipeleft', pointers: 1, velocity: 0.5 } ) );
 
         _brushManager = brushManager;
         _brushManager.init( _axisInnerGroup, _hammerMan );
@@ -71,9 +72,9 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
         _hammerMan.on( 'panstart', this.onInteraction );
         _hammerMan.on( 'panend', this.onInteraction );
         _hammerMan.on( 'pan', this.onInteraction );
-        _hammerMan.on( 'panup', this.onInteraction );
         _hammerMan.on( 'tap', this.onInteraction );
         _hammerMan.on( 'press', this.onInteraction );
+        _hammerMan.on( 'swipeleft', this.onInteraction );
     };
 
     this.enterAxesReorderMode = function () {
@@ -99,7 +100,7 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
                 // [TODO]: Include axis deleting/removing.
 
                 case 'panstart':
-                    _paracoorder.startAxisReordering( _axis.yPos, _axisId, _axis.indexInVisibilityArray );
+                    _paracoorder.startAxisReordering( _axis.yPos, _axisId, _axis.indexInVisibilityArray, _axis.height );
                     break;
 
                 case 'pan':
@@ -108,6 +109,10 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
 
                 case 'panend':
                     _paracoorder.stopAxisReordering( _axis.indexInVisibilityArray );
+                    break;
+
+                case 'swipeleft':
+                    _paracoorder.removeAxis( _axis.indexInVisibilityArray );
                     break;
             }
         }

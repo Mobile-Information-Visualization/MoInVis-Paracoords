@@ -84,6 +84,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _isDragging = false,
         _indexOfDraggedAxis = 0,
         _yPosOfVisibleAxes = [],
+        _dragBuffer, // Buffer for better dragging
 
         // Private methods.
         _initializeClipping = function () {
@@ -369,6 +370,12 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                     // They will only slow rendering down.
                     self.paths[path].recalculate( dontAnimate );
                 }
+            }
+        },
+
+        _updateIndicesOfVisibleAxes = function () {
+            for ( let i = 0; i < _visibleAxes.length; i++ ) {
+                _visibleAxes[i].indexInVisibilityArray = i;
             }
         },
 
@@ -678,7 +685,25 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         return { points, emphasis };
     };
 
-    this.startAxisReordering = function ( yPos, id, index ) {
+    this.removeAxis = function ( index ) {
+        if ( _visibleAxes.length > 2 ) {
+            const horizontalShift = 2 * window.innerWidth;
+
+            // Remove axis from visualisation.
+            _visibleAxes[index].setX( - horizontalShift );
+
+            // Remove axis from stored array.
+            _visibleAxes.splice(index, 1);
+            // Update indices of axes.
+            _updateIndicesOfVisibleAxes();
+
+            // Update view.
+            _calculateAxisSpacing();
+            _rearrangeAxes();
+        }
+    };
+
+    this.startAxisReordering = function ( yPos, id, index, boxHeight ) {
         let i = 0,
             length = _visibleAxes.length;
 
@@ -687,6 +712,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _lastPosY = yPos;
         _isDragging = true;
         _indexOfDraggedAxis = id;
+        _dragBuffer = boxHeight / 2;
 
         // Prepare y-values for axis swap.
         for ( i; i < length; i++ ) {
@@ -699,9 +725,9 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
     this.stopAxisReordering = function ( index ) {
         _visibleAxes[index].setDragStatus( false );
+        _visibleAxes[index].setX( 0 );
 
         // Bring axes back into right positions.
-        // _calculateAxisSpacing();
         _rearrangeAxes();
 
         // Reset values.
@@ -720,19 +746,18 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         let passedAnotherAxis = false;
 
         // Check if axis was moved upwards or downwards.
-        if ( (deltaY ) > _lastDeltaY ) {
+        if ( deltaY > _lastDeltaY ) {
             // Was moved downwards.
 
             // Check screen position of moved axis.
-            if ( index < ( _visibleAxes.length - 1 ) ) {
+            if ( index < ( _focusIndex + _axesInFocus + _axesInBottomContext - 1 ) ) {
                 // Wasn't last one.
 
                 // Check if axis passed subjacent axis.
-                if ( _visibleAxes[index + 1].yPos < newPosY ) {
+                if ( newPosY > ( _visibleAxes[index + 1].yPos - _dragBuffer ) ) {
                     // Passed subjacent axis.
 
                     _swapAxes( index, index + 1 );
-                    // _calculateAxisSpacing();
                     _rearrangeAxes();
                     passedAnotherAxis = true;
                 }
@@ -742,21 +767,20 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             // Was moved upwards.
 
             // Check screen position of moved axis.
-            if ( index > 0 ) {
+            if ( index > ( _focusIndex - _axesInTopContext ) ) {
                 // Wasn't first one.
 
                 // Check if axis passed overlying axis.
-                if ( _visibleAxes[index - 1].yPos > newPosY ) {
+                if ( newPosY < ( _visibleAxes[index - 1].yPos + _dragBuffer ) ) {
                     // Passed overlying axis.
 
                     _swapAxes( index, index - 1 );
-                    // _calculateAxisSpacing();
                     _rearrangeAxes();
                     passedAnotherAxis = true;
                 }
             }
         }
-        // Update deltaY;
+        // Update deltas;
         _lastDeltaY = deltaY;
 
         // Adjust paths to new axis position.
@@ -796,10 +820,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
     };
 
     this.enterAxesReorderMode = function () {
-        let rotationCenterX = document.getElementById( 'MoInVis_ParaCoords_0_ContainerSVG' ).clientWidth / 2;
+        // let rotationCenterX = document.getElementById( 'MoInVis_ParaCoords_0_ContainerSVG' ).clientWidth / 2;
         for ( let i = 0; i < this.axes.length; i++ ) {
             this.axes[i].getInteractionManager().enterAxesReorderMode();
-            this.axes[i].startWiggling( rotationCenterX );
+            this.axes[i].startWiggling();
         }
         _axesReorderMode = true;
         this.switchOffEvents( true );

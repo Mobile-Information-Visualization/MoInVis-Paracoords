@@ -156,13 +156,29 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
     this.setY = function ( newY ) {
         this.yPos = newY;
         _axisGroup
-            .attr( 'transform', 'translate(0,' + this.yPos + ')' );
+            .attr( 'transform', 'translate(0,' + newY + ')' );
     };
 
-    this.startWiggling = function ( rotationCenterX ) {
+    this.setX = function ( newX ) {
+        this.xPos = newX;
+        _axisGroup
+            .transition()
+            .duration( MoInVis.Paracoords.TransitionSpeed )
+            .ease( d3.easeCubicOut )
+            .attr( 'transform', 'translate(' + newX + ',' +  this.yPos + ')' );
+    };
+
+    this.setXY = function ( newX, newY ) {
+        this.yPos = newY;
+        this.xPos = newX    ;
+        _axisGroup
+            .attr( 'transform', 'translate(' + newX + ',' + newY + ')' );
+    };
+
+    this.startWiggling = function ( ) {
         let seed = Math.random();
         const amplitude = 0.4 + 0.8,
-            speed = 0.025;
+            speed = 0.03;
 
         _wigglingIntervalId = setInterval(function () {
             let y = Math.sin( 10 * seed ) * amplitude;
