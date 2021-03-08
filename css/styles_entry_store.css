@@ -84,6 +84,9 @@ label.entryText {
   grid-column-end: 3;
 
   text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* The container */
