@@ -706,12 +706,19 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         return { points, emphasis };
     };
 
-    this.removeAxis = function ( index ) {
+    this.removeAxis = function ( index, swipeLeft ) {
         if ( _visibleAxes.length > 2 ) {
             const horizontalShift = 2 * window.innerWidth;
 
             // Remove axis from visualisation.
-            _visibleAxes[index].setX( - horizontalShift );
+            if (swipeLeft ) {
+                // Remove to the left.
+                _visibleAxes[index].setX( - horizontalShift );
+            }
+            else {
+                // Remove to the right.
+                _visibleAxes[index].setX( horizontalShift );
+            }
 
             // Remove axis from stored array.
             _visibleAxes.splice(index, 1);
