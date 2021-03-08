@@ -97,7 +97,6 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
         // Offer reorder mode interactions.
         if ( _paracoorder.checkIfAxesReorderMode() ) {
             switch ( eventType ) {
-                // [TODO]: Include axis deleting/removing.
 
                 case 'panstart':
                     _paracoorder.startAxisReordering( _axis.yPos, _axisId, _axis.indexInVisibilityArray, _axis.height );
