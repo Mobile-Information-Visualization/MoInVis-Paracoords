@@ -35,7 +35,9 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
         },
 
         _init = function () {
-            var bBox, textBBox;
+            var bBox,
+                textBBox;
+
             // Create group for context indicator and append to parent svg
             _ciSVG = _parent
                 .append( 'g' )
@@ -78,12 +80,12 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
             _CIRect = _clickableGroup
                 .append( 'rect' )
                 .attr( 'id', _id + '_Rect' )
-                .attr( 'stroke', 'none' )
-                .attr( 'fill', 'grey' );
+                .attr( 'class', 'contextIndicatorBox' )
+                .attr( 'stroke', 'none' );
 
             _buttonElementsGroup = _clickableGroup
                 .append( 'g' )
-                .attr( 'id', _id + '_BtnElementsGroup' )
+                .attr( 'id', _id + '_BtnElementsGroup' );
 
             // Draw arrow.
             _buttonElementsGroup
@@ -108,20 +110,20 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
                 .attr( 'transform', 'translate(' + ( _arrowX - _arrowGap ) + ',' + ( _arrowY + _arrowSize / 2 + 0.35 * textBBox.height ) + ')' );
 
             bBox = _buttonElementsGroup.node().getBBox();
-            _CIRectMargin = bBox.height / 4;
+            _CIRectMargin = { vertical: 11, horizontal: 22 }; // space between box and its label
 
             _CIRect
-                .attr( 'x', bBox.x - _CIRectMargin )
-                .attr( 'y', bBox.y - _CIRectMargin )
-                .attr( 'width', bBox.width + 2 * _CIRectMargin )
-                .attr( 'height', bBox.height + 2 * _CIRectMargin )
-                .attr( 'rx', bBox.width / 4 );
+                .attr( 'x', bBox.x - _CIRectMargin.horizontal )
+                .attr( 'y', bBox.y - _CIRectMargin.vertical )
+                .attr( 'width', bBox.width + 2 * _CIRectMargin.horizontal )
+                .attr( 'height', bBox.height + 2 * _CIRectMargin.vertical )
+                .attr( 'rx', bBox.width / 3 );
 
             _eventCatcher
-                .attr( 'x', bBox.x - _CIRectMargin - bBox.width / 2 )
-                .attr( 'y', bBox.y - _CIRectMargin - bBox.height / 2 )
-                .attr( 'width', 2 * ( bBox.width + _CIRectMargin ) )
-                .attr( 'height', 2 * ( bBox.height + _CIRectMargin ) );
+                .attr( 'x', bBox.x - _CIRectMargin.horizontal - bBox.width / 2 )
+                .attr( 'y', bBox.y - _CIRectMargin.vertical - bBox.height / 2 )
+                .attr( 'width', 2 * ( bBox.width + _CIRectMargin.horizontal ) )
+                .attr( 'height', 2 * ( bBox.height + _CIRectMargin.vertical ) );
 
 
             // Initialize hammer events.
@@ -207,10 +209,17 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
             .text( text );
         if ( text.length !== _context.length ) {
             bBox = _buttonElementsGroup.node().getBBox();
+            // Please don't use .transition() here,
+            // cause it leads to problems in Safari browser on macOS and iOS!
+            // (Seems to be a bug of Safari.)
             _CIRect
-                .transition()
-                .attr( 'x', bBox.x - _CIRectMargin )
-                .attr( 'width', bBox.width + 2 * _CIRectMargin );
+                .attr( 'x', bBox.x - _CIRectMargin.horizontal )
+                .attr( 'width', bBox.width + 2 * _CIRectMargin.horizontal );
+            _eventCatcher
+                .attr( 'x', bBox.x - _CIRectMargin.horizontal - bBox.width / 2 )
+                .attr( 'y', bBox.y - _CIRectMargin.vertical - bBox.height / 2 )
+                .attr( 'width', 2 * ( bBox.width + _CIRectMargin.horizontal ) )
+                .attr( 'height', 2 * ( bBox.height + _CIRectMargin.vertical ) );
         }
         _context = text;
     };
