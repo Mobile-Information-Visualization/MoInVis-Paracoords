@@ -168,14 +168,22 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         }
     };
 
+    this.getTabHandle = function () {
+        return _tabHandle;
+    };
+
+    // Called whenever this tab comes into focus.
+    this.onTabInFocus = function () {
+        if ( this.onTabFocus ) {
+            this.onTabFocus();
+        }
+    };
+
     _tabHandle = {
         parentTab: parentDiv,
         switchOnEvents: this.switchOnEvents.bind( this ),
-        switchOffEvents: this.switchOffEvents.bind( this )
-    };
-
-    this.getTabHandle = function () {
-        return _tabHandle;
+        switchOffEvents: this.switchOffEvents.bind( this ),
+        onTabInFocus: this.onTabInFocus.bind( this )
     };
 
     _init();

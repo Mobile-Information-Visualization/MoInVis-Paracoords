@@ -43,7 +43,11 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
     this.setVisibility = function ( visible ) {
         this.visible = visible;
-        // [TODO]: Make _axisGroup visible or invisible.
+        _axisGroup.style( 'display', visible ? 'inherit' : 'none' );
+    };
+
+    this.setAxisRange = function (newRange) {
+        _attrScale.domain( newRange );
     };
 
     this.getXY = function ( value ) {
@@ -209,4 +213,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         return _isDragged;
     };
 
+    this.getId = function () {
+        return _id;
+    };
 };

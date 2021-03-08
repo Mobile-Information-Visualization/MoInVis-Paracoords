@@ -34,6 +34,13 @@ body {
     font-style: normal;
 }
 
+.CIText {
+    font-family: Bahnschrift;
+    fill: #fcfcfc;
+    font-size: 1.5em;
+    font-style: normal;
+}
+
 .attrNameTextBox {
     fill: rgba( 96, 96, 96, 0.8 );
 }
