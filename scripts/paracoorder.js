@@ -871,6 +871,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             if ( eventType === 'tap' ) {
                 // [TODO] Behaviour of reorder mode (on/off) when context indicators were tapped.
                 self.leaveAxesReorderMode();
+                /*topHiddenAxes = _focusIndex - _axesInTopContext;
+                bottomHiddenAxes = _visibleAxes.length - _focusIndex - _axesInFocus - _axesInBottomContext;
+                _topCI.setContextText( topHiddenAxes );
+                _bottomCI.setContextText( bottomHiddenAxes );*/
             }
         }
         // Offer normal interactions.

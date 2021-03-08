@@ -59,7 +59,7 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
         _hammerMan.add( _horizontalPanRecognizer ); // Start simple.
         _hammerMan.add( new Hammer.Tap( { event: 'tap', pointers: 1 } ) );
         _hammerMan.add( new Hammer.Press( { event: 'press', pointers: 1, time: 500 } ) );
-        _hammerMan.add( new Hammer.Swipe( { event: 'swipeleft', pointers: 1, velocity: 0.5 } ) );
+        _hammerMan.add( new Hammer.Swipe( { event: 'swipeleft', pointers: 1, velocity: 0.4 } ) );
 
         _brushManager = brushManager;
         _brushManager.init( _axisInnerGroup, _hammerMan );
