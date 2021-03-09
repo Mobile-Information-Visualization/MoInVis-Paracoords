@@ -107,14 +107,14 @@ li {
   margin: 3% 3%;
   padding: 3% 3%;
   display: grid;
-  grid-template-columns: 5fr 1fr 1fr;
+  grid-template-columns: 1fr 7fr 1fr 1fr;
   align-items: center;
   cursor: move;
 }
 
 label.my-handle {
-  grid-column-start: 2;
-  grid-column-end: 3;
+  grid-column-start: 3;
+  grid-column-end: 4;
   text-align: center;
 
   font-size: xxx-large;
@@ -122,12 +122,16 @@ label.my-handle {
 
 label.attribute {
   font-size: xxx-large;
-  font-weight: 100;
+  font-weight: lighter;
 
-  grid-column-start: 1;
-  grid-column-end: 2;
+  grid-column-start: 2;
+  grid-column-end: 3;
 
-  text-align: center;
+  text-align: left;
+  overflow: scroll;
+
+  white-space: nowrap;
+  text-overflow: clip;
 }
 /* 
 input.axisStore {
@@ -141,8 +145,8 @@ input.axisStore {
 } */
 
 label.container {
-  grid-column-start: 3;
-  grid-column-end: 4;
+  grid-column-start: 4;
+  grid-column-end: 5;
 
   margin-left: auto;
 
@@ -214,9 +218,25 @@ label.container {
 
 .focusPanel {
   position: absolute;
-  background-color: orange;
-  opacity: 0.3;
+  background-color: #ffa50030;
 
   touch-action: none;
   user-select: none;
+
+  display: grid;
+
+  grid-template-columns: 2fr 8fr;
+  align-items: center;
+  cursor: move;
+}
+
+.drag-handle-focusPanel {
+  grid-column-start: 1;
+  grid-column-end: 2;
+
+  /* height: 100%; */
+
+  text-align: center;
+
+  font-size: xxx-large;
 }

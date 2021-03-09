@@ -35,6 +35,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         // position the focus panel based on the main tab visualisation
         _focusPanelStartPosition = {x:0, y:0},
         _getFocusPanelStartPosition = function(){ return _focusPanelStartPosition},
+        
 
 
         _init = function () {
@@ -44,8 +45,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 maxAxesInFocus: 6,
                 minAxesInFocus: 2,
                 numberAxesInFocus: 5,
-                listWidth: document.querySelector('label.attribute').offsetWidth,
-                boxHeight: document.querySelector('label.attribute').offsetHeight,
+                boxWidth: _boxWidth(),
+                boxHeight: _boxHeight(),
             };
             _vueMethods = {
                 decreaseNumber: _decreaseNumber,
@@ -57,7 +58,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
                 isMinusButtonDisabled: _isMinusButtonDisabled,
                 isPlusButtonDisabled: _isPlusButtonDisabled,
-                computeListWidth: _listWidth,
+                computeListWidth: _boxWidth,
 
             };
 
@@ -72,6 +73,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
             _vueApp = self.initVue( _vueData, _vueMethods, _vueComputed );
 
+            //drag and sort axes 
             _sortable = Sortable.create( simpleList, {
                 handle: '.my-handle',
                 dataIdAttr: 'id',
@@ -112,13 +114,26 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 }
             } );
 
-            
+            //draggable focus panel
             interact('.draggable').draggable({
                 startAxis: 'y',
                 lockAxis: 'y',
                 inertia: true,
+                
 
                 modifiers: [
+                    interact.modifiers.snap({
+
+                        targets:[
+                            
+                            interact.snappers.grid({x: _boxWidth(),y: _snapHeight() })
+                        ],
+                        relativePoints:[ {x:0, y:0}],
+                        offset: 'parent'
+                        
+                        
+
+                    }),
                     interact.modifiers.restrictRect({
                         restriction: 'parent'
                     })
@@ -159,8 +174,41 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
         },
 
+        //class function
+        _boxWidth = function () {
 
-        //methods
+            let box = document.querySelector('label.attribute');
+            let style = getComputedStyle(document.querySelector('li.attrList'));
+            let marginRight = parseInt(style.marginRight) || 0;
+            let paddingRight = parseInt(style.paddingRight)|| 0;
+
+            return box.offsetWidth + marginRight + paddingRight;
+            
+        },
+
+        _boxHeight = function(){
+
+            let box = document.querySelector('label.attribute');
+            let style = getComputedStyle(document.querySelector('li.attrList'));
+            let marginBottom = parseInt(style.marginBottom) || 0;
+            let paddingBottom = parseInt(style.paddingBottom)|| 0;
+            
+            return box.offsetHeight + 2 * (marginBottom + paddingBottom);
+
+        },
+
+        _snapHeight = function(){
+
+            let box = document.querySelector('label.attribute');
+            let style = getComputedStyle(document.querySelector('li.attrList'));
+            let marginBottom = parseInt(style.marginBottom) || 0;
+            let paddingBottom = parseInt(style.paddingBottom)|| 0;
+            
+            return box.offsetHeight + 2 * paddingBottom + 2 * marginBottom;
+
+        }
+
+        //vue methods
         _decreaseNumber = function () {
             // 'this' refer to the proxy of the sent data created by vue.
             if ( this.numberAxesInFocus <= this.maxAxesInFocus && this.numberAxesInFocus > this.minAxesInFocus ) {
@@ -203,12 +251,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             }
         },
 
-        _listWidth = function () {
-
-            // this.listWidth = this.numberAxesInFocus * document.querySelector('.attList').offsetWidth;
-            // return this.listWidth;
-            
-        };
+       
 
     //const ComponentA = {
 

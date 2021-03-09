@@ -53,11 +53,15 @@
                 
                 <ol class = "axisStore" id="simpleList">
 
-                    <div class="focusPanel draggable" :style = "{width: listWidth + 'px', height: boxHeight*numberAxesInFocus + 'px'}" ></div>
+                    <div class="focusPanel draggable" :style = "{width: boxWidth + 'px', height: boxHeight*numberAxesInFocus + 'px'}" >
+                        <label class = "drag-handle-focusPanel">
+                            &duhar;
+                        </label>
+                    </div>
                     
-                    <li class = "attList" v-for = "axis in axesArray" :key = "axis.attribute" :id = "axis.attribute">
+                    <li class = "attrList" v-for = "axis in axesArray" :key = "axis.attribute" :id = "axis.attribute">
                         
-                        <label class="attribute my-handle" for = "axis.attribute" >{{ axis.attributeLabel }}</label>
+                        <label class="attribute" for = "axis.attribute" >{{ axis.attributeLabel }}</label>
                         <label class="my-handle">&duhar;  </label>
                         <label class="container">
                             
@@ -70,7 +74,7 @@
 <!-- duplicate -->
                     <li v-for = "axis in axesArray" :key = "axis.attribute">
                         
-                        <label class="attribute my-handle" for = "axis.attribute" >{{ axis.attributeLabel + " duplicate " }}</label>
+                        <label class="attribute" for = "axis.attribute" >{{ axis.attributeLabel + " duplicate long attribute name " }}</label>
                         <label class="my-handle">&duhar; </label>
                         <label class="container">
                             
