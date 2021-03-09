@@ -142,13 +142,17 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         _hammerMan.add( new Hammer[eventType]( eventProps ) );
     };
 
-    this.addEvent = function (event, cb) {
+    this.addEvent = function ( event, cb ) {
         _addedEvents[event] = cb;
         this.activateEvent( event );
     };
 
+    this.stopEvent = function () {
+        _hammerMan.stop( true );
+    };
+
     this.switchOnEvents = function () {
-        var evt;
+        let evt;
         if ( _activeEvents.indexOf( 'swipeup' ) > -1 ) {
             this.switchOnSwipeUpEvent();
         }
@@ -168,25 +172,35 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         }
     };
 
-    this.switchOffEvents = function () {
+    this.switchOffEvents = function ( onlySwipeEvents = false ) {
         _hammerMan
             .off( 'swipeup' )
             .off( 'swipeleft' )
             .off( 'swiperight' )
             .off( 'swipedown' );
-        for ( evt in _addedEvents ) {
+        if ( !onlySwipeEvents ) {
+            for ( evt in _addedEvents ) {
                 _hammerMan.off( evt );
+            }
+        }
+    };
+
+    this.getTabHandle = function () {
+        return _tabHandle;
+    };
+
+    // Called whenever this tab comes into focus.
+    this.onTabInFocus = function () {
+        if ( this.onTabFocus ) {
+            this.onTabFocus();
         }
     };
 
     _tabHandle = {
         parentTab: parentDiv,
         switchOnEvents: this.switchOnEvents.bind( this ),
-        switchOffEvents: this.switchOffEvents.bind( this )
-    };
-
-    this.getTabHandle = function () {
-        return _tabHandle;
+        switchOffEvents: this.switchOffEvents.bind( this ),
+        onTabInFocus: this.onTabInFocus.bind( this )
     };
 
     _init();
