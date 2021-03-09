@@ -177,34 +177,28 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         //class function
         _boxWidth = function () {
 
-            let box = document.querySelector('label.attribute');
-            let style = getComputedStyle(document.querySelector('li.attrList'));
-            let marginRight = parseInt(style.marginRight) || 0;
-            let paddingRight = parseInt(style.paddingRight)|| 0;
+            let attrTextBox = document.querySelector('label.attribute');
+            let attrHandleBox = document.querySelector('label.my-handle');
 
-            return box.offsetWidth + marginRight + paddingRight;
+            let style = getComputedStyle(document.querySelector('li.attrList'));
+            let marginLeft = parseInt(style.marginRight) || 0;
+            let paddingLeft = parseInt(style.paddingRight)|| 0;
+
+            return marginLeft + paddingLeft + attrTextBox.clientWidth + attrHandleBox.clientWidth;
             
         },
 
         _boxHeight = function(){
 
-            let box = document.querySelector('label.attribute');
-            let style = getComputedStyle(document.querySelector('li.attrList'));
-            let marginBottom = parseInt(style.marginBottom) || 0;
-            let paddingBottom = parseInt(style.paddingBottom)|| 0;
-            
-            return box.offsetHeight + 2 * paddingBottom + marginBottom;
+            let box = document.querySelector('li.attrList');
+            return box.clientHeight;
 
         },
 
         _snapHeight = function(){
 
-            let box = document.querySelector('label.attribute');
-            let style = getComputedStyle(document.querySelector('li.attrList'));
-            let marginBottom = parseInt(style.marginBottom) || 0;
-            let paddingBottom = parseInt(style.paddingBottom)|| 0;
-            
-            return box.offsetHeight + 2 * paddingBottom + 2 * marginBottom;
+            let box = document.querySelector('li.attrList');
+            return box.clientHeight;
 
         }
 
