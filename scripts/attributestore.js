@@ -193,7 +193,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             let marginBottom = parseInt(style.marginBottom) || 0;
             let paddingBottom = parseInt(style.paddingBottom)|| 0;
             
-            return box.offsetHeight + 2 * (marginBottom + paddingBottom);
+            return box.offsetHeight + 2 * paddingBottom + marginBottom;
 
         },
 
