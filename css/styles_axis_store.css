@@ -117,11 +117,11 @@ label.my-handle {
   grid-column-end: 4;
   text-align: center;
 
-  font-size: xxx-large;
+  font-size: 3em;
 }
 
 label.attribute {
-  font-size: xxx-large;
+  font-size: 3em;
   font-weight: lighter;
 
   grid-column-start: 2;
@@ -226,5 +226,7 @@ label.container {
 
   text-align: center;
 
-  font-size: xxx-large;
+  font-size: 5em;
+
+  padding: 80% 0;
 }

@@ -120,6 +120,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 startAxis: 'y',
                 lockAxis: 'y',
                 inertia: true,
+                // allowFrom: '.drag-handle-focusPanel',
                 
             
                 modifiers: [
