@@ -35,6 +35,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         // position the focus panel based on the main tab visualisation
         _focusPanelStartPosition = {x:0, y:0},
         _getFocusPanelStartPosition = function(){ return _focusPanelStartPosition},
+        _auto;
         
 
 
@@ -120,7 +121,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 lockAxis: 'y',
                 inertia: true,
                 
-
+            
                 modifiers: [
                     interact.modifiers.snap({
 
@@ -139,16 +140,16 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                     })
                 ],
                 // enable autoScroll
-                
-
                 autoScroll: {
                     container: document.querySelector('main.axisStore'),
-                    margin: 100,
-                    distance: 5,
+                    margin: 50,
+                    distance: 0,
                     interval: 10,
                     speed: 600,
-                  },
+                  
+                },
 
+                
                 
                
                 listeners: {
@@ -161,9 +162,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
               
                         event.target.style.transform =
                         `translate(${ _focusPanelStartPosition.x}px, ${ _focusPanelStartPosition.y}px)`
-
-                       
-
                     
                     },
                     
@@ -173,6 +171,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             
 
         },
+
 
         //class function
         _boxWidth = function () {

@@ -54,7 +54,7 @@
                 <ol class = "axisStore" id="simpleList">
 
                     <div class="focusPanel draggable" :style = "{width: boxWidth + 'px', height: boxHeight * numberAxesInFocus + 'px'}" >
-                        <label class = "drag-handle-focusPanel">
+                        <label class = "drag-handle-focusPanel" id="drag-handle-focusPanel">
                             &duhar;
                         </label>
                     </div>
@@ -72,6 +72,18 @@
                         
                     </li>
 <!-- duplicate -->
+                    <li v-for = "axis in axesArray" :key = "axis.attribute">
+                        
+                        <label class="attribute" for = "axis.attribute" >{{ axis.attributeLabel + " duplicate long attribute name " }}</label>
+                        <label class="my-handle">&duhar; </label>
+                        <label class="container">
+                            
+                            <input class = "axisStore" type="checkbox" checked="checked" :id = "axis.attribute" v-model= "axis.visible">
+                            <span class="checkmark"></span>
+                            
+                        </label>
+                        
+                    </li>
                     <li v-for = "axis in axesArray" :key = "axis.attribute">
                         
                         <label class="attribute" for = "axis.attribute" >{{ axis.attributeLabel + " duplicate long attribute name " }}</label>
