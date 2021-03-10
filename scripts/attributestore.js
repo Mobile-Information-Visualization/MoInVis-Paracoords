@@ -156,6 +156,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 listeners: {
                     start (event) {
                         console.log(event.type, event.target)
+                        document.querySelector('.focusPanel').style.width = _boxWidth() + 'px';
                     },
                     move (event) {
                         // position.x += event.dx
@@ -165,6 +166,11 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                         `translate(${ _focusPanelStartPosition.x}px, ${ _focusPanelStartPosition.y}px)`
                     
                     },
+                    end (event){
+
+                        document.querySelector('.focusPanel').style.width = 50 + 'px';
+
+                    }
                     
                 }
             });
