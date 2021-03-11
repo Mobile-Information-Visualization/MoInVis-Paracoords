@@ -128,7 +128,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
                         targets:[
                             
-                            interact.snappers.grid({x: _boxWidth(),y: _snapHeight() })
+                            interact.snappers.grid({x: _boxWidth().long,y: _snapHeight() })
                         ],
                         relativePoints:[ {x:0, y:0}],
                         offset: 'parent'
@@ -156,7 +156,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 listeners: {
                     start (event) {
                         console.log(event.type, event.target)
-                        document.querySelector('.focusPanel').style.width = _boxWidth() + 'px';
+                        document.querySelector('.focusPanelBar').style.width = _boxWidth().long + 'px';
+                        
                     },
                     move (event) {
                         // position.x += event.dx
@@ -168,7 +169,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                     },
                     end (event){
 
-                        document.querySelector('.focusPanel').style.width = 50 + 'px';
+                        document.querySelector('.focusPanelBar').style.width = _boxWidth().short/8 + 'px';
+                        
 
                     }
                     
@@ -190,7 +192,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             let marginLeft = parseInt(style.marginRight) || 0;
             let paddingLeft = parseInt(style.paddingRight)|| 0;
 
-            return marginLeft + paddingLeft + attrTextBox.clientWidth + attrHandleBox.clientWidth;
+            return {short:paddingLeft +attrHandleBox.clientWidth,long:attrTextBox.clientWidth + attrHandleBox.clientWidth};
             
         },
 

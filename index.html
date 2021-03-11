@@ -53,10 +53,14 @@
                 
                 <ol class = "axisStore" id="simpleList">
 
-                    <div class="focusPanel draggable" :style = "{width: 50 +'px',height: boxHeight * numberAxesInFocus + 'px'}" >
+                    <div class="focusPanel draggable" :style = "{width: boxWidth.short +'px',height: boxHeight * numberAxesInFocus + 'px'}" >
+                        
+                        
                         <label class = "drag-handle-focusPanel" id="drag-handle-focusPanel">
                             &duhar;
                         </label>
+                        <label class="focusPanelBar" :style = "{width: boxWidth.short/8 +'px' }"></label>
+                        
                     </div>
                     
                     <li class = "attrList" v-for = "axis in axesArray" :key = "axis.attribute" :id = "axis.attribute">

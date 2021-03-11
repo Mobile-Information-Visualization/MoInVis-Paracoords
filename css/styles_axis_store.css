@@ -128,10 +128,12 @@ label.attribute {
   grid-column-end: 3;
 
   text-align: left;
-  overflow: scroll;
+  overflow: hidden;
 
   white-space: nowrap;
-  text-overflow: clip;
+  text-overflow: ellipsis;
+
+  padding-left: 3%;
 }
 
 label.container {
@@ -208,16 +210,19 @@ label.container {
 
 .focusPanel {
   position: absolute;
-  background-color: #ffa50030;
 
   touch-action: none;
   user-select: none;
 
   display: grid;
 
-  grid-template-columns: 1.5fr 8.5fr;
-  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  /* align-items: center; */
   cursor: move;
+
+  /* display: flex; */
+  align-items: center;
+  /* justify-content: left; */
 }
 
 .drag-handle-focusPanel {
@@ -227,6 +232,14 @@ label.container {
   text-align: center;
 
   font-size: 5em;
+}
 
-  padding: 80% 30%;
+.focusPanelBar {
+  grid-column-start: 2;
+  grid-column-end: 3;
+
+  background-color: #ffa50030;
+  height: 100%;
+
+  margin-left: auto;
 }
