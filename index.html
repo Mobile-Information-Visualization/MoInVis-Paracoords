@@ -50,9 +50,10 @@
             <main class="axisStore axesLists">
 
                 
-                <transition-group class = "axisStore" id="simpleList" name="list" tag="ul">
+                
+                <ol class = "axisStore" id="simpleList">
 
-                    <div class="focusPanel draggable" :style = "{width: boxWidth.short +'px',height: boxHeight * numberAxesInFocus + 'px'}">
+                    <div class="focusPanel draggable" :style = "{width: boxWidth.short +'px',height: boxHeight * numberAxesInFocus + 'px'}" >
                         
                         
                         <label class = "drag-handle-focusPanel" id="drag-handle-focusPanel">
@@ -61,22 +62,21 @@
                         <label class="focusPanelBar" :style = "{width: boxWidth.short/8 +'px' }"></label>
                         
                     </div>
-
-
-                    <li class = "list-item attrList" v-for = "(axis, index) in axesArray" :key = "axis" :id = "axis.attribute" >
+                    
+                    <li class = "attrList" v-for = "axis in axesArray" :key = "axis.attribute" :id = "axis.attribute">
                         
                         <label class="attribute" for = "axis.attribute" >{{ axis.attributeLabel }}</label>
                         <label class="my-handle">&duhar;  </label>
                         <label class="container">
                             
-                            <input class = "axisStore" type="checkbox" checked="checked" :id = "axis.attribute" v-model = "axis.visible" @change = "check($event, axis, index)">
+                            <input class = "axisStore" type="checkbox" checked="checked" :id = "axis.attribute" v-model= "axis.visible">
                             <span class="checkmark"></span>
                             
                         </label>
                         
                     </li>
 <!-- duplicate -->
-                    <!-- <li v-for = "axis in axesArray" :key = "axis.attribute">
+                    <li v-for = "axis in axesArray" :key = "axis.attribute">
                         
                         <label class="attribute" for = "axis.attribute" >{{ axis.attributeLabel + " duplicate long attribute name " }}</label>
                         <label class="my-handle">&duhar; </label>
@@ -99,10 +99,10 @@
                             
                         </label>
                         
-                    </li> -->
+                    </li>
 <!-- duplicate  -->
                     
-                </transition-group>
+                </ol>
                 <!-- <div class="movable">{{ axesArray }}</div> -->
                 <!--<component-a :data = "axesArray"></component-a>-->
                
