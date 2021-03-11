@@ -384,26 +384,33 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         // Squeeze in axes when pinching in.
         _squeezeAxesByPixels = function ( pixels ) {
             let length, i, axis,
-                focusStartPos = _axesPositions[_axesInTopContext],
-                focusEndPos = _axesPositions[_axesInTopContext + _axesInFocus - 1];
+                lastVisibleAxisIndex;
 
             if ( _axesInBottomContext ) { // If there are axes in the context below.
                 // Start moving bottom axes into focus.
                 length = _axesInFocus + _focusIndex + _axesInBottomContext;
-                i = _focusIndex + 1;
+                i = _focusIndex; // First moveable axis is the first in focus area.
+                lastVisibleAxisIndex = length - 1; // Last visible axis.
+                pixels = -pixels; // We move axes after _focusIndex upwards.
 
-                pixels = -pixels;
-
-                if ( length < _visibleAxes.length - 1 ) { // Include the axis outside viewport.
+                if ( length < _visibleAxes.length - 1 ) { // Include the axis outside viewport, if available.
                     length++;
+                } else if ( length === _visibleAxes.length ) { // If last axis is reached, do not move it.
+                    length--;
+                }
+                if ( i === 0 ) { // If first axis is reached, do not move the first axis.
+                    i++;
                 }
 
                 for ( i; i < length; i++ ) {
                     axis = _visibleAxes[i];
-                    if ( axis.yPos > focusStartPos && axis.yPos <= focusEndPos ) {
-                        // For axes moving around in the focus area, the movement is scaled.
-                        axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor );
+                    if ( i <= _focusIndex ) {
+                        axis.setY( axis.yPos + pixels );
+                    } else if ( i > lastVisibleAxisIndex ) {
+                        // For axes moving up from hidden area, movement is scaled more, so it comes into the visible area.
+                        axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor * 1.5 );
                     } else {
+                        // For axes moving around in the focus area, the movement is scaled.
                         axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor );
                     }
                 }
@@ -411,7 +418,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             } else if ( _focusIndex > 0 ) {
                 // Start moving top axes into focus.
                 length = _axesInFocus + _focusIndex - 1;
-                i = _focusIndex - _axesInTopContext;
+                i = _focusIndex - _axesInTopContext; // First moveable axis is the first in the top context area.
+                lastVisibleAxisIndex = i; // First visible axis is also the first in the top context area.
 
                 if ( i === 0 ) { // If first axis is reached, do not move the first axis.
                     i++;
@@ -420,11 +428,11 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 }
                 for ( i; i < length; i++ ) {
                     axis = _visibleAxes[i];
-                    axis.setY( axis.yPos + pixels );
-                    if ( axis.yPos >= focusStartPos && axis.yPos < focusEndPos ) {
-                        // For axes moving around in the focus area, the movement is scaled.
-                        axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor );
+                    if ( i < lastVisibleAxisIndex ) {
+                        // For axes moving down from hidden area, movement is scaled more, so it comes into the visible area.
+                        axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor * 1.5 );
                     } else {
+                        // For axes moving around in the focus area, the movement is scaled.
                         axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor );
                     }
                 }
@@ -435,30 +443,50 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         // Spread out axes when pinching out
         _spreadAxesByPixels = function ( pixels ) {
             let length, i, axis,
-                focusStartPos = _axesPositions[_axesInTopContext],
-                focusEndPos = _axesPositions[_axesInTopContext + _axesInFocus - 1];
-
-            // Start moving bottom axes into focus.
-            length = _axesInFocus + _focusIndex;
-            i = _focusIndex + 1;
-
-            if ( length < _visibleAxes.length - 1 ) { // Include the axis outside viewport.
-                length++;
-            } else if ( length === _visibleAxes.length ) { // If last axis is reached, do not move the last axis.
-                length--;
-            }
-
-            for ( i; i < length; i++ ) {
-                axis = _visibleAxes[i];
-                if ( axis.yPos > focusStartPos && axis.yPos <= focusEndPos ) {
-                    // For axes moving around in the focus area, the movement is scaled.
-                    axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor );
-                } else {
-                    axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor );
+                lastVisibleAxisIndex;
+            if ( _axesInBottomContext ) {
+                // Start moving bottom axes out of focus.
+                length = _axesInFocus + _focusIndex + _axesInBottomContext;
+                i = _focusIndex; // First moveable axis is the first in the focus area.
+                lastVisibleAxisIndex = length - 1;
+                if ( i === 0 ) { // If first axis is reached, do not move the first axis.
+                    i++;
                 }
-            }
 
-            _shiftPaths( true );
+                for ( i; i < length; i++ ) {
+                    axis = _visibleAxes[i];
+                    if ( i <= _focusIndex ) {
+                        axis.setY( axis.yPos + pixels );
+                    } else if ( i >= lastVisibleAxisIndex ) {
+                        // For the last visible axes, scale the movement by extra so it goes out of the visible area to disappear.
+                        axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor * 1.5 );
+                    } else {
+                        // For axes moving around in the focus area, the movement is scaled.
+                        axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor );
+                    }
+                }
+                _shiftPaths( true );
+            } else if ( _focusIndex > 0 ) {
+                // Start moving top axes out of focus.
+                length = _axesInFocus + _focusIndex - 1;
+                i = _focusIndex - _axesInTopContext; // First moveable axis is the first in the top context area.
+                lastVisibleAxisIndex = i; // First visible axis is also the first in the top context area.
+                pixels = -pixels;
+                if ( i === 0 ) { // If first axis is reached, do not move the first axis.
+                    i++;
+                }
+                for ( i; i < length; i++ ) {
+                    axis = _visibleAxes[i];
+                    if ( i <= lastVisibleAxisIndex ) {
+                        // For the last visible axes, scale the movement by extra so it goes out of the visible area to disappear.
+                        axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor * 1.5 );
+                    } else {
+                        // For axes moving around in the focus area, the movement is scaled.
+                        axis.setY( axis.yPos + pixels * _focusAndContextSettings.extraGapFactor );
+                    }
+                }
+                _shiftPaths( true );
+            }
         },
 
         _shiftPaths = function ( dontAnimate ) {
@@ -504,13 +532,13 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 if ( _topCI.visible === false ) {
                     _topCI.setVisibility( true );
                 }
-                if ( _focusIndex === _visibleAxes.length - _axesInFocus ) {
-                    if ( _bottomCI.visible ) {
-                        _bottomCI.setVisibility( false );
-                    }
-                } else if ( _bottomCI.visible === false ) {
-                    _bottomCI.setVisibility( true );
+            }
+            if ( _focusIndex === _visibleAxes.length - _axesInFocus ) {
+                if ( _bottomCI.visible ) {
+                    _bottomCI.setVisibility( false );
                 }
+            } else if ( _bottomCI.visible === false ) {
+                _bottomCI.setVisibility( true );
             }
             topHiddenAxes = _focusIndex - _axesInTopContext;
             bottomHiddenAxes = _visibleAxes.length - _focusIndex - _axesInFocus - _axesInBottomContext;
@@ -652,7 +680,11 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                             _focusAndContextSettings.axesInFocus = _axesInFocus - 1;
                             // Set the tranition speed to scrolling transition speed.
                             MoInVis.Paracoords.TransitionSpeed = _pinchScrollProps.transitionSpeed;
-                            _setFocusIndex( _focusIndex );
+                            if ( _axesInBottomContext ) {
+                                _setFocusIndex( _focusIndex );
+                            } else {
+                                _setFocusIndex( _focusIndex + 1 );
+                            }
                             _pinchScrollProps.lastAxisRearrangement = Date.now();
                             // Reset the transition speed to normal.
                             MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
