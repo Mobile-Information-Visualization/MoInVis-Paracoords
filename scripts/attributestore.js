@@ -19,7 +19,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
     this.moin = moin;
     MoInVis.Paracoords.attributeStore.baseCtor.call( this, parentDiv );
 
-    console.log( axes ); //Jimmy: Debug
 
     var self = this,
         _parentDiv = parentDiv,
@@ -52,6 +51,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             _vueMethods = {
                 decreaseNumber: _decreaseNumber,
                 increaseNumber: _increaseNumber,
+                check:_check,
 
             };
 
@@ -85,7 +85,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 scrollSpeed: 10,
                 scrollFn: function(offsetX, offsetY, originalEvent, touchEvt, hoverTargetEl) { 
 
-                    
+
 
                  },
                 
@@ -238,6 +238,18 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             }
 
         },
+
+        _check = function(e, axis, index){
+
+          
+
+            if (axis.visible === true ){
+
+                this.axesArray.push(axis);
+                this.axesArray.splice(index, 1);
+                
+            }
+        }
         //computed component
         _isMinusButtonDisabled = function () {
 
