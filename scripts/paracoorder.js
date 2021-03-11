@@ -108,7 +108,9 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         // Creates gradient for the context indicators.
         _createStyles = function () {
-            var defs = document.getElementById( self.moin.id + '_' + MoInVis.Paracoords.IdStore.defs ), linearGrad, stopElement;
+            var defs = document.getElementById( self.moin.id + '_' + MoInVis.Paracoords.IdStore.defs ),
+                linearGrad,
+                stopElement;
             // Top CI gradient - Normal
             linearGrad = document.createElementNS( 'http://www.w3.org/2000/svg', 'linearGradient' );
             linearGrad.setAttributeNS( null, 'id', MoInVis.Paracoords.IdStore.TopCIGradNormal );
@@ -191,7 +193,9 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         },
 
         _getYPositionOfAttribute = function ( attr ) {
-            var yPos, i, length = self.axes.length;
+            var yPos,
+                i,
+                length = self.axes.length;
             // [TODO]: More efficient way of retrieving the axis needed.
             for ( i = 0; i < length; i++ ) {
                 if ( self.axes[i].attribute === attr ) {
@@ -204,9 +208,15 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         // Calculates spacing of the axes based on the starting point of the focus.
         _calculateAxisSpacing = function () {
-            let axisCount = _visibleAxes.length, numAxesInViewport, contextAxisGap, focusAxisGap, unusedSpace,
+            let axisCount = _visibleAxes.length,
+                numAxesInViewport,
+                contextAxisGap,
+                focusAxisGap,
+                unusedSpace,
                 gapUnits, // One gap unit represents space gap between 2 context axes.
-                i, length, yPos;
+                i,
+                length,
+                yPos;
 
             _axesInFocus = _focusAndContextSettings.axesInFocus;
             _axesInContext = _focusAndContextSettings.axesInContext;
@@ -334,7 +344,9 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         // Shifts the displayed axes by specified pixels.
         _shiftAxesByPixels = function ( pixels ) {
-            let length = _axesInFocus + _focusIndex + _axesInBottomContext, i = _focusIndex - _axesInTopContext, axis,
+            let length = _axesInFocus + _focusIndex + _axesInBottomContext,
+                i = _focusIndex - _axesInTopContext,
+                axis,
                 focusStartPos = _axesPositions[_axesInTopContext],
                 focusEndPos = _axesPositions[_axesInTopContext + _axesInFocus - 1];
 
@@ -383,7 +395,9 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         // Squeeze in axes when pinching in.
         _squeezeAxesByPixels = function ( pixels ) {
-            let length, i, axis,
+            let length,
+                i,
+                axis,
                 lastVisibleAxisIndex;
 
             if ( _axesInBottomContext ) { // If there are axes in the context below.
@@ -442,7 +456,9 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         // Spread out axes when pinching out
         _spreadAxesByPixels = function ( pixels ) {
-            let length, i, axis,
+            let length,
+                i,
+                axis,
                 lastVisibleAxisIndex;
             if ( _axesInBottomContext ) {
                 // Start moving bottom axes out of focus.
@@ -518,7 +534,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         // Sets the focus index, shows/hides the context indicators appropriately,
         // and recalculates axes positions and rearranges the axes.
         _setFocusIndex = function ( newFI ) {
-            var topHiddenAxes = 0, bottomHiddenAxes = 0;
+            var topHiddenAxes = 0,
+                bottomHiddenAxes = 0;
             _focusIndex = newFI;
 
             _calculateAxisSpacing();
@@ -626,7 +643,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         // Called when pinching starts.
         _onPinchStart = function ( event ) {
-            var pointer1 = event.pointers[0], pointer2 = event.pointers[1];
+            var pointer1 = event.pointers[0],
+                pointer2 = event.pointers[1];
             // Find the pointerevent that is on top.
             if ( pointer1.y < pointer2.y ) {
                 _pinchScrollProps.topPointerId = pointer1.pointerId;
@@ -641,7 +659,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         // Called while pinching in and out.
         _onPinch = function ( event ) {
-            var distance, overflowY, pointer1 = event.pointers[0], pointer2 = event.pointers[1];
+            var distance,
+                overflowY,
+                pointer1 = event.pointers[0],
+                pointer2 = event.pointers[1];
             if ( pointer1.pointerId === _pinchScrollProps.topPointerId ) {
                 distance = pointer2.y - pointer1.y;
             } else {
