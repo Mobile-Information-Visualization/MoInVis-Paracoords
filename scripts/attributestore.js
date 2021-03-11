@@ -80,6 +80,14 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 dataIdAttr: 'id',
                 direction: 'vertical',
                 forceFallback: false,
+                scroll: true,
+                scrollSensitivity: 200,
+                scrollSpeed: 10,
+                scrollFn: function(offsetX, offsetY, originalEvent, touchEvt, hoverTargetEl) { 
+
+                    
+
+                 },
                 
                 delay: 50,
                 touchStartThreshold: 30,
