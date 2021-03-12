@@ -84,7 +84,18 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
 
     this.setVisibility = function ( visible ) {
         this.visible = visible;
-        // [TODO]: Make _brushGroup visible or invisible.
+        if ( this.visible ) {
+            _brushGroup
+                .style( 'display', 'inherit' )
+                .attr( 'opacity', 1 );
+        } else {
+            _brushGroup
+                .attr( 'opacity', 0 )
+                .style( 'display', 'none' );
+            if ( _handleVisibility ) {
+                _hideHandles();
+            }
+        }
     };
 
     this.setColour = function ( colour ) {
@@ -329,5 +340,10 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
     this.checkPathBrushed = function ( xPos ) {
         var brushBounds = [_brushStart, _brushEnd].sort( ( a, b ) => a - b );
         return xPos >= brushBounds[0] && xPos <= brushBounds[1];
+    };
+
+    // Gets the current bounds of the brush.
+    this.getBrushBounds = function () {
+        return [_brushStart, _brushEnd].sort( ( a, b ) => a - b );
     };
 };
