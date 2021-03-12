@@ -166,7 +166,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                         console.log(event.type, event.target)
                         document.querySelector('.focusPanelBar').style.width = _boxWidth().long + 'px';
                         
-                        
                     },
                     move (event) {
                         // position.x += event.dx
@@ -181,22 +180,12 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                         document.querySelector('.focusPanelBar').style.width = _boxWidth().short/8 + 'px';
                         
 
-                    },
-                    
+                    }
                     
                 }
-            })
-            .on('down', function (event) {
-
-                document.querySelector('.focusPanelBar').style.width = _boxWidth().long + 'px';
-                console.log(event.type, event.target)
-            })
-            .on('up', function (event) {
-
-                document.querySelector('.focusPanelBar').style.width = _boxWidth().short/8 + 'px';
-                console.log(event.type, event.target)
             });
-   
+            
+            
 
         },
 
