@@ -1166,6 +1166,11 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         }
     };
 
+    // Overriding base class method. Called before tab-level events are handled.
+    this.isEventHandlingInProgress = function () {
+        return this.brushingInProgress || this.scrollingInProgress;
+    };
+
     // Called whenever this tab comes into focus.
     this.onTabFocus = function () {
         if ( this.moin.paraCoorderRedrawReq ) {
