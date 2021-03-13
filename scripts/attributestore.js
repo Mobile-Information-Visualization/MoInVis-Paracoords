@@ -19,6 +19,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
     this.moin = moin;
     MoInVis.Paracoords.attributeStore.baseCtor.call( this, parentDiv );
 
+    console.log(this.moin)
+
 
     var self = this,
         _parentDiv = parentDiv,
@@ -256,8 +258,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         //move the list to bottom
         _check = function(e, axis, index){
 
-          
-            
+            self.moin.paraCoorderRedrawReq = true;
 
             if (axis.visible){
 
@@ -351,6 +352,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
     MoInVis.Paracoords.attributeStore.getAxes = _getAxes;
     MoInVis.Paracoords.attributeStore.getSortable = _getSortable;
     MoInVis.Paracoords.attributeStore._getFocusPanelStartPosition = _getFocusPanelStartPosition;
+  
 };
 
 MoInVis.Paracoords.attributeStore.baseCtor = MoInVis.Paracoords.tab;
