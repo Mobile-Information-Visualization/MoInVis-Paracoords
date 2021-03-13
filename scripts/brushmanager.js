@@ -106,7 +106,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
     // Prepares to handle panning gesture.
     this.panStart = function ( event ) {
         var createNewBrush = true, gestureOrigin = {}, index, length, clientRect;
-        if ( _paracoorder.scrollingInProgress ) {
+        if ( _paracoorder.pinchScrollInProgress ) {
             // If scrolling is taking place, do not handle this event.
             _hammerMan.stop( true );
         } else {
