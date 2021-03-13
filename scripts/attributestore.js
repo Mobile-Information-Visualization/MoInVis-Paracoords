@@ -136,6 +136,9 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                         }
                         
                       });
+
+                    //call to redraw  
+                    self.moin.paraCoorderRedrawReq = true;
                 }
             } );
 

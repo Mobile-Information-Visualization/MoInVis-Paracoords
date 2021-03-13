@@ -910,9 +910,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         if ( this.moin.paraCoorderRedrawReq ) {
             _setVisibleAxes();
-            _resetAxesRanges();
+            
             _calculateAxisSpacing();
             _rearrangeAxes();
+            _resetAxesRanges();
             this.moin.paraCoorderRedrawReq = false;
         }
     };
