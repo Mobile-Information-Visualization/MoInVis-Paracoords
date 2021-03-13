@@ -51,7 +51,7 @@
             <main class="axisStore axesLists">
 
             
-                <transition-group class = "axisStore" id="simpleList" name="flip-list" tag="ul">
+                <transition-group class = "axisStore" key="axesArray" id="simpleList" name="flip-list" tag="ul">
 
                     <div key="panelBox" class="focusPanel draggable" :style = "{width: boxWidth.short +'px',height: boxHeight * numberAxesInFocus + 'px'}">
                         
@@ -64,10 +64,10 @@
                     </div>
 
 
-                    <li  v-for = "(item, index) in axesArray" :key = "item" :id = "item.attribute" class = "list-axis attrList">
+                    <li  v-for = "(item, index) in axesArray" :key = "item.attribute" :id = "item.attribute" class = "list-axis attrList" >
                         
                         <label class="attribute" for = "item.attribute" >{{ item.attributeLabel }}</label>
-                        <label class="my-handle">&duhar;  </label>
+                        <label class="my-handle" :class="{ undraggable: !item.visible}">&duhar;  </label>
                         <label class="container">
                             
                             <input class = "axisStore" type="checkbox" checked="checked" :id = "item.attribute" v-model = "item.visible" @change = "check($event, item, index)">

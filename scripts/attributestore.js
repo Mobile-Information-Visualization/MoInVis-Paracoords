@@ -56,18 +56,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 decreaseNumber: _decreaseNumber,
                 increaseNumber: _increaseNumber,
                 check:_check,
-                randomIndex: function () {
-                    return Math.floor(Math.random() * this.items.length)
-                  },
-                  add: function () {
-                    
-                  },
-                  remove: function(e,i) {
-                    console.log(e)
-                    this.axesArray.splice(i, 1)
-                    this.axesArray.splice(this.randomIndex(), 0, this.nextNum++)
-                    
-                  },
+                
 
             };
 
@@ -104,9 +93,11 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
 
                  },
+                filter: ".undraggable",
                 
                 delay: 50,
                 touchStartThreshold: 30,
+                //when drag list end
                 onEnd: function (/**Event*/evt ) {
                     var itemEl = evt.item;
                     evt.to;
@@ -118,10 +109,10 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                     evt.clone
                     evt.pullMode;
 
-                    var order = _sortable.toArray();
+                    let order = _sortable.toArray();
 
                     console.log('new order: ' +  order )
-                    //a.shift();
+                    
                     console.log( "dragged element's old index: " + evt.oldIndex );
 
                     console.log( "dragged element's new index: " + evt.newIndex );
@@ -134,8 +125,11 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                         } else {
                           return -1;
                         }
-                        
+
+                             
                       });
+
+                    console.log("after drag list: ")
 
                     //call to redraw  
                     self.moin.paraCoorderRedrawReq = true;
@@ -261,16 +255,25 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         //move the list to bottom
         _check = function(e, axis, index){
 
-            self.moin.paraCoorderRedrawReq = true;
-
-            if (axis.visible){
-
-                //2, 0, 'drum'
+            
+            //@change event triggered before the boolean value is changed, so the logic is weird
+            if (axis.visible){ //when true -> false
                 
                 this.axesArray.splice(index, 1);
                 this.axesArray.splice(this.axesArray.length, 0, axis);
+                axis.setVisibility(!axis.visible);
+                console.log("checkbox true -> false: ")
                 
             }
+
+            else{ //when false -> true
+
+                axis.setVisibility(!axis.visible);
+                console.log("checkbox false -> true: ")
+                
+            }
+
+            self.moin.paraCoorderRedrawReq = true;
         }
         //computed component
         _isMinusButtonDisabled = function () {

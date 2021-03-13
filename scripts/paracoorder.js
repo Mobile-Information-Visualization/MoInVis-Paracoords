@@ -315,11 +315,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             _visibleAxes = self.axes.filter( axis => axis.visible );
         },
 
-        /* var in _resetAxesRanges
-                items = MoInVis.Paracoords.Data.itemsForWaste*/
+       
         _resetAxesRanges = function () {
-            var extent;
-            let items = MoInVis.Paracoords.Data.itemsForWaste;
+            var extent,
+                items = MoInVis.Paracoords.Data.itemsForWaste;
             // Reset the scales for the axes.
             self.axes.forEach( function ( axis ) {
                 extent = d3.extent( items.map( region => self.paths[region].visible ? self.paths[region].data[_chosenYear][axis.attribute] : null ) );
