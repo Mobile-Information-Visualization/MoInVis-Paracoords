@@ -47,11 +47,25 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 numberAxesInFocus: 5,
                 boxWidth: _boxWidth(),
                 boxHeight: _boxHeight(),
+                items: [1, 2, 3, 4],
+                nextNum: 10
             };
             _vueMethods = {
                 decreaseNumber: _decreaseNumber,
                 increaseNumber: _increaseNumber,
                 check:_check,
+                randomIndex: function () {
+                    return Math.floor(Math.random() * this.items.length)
+                  },
+                  add: function () {
+                    
+                  },
+                  remove: function(e,i) {
+                    console.log(e)
+                    this.axesArray.splice(i, 1)
+                    this.axesArray.splice(this.randomIndex(), 0, this.nextNum++)
+                    
+                  },
 
             };
 
@@ -239,14 +253,18 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
         },
 
+        //move the list to bottom
         _check = function(e, axis, index){
 
           
+            
 
-            if (axis.visible === true ){
+            if (axis.visible){
 
-                this.axesArray.push(axis);
+                //2, 0, 'drum'
+                
                 this.axesArray.splice(index, 1);
+                this.axesArray.splice(this.axesArray.length, 0, axis);
                 
             }
         }
