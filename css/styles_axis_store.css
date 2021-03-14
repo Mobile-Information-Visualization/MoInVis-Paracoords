@@ -253,11 +253,4 @@ label.container {
 .list-leave-to {
   opacity: 0;
   transform: translateY(30px);
-<<<<<<< HEAD
-} */
-/* .flip-list-move {
-  transition: transform 1s;
-} */
-=======
 }
->>>>>>> parent of f4d5011 (checkBox animation)

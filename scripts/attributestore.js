@@ -246,10 +246,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _check = function(e, axis, index){
 
           
-<<<<<<< HEAD
-=======
             
->>>>>>> parent of be8e17e (fix up the tab handlers to call onTabFocus function when switching to main tab)
 
             if (axis.visible === true ){
 
