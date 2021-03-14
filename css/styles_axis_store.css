@@ -254,9 +254,6 @@ label.container {
   opacity: 0;
   transform: translateY(30px);
 }
-<<<<<<< HEAD
-=======
 .flip-list-move {
   transition: transform 1s;
 }
->>>>>>> parent of 9b97571 (bug still exist)

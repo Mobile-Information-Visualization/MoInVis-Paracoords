@@ -52,22 +52,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 decreaseNumber: _decreaseNumber,
                 increaseNumber: _increaseNumber,
                 check:_check,
-<<<<<<< HEAD
-                randomIndex: function () {
-                    return Math.floor(Math.random() * this.items.length)
-                  },
-                  add: function () {
-                    
-                  },
-                  remove: function(e,i) {
-                    console.log(e)
-                    this.axesArray.splice(i, 1)
-                    this.axesArray.splice(this.randomIndex(), 0, this.nextNum++)
-                    
-                  },
-=======
                 
->>>>>>> parent of 9b97571 (bug still exist)
 
             };
 
@@ -136,16 +121,11 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                         } else {
                           return -1;
                         }
-<<<<<<< HEAD
-                        
-                      });
-=======
 
                              
                       });
 
                     console.log("after drag list: ")
->>>>>>> parent of 9b97571 (bug still exist)
 
                     //call to redraw  
                     self.moin.paraCoorderRedrawReq = true;
@@ -268,15 +248,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
         },
 
-<<<<<<< HEAD
-        _check = function(e, axis, index){
-
-            self.moin.paraCoorderRedrawReq = true;
-
-            if (axis.visible){
-
-                //2, 0, 'drum'
-=======
         //move the list to bottom
         _check = function(e, axis, index){
 
@@ -288,17 +259,13 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 this.axesArray.splice(this.axesArray.length, 0, axis);
                 axis.setVisibility(!axis.visible);
                 console.log("checkbox true -> false: ")
->>>>>>> parent of 9b97571 (bug still exist)
                 
                 this.axesArray.splice(index, 1);
                 this.axesArray.splice(this.axesArray.length, 0, axis);
                 
             }
-<<<<<<< HEAD
-=======
 
             self.moin.paraCoorderRedrawReq = true;
->>>>>>> parent of 9b97571 (bug still exist)
         }
         //computed component
         _isMinusButtonDisabled = function () {
