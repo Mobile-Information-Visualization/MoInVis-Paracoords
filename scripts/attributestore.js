@@ -56,9 +56,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 decreaseNumber: _decreaseNumber,
                 increaseNumber: _increaseNumber,
                 check:_check,
-<<<<<<< HEAD
-                
-=======
                 randomIndex: function () {
                     return Math.floor(Math.random() * this.items.length)
                   },
@@ -72,7 +69,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                     
                   },
 
->>>>>>> parent of b10b5b2 (application of sorting and toggling check box)
             };
 
             _vueComputed = {
@@ -139,17 +135,9 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                         } else {
                           return -1;
                         }
-<<<<<<< HEAD
-
-                             
-                    });
-
-
-=======
                         
                       });
 
->>>>>>> parent of b10b5b2 (application of sorting and toggling check box)
                     //call to redraw  
                     self.moin.paraCoorderRedrawReq = true;
                 }
@@ -281,34 +269,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 // console.log(axis.visible, e)
             })
 
-<<<<<<< HEAD
-            
-            console.log("index from v-for to be moved to bottom: " + index)
-            console.log("index in axesArray to be moved to bottom: " + this.axesArray.indexOf(axis))
-
-            //@change event triggered before the boolean value is changed
-            if (axis.visible){ //when true -> false
-                console.log(axesArray)
-                //then add that axis to the bottom of array
-                this.axesArray.splice(this.axesArray.length, 0, axis);
-                // this.axesArray.push(axis);
-                //remove the axis from array
-                this.axesArray.splice(this.axesArray.indexOf(axis), 1);
-                
-                
-                axis.setVisibility(!axis.visible);
-                console.log("checkbox true -> false: ")
-                
-            }
-
-            else{ //when false -> true
-
-                axis.setVisibility(!axis.visible);
-                console.log("checkbox false -> true: ")
-                
-            }
-        },
-=======
             self.moin.paraCoorderRedrawReq = true;
 
             if (axis.visible){
@@ -320,7 +280,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 
             }
         }
->>>>>>> parent of b10b5b2 (application of sorting and toggling check box)
         //computed component
         _isMinusButtonDisabled = function () {
 

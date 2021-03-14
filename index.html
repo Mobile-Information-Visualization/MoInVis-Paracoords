@@ -63,12 +63,7 @@
                     <li  v-for = "(item, index) in axesArray" :key = "item" :id = "item.attribute" class = "list-axis attrList">
                         
                         <label class="attribute" for = "item.attribute" >{{ item.attributeLabel }}</label>
-<<<<<<< HEAD
-                        <!-- :class="{ undraggable: !item.visible}" -->
-                        <label class="my-handle" :class="{ undraggable: !item.visible}" >&duhar;  </label> 
-=======
                         <label class="my-handle">&duhar;  </label>
->>>>>>> parent of b10b5b2 (application of sorting and toggling check box)
                         <label class="container">
                             
                             <input class = "axisStore" type="checkbox" checked="checked" :id = "item.attribute" v-model = "item.visible" @change = "check($event, item, index, axesArray)">
