@@ -19,7 +19,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
     this.moin = moin;
     MoInVis.Paracoords.paracoorder.baseCtor.call( this, parentDiv );
 
-
     // Private variables.
     var self = this,
         _svgParent = svgParent,
@@ -909,8 +908,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
     // Called whenever this tab comes into focus.
     this.onTabFocus = function () {
-        
-
         if ( this.moin.paraCoorderRedrawReq ) {
             _setVisibleAxes();
             _resetAxesRanges();

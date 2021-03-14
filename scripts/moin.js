@@ -64,7 +64,5 @@ MoInVis.Paracoords.moin = function ( width, height ) {
             self.tabManager = new MoInVis.Paracoords.tabManager( self, [self.entryStore.getTabHandle(), self.attributeStore.getTabHandle(), self.paracoorder.getTabHandle()], 2 );
         };
 
-    this.paraCoorderRedrawReq = false;
     _init();
-
 };

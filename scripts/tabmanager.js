@@ -95,7 +95,6 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
                 .on( 'end', _afterTransition );
             // Switch on events for new tab
             _tabHandlers[_currentTabIndex].switchOnEvents();
-            _tabHandlers[_currentTabIndex].onTabInFocus();
 
             // Activate the current tab indicator
             _tabIndicators[_currentTabIndex].style( 'opacity', 1 );
@@ -124,7 +123,6 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
                 .on( 'end', _afterTransition );
             // Switch on events for new tab
             _tabHandlers[_currentTabIndex].switchOnEvents();
-            _tabHandlers[_currentTabIndex].onTabInFocus();
 
             // Activate the current tab indicator
             _tabIndicators[_currentTabIndex].style( 'opacity', 1 );

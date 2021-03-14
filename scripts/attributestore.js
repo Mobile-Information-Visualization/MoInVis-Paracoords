@@ -19,8 +19,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
     this.moin = moin;
     MoInVis.Paracoords.attributeStore.baseCtor.call( this, parentDiv );
 
-    console.log(this.moin)
-
 
     var self = this,
         _parentDiv = parentDiv,
@@ -248,6 +246,10 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _check = function(e, axis, index){
 
           
+<<<<<<< HEAD
+=======
+            
+>>>>>>> parent of be8e17e (fix up the tab handlers to call onTabFocus function when switching to main tab)
 
             if (axis.visible === true ){
 
@@ -339,7 +341,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
     MoInVis.Paracoords.attributeStore.getAxes = _getAxes;
     MoInVis.Paracoords.attributeStore.getSortable = _getSortable;
     MoInVis.Paracoords.attributeStore._getFocusPanelStartPosition = _getFocusPanelStartPosition;
-  
 };
 
 MoInVis.Paracoords.attributeStore.baseCtor = MoInVis.Paracoords.tab;
