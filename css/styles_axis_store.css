@@ -243,7 +243,7 @@ label.container {
 
   margin-left: auto;
 }
-/* 
+
 .list-enter-active,
 .list-leave-active {
   transition: all 1s ease;
@@ -254,3 +254,9 @@ label.container {
   opacity: 0;
   transform: translateY(30px);
 }
+<<<<<<< HEAD
+=======
+.flip-list-move {
+  transition: transform 1s;
+}
+>>>>>>> parent of 9b97571 (bug still exist)
