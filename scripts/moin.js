@@ -57,11 +57,15 @@ MoInVis.Paracoords.moin = function ( width, height ) {
             self.paracoorder.init( 0, 0 );
             self.paracoorder.draw();
 
-            self.attributeStore = new MoInVis.Paracoords.attributeStore( self, d3.select( '#attrStoreTab' ), self.paracoorder.axes  );
+            self.attributeStore = new MoInVis.Paracoords.attributeStore( self, d3.select( '#attrStoreTab' ), self.paracoorder.axes );
 
             self.entryStore = new MoInVis.Paracoords.entryStore( self, d3.select( '#entryStoreTab' ), self.paracoorder.paths );
 
             self.tabManager = new MoInVis.Paracoords.tabManager( self, [self.entryStore.getTabHandle(), self.attributeStore.getTabHandle(), self.paracoorder.getTabHandle()], 2 );
+
+            self.brushSetter = new MoInVis.Paracoords.brushSetter( self, d3.select( '#brushSetterOverlay' ) );
+
+            self.tabManager.addOverlayTab( self.brushSetter.getTabHandle() );
         };
 
     _init();

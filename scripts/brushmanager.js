@@ -212,6 +212,23 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
         }
     };
 
+    this.onDoubleTap = function ( event ) {
+        var id,
+            index;
+        if ( _activeBrushes.length > 0 ) {
+            id = event.changedPointers[0].target.id;
+            if ( id ) {
+                index = event.changedPointers[0].target.id.split( _axisId + '_Brush_' )[1];
+                if ( index ) {
+                    index = parseInt( index.split( '_' )[0] );
+                    if ( isNaN( index ) === false ) {
+                        _paracoorder.moin.brushSetter.activateTab();
+                    }
+                }
+            }
+        }
+    };
+
     // Checks if a point on the axis has been brushed.
     this.checkPathBrushed = function ( xPos ) {
         var i,
