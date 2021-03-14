@@ -49,13 +49,8 @@
             </header>
             <main class="axisStore axesLists">
 
-<<<<<<< HEAD
-                
-                <transition-group class = "axisStore" id="simpleList" name="list" tag="ul">
-=======
             
                 <transition-group class = "axisStore" id="simpleList" name="flip-list" tag="ul">
->>>>>>> parent of b10b5b2 (application of sorting and toggling check box)
 
                     <div class="focusPanel draggable" :style = "{width: boxWidth.short +'px',height: boxHeight * numberAxesInFocus + 'px'}">
                         
@@ -68,15 +63,9 @@
                     </div>
 
 
-<<<<<<< HEAD
-                    <li class = "list-item attrList" v-for = "(axis, index) in axesArray" :key = "axis" :id = "axis.attribute" >
-                        
-                        <label class="attribute" for = "axis.attribute" >{{ axis.attributeLabel }}</label>
-=======
                     <li  v-for = "(item, index) in axesArray" :key = "item" :id = "item.attribute" class = "list-axis attrList">
                         
                         <label class="attribute" for = "item.attribute" >{{ item.attributeLabel }}</label>
->>>>>>> parent of b10b5b2 (application of sorting and toggling check box)
                         <label class="my-handle">&duhar;  </label>
                         <label class="container">
                             
