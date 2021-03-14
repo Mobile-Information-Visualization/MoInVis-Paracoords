@@ -246,7 +246,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _check = function(e, axis, index){
 
           
-            
 
             if (axis.visible === true ){
 
