@@ -56,7 +56,23 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 decreaseNumber: _decreaseNumber,
                 increaseNumber: _increaseNumber,
                 check:_check,
+<<<<<<< HEAD
                 
+=======
+                randomIndex: function () {
+                    return Math.floor(Math.random() * this.items.length)
+                  },
+                  add: function () {
+                    
+                  },
+                  remove: function(e,i) {
+                    console.log(e)
+                    this.axesArray.splice(i, 1)
+                    this.axesArray.splice(this.randomIndex(), 0, this.nextNum++)
+                    
+                  },
+
+>>>>>>> parent of b10b5b2 (application of sorting and toggling check box)
             };
 
             _vueComputed = {
@@ -123,11 +139,17 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                         } else {
                           return -1;
                         }
+<<<<<<< HEAD
 
                              
                     });
 
 
+=======
+                        
+                      });
+
+>>>>>>> parent of b10b5b2 (application of sorting and toggling check box)
                     //call to redraw  
                     self.moin.paraCoorderRedrawReq = true;
                 }
@@ -259,6 +281,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 // console.log(axis.visible, e)
             })
 
+<<<<<<< HEAD
             
             console.log("index from v-for to be moved to bottom: " + index)
             console.log("index in axesArray to be moved to bottom: " + this.axesArray.indexOf(axis))
@@ -285,6 +308,19 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 
             }
         },
+=======
+            self.moin.paraCoorderRedrawReq = true;
+
+            if (axis.visible){
+
+                //2, 0, 'drum'
+                
+                this.axesArray.splice(index, 1);
+                this.axesArray.splice(this.axesArray.length, 0, axis);
+                
+            }
+        }
+>>>>>>> parent of b10b5b2 (application of sorting and toggling check box)
         //computed component
         _isMinusButtonDisabled = function () {
 
