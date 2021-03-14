@@ -245,23 +245,9 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
         },
 
-<<<<<<< HEAD
-        //move the list to bottom
-        _check = function(e, axis, index, axesArray){
-
-           
-            let removedAxis = axis;
-            this.$nextTick(() => {
-                
-                // console.log(axis.visible, e)
-            })
-
-            self.moin.paraCoorderRedrawReq = true;
-=======
         _check = function(e, axis, index){
 
           
->>>>>>> parent of f4d5011 (checkBox animation)
 
             if (axis.visible === true ){
 
