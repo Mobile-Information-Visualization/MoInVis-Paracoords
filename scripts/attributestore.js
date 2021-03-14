@@ -52,6 +52,21 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 decreaseNumber: _decreaseNumber,
                 increaseNumber: _increaseNumber,
                 check:_check,
+<<<<<<< HEAD
+=======
+                randomIndex: function () {
+                    return Math.floor(Math.random() * this.items.length)
+                  },
+                  add: function () {
+                    
+                  },
+                  remove: function(e,i) {
+                    console.log(e)
+                    this.axesArray.splice(i, 1)
+                    this.axesArray.splice(this.randomIndex(), 0, this.nextNum++)
+                    
+                  },
+>>>>>>> parent of b10b5b2 (application of sorting and toggling check box)
 
             };
 
@@ -245,12 +260,23 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
         _check = function(e, axis, index){
 
+<<<<<<< HEAD
           
 
             if (axis.visible === true ){
 
                 this.axesArray.push(axis);
                 this.axesArray.splice(index, 1);
+=======
+            self.moin.paraCoorderRedrawReq = true;
+
+            if (axis.visible){
+
+                //2, 0, 'drum'
+                
+                this.axesArray.splice(index, 1);
+                this.axesArray.splice(this.axesArray.length, 0, axis);
+>>>>>>> parent of b10b5b2 (application of sorting and toggling check box)
                 
             }
         }
