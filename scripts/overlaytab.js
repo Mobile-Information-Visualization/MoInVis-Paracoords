@@ -37,11 +37,15 @@ MoInVis.Paracoords.overlayTab = function ( parentDiv ) {
     };
 
     this.activateTab = function () {
-        self.moin.tabManager.activateOverlayTab( _overlayTabId );
+        this.moin.tabManager.activateOverlayTab( _overlayTabId );
+        if ( this.onTabActivated ) {
+            // onTabActivated method to be created in the child classes.
+            this.onTabActivated();
+        }
     };
 
     this.deactivateTab = function () {
-        self.moin.tabManager.deactivateOverlayTab();
+        this.moin.tabManager.deactivateOverlayTab();
     };
 
     // Called whenever this tab comes into focus.
