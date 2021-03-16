@@ -33,6 +33,8 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
                 val = ( val / 1000000 ).toFixed( 2 ) + ' mil';
             } else if ( val > 100000 ) {
                 val = ( val / 1000 ).toFixed( 2 ) + ' k';
+            } else {
+                val = val.toFixed( 2 );
             }
             return val;
         } ;

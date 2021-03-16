@@ -23,18 +23,20 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
         _vueApp,
 
         _init = function () {
-            _vueData = {
+            var vueStuff, vueData = {
                 tabName: 'Enter the Brush setter!',
-                brushes: []
+                brushes: [{ axisName: 'Rubber Waste', rangeText: ['yo', 'haha'], active: true }]
             };
-            _vueApp = self.initVue( '#brushSetterOverlayVue', _vueData );
+            vueStuff = self.initVue( vueData );
+            _vueApp = vueStuff.mainApp;
+            _vueData = vueStuff.dataProxy;
             _parentDiv.style( 'background', 'rgba( 50, 50, 50, 0.75)' );
         };
 
     this.onTabActivated = function () {
         // Get brush configurations.
         var brushConfig = this.moin.paracoorder.getBrushConfigurations();
-        brushConfig.forEach( ( config, index ) => _vueData.brushes.splice( index, 1, config ) );   
+        brushConfig.forEach( ( config, index ) => _vueData.brushes.splice( index, 1, config ) );
         //Vue.set( _vueData.brushes, index, config );
     };
 

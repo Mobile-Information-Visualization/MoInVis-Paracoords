@@ -51,17 +51,16 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         };
 
     // Instantiate the Vue app here.
-    this.initVue = function ( elId, vueData, vueMethods ) {
+    this.initVue = function ( vueData, vueMethods ) {
         var mainApp =
-            new Vue( {
-                el: elId,
+            Vue.createApp( {
                 data: function () {
                     return vueData;
                 },
                 methods: vueMethods || {}
-            } );
-        //mainApp.mount( _tabHandle.parentTab.node() );
-        return mainApp;
+            } ),
+            dataProxy = mainApp.mount( _tabHandle.parentTab.node() );
+        return { mainApp, dataProxy };
     };
 
     this.swipeRight = function () {
