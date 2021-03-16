@@ -37,8 +37,10 @@
         <div id="brushSetterOverlay">
             <div id="brushSetterOverlayVue">
                 <div style="opacity: 1">
-                    <h1>Brush setter</h1>
-                    <h1>{{tabName}}</h1>
+                    <svg style="left:1.5em; top:1.5em; position:absolute;" @pointerdown="onPointerDown" @pointerup="onPointerUp" @click="closeTab">
+                        <path d="M 0 0 L 80 80 M 0 80 L 80 0" fill="none" stroke-width="10" stroke="#7dcdc4" :opacity="pointerDownX ? 0.5: 1"></path>
+                    </svg>
+                    <h1 class="brushtabname">{{tabName}}</h1>
 
                     <!--<button class="minusButton" :class="{disableButton: !isMinusButtonDisabled}" @click="decreaseNumber" :disabled="!isMinusButtonDisabled">&minus;</button>
                     <output class="totalAxesInFocus">{{numberAxesInFocus}}</output>
@@ -46,7 +48,7 @@
 
                     <button class="undoButton">&#9100;</button>-->
                     <!--</header>-->
-                    <div class="axisStore axesLists">
+                    <div>
 
                         <!--<div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: boxHeight * numberAxesInFocus + 'px'}">
 
@@ -57,7 +59,7 @@
                             <label class="focusPanelBar" :style="{width: boxWidth.short/8 +'px' }"></label>
 
                         </div>-->
-                        <li v-for="(item, index) in brushes" :key="item" :id="item.attribute" class="list-axis attrList">
+                        <li v-for="(item, index) in brushes" :key="item" :id="item.attribute" :class="'brushlist' + (index === 0 ? ' firstbrush':'') + (item.inFocus?' brushinfocus':'')">
                             <label class="brushname">{{ item.axisName }}</label>
                             <label class="brushvalue">{{ item.rangeText[0] + ' - ' + item.rangeText[1]}}</label>
                             <label class="switch">

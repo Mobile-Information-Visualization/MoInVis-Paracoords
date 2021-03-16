@@ -21,13 +21,26 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
         _parentDiv = parentDiv,
         _vueData,
         _vueApp,
+        _closeTab = function ( event ) {
+            self.deactivateTab();
+            this.pointerDownX = false;
+        },
+        _onPointerDown = function (event) {
+            this.pointerDownX = true;
+        },
+        _onPointerUp = function (event) {
+            this.pointerDownX = false;
+        },
 
         _init = function () {
-            var vueStuff, vueData = {
-                tabName: 'Enter the Brush setter!',
-                brushes: [{ axisName: 'Rubber Waste', rangeText: ['yo', 'haha'], active: true }]
-            };
-            vueStuff = self.initVue( vueData );
+            var vueStuff,
+                vueData = {
+                    tabName: 'Brush Settings',
+                    brushes: [{ axisName: 'Rubber Waste', rangeText: ['yo', 'haha'], active: true }],
+                    pointerDownX: false
+                },
+                vueMethods = { closeTab: _closeTab, onPointerDown: _onPointerDown, onPointerUp: _onPointerUp };
+            vueStuff = self.initVue( vueData, vueMethods );
             _vueApp = vueStuff.mainApp;
             _vueData = vueStuff.dataProxy;
             _parentDiv.style( 'background', 'rgba( 50, 50, 50, 0.75)' );

@@ -75,6 +75,7 @@ label.brushname {
     white-space: nowrap;
     text-overflow: ellipsis;
     padding-bottom: 7%;
+    color: #7dcdc4;
 }
 
 /*Brush setter styles.*/
@@ -90,6 +91,33 @@ label.brushvalue {
     padding-left: 3%;
     color: #7dcdc4;
 }
+
+.brushtabname {
+    font-size: 3em;
+    text-align: center;
+    color: #abbbbb;
+    user-select: none;
+}
+/*li.brushes{*/
+/* margin: 3% 3%; */
+/*padding: 3% 3%;
+    display: grid;
+    grid-template-columns: 1fr 7fr 1fr 1fr;
+    align-items: center;
+    cursor: move;
+}*/
+li.firstbrush {
+    border-top: 5px solid #7dcdc4;
+}
+
+li.brushlist {
+    border-bottom: 5px solid #7dcdc4;
+}
+
+li.brushinfocus {
+    background: rgba(0,139,139,0.7);
+}
+
 /* The switch - the box around the slider */
 .switch {
     position: relative;
