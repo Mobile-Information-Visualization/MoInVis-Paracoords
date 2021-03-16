@@ -24,7 +24,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             _vueData = {
                 tabName: 'I am the Attribute Store!'
             };
-            _vueApp = self.initVue( _vueData );
+            _vueApp = self.initVue( '#attrStoreTabVue', _vueData );
         };
 
     _init();

@@ -1102,6 +1102,18 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         }
     };
 
+    this.getBrushConfigurations = function () {
+        var brushConfigs = [];
+        _visibleAxes.forEach( axis => {
+            //var config = axis.getBrushConfigurations();
+            //if ( config ) {
+            //    brushConfigs.push( config );
+            //}
+            brushConfigs = brushConfigs.concat( axis.getBrushConfigurations() );
+        } );
+        return brushConfigs;
+    };
+
     this.enterAxesReorderMode = function () {
         // let rotationCenterX = document.getElementById( 'MoInVis_ParaCoords_0_ContainerSVG' ).clientWidth / 2;
         if ( this.pinchScrollInProgress === false ) { // Only enter axes reorder mode when pinch and scroll are not in progress.

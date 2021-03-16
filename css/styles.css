@@ -64,4 +64,30 @@ line {
     /*y: 10;*/
 }
 
+/*Brush setter styles.*/
+label.brushname {
+    font-size: 2em;
+    font-weight: lighter;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-bottom: 7%;
+}
+
+/*Brush setter styles.*/
+label.brushvalue {
+    font-size: 4em;
+    font-weight: lighter;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 3%;
+    color: #7dcdc4;
+}
 

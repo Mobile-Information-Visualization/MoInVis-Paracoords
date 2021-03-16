@@ -24,6 +24,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
         _gesturePos,
         _hammerMan,
         _brushHandlePanning = false,
+        _brushInFocus = -1,
 
         // Checks if movement of brush edge is valid.
         _isValidMove = function () {
@@ -101,6 +102,24 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
             .append( 'g' )
             .attr( 'id', _axisId + '_BrushParent' );
         _hammerMan = hammerMan;
+    };
+
+    this.getBrushes = function () {
+        var brushes = [];
+        if ( _activeBrushes.length ) {
+            brushes = _activeBrushes.map( ( brush, index ) => {
+                return { range: brush.getBrushBounds(), inFocus: index === _brushInFocus };
+            } );
+        }
+        _brushInFocus = -1;
+        return brushes;
+    };
+
+    this.getBrushInFocus = function () {        
+        var brushInFocus = _brushInFocus;
+        // Reset focus
+        _brushInFocus = -1;
+        return brushInFocus;
     };
 
     // Prepares to handle panning gesture.
@@ -222,6 +241,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
                 if ( index ) {
                     index = parseInt( index.split( '_' )[0] );
                     if ( isNaN( index ) === false ) {
+                        _brushInFocus = index;
                         _paracoorder.moin.brushSetter.activateTab();
                     }
                 }

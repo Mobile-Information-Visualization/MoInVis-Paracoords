@@ -24,11 +24,19 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
 
         _init = function () {
             _vueData = {
-                tabName: 'Enter the Brush setter!'
+                tabName: 'Enter the Brush setter!',
+                brushes: []
             };
-            _vueApp = self.initVue( _vueData );
+            _vueApp = self.initVue( '#brushSetterOverlayVue', _vueData );
             _parentDiv.style( 'background', 'rgba( 50, 50, 50, 0.75)' );
         };
+
+    this.onTabActivated = function () {
+        // Get brush configurations.
+        var brushConfig = this.moin.paracoorder.getBrushConfigurations();
+        brushConfig.forEach( ( config, index ) => _vueData.brushes.splice( index, 1, config ) );   
+        //Vue.set( _vueData.brushes, index, config );
+    };
 
     _init();
 };

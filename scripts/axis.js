@@ -27,7 +27,15 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _brushManager,
         _interactionManager,
         _wigglingIntervalId,
-        _isDragged = false;
+        _isDragged = false,
+        _formatter = function ( val ) {
+            if ( val > 1000000 ) {
+                val = ( val / 1000000 ).toFixed( 2 ) + ' mil';
+            } else if ( val > 100000 ) {
+                val = ( val / 1000 ).toFixed( 2 ) + ' k';
+            }
+            return val;
+        } ;
 
     this.attribute = attributeProps.prop;
     this.attributeLabel = attributeProps.text;
@@ -46,7 +54,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _axisGroup.style( 'display', visible ? 'inherit' : 'none' );
     };
 
-    this.setAxisRange = function (newRange) {
+    this.setAxisRange = function ( newRange ) {
         _attrScale.domain( newRange );
     };
 
@@ -56,6 +64,20 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
     this.checkPathBrushed = function ( xPos ) {
         return _brushManager.checkPathBrushed( xPos );
+    };
+
+    this.getBrushConfigurations = function () {
+        var brushes = _brushManager.getBrushes();
+        brushes.forEach( ( brush, index ) => {
+            // brush.axisName = this.attributeLabel + ' Brush ' + ( index + 1 ); // Uncomment when multiple brushes for single axis are enabled.
+            brush.axisName = this.attributeLabel;
+            brush.axisRange = _attrScale.domain();
+            // [TODO]: Apply appropriate formatter.
+            brush.range = [_attrScale.invert( brush.range[0] ), _attrScale.invert( brush.range[1] )];
+            brush.rangeText = brush.range.map( val => _formatter( val ) );
+            brush.active = true;
+        } );
+        return brushes;
     };
 
     this.draw = function ( xPos, yPos ) {
@@ -169,22 +191,22 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             .transition()
             .duration( MoInVis.Paracoords.TransitionSpeed )
             .ease( d3.easeCubicOut )
-            .attr( 'transform', 'translate(' + newX + ',' +  this.yPos + ')' );
+            .attr( 'transform', 'translate(' + newX + ',' + this.yPos + ')' );
     };
 
     this.setXY = function ( newX, newY ) {
         this.yPos = newY;
-        this.xPos = newX    ;
+        this.xPos = newX;
         _axisGroup
             .attr( 'transform', 'translate(' + newX + ',' + newY + ')' );
     };
 
-    this.startWiggling = function ( ) {
+    this.startWiggling = function () {
         let seed = Math.random();
         const amplitude = 0.4 + 0.8,
             speed = 0.03;
 
-        _wigglingIntervalId = setInterval(function () {
+        _wigglingIntervalId = setInterval( function () {
             let y = Math.sin( 10 * seed ) * amplitude;
             _textInnerGroup
                 .attr( 'transform', 'rotate(' + y + ',' + _textGroupCenter + ',0)' );

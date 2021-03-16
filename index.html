@@ -4,9 +4,16 @@
     <title>MoInVis ParaCoords</title>
     <script src="scripts/libs/d3.js"></script>
     <script src="scripts/libs/hammer.js"></script>
-    <script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js"></script>
+    <script src="scripts/libs/vue.js"></script>
+    <script type="text/javascript" src="scripts/libs/pretty-checkbox-vue.min.js"></script>
+    <script type="text/javascript">
+        Vue.use( PrettyCheckbox );
+    </script>
 
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles_axis_store.css">
+    <link rel="stylesheet" type="text/css" href="css/styles_universal.css">
+    <link rel="stylesheet" type="text/css" href="css/pretty-checkbox.min.css">
     <script src="data/json/chemwaste.json"></script>
     <script src="data/json/glasswaste.json"></script>
     <script src="data/json/healthcarebiowaste.json"></script>
@@ -21,16 +28,58 @@
         <div id="paracoordTab">
         </div>
         <div id="attrStoreTab">
-            <h1>{{tabName}}</h1>
+            <div id="attrStoreTabVue">
+                <h1>{{tabName}}</h1>
+            </div>
         </div>
         <div id="entryStoreTab">
-            <h1>Entry Store Tab</h1>
-            <h1>{{tabName}}</h1>
+            <div id="entryStoreTabVue">
+                <h1>Entry Store Tab</h1>
+                <h1>{{tabName}}</h1>
+            </div>
         </div>
         <div id="brushSetterOverlay">
-            <div style="opacity: 1">
-                <h1>Brush setter</h1>
-                <h1>{{tabName}}</h1>
+            <div id="brushSetterOverlayVue">
+                <div style="opacity: 1">
+                    <h1>Brush setter</h1>
+                    <h1>{{tabName}}</h1>
+
+                    <!--<button class="minusButton" :class="{disableButton: !isMinusButtonDisabled}" @click="decreaseNumber" :disabled="!isMinusButtonDisabled">&minus;</button>
+                    <output class="totalAxesInFocus">{{numberAxesInFocus}}</output>
+                    <button class="plusButton" :class="{disableButton: !isPlusButtonDisabled}" @click="increaseNumber" :disabled="!isPlusButtonDisabled">&plus;</button>
+
+                    <button class="undoButton">&#9100;</button>-->
+                    <!--</header>-->
+                    <div class="axisStore axesLists">
+
+                        <!--<div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: boxHeight * numberAxesInFocus + 'px'}">
+
+
+                            <label class="drag-handle-focusPanel" id="drag-handle-focusPanel">
+                                &duhar;
+                            </label>
+                            <label class="focusPanelBar" :style="{width: boxWidth.short/8 +'px' }"></label>
+
+                        </div>-->
+
+
+                        <li v-for="(item, index) in brushes" :key="item" :id="item.attribute" class="list-axis attrList">
+
+                            <label class="brushname">{{ item.axisName }}</label>
+                            <br />
+                            <br />
+                            <label class="brushvalue">{{ item.rangeText[0] + ' - ' + item.rangeText[1]}}</label>
+                            <!-- add class p-switch -->
+                            <p-check class="p-switch p-fill" v-model="item.active"/>
+                            <!--<label class="container">
+        <input class="axisStore" type="checkbox" checked="checked" :id="item.attribute" v-model="item.visible" @change="check($event, item, index)">
+        <span class="checkmark"></span>
+    </label>-->
+
+                        </li>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>

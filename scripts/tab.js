@@ -51,15 +51,16 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         };
 
     // Instantiate the Vue app here.
-    this.initVue = function ( vueData, vueMethods ) {
+    this.initVue = function ( elId, vueData, vueMethods ) {
         var mainApp =
-            Vue.createApp( {
+            new Vue( {
+                el: elId,
                 data: function () {
                     return vueData;
                 },
                 methods: vueMethods || {}
             } );
-        mainApp.mount( _tabHandle.parentTab.node() );
+        //mainApp.mount( _tabHandle.parentTab.node() );
         return mainApp;
     };
 
