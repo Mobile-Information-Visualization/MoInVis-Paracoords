@@ -94,6 +94,7 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
             .style( 'top', 1.5 * _moin.height + 'px' )
             .transition()
             .duration( MoInVis.Paracoords.TransitionSpeed )
+            .ease( d3.easeCubicOut )
             .style( 'top', '0px' );
         _overlayTabActive = true;
     };

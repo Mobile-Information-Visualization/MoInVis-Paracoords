@@ -180,3 +180,128 @@ input:checked + .slider:before {
     .slider.round:before {
         border-radius: 50%;
     }
+
+
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+    transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.modal-container {
+    width: 80%;
+    height: 40%;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #323232;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    transition: all 0.3s ease;
+}
+
+.modal-header {
+    margin-top: 0;
+    font-size: 3em;
+    text-align: center;
+    color: #abbbbb;
+    user-select: none;
+    border-bottom: 5px solid #7dcdc4;
+    padding-bottom: 3%;
+}
+
+.modal-body {
+    padding-top: 7%;
+    padding-bottom: 7%;
+    font-size: 4em;
+    text-align: center;
+    user-select: none;
+    font-weight: lighter;
+    overflow: hidden;
+    color: #abbbbb;
+}
+
+    .modal-body .active {
+        color: #4ae6d8;
+    }
+
+.modal-body2 {
+    font-size: 2em;
+    user-select: none;
+    font-weight: lighter;
+    overflow: hidden;
+    color: #4ae6d8;
+}
+
+.modal-footer label {
+    font-size: 3em;
+    font-weight: lighter;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #7dcdc4;
+}
+
+.modal-default-button {
+    margin-top: 7%;
+    margin-left: 10%;
+    font-size: 3em;
+    background: #323232; /*same as the container's background*/
+    border: 0px;
+    color: #7dcdc4;
+    float: right;
+}
+
+.minus-plus-button {
+    font-size: 3em;
+    font-weight: 100;
+    border-radius: 50%;
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+    border-right: solid;
+    border-color: #525252;
+    background: #7dcdc4; /*same as the slider ring colour and the OK button text colour*/
+    color: #252525;
+    float: right;
+    margin-top: 7%;
+    margin-left: 10%;
+    height: 1em;
+    width: 1em;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter {
+    opacity: 0;
+}
+
+.modal-leave-active {
+    opacity: 0;
+}
+
+    .modal-enter .modal-container,
+    .modal-leave-active .modal-container {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
