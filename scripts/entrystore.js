@@ -50,8 +50,14 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
             _vueApp = self.initVue( _vueData, _vueMethods);
         };
 
-     _changed = function(){
-      if (!MoInVis.Paracoords.ParaCoorderRedrawReq) {
+     _changed = function(entry){
+      if (entry.visible) {
+          entry.setVisibility(false);
+      } else {
+        entry.setVisibility(true);
+      }
+      console.log("Visibility of " + entry.itemText + " is now " + entry.visible);
+      if (!MoInVis.Paracoords.ParaCoorderRedrawReq){
       MoInVis.Paracoords.ParaCoorderRedrawReq = true;
       console.log("Redraw flag: "+ MoInVis.Paracoords.ParaCoorderRedrawReq);
       }

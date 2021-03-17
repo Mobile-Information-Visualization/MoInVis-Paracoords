@@ -41,7 +41,7 @@
                 <label class="container">
 
                   <input class = "entryStore" type="checkbox" checked="checked" :id = "entry.attribute" v-model= "entry.visible"
-                  @change=changed>
+                  @change=changed(entry)>
                   <span class="checkmark"></span>
 
                 </label>
