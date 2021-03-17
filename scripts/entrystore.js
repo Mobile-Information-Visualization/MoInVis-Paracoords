@@ -51,8 +51,10 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
         };
 
      _changed = function(){
-      console.log("Changed");
-      MoInVis.Paracoords.Flag = true;
+      if (!MoInVis.Paracoords.ParaCoorderRedrawReq) {
+      MoInVis.Paracoords.ParaCoorderRedrawReq = true;
+      console.log("Redraw flag: "+ MoInVis.Paracoords.ParaCoorderRedrawReq);
+      }
     };
 
     _checkEntry = function(entry){
