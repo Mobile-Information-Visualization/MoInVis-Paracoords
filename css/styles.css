@@ -265,6 +265,10 @@ input:checked + .slider:before {
     float: right;
 }
 
+    .modal-default-button.active {
+        color: #008b8b;
+    }
+
 .minus-plus-button {
     font-size: 3em;
     font-weight: 100;
@@ -282,6 +286,10 @@ input:checked + .slider:before {
     height: 1em;
     width: 1em;
 }
+
+    .minus-plus-button.active {
+        background: #008b8b;
+    }
 
 /*
  * The following styles are auto-applied to elements with

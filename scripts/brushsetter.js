@@ -35,7 +35,7 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
             var vueStuff,
                 vueData = {
                     tabName: 'Brush Settings',
-                    brushes: [{ axisName: 'Rubber Waste', rangeText: ['yo', 'haha'], active: true }],
+                    brushes: [],
                     pointerDownX: false
                 },
                 vueMethods = { closeTab: _closeTab, labelClick: _labelClick };
@@ -45,10 +45,15 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
 
             _parentDiv.style( 'background', 'rgba( 50, 50, 50, 0.85)' );
 
+            // [TODO]: Send the component as an object vueComponents to initVue so it can be set before mounting. Check if this removes warning logged.
             _vueApp.component( 'modal', {
                 data() {
                     return {
-                        startValueActive: true
+                        startValueActive: true,
+                        plusButtonTouched: false,
+                        minusButtonTouched: false,
+                        cancelButtonTouched: false,
+                        okButtonTouched: false
                     }
                 },
                 props: ['brushprops'],
@@ -83,17 +88,17 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
                                             <label style="left: 80%; position: relative;">max</label>
                                         </div>
                                         <div>
-                                            <button class="minus-plus-button">&plus;</button>
-                                            <button class="minus-plus-button">&minus;</button>
+                                            <button :class="'minus-plus-button' + (plusButtonTouched?' active':'')" @pointerdown="plusButtonTouched = true" @pointerup="plusButtonTouched = false" >&plus;</button>
+                                            <button :class="'minus-plus-button' + (minusButtonTouched?' active':'')" @pointerdown="minusButtonTouched = true" @pointerup="minusButtonTouched = false" >&minus;</button>
                                         </div>
                                     </div>
 
                                     <div class="modal-footer">
                                         <slot name="footer">
-                                            <button class="modal-default-button" @click="$emit('close')">
+                                            <button :class="'modal-default-button' + (okButtonTouched?' active':'')" @pointerdown="okButtonTouched = true" @pointerup="okButtonTouched = false" @click="$emit('close')">
                                                 OK
                                             </button>
-                                            <button class="modal-default-button" @click="$emit('close')">
+                                            <button :class="'modal-default-button' + (cancelButtonTouched?' active':'')" @pointerdown="cancelButtonTouched = true" @pointerup="cancelButtonTouched = false" @click="$emit('close')">
                                                 Cancel
                                             </button>
                                         </slot>
