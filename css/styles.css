@@ -262,11 +262,17 @@ input:checked + .slider:before {
     background: #323232; /*same as the container's background*/
     border: 0px;
     color: #7dcdc4;
-    float: right;
 }
 
     .modal-default-button.active {
         color: #008b8b;
+    }
+
+    .modal-default-button.left {
+        float: left;
+    }
+    .modal-default-button.right {
+        float: right;
     }
 
 .minus-plus-button {

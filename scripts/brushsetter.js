@@ -52,6 +52,7 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
                         startValueActive: true,
                         plusButtonTouched: false,
                         minusButtonTouched: false,
+                        keyButtonTouched: false,
                         cancelButtonTouched: false,
                         okButtonTouched: false
                     }
@@ -95,12 +96,13 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
 
                                     <div class="modal-footer">
                                         <slot name="footer">
-                                            <button :class="'modal-default-button' + (okButtonTouched?' active':'')" @pointerdown="okButtonTouched = true" @pointerup="okButtonTouched = false" @click="$emit('close')">
+                                            <button :class="'modal-default-button right' + (okButtonTouched?' active':'')" @pointerdown="okButtonTouched = true" @pointerup="okButtonTouched = false" @click="$emit('close')">
                                                 OK
                                             </button>
-                                            <button :class="'modal-default-button' + (cancelButtonTouched?' active':'')" @pointerdown="cancelButtonTouched = true" @pointerup="cancelButtonTouched = false" @click="$emit('close')">
+                                            <button :class="'modal-default-button right' + (cancelButtonTouched?' active':'')" @pointerdown="cancelButtonTouched = true" @pointerup="cancelButtonTouched = false" @click="$emit('close')">
                                                 Cancel
                                             </button>
+                                            <button :class="'modal-default-button left' + (keyButtonTouched?' active':'')" @pointerdown="keyButtonTouched = true" @pointerup="keyButtonTouched = false"><i class="fa fa-keyboard-o" style="font-size:inherit;color:inherit"></i></button>
                                         </slot>
                                     </div>
                                 </div>
