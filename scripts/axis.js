@@ -15,12 +15,19 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
     var self = this,
         _axisParentGroup = axisParent,
         _axisGroup,
+        _axisInnerGroup,
         _textGroup,
+        _textInnerGroup,
+        _textGroupCenter,
         _axis,
         _paracoorder = paracoorder,
         _id,
         _class = MoInVis.Paracoords.IdStore.AxisClass,
-        _attrScale = attrScale;
+        _attrScale = attrScale,
+        _brushManager,
+        _interactionManager,
+        _wigglingIntervalId,
+        _isDragged = false;
 
     this.attribute = attributeProps.prop;
     this.attributeLabel = attributeProps.text;
@@ -32,14 +39,23 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
     };
 
     this.visible = true;
+    this.indexInVisibilityArray = 0;
 
     this.setVisibility = function ( visible ) {
         this.visible = visible;
-        // [TODO]: Make _axisGroup visible or invisible.
+        _axisGroup.style( 'display', visible ? 'inherit' : 'none' );
+    };
+
+    this.setAxisRange = function (newRange) {
+        _attrScale.domain( newRange );
     };
 
     this.getXY = function ( value ) {
         return [_attrScale( value ), this.yPos];
+    };
+
+    this.checkPathBrushed = function ( xPos ) {
+        return _brushManager.checkPathBrushed( xPos );
     };
 
     this.draw = function ( xPos, yPos ) {
@@ -50,6 +66,10 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             .attr( 'id', _id )
             .attr( 'class', _class )
             .attr( 'transform', 'translate(0,' + this.yPos + ')' );
+        _axisInnerGroup = _axisGroup
+            .append( 'g' )
+            .attr( 'id', _id + '_InnerGroup' )
+            .attr( 'class', _class + '_InnerGroup' );
 
         // Drawing axes.
         // [TODO]: Draw labels for min and max values.
@@ -59,19 +79,73 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         // [TODO]: Style the axis -> Set colour of the labels.
         // [TODO]: Style the axis -> Set colour and background for the attribute text label.
 
-        _axisGroup.call( _axis = d3.axisBottom( _attrScale ).ticks( 5 ) ); // [TODO]: Number of ticks must depend on font size, available width, and text lengths.
+        _axisInnerGroup.call(
+            _axis = d3.axisBottom( _attrScale )
+                .ticks( 3 )
+        );
+        // Vertical values (height and margins) set.
+        _axisInnerGroup.selectAll( 'line' )
+            .attr( 'y2', 8 ); // of tick lines
+        _axisInnerGroup.selectAll( 'text' )
+            .attr( 'y', 12 ); // of tick labels
 
-        _textGroup = _axisGroup
-            .append( "g" )
-            .attr( 'id', _id + '_TextGroup' );
+        // [TODO]: Number of ticks must depend on font size, available width, and text lengths.
 
-        _textGroup.append( 'text' )
+        // label computation
+        const padding = { vertical: 11, horizontal: 22 }; // space between text and its box
+        const margin = { vertical: 42, horizontal: 0 }; // space between box and its axis
+
+        _textGroup = _axisInnerGroup
+            .append( 'g' )
+            .attr( 'id', _id + '_TextGroup' )
+            .attr( 'transform', 'translate(' + ( this.xPos + margin.horizontal ) + ',' + ( - margin.vertical ) + ')' );
+
+        _textInnerGroup = _textGroup
+            .append( 'g' )
+            .attr( 'id', _id + '_TextInnerGroup' );
+
+        // label box
+        _textInnerGroup.append( 'rect' )
+            .attr( 'class', 'attrNameTextBox' )
+            .attr( 'id', _id + '_LabelTextBox' )
+            .attr( 'x', 0 )
+            .attr( 'y', 0 );
+
+        // label text
+        _textInnerGroup.append( 'text' )
             .attr( 'class', 'attrNameText' )
-            .attr( 'transform', 'translate(' + this.xPos + ',' + ( - 10 ) + ')' )
-            .attr( 'text-anchor', "start" )
+            .attr( 'id', _id + '_LabelText' )
+            //.attr( 'transform', 'translate(' + ( this.xPos + margins.horizontal ) + ',' + ( - 0 - margins.vertical ) + ')' )
+            .attr( 'x', padding.horizontal )
+            .attr( 'y', ( 0 ) )
+            .attr( 'text-anchor', 'start' )
             .text( this.attributeLabel );
 
+        // adjust box size to text size
+        const measuredSize = _textInnerGroup.select( 'text' )
+            .node()
+            .getBBox();
+        _textInnerGroup.select( 'rect' )
+            .attr( 'width', measuredSize.width + ( 2 * padding.horizontal ) )
+            .attr( 'height', measuredSize.height + ( 2 * padding.vertical ) )
+            .attr( 'y', ( measuredSize.y - padding.vertical ) )
+            .attr( 'ry', ( measuredSize.height / 1.7 ) );
+        _textGroupCenter = ( measuredSize.width + ( 2 * padding.horizontal ) ) / 2;
+
         this.height = _axisGroup.node().getBBox().height;
+
+        _interactionManager = new MoInVis.Paracoords.axisInteractionManager(
+            this,
+            _axisGroup,
+            _axisInnerGroup,
+            _id,
+            _attrScale,
+            _paracoorder );
+        _brushManager = new MoInVis.Paracoords.brushManager(
+            _id,
+            _attrScale,
+            _paracoorder );
+        _interactionManager.init( _brushManager );
     };
 
     this.transitionY = function ( newY ) {
@@ -86,6 +160,60 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
     this.setY = function ( newY ) {
         this.yPos = newY;
         _axisGroup
-            .attr( 'transform', 'translate(0,' + this.yPos + ')' );
+            .attr( 'transform', 'translate(0,' + newY + ')' );
+    };
+
+    this.setX = function ( newX ) {
+        this.xPos = newX;
+        _axisGroup
+            .transition()
+            .duration( MoInVis.Paracoords.TransitionSpeed )
+            .ease( d3.easeCubicOut )
+            .attr( 'transform', 'translate(' + newX + ',' +  this.yPos + ')' );
+    };
+
+    this.setXY = function ( newX, newY ) {
+        this.yPos = newY;
+        this.xPos = newX    ;
+        _axisGroup
+            .attr( 'transform', 'translate(' + newX + ',' + newY + ')' );
+    };
+
+    this.startWiggling = function ( ) {
+        let seed = Math.random();
+        const amplitude = 0.4 + 0.8,
+            speed = 0.03;
+
+        _wigglingIntervalId = setInterval(function () {
+            let y = Math.sin( 10 * seed ) * amplitude;
+            _textInnerGroup
+                .attr( 'transform', 'rotate(' + y + ',' + _textGroupCenter + ',0)' );
+            seed = seed + speed;
+        }, 10 );
+    };
+
+    this.stopWiggling = function () {
+        clearInterval( _wigglingIntervalId );
+        _textInnerGroup
+            .transition()
+            .duration( MoInVis.Paracoords.FastTransitionSpeed )
+            .ease( d3.easeExpOut )
+            .attr( 'transform', 'rotate(0,0,0)' );
+    };
+
+    this.getInteractionManager = function () {
+        return _interactionManager;
+    };
+
+    this.setDragStatus = function ( isDragged ) {
+        _isDragged = isDragged;
+    };
+
+    this.getDragStatus = function () {
+        return _isDragged;
+    };
+
+    this.getId = function () {
+        return _id;
     };
 };

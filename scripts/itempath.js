@@ -21,6 +21,9 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         _chosenYear,
         _pathWidth = 2,
         _points = [],
+        _emphasis,
+        _emphasizedAlpha = 1,
+        _unemphasizedAlpha = 0.25,
         _colour = '#FFFFFF';
 
     this.itemName = itemName;
@@ -63,31 +66,30 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
             .attr( "fill", "none" );
     };
 
-    this.recalculate = function (dontAnimate) {
-        _points = _paracoorder.getPathPoints( this.itemName );
+    this.recalculate = function ( dontAnimate ) {
+        let pointsInfo = _paracoorder.getPathPointsInfo( this.itemName );
+        _points = pointsInfo.points;
+        _emphasis = pointsInfo.emphasis;
+        _pathElement.attr( 'opacity', _emphasis ? _emphasizedAlpha : _unemphasizedAlpha );
         if ( dontAnimate === true ) {
             _pathElement
-                .attr( "d", d3.line()( _points ) );
+                .attr( 'd', d3.line()( _points ) );
         } else {
             _pathElement
                 .transition()
                 .duration( MoInVis.Paracoords.TransitionSpeed )
                 .ease( d3.easeCubicOut )
-                .attr( "d", d3.line()( _points ) );
+                .attr( 'd', d3.line()( _points ) );
         }
     };
 
-    this.transitionY = function () {
-        //this.yPos = newY;
-        //_axisGroup
-        //    .transition()
-        //    .duration( MoInVis.Paracoords.TransitionSpeed)
-        //    .attr( 'transform', 'translate(0,' + this.yPos + ')' );
+    // Emphasizes or de-emphasizes the path.
+    this.setEmphasis = function ( emphasis ) {
+        if ( emphasis ) {
+            _pathElement.attr( 'opacity', _emphasizedAlpha );
+        } else {
+            _pathElement.attr( 'opacity', _unemphasizedAlpha );
+        }
     };
 
-    this.setY = function () {
-        //this.yPos = newY;
-        //_axisGroup
-        //    .attr( 'transform', 'translate(0,' + this.yPos + ')' );
-    };
 };
