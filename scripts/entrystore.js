@@ -19,13 +19,11 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
 
     const items = Object.keys(entries);
     var totalEntries = items.length;
-    console.log("Total length of Entries: " + totalEntries);
-    console.log("items is type of: " + typeof"items");
-    console.log(items);
+    // console.log("Total length of Entries: " + totalEntries);
+    // console.log("items is type of: " + typeof"items");
+    // console.log(items);
 
-    console.log("Redraw flag: "+ araCoorderRedrawReq);
-
-
+    // console.log("Redraw flag: "+ paraCoorderRedrawReq);
 
     var self = this,
         _parentDiv = parentDiv,
