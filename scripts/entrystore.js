@@ -23,7 +23,7 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
     console.log("items is type of: " + typeof"items");
     console.log(items);
 
-    console.log("Redraw flag: "+ MoInVis.Paracoords.ParaCoorderRedrawReq);
+    console.log("Redraw flag: "+ araCoorderRedrawReq);
 
 
 
@@ -40,7 +40,7 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
                 tabName: 'Entry Store!',
                 totalEntries: totalEntries,
                 entries: entries,
-                flag : MoInVis.Paracoords.ParaCoorderRedrawReq,
+                flag : self.moin.paraCoorderRedrawReq,
             };
             _vueMethods = {
               changed: _changed,
@@ -57,9 +57,9 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
         entry.setVisibility(true);
       }
       console.log("Visibility of " + entry.itemText + " is now " + entry.visible);
-      if (!MoInVis.Paracoords.ParaCoorderRedrawReq){
-      MoInVis.Paracoords.ParaCoorderRedrawReq = true;
-      console.log("Redraw flag: "+ MoInVis.Paracoords.ParaCoorderRedrawReq);
+      if (!self.moin.paraCoorderRedrawReq){
+      self.moin.paraCoorderRedrawReq = true;
+      console.log("Redraw flag: "+ self.moin.paraCoorderRedrawReq);
       }
     };
 
