@@ -106,20 +106,51 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
 
     this.getBrushes = function () {
         var brushes = [];
-        if ( _activeBrushes.length ) {
-            brushes = _activeBrushes.map( ( brush, index ) => {
-                return { range: brush.getBrushBounds(), inFocus: index === _brushInFocus };
+        if ( _brushes.length ) {
+            brushes = _brushes.map( ( brush, index ) => {
+                return {
+                    range: brush.getBrushBounds(),
+                    brushId: brush.id,
+                    inFocus: index === _brushInFocus,
+                    active: brush.visible
+                };
             } );
         }
         _brushInFocus = -1;
         return brushes;
     };
 
-    this.getBrushInFocus = function () {
-        var brushInFocus = _brushInFocus;
-        // Reset focus
-        _brushInFocus = -1;
-        return brushInFocus;
+    this.enableDisableBrush = function ( brushId, active ) {
+        var brushIndex, brush;
+        if ( active ) {
+            brushIndex = _inactiveBrushes.findIndex( item => item.id === brushId );
+            if ( brushIndex > -1 ) {
+                brush = _inactiveBrushes[brushIndex];
+                _inactiveBrushes.splice( brushIndex, 1 );
+                _activeBrushes.push( brush );
+                brush.setVisibility( true );
+            }
+        } else {
+            brushIndex = _activeBrushes.findIndex( item => item.id === brushId );
+            if ( brushIndex > -1 ) {
+                brush = _activeBrushes[brushIndex];
+                _activeBrushes.splice( brushIndex, 1 );
+                _inactiveBrushes.push( brush );
+                brush.setVisibility( false );
+            }
+        }
+        _paracoorder.brushPaths();
+    };
+
+    this.setBrushRange = function ( brushId, range ) {
+        var brushIndex = _brushes.findIndex( item => item.id === brushId ),
+            brush;
+        if ( brushIndex > -1 ) {
+            brush = _brushes[brushIndex];
+            brush.resetBrush( _attrScale( range[0] ) );
+            brush.setBrushEnd( _attrScale( range[1] ) );
+            _paracoorder.brushPaths();
+        }
     };
 
     // Prepares to handle panning gesture.

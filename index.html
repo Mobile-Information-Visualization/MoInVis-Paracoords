@@ -50,7 +50,7 @@
                         <label class="brushname">{{ item.axisName }}</label>
                         <label class="brushvalue">{{ item.rangeText[0] + ' - ' + item.rangeText[1]}}</label>
                         <label class="switch">
-                            <input type="checkbox" v-model="item.active" v-on:change="enableDisableBrush">
+                            <input type="checkbox" v-model="item.active" v-on:change="enableDisableBrush(item)">
                             <span class="slider round"></span>
                         </label>
                         <transition name="modal">

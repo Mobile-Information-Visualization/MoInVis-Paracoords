@@ -64,13 +64,21 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         brushes.forEach( ( brush, index ) => {
             // brush.axisName = this.attributeLabel + ' Brush ' + ( index + 1 ); // Uncomment when multiple brushes for single axis are enabled.
             brush.axisName = this.attributeLabel;
+            brush.axisId = _id;
             brush.axisRange = _attrScale.domain();
             // [TODO]: Apply appropriate formatter.
             brush.range = [Math.floor( _attrScale.invert( brush.range[0] ) ), Math.floor( _attrScale.invert( brush.range[1] ) )];
             brush.rangeText = brush.range.map( val => _formatter( val ) );
-            brush.active = true;
         } );
         return brushes;
+    };
+
+    this.enableDisableBrush = function ( brushId, active ) {
+        _brushManager.enableDisableBrush( brushId, active );
+    };
+
+    this.setBrushRange = function ( brushId, range ) {
+        _brushManager.setBrushRange( brushId, range );
     };
 
     this.draw = function ( xPos, yPos ) {

@@ -34,8 +34,8 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
             }
         },
 
-        _enableDisableBrush = function () {
-
+        _enableDisableBrush = function ( item ) {
+            self.moin.paracoorder.enableDisableBrush( item.axisId, item.brushId, item.active );
         },
 
         _incrementValue = function () {
@@ -187,7 +187,13 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
         },
 
         _applyModalChanges = function () {
-            _updateCopy( this.brushprops );
+            var brushProps = this.brushprops;
+            _updateCopy( brushProps );
+            self.moin.paracoorder.setBrushRange( brushProps.axisId, brushProps.brushId, brushProps.range );
+            if ( brushProps.range[0] === brushProps.axisRange[0] && brushProps.range[1] === brushProps.axisRange[1] ) {
+                brushProps.active = false;
+                self.moin.paracoorder.enableDisableBrush( brushProps.axisId, brushProps.brushId, brushProps.active );
+            }
             this.$emit( 'close' );
         },
 
@@ -291,7 +297,8 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
     this.onTabActivated = function () {
         // Get brush configurations.
         var brushConfig = this.moin.paracoorder.getBrushConfigurations();
-        brushConfig.forEach( ( config, index ) => _vueData.brushes.splice( index, 1, config ) );
+        _vueData.brushes.splice( 0 );
+        brushConfig.forEach( ( config, index ) => { _vueData.brushes[index] = config; } );
         //Vue.set( _vueData.brushes, index, config );
         _brushesCopy = MoInVis.Paracoords.util.deepCopy( brushConfig ); // Create a copy of the brushes.
     };
