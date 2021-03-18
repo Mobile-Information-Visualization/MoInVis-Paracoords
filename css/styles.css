@@ -195,17 +195,19 @@ input:checked + .slider:before {
 .modal-wrapper {
     display: table-cell;
     vertical-align: middle;
+    text-align:center;
 }
 
 .modal-container {
     width: 80%;
-    height: 50%;
     margin: 0px auto;
     padding: 20px 30px;
     background-color: #323232;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
     transition: all 0.3s ease;
+    display: inline-block;
+    text-align: initial;
 }
 
 .modal-header {

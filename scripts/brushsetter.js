@@ -22,6 +22,7 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
         _vueData,
         _vueApp,
         _brushesCopy,
+        _incDecPC = 0.05,
 
         _closeTab = function ( event ) {
             self.deactivateTab();
@@ -39,7 +40,7 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
         },
 
         _incrementValue = function () {
-            var stepVal = Math.floor( ( this.brushprops.axisRange[1] - this.brushprops.axisRange[0] ) / 10 ),
+            var stepVal = Math.floor( ( this.brushprops.axisRange[1] - this.brushprops.axisRange[0] ) * _incDecPC ),
                 brushSt = this.brushprops.range[0],
                 brushEnd = this.brushprops.range[1],
                 temp;
@@ -65,7 +66,7 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
         },
 
         _decrementValue = function () {
-            var stepVal = Math.floor( ( this.brushprops.axisRange[1] - this.brushprops.axisRange[0] ) / 10 ),
+            var stepVal = Math.floor( ( this.brushprops.axisRange[1] - this.brushprops.axisRange[0] ) * _incDecPC ),
                 brushSt = this.brushprops.range[0],
                 brushEnd = this.brushprops.range[1],
                 temp;
