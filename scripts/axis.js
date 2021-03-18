@@ -28,16 +28,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _interactionManager,
         _wigglingIntervalId,
         _isDragged = false,
-        _formatter = function ( val ) {
-            if ( val > 1000000 ) {
-                val = ( val / 1000000 ).toFixed( 2 ) + ' mil';
-            } else if ( val > 100000 ) {
-                val = ( val / 1000 ).toFixed( 2 ) + ' k';
-            } else {
-                val = val.toFixed( 2 );
-            }
-            return val;
-        } ;
+        _formatter = MoInVis.Paracoords.util.format;
 
     this.attribute = attributeProps.prop;
     this.attributeLabel = attributeProps.text;
@@ -75,7 +66,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             brush.axisName = this.attributeLabel;
             brush.axisRange = _attrScale.domain();
             // [TODO]: Apply appropriate formatter.
-            brush.range = [_attrScale.invert( brush.range[0] ), _attrScale.invert( brush.range[1] )];
+            brush.range = [Math.floor( _attrScale.invert( brush.range[0] ) ), Math.floor( _attrScale.invert( brush.range[1] ) )];
             brush.rangeText = brush.range.map( val => _formatter( val ) );
             brush.active = true;
         } );

@@ -255,6 +255,19 @@ input:checked + .slider:before {
     color: #7dcdc4;
 }
 
+.modal-default-input {
+    font-size: 4em;
+    position: absolute;
+    left: 25%;
+    top: 50%;
+    width: 50%;
+    height: 2em;
+    text-align: center;
+    background-color: #abbbbb;
+    border-color: #7dcdc4;
+    color: #323232;
+}
+
 .modal-default-button {
     margin-top: 7%;
     margin-left: 10%;
@@ -271,6 +284,7 @@ input:checked + .slider:before {
     .modal-default-button.left {
         float: left;
     }
+
     .modal-default-button.right {
         float: right;
     }
@@ -306,16 +320,32 @@ input:checked + .slider:before {
  * these styles.
  */
 
-.modal-enter {
-    opacity: 0;
-}
 
+.modal-enter-active,
 .modal-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
     opacity: 0;
 }
 
-    .modal-enter .modal-container,
-    .modal-leave-active .modal-container {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
-    }
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+
+.brushTextInput-enter-active {
+    transition: opacity 0.5s ease;
+}
+
+.brushTextInput-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.brushTextInput-enter-from,
+.brushTextInput-leave-to {
+    opacity: 0;
+}

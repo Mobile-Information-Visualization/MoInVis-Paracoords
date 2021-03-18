@@ -115,7 +115,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
         return brushes;
     };
 
-    this.getBrushInFocus = function () {        
+    this.getBrushInFocus = function () {
         var brushInFocus = _brushInFocus;
         // Reset focus
         _brushInFocus = -1;
@@ -124,7 +124,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
 
     // Prepares to handle panning gesture.
     this.panStart = function ( event ) {
-        var createNewBrush = true, gestureOrigin = {}, index, length, clientRect;
+        var createNewBrush = true, gestureOrigin = {}, length, clientRect;
         if ( _paracoorder.pinchScrollInProgress ) {
             // If scrolling is taking place, do not handle this event.
             _hammerMan.stop( true );
