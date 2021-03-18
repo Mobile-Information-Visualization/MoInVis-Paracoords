@@ -67,7 +67,6 @@ line {
 /*Brush setter styles.*/
 label.brushname {
     font-size: 2em;
-    font-weight: lighter;
     grid-column-start: 2;
     grid-column-end: 3;
     text-align: center;
@@ -81,7 +80,6 @@ label.brushname {
 /*Brush setter styles.*/
 label.brushvalue {
     font-size: 4em;
-    font-weight: lighter;
     grid-column-start: 1;
     grid-column-end: 3;
     text-align: left;
@@ -201,7 +199,7 @@ input:checked + .slider:before {
 
 .modal-container {
     width: 80%;
-    height: 40%;
+    height: 50%;
     margin: 0px auto;
     padding: 20px 30px;
     background-color: #323232;
@@ -226,7 +224,6 @@ input:checked + .slider:before {
     font-size: 4em;
     text-align: center;
     user-select: none;
-    font-weight: lighter;
     overflow: hidden;
     color: #abbbbb;
 }
@@ -238,7 +235,6 @@ input:checked + .slider:before {
 .modal-body2 {
     font-size: 2em;
     user-select: none;
-    font-weight: lighter;
     overflow: hidden;
     color: #4ae6d8;
 }
