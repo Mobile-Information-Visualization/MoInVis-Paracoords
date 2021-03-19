@@ -292,7 +292,6 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
             vueStuff = self.initVue( vueData, vueMethods, vueComponents );
             _vueApp = vueStuff.mainApp;
             _vueData = vueStuff.dataProxy;
-            _parentDiv.style( 'background', 'rgba( 50, 50, 50, 0.85)' );
         };
 
     this.onTabActivated = function () {

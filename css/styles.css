@@ -65,6 +65,19 @@ line {
 }
 
 /*Brush setter styles.*/
+
+#brushSetterOverlay {
+    background: rgba( 50, 50, 50, 0.85);
+}
+
+#brushSetterOverlayInner {
+    opacity: 1;
+    width: inherit;
+    height: inherit;
+    overflow-y: scroll;
+    border-bottom: 5px solid #7dcdc4;
+}
+
 label.brushname {
     font-size: 2em;
     grid-column-start: 2;
@@ -90,11 +103,26 @@ label.brushvalue {
     color: #7dcdc4;
 }
 
+.brushsetterheader {
+    width: inherit;
+    display: flex;
+    position: sticky;
+    top: -1px;
+    opacity: 1;
+    background: rgba(50, 50, 50, 1); /*Same colour as brushSetterOverlay bg but with opacity 1*/
+    border-bottom: 5px solid #7dcdc4;
+    z-index: 1;
+}
+
 .brushtabname {
-    font-size: 3em;
+    font-size: 3.5em;
     text-align: center;
     color: #abbbbb;
     user-select: none;
+    font-weight: bold;
+    width: inherit;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
 /*li.brushes{*/
 /* margin: 3% 3%; */
@@ -104,9 +132,6 @@ label.brushvalue {
     align-items: center;
     cursor: move;
 }*/
-li.firstbrush {
-    border-top: 5px solid #7dcdc4;
-}
 
 li.brushlist {
     border-bottom: 5px solid #7dcdc4;
@@ -195,7 +220,7 @@ input:checked + .slider:before {
 .modal-wrapper {
     display: table-cell;
     vertical-align: middle;
-    text-align:center;
+    text-align: center;
 }
 
 .modal-container {
