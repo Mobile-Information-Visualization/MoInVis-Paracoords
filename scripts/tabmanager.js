@@ -82,7 +82,7 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
         tabHandler.setId( _overlayTabs.length );
         _overlayTabs.push( tabHandler );
         _setTabStyle( tabHandler.parentTab );
-        tabHandler.parentTab.style( 'top', 1.5 * _moin.height + 'px' );
+        tabHandler.parentTab.style( 'top', 1 * _moin.height + 'px' );
     };
 
     this.activateOverlayTab = function ( tabId ) {
@@ -91,10 +91,10 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
         _tabHandlers[_currentTabIndex].switchOffEvents();
         _overlayTab.parentTab
             .style( 'display', 'inherit' )
-            .style( 'top', 1.5 * _moin.height + 'px' )
+            .style( 'top', 1 * _moin.height + 'px' )
             .transition()
-            .duration( MoInVis.Paracoords.TransitionSpeed )
-            .style( 'top', '0px' );
+            .duration( MoInVis.Paracoords.OverlayTransitionSpeed )
+            .style( 'top', '3vw' );
         _overlayTabActive = true;
     };
 
@@ -102,7 +102,7 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
         if ( _overlayTab ) {
             _overlayTab.parentTab
                 .transition()
-                .duration( MoInVis.Paracoords.TransitionSpeed )
+                .duration( MoInVis.Paracoords.OverlayTransitionSpeed )
                 .style( 'top', 1.5 * _moin.height + 'px' )
                 .on( 'end', _afterOverlayDeactivation );
             _overlayTabActive = false;

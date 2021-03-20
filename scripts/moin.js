@@ -13,6 +13,7 @@ MoInVis.Paracoords.IdStore.parentSvg = 'ContainerSVG';
 MoInVis.Paracoords.IdStore.defs = 'SVGDefs';
 MoInVis.Paracoords.Count = MoInVis.Paracoords.Count || 0;
 MoInVis.Paracoords.NormalTransitionSpeed = 1000;
+MoInVis.Paracoords.OverlayTransitionSpeed = 1000;
 MoInVis.Paracoords.FastTransitionSpeed = 500;
 MoInVis.Paracoords.DeleteTransitionSpeed = 500;
 MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
@@ -64,8 +65,10 @@ MoInVis.Paracoords.moin = function ( width, height ) {
             self.tabManager = new MoInVis.Paracoords.tabManager( self, [self.entryStore.getTabHandle(), self.attributeStore.getTabHandle(), self.paracoorder.getTabHandle()], 2 );
 
             self.brushSetter = new MoInVis.Paracoords.brushSetter( self, d3.select( '#brushSetterOverlay' ) );
-
             self.tabManager.addOverlayTab( self.brushSetter.getTabHandle() );
+
+            self.axisDetailView = new MoInVis.Paracoords.axisDetailView( self, d3.select( '#axisDetailViewOverlay' ) );
+            self.tabManager.addOverlayTab( self.axisDetailView.getTabHandle() );
         };
 
     _init();

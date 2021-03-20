@@ -1,4 +1,17 @@
 
+/* scroll bar design */
+::-webkit-scrollbar {
+    width: 15px;
+}
+::-webkit-scrollbar-track {
+    background-color: rgb(50,50,50);
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 
 /* Lato font */
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
@@ -35,8 +48,12 @@ body {
     cursor: pointer;
 }
 
-.attrNameTextBox,
 .contextIndicatorBox {
+    fill: rgba( 96, 96, 96, 1 );
+    cursor: pointer;
+}
+
+.attrNameTextBox {
     fill: rgba( 96, 96, 96, 0.8 );
     cursor: pointer;
 }
@@ -52,7 +69,7 @@ body {
     font-family: Arial;
     font-weight: 300;
     fill: #eeeeee;
-    font-size: 3.2em;
+    font-size: 3.3em;
     font-style: normal;
     cursor: pointer;
 }
@@ -62,6 +79,117 @@ line {
     stroke: white;
     stroke-width: 3px;
     /*y: 10;*/
+}
+
+button {
+    font-family: Arial;
+    font-weight: 300;
+    color: #eeeeee;
+    font-size: 2.1em;
+    font-style: normal;
+    cursor: pointer;
+    padding: 10px 20px 10px 20px;
+    background-color: rgba( 96, 96, 96, 0.8 );
+    border-radius: 20px;
+    border: 2px solid rgba( 96, 96, 96, 0.8 );
+    margin: 30px auto 30px auto;
+    float: none;
+}
+
+#axisDetailViewOverlay {
+    width: 95vw !important;
+    height: calc( 100vh - 3vw ) !important;
+    left: 2.5vw;
+    /* offset-x | offset-y | blur-radius | color */
+    box-shadow: 1px 2px 12px black;
+    border-top-right-radius: 120px;
+    border-top-left-radius: 120px;
+    border: 0;
+    background-color: rgba( 50, 50, 50, 1);
+    display: flex !important;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    position: relative;
+}
+
+#axisDetailViewHeader {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+}
+#axisDetailViewHeaderInfo {
+    width: calc( 100% - 8vw );
+    padding: 4vw 4vw 0 4vw;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+#xAxisView {
+    width: 100%;
+}
+#xAxis {
+    width: calc( 100% - 8vw );
+    /*height: auto;*/
+    padding: 10px 4vw 0 4vw;
+}
+
+#axisDetailView_SVG {
+    padding-bottom: 8vw;
+}
+
+#axisDetailView {
+    width: calc( 100% - 8vw );
+    height: calc( 100% );
+    /*background-color: darkgray;*/
+    padding: 1vw 4vw 0 4vw;
+    opacity: 1;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*flex-wrap: wrap;*/
+    /*flex-direction: column;*/
+    overflow-y: scroll;
+    overflow-x: hidden;
+    cursor: pointer;
+}
+
+/*.horizontalLine {
+    width: calc( 100% - 6vw );
+    height: 0;
+    border-bottom: 1px solid rgba( 255, 255, 255, 0.4);
+}*/
+
+h2 {
+    font-family: Arial;
+    color: white;
+    font-size: 2.8em;
+    font-weight: 400;
+    margin: 0 auto;
+    padding: 10px 0 10px 0;
+}
+
+h1 {
+    font-family: Arial;
+    color: lightgrey;
+}
+
+.tick text {
+    font-size: 3.3em;
+}
+
+text {
+    color: white;
+    font-size: 2.2em;
 }
 
 

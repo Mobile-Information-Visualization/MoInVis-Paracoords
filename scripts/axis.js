@@ -81,13 +81,19 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
         _axisInnerGroup.call(
             _axis = d3.axisBottom( _attrScale )
-                .ticks( 3 )
+                .ticks( 4, '~s' )
+                .tickSize( 20 )
         );
-        // Vertical values (height and margins) set.
-        _axisInnerGroup.selectAll( 'line' )
-            .attr( 'y2', 8 ); // of tick lines
-        _axisInnerGroup.selectAll( 'text' )
-            .attr( 'y', 12 ); // of tick labels
+
+        // Tick styling.
+        _axisInnerGroup
+            .selectAll( 'g.tick' )
+            .select( 'text' )
+            .attr( 'y', 22 );
+        _axisInnerGroup
+            .selectAll( 'g.tick' )
+            .select( 'line' )
+            .attr( 'y2', 10 );
 
         // [TODO]: Number of ticks must depend on font size, available width, and text lengths.
 
@@ -181,8 +187,8 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
     this.startWiggling = function ( ) {
         let seed = Math.random();
-        const amplitude = 0.4 + 0.8,
-            speed = 0.03;
+        const amplitude = 0.4 + 0.7,
+            speed = 0.028;
 
         _wigglingIntervalId = setInterval(function () {
             let y = Math.sin( 10 * seed ) * amplitude;
@@ -215,5 +221,9 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
     this.getId = function () {
         return _id;
+    };
+
+    this.getAttrScale = function () {
+        return _attrScale;
     };
 };

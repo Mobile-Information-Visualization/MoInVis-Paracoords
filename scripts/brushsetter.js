@@ -6,7 +6,6 @@ MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 * Descr.: Handles data and UI functionality for the brush setter overlay tab.
 *         Inherits MoInVis.Paracoords.overlayTab
 *
-* <Description>
 */
 
 var MoInVis = MoInVis || {};
