@@ -67,7 +67,7 @@ line {
 /*Brush setter styles.*/
 
 #brushSetterOverlay {
-    background: rgba( 50, 50, 50, 0.85);
+    background: rgb( 50, 50, 50);
 }
 
 #brushSetterOverlayInner {
