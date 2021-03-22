@@ -39,13 +39,29 @@
         <div id="axisDetailViewOverlay">
             <div id="axisDetailViewHeader">
                 <div id="axisDetailViewHeaderInfo">
-                    <div class="axisDetailViewHeaderInfoBox">
-                        <button v-on:click="closeView">{{ closeButtonText }}</button>
-                        <button id="axisDetailView_Button_ChangeSorting" v-on:click="changeSorting">{{ changeButtonText }}</button>
+                    <div id="axisDetailView_ButtonLeft" v-on:click="closeView">
+                        <svg width="50" height="50" x="20" y="20" viewBox="0 0 40 40">
+                            <g>
+                                <path d="M 0 0 L 40 40 M 0 40 L 40 0" stroke-width="5" stroke="white"></path>
+                            </g>
+                        </svg>
                     </div>
                     <div class="axisDetailViewHeaderInfoBox">
                         <h1 id="attributeName"></h1>
-                        <h2 id="attributeUnit"></h2>
+                        <h1 id="attributeUnit"></h1>
+                    </div>
+                    <div id="axisDetailView_ButtonRight" v-on:click="changeSorting">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             version="1.1" id="Capa_1" x="0" y="0" viewBox="0 50 512 512" width="70"
+                             height="70" style="enable-background:new 0 0 512 512;" xml:space="preserve" fill="white">
+                        <g>
+                            <rect x="2.344" y="104" width="320" height="40"/>
+                            <rect x="2.344" y="208" width="256" height="40"/>
+                            <rect x="2.344" y="312" width="192" height="40"/>
+                            <rect x="2.344" y="416" width="130" height="40"/>
+                            <polygon points="487.032,428.688 466.344,449.376 466.344,128 434.344,128 434.344,449.376 413.656,428.688 391.032,451.312      450.344,510.624 509.656,451.312    "/>
+		                </g>
+                    </svg>
                     </div>
                 </div>
                 <div id="xAxisView"></div>

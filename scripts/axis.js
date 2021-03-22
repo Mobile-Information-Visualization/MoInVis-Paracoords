@@ -82,7 +82,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _axisInnerGroup.call(
             _axis = d3.axisBottom( _attrScale )
                 .ticks( 4, '~s' )
-                .tickSize( 20 )
+                .tickSize( 15 )
         );
 
         // Tick styling.

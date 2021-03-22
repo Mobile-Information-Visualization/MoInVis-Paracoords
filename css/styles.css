@@ -92,13 +92,12 @@ button {
     background-color: rgba( 96, 96, 96, 0.8 );
     border-radius: 20px;
     border: 2px solid rgba( 96, 96, 96, 0.8 );
-    margin: 30px auto 30px auto;
-    float: none;
+    margin: 20px auto 20px auto;
+    display: none;
 }
 
 #axisDetailViewOverlay {
     width: 95vw !important;
-    /*height: calc( 100vh - 3vw ) !important;*/
     left: 2.5vw;
     /* offset-x | offset-y | blur-radius | color */
     box-shadow: 1px 2px 12px black;
@@ -125,6 +124,11 @@ button {
     position: sticky;
     top: 0;
 }
+#axisDetailView_ButtonLeft,
+#axisDetailView_ButtonRight {
+    margin: 0 20px 0 20px;
+    cursor: pointer;
+}
 #axisDetailViewHeaderInfo {
     width: calc( 100% - 8vw );
     padding: 4vw 4vw 5px 4vw;
@@ -133,44 +137,54 @@ button {
     align-items: center;
     flex-wrap: wrap;
     flex-direction: row;
+    position: relative;
 }
 .axisDetailViewHeaderInfoBox {
+    max-width: calc( 100% - 60px - 80px - 50px - 70px );
     margin: 0 auto;
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     flex-wrap: wrap;
     flex-direction: column;
+    position: relative;
+    padding: 15px 30px 15px 30px;
 }
 #axisDetailView_BarLabel_Name,
 #axisDetailView_BarLabel_Value {
     font-family: Arial;
     font-size: 1em;
     fill: white;
+    overflow-wrap: break-word;
 }
 #attributeName {
     font-family: Arial;
     color: white;
-    font-size: 2.6em;
+    font-size: 2.5em;
     font-weight: 400;
     margin: 0;
-    padding: 8px 0 8px 0;
+    padding: 0;
+    text-align: center;
+    overflow-wrap: break-word;
 }
 #attributeUnit {
     font-family: Arial;
     color: white;
-    font-size: 2em;
+    font-size: 1.6em;
     font-weight: 400;
     margin: 0;
-    padding: 0 0 10px 0;
+    padding: 0;
+    text-align: center;
+    overflow-wrap: break-word;
 }
 #xAxisView {
     width: 100%;
+    margin: 20px auto 0 auto;
 }
 #xAxis {
     width: calc( 100% - 8vw );
-    /*height: auto;*/
-    padding: 10px 4vw 0 4vw;
+    height: 58px;
+    padding: 0 4vw 0 4vw;
 }
 
 #axisDetailView_SVG {
@@ -207,15 +221,6 @@ button {
     height: 0;
     border-bottom: 1px solid rgba( 255, 255, 255, 0.4);
 }*/
-
-h2 {
-    font-family: Arial;
-    color: white;
-    font-size: 2.8em;
-    font-weight: 400;
-    margin: 0 auto;
-    padding: 10px 0 10px 0;
-}
 
 h1 {
     font-family: Arial;

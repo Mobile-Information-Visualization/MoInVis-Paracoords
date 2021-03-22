@@ -31,8 +31,7 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
         _init = function () {
             _vueData = {
                 tabName: 'Axis Detail View',
-                closeButtonText: 'Close',
-                changeButtonText: 'Sort by selection'
+                closeButtonText: 'Close'
             };
             _vueMethods = {
                 closeView: function ( event ) {
@@ -61,10 +60,10 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
 
     this.changeSorting = function () {
         if ( _emphasisedFirst ) {
-            document.getElementById( 'axisDetailView_Button_ChangeSorting' ).innerText = 'Sort by selection';
+            // document.getElementById( 'axisDetailView_Button_ChangeSorting' ).innerText = 'Sort by selection';
         }
         else {
-            document.getElementById( 'axisDetailView_Button_ChangeSorting' ).innerText = 'Sort uniformly';
+            // document.getElementById( 'axisDetailView_Button_ChangeSorting' ).innerText = 'Sort uniformly';
         }
         _emphasisedFirst = !_emphasisedFirst;
 
@@ -167,17 +166,7 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
 
         // Pass texts to header.
         document.getElementById( 'attributeName' ).innerText = _attributeLabel;
-        document.getElementById( 'attributeUnit' ).innerText = 'in ' + MoInVis.Paracoords.Unit;
-
-        // Tick styling.
-        d3.select( '#xAxisGroup' )
-            .selectAll( 'g.tick' )
-            .select( 'text' )
-            .attr( 'y', -22 );
-        d3.select( '#xAxisGroup' )
-            .selectAll( 'g.tick' )
-            .select( 'line' )
-            .attr( 'y2', -10 );
+        document.getElementById( 'attributeUnit' ).innerText = '(in ' + MoInVis.Paracoords.Unit + ')';
 
         // Remove old content of header axis.
         let elem = document.getElementById( 'xAxisView' );
@@ -188,17 +177,27 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
         // Create new header axis.
         const xAxisSVG = d3.select( '#xAxisView' )
             .append( 'svg' )
-            .attr( 'id', 'xAxis' )
-            .attr( 'height', 50 + 10 );
+            .attr( 'id', 'xAxis' );
         xAxisSVG.append( 'g' )
             .attr( 'transform', 'translate(' + 0 + ',' + 50 + ')' )
             .attr( 'id', 'xAxisGroup' )
             .call( d3.axisTop( x )
                     // .tickValues( x.ticks( 2, '~s' ).concat( x.domain() ) )
-                    .ticks( 4, '~s' )
-                    .tickSize( 20 )
-                // .tickFormat( this.formatTick )
+                    // .ticks( 4, '~s' )
+                .ticks( 4 )
+                .tickSize( 15 )
+                .tickFormat( this.formatTick )
             );
+
+        // Tick styling.
+        d3.select( '#xAxisGroup' )
+            .selectAll( 'g.tick' )
+            .select( 'text' )
+            .attr( 'y', -22 );
+        d3.select( '#xAxisGroup' )
+            .selectAll( 'g.tick' )
+            .select( 'line' )
+            .attr( 'y2', -10 );
 
         // Compute correct height of scrollable div.
         document.getElementById( 'axisDetailView' ).style.height =
@@ -257,8 +256,14 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
     };
 
     this.formatTick = function ( data ) {
-        const s = ( data / 1e6 ).toFixed( 0 );
-        return `${s}`;
+        // const s = ( data / 1e6 ).toFixed( 0 );
+        if ( data > 0) {
+            return d3.format( '~s' )( data );
+        }
+        else {
+            return '0';
+        }
+        // return `${s}`;
     };
 
     this.getWidthOfElementById = function ( idString ) {
