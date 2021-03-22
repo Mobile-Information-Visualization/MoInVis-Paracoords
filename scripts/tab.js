@@ -99,40 +99,42 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
     this.switchOnSwipeUpEvent = function () {
         _hammerMan
             .on( 'swipeup', function ( event ) {
-                _setText( 'swipeup', event );
                 event.preventDefault();
-                self.swipeUp();
+                if ( self.isEventHandlingInProgress() === false ) {
+                    _setText( 'swipeup', event );
+                    self.swipeUp();
+                }
             } );
     };
     this.switchOnSwipeDownEvent = function () {
         _hammerMan
             .on( 'swipedown', function ( event ) {
-                _setText( 'swipedown', event );
                 event.preventDefault();
-                self.swipeDown();
+                if ( self.isEventHandlingInProgress() === false ) {
+                    _setText( 'swipedown', event );
+                    self.swipeDown();
+                }
             } );
     };
     this.switchOnSwipeLeftEvent = function () {
         _hammerMan
             .on( 'swipeleft', function ( event ) {
-                _setText( 'swipeleft', event );
                 event.preventDefault();
-                self.swipeLeft();
-
-                
+                if ( self.isEventHandlingInProgress() === false ) {
+                    _setText( 'swipeleft', event );
+                    self.swipeLeft();
+                }
             } )
         
     };
     this.switchOnSwipeRightEvent = function () {
         _hammerMan
             .on( 'swiperight', function ( event ) {
-                
-                _setText( 'swiperight', event );
                 event.preventDefault();
-                self.swipeRight();
-                
-                
-
+                if ( self.isEventHandlingInProgress() === false ) {
+                    _setText( 'swiperight', event );
+                    self.swipeRight();
+                }
             } );
         
         
@@ -183,6 +185,11 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
                 _hammerMan.off( evt );
             }
         }
+    };
+
+    // Override in tab child class to use. returns false by default.
+    this.isEventHandlingInProgress = function () {
+        return false;
     };
 
     this.getTabHandle = function () {

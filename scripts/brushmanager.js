@@ -47,6 +47,34 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
             return validMove;
         },
 
+        // Currently active brush is disabled i.e its handles are hidden.
+        _disableBrush = function () {
+            _tryToDeactivateBrush();
+            _activeBrush = null;
+        },
+
+        // Deactivates the currently active brush.
+        _deactivateBrush = function () {
+            _activeBrushes.splice( _activeBrushes.indexOf( _activeBrush ), 1 );
+            _inactiveBrushes.push( _activeBrush );
+            _activeBrush.setVisibility( false );
+        },
+
+        // Called on tap on axis outside brushes. All brushes are deactivated.
+        _deactivateAllBrushes = function () {
+            _activeBrushes.forEach( brush => brush.setVisibility( false ) );
+            _inactiveBrushes = _inactiveBrushes.concat( _activeBrushes );
+            _activeBrushes = [];
+        },
+
+        // Tries to deactivate brush - brush is deactivated if range is the entire range of the axis.
+        _tryToDeactivateBrush = function () {
+            var range = _attrScale.range(), brushRange = _activeBrush.getBrushBounds();
+            if ( range[0] === brushRange[0] && range[1] === brushRange[1] ) {
+                _deactivateBrush();
+            }
+        },
+
         // Checks if start of brush is valid.
         _isValidStart = function ( xPos ) {
             var length = _activeBrushes.length, i, validMove = true, probableHandlePos, range = _attrScale.range();
@@ -78,7 +106,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
     // Prepares to handle panning gesture.
     this.panStart = function ( event ) {
         var createNewBrush = true, gestureOrigin = {}, index, length, clientRect;
-        if ( _paracoorder.scrollingInProgress ) {
+        if ( _paracoorder.pinchScrollInProgress ) {
             // If scrolling is taking place, do not handle this event.
             _hammerMan.stop( true );
         } else {
@@ -103,7 +131,8 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
                     //if ( _isValidStart( gestureOrigin.x ) ) { // [TODO]: Uncomment check to handle drawing of multiple brushes.
                     if ( _inactiveBrushes.length > 0 ) {
                         _activeBrush = _inactiveBrushes.pop();
-                        _activeBrush.resetBrush( gestureOrigin.x )
+                        _activeBrush.resetBrush( gestureOrigin.x );
+                        _activeBrush.setVisibility( true );
                     } else {
                         _activeBrush = new MoInVis.Paracoords.axisBrush( _brushParent, _axisId + '_Brush_' + ( _brushes.length ), _brushHeight );
                         _activeBrush.draw( gestureOrigin.x, 0 );
@@ -152,7 +181,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
                 }
             }
             _activeBrush.onBrushingEnd();
-            _activeBrush = null;
+            _disableBrush();
             _paracoorder.brushPaths();
         }
     };
@@ -160,8 +189,10 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
     // If a brush is tapped, show its handles.
     this.onTap = function ( event ) {
         var id,
-            index;
+            index,
+            deactivateBrushes;
         if ( _activeBrushes.length > 0 ) {
+            deactivateBrushes = true;
             id = event.changedPointers[0].target.id;
             if ( id ) {
                 index = event.changedPointers[0].target.id.split( _axisId + '_Brush_' )[1];
@@ -169,8 +200,14 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
                     index = parseInt( index.split( '_' )[0] );
                     if ( isNaN( index ) === false ) {
                         _brushes[index].onBrushTapped();
+                        deactivateBrushes = false;
                     }
                 }
+            }
+            // If tap occurred outside all brushes on axis, deactivate the brushes.
+            if ( deactivateBrushes ) {
+                _deactivateAllBrushes();
+                _paracoorder.brushPaths();
             }
         }
     };

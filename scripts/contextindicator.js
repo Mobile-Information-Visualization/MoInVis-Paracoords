@@ -162,12 +162,14 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
         //},
 
         // Handles the tap event.
-        _onTap = function () {
+        _onTap = function ( event ) {
+            event.preventDefault();
             _callback();
         },
 
         // Handles the double tap event.
-        _onDoubleTap = function () {
+        _onDoubleTap = function ( event ) {
+            event.preventDefault();
             _callback( true );
         };
 
