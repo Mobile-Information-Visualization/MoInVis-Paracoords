@@ -98,6 +98,12 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
         }
     };
 
+    this.hideHandles = function () {
+        if ( _handleVisibility ) {
+            _hideHandles();
+        }
+    };
+
     this.setColour = function ( colour ) {
         _brushColour = colour;
         if ( _brushRect ) {

@@ -81,6 +81,10 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _brushManager.setBrushRange( brushId, range );
     };
 
+    this.hideBrushHandles = function () {
+        _brushManager.hideAllBrushHandles();
+    };
+
     this.draw = function ( xPos, yPos ) {
         this.xPos = xPos;
         this.yPos = yPos;

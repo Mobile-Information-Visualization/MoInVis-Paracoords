@@ -1128,6 +1128,14 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         }
     };
 
+    this.hideBrushHandles = function ( axisId ) {
+        _visibleAxes.forEach( axis => {
+            if ( axis.getId() !== axisId ) {
+                axis.hideBrushHandles();
+            }
+        } );
+    };
+
     this.enterAxesReorderMode = function () {
         // let rotationCenterX = document.getElementById( 'MoInVis_ParaCoords_0_ContainerSVG' ).clientWidth / 2;
         if ( this.pinchScrollInProgress === false ) { // Only enter axes reorder mode when pinch and scroll are not in progress.
