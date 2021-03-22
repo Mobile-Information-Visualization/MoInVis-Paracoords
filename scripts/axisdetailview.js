@@ -18,118 +18,101 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
 
     var self = this,
         _parentDiv = parentDiv,
-        _contentDiv,
-        _parentSVG,
-        _group,
         _vueData,
         _vueMethods,
         _vueApp,
         _barChartData = [],
-        _showAllEntries = true,
-        _nameShown,
+        _emphasisedFirst = false,
+        _nameShown = true,
+        _paths,
+        _attribute,
+        _attributeLabel,
 
         _init = function () {
             _vueData = {
                 tabName: 'Axis Detail View',
-                closeButtonText: 'Close'
+                closeButtonText: 'Close',
+                changeButtonText: 'Sort by selection'
             };
             _vueMethods = {
                 closeView: function ( event ) {
                     self.deactivateTab();
                 },
-                changeLabels: function ( event ) {
-                    self.changeLabels();
+                changeBarLabels: function ( event ) {
+                    self.changeBarLabels();
+                },
+                changeSorting: function ( event ) {
+                    self.changeSorting();
                 },
             };
             _vueApp = self.initVue( _vueData, _vueMethods );
-
-            _contentDiv = d3.select( '#axisDetailView' );
         };
 
-    this.changeLabels = function () {
-        if ( _nameShown ) {
-            d3.select( '#axisDetailView_Label_Name')
-                .attr( 'display', 'none' );
-            d3.select( '#axisDetailView_Label_Value')
-                .attr( 'display', 'block' );
+
+    this.sortDataSet = function () {
+        if ( _emphasisedFirst ) {
+            _barChartData.sort( ( a, b ) => d3.ascending( a.emphasised, b.emphasised )
+                || d3.ascending( a.score, b.score ) );
         }
         else {
-            d3.select( '#axisDetailView_Label_Name')
+            _barChartData.sort( ( a, b ) => d3.ascending( a.score, b.score ) );
+        }
+    };
+
+    this.changeSorting = function () {
+        if ( _emphasisedFirst ) {
+            document.getElementById( 'axisDetailView_Button_ChangeSorting' ).innerText = 'Sort by selection';
+        }
+        else {
+            document.getElementById( 'axisDetailView_Button_ChangeSorting' ).innerText = 'Sort uniformly';
+        }
+        _emphasisedFirst = !_emphasisedFirst;
+
+        this.sortDataSet();
+        this.updateBarChart();
+    };
+
+    this.showBarLabels = function () {
+        if ( _nameShown ) {
+            d3.select( '#axisDetailView_BarLabel_Name')
                 .attr( 'display', 'block' );
-            d3.select( '#axisDetailView_Label_Value')
+            d3.select( '#axisDetailView_BarLabel_Value')
                 .attr( 'display', 'none' );
         }
-        _nameShown = !_nameShown;
-    }
-
-    this.updateParameters = function ( axis, paths ) {
-
-        let regions = MoInVis.Paracoords.Data.itemsForWaste;
-        const chosenYear = '2018';
-
-        _barChartData = [];
-
-        let min_value = 0;
-        let max_value = 0;
-
-        let counter = 0;
-
-        for ( path in paths ) {
-            var item = paths[path];
-            if ( item.visible ) {
-                let country = item.itemName;
-                let countryLabel = item.itemText; //country.replaceAll( '_sp_', ' ' ).split( '_' )[0];
-                const color = item.getColor();
-                data = MoInVis.Paracoords.Data.wasteByCountries[country].data[chosenYear];
-                const status = item.getEmphasis();
-                const alpha = item.getCurrentAlpha();
-                if ( status === true || _showAllEntries === true ) {
-                    let value = data[axis.attribute];
-                    if ( counter === 0 ) {
-                        min_value = value;
-                        max_value = value;
-                    }
-                    if ( value !== null && value !== '' ) {
-                        _barChartData.push( { name: countryLabel, score: value, color: color, opacity: alpha } );
-                        if ( value > max_value ) {
-                            max_value = value;
-                        }
-                        else if ( value < min_value ) {
-                            min_value = value;
-                        }
-                    }
-                    counter++;
-                }
-            }
+        else {
+            d3.select( '#axisDetailView_BarLabel_Name')
+                .attr( 'display', 'none' );
+            d3.select( '#axisDetailView_BarLabel_Value')
+                .attr( 'display', 'block' );
         }
+    };
 
+    this.changeBarLabels = function () {
+        _nameShown = !_nameShown;
+        this.showBarLabels();
+    };
 
-        // const data = [
-        //     { name: 'Attr1', score: 60 },
-        //     { name: 'Attr2', score: 20 },
-        //     { name: 'Attr3', score: 30 }
-        // ];
-        const margin = { top: 50, right: 50, bottom: 50, left: 50 };
+    this.updateBarChart = function () {
+
+        // Get boundaries of dataset.
+        const min_value = d3.min( _barChartData, d => d.score );
+        const max_value = d3.max( _barChartData, d => d.score );
+
+        // Get width.
         const scrollbarWidth = 15;
+        const width = this.getWidthOfElementById( 'axisDetailView' ) - scrollbarWidth;
 
-        var cs = getComputedStyle( document.getElementById( 'axisDetailView' ) );
+        // Get height.
+        const barHeight = 75;
+        const height = _barChartData.length * barHeight;
 
-        var paddingX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-
-        var borderX = parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
-
-        const width = document.getElementById( 'axisDetailView' ).offsetWidth - paddingX - borderX - scrollbarWidth;
-        // const width = document.getElementById( 'axisDetailView' ).clientWidth;
-
-        const barHeight = 80;
-        const height = margin.bottom + _barChartData.length * barHeight;
-
-        // Remove old content.
+        // Remove old svg content.
         let ele = document.getElementById( 'axisDetailView' );
         while ( ele.firstChild ) {
             ele.removeChild( ele.firstChild );
         }
 
+        // Create new svg.
         const svg = d3.select( '#axisDetailView' )
             .append( 'svg' )
             .attr( 'id', 'axisDetailView_SVG' )
@@ -137,90 +120,54 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
             .attr( 'height', height )
             .attr( 'viewBox', [0, 0, width, height] );
 
+        // Axis scales.
         const y = d3.scaleBand()
             .domain( d3.range( _barChartData.length ) )
-            .range( [height - margin.bottom, 0] )
-            .paddingInner( 0.1 );
-
+            .range( [height, 0] )
+            .paddingInner( 0.15 );
         const x = d3.scaleLinear()
-            .domain( [min_value - min_value / 10, max_value + max_value / 10 ] )
+            .domain( [Math.max( min_value - min_value * 3, 0 ), max_value + max_value / 10 ] )
             .range( [0, width] );
 
+        // Create horizontal bars.
         svg.append( 'g' )
             .selectAll( 'rect' )
-            .data( _barChartData.sort( ( a, b ) => d3.ascending( a.score, b.score ) ) )
+            .data( _barChartData )
             .join( 'rect' )
-                .attr( 'x', 0 )
-                .attr( 'y', ( d, i ) => y( i ) )
-                .attr( 'height', y.bandwidth() )
-                .attr( 'width', ( d ) => x( min_value ) + x( d.score ) )
-                .attr( 'fill', ( a ) => a.color )
-                .attr( 'opacity', a => a.opacity );
+            .attr( 'x', 0 )
+            .attr( 'y', ( d, i ) => y( i ) )
+            .attr( 'height', y.bandwidth() )
+            .attr( 'width', d => x( min_value ) + x( d.score ) )
+            .attr( 'fill', d => d.color )
+            .attr( 'opacity', d => d.opacity );
 
-
-        // Remove old content.
-        let elem = document.getElementById( 'xAxisView' );
-        while ( elem.firstChild ) {
-            elem.removeChild( elem.firstChild );
-        }
-
-        const xAxisSVG = d3.select( '#xAxisView' )
-            .append( 'svg' )
-            .attr( 'id', 'xAxis' );
-        xAxisSVG.append("g")
-            .attr("transform", "translate(" + 0 + "," + 50 + ")")
-            .attr("id", "xAxisGroup")
-            .call( d3.axisTop( x )
-                // .tickValues( x.ticks( 2, '~s' ).concat( x.domain() ) )
-                    .ticks( 4, '~s' )
-                    .tickSize( 20 )
-                // .tickFormat( this.formatTick )
-            );
-
-        xAxisSVG.attr( 'height', d3.select( '#xAxisGroup' ).node().getBBox().height );
-        xAxisSVG.attr( 'height', 50 + 10 );
-
-        document.getElementById( 'axisDetailView' ).style.paddingBottom = '3vw';
-        document.getElementById( 'axisDetailView' ).style.height =
-            ( document.getElementById( 'axisDetailViewOverlay' ).getBoundingClientRect().height -
-            document.getElementById( 'axisDetailViewHeader' ).getBoundingClientRect().height ) + 'px';
-
+        // Create bar labels.
         svg.append( 'g' )
-            .attr( 'id', 'axisDetailView_Label_Name' )
-            .attr("display" , "block")
+            .attr( 'id', 'axisDetailView_BarLabel_Name' )
             .selectAll( 'text' )
             .data( _barChartData )
             .enter()
             .append( 'text' )
-            .text( ( d ) => d.name )
-            // .text( ( d ) => d.name.split( '_' )[0] )
+            .text( d => d.name )
             .attr( 'x', 20 )
             .attr( 'y', ( d, i ) => y( i ) + barHeight * 0.6 )
-            .attr("font-family" , "sans-serif")
-            .attr("font-size" , "2em")
-            .attr("fill" , "white")
-            .attr("text-anchor", "left")
-            .attr( 'opacity', a => a.opacity );
-
-        _nameShown = true;
-
+            .attr( 'text-anchor', 'left' )
+            .attr( 'opacity', d => d.opacity );
         svg.append( 'g' )
-            .attr( 'id', 'axisDetailView_Label_Value' )
-            .attr("display" , "none")
+            .attr( 'id', 'axisDetailView_BarLabel_Value' )
             .selectAll( 'text' )
             .data( _barChartData )
             .enter()
             .append( 'text' )
-            .text( ( d ) => this.numberWithCommas( d.score ) )
+            .text( d => this.numberWithCommas( d.score ) )
             .attr( 'x', 20 )
             .attr( 'y', ( d, i ) => y( i ) + barHeight * 0.6 )
-            .attr("font-family" , "sans-serif")
-            .attr("font-size" , "2em")
-            .attr("fill" , "white")
-            .attr("text-anchor", "left")
-            .attr( 'opacity', a => a.opacity );
+            .attr( 'text-anchor', 'left' )
+            .attr( 'opacity', d => d.opacity );
 
-        document.getElementById( 'attributeName' ).innerText = axis.attributeLabel;
+        // Pass texts to header.
+        document.getElementById( 'attributeName' ).innerText = _attributeLabel;
+        document.getElementById( 'attributeUnit' ).innerText = 'in ' + MoInVis.Paracoords.Unit;
 
         // Tick styling.
         d3.select( '#xAxisGroup' )
@@ -232,19 +179,98 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
             .select( 'line' )
             .attr( 'y2', -10 );
 
+        // Remove old content of header axis.
+        let elem = document.getElementById( 'xAxisView' );
+        while ( elem.firstChild ) {
+            elem.removeChild( elem.firstChild );
+        }
+
+        // Create new header axis.
+        const xAxisSVG = d3.select( '#xAxisView' )
+            .append( 'svg' )
+            .attr( 'id', 'xAxis' )
+            .attr( 'height', 50 + 10 );
+        xAxisSVG.append( 'g' )
+            .attr( 'transform', 'translate(' + 0 + ',' + 50 + ')' )
+            .attr( 'id', 'xAxisGroup' )
+            .call( d3.axisTop( x )
+                    // .tickValues( x.ticks( 2, '~s' ).concat( x.domain() ) )
+                    .ticks( 4, '~s' )
+                    .tickSize( 20 )
+                // .tickFormat( this.formatTick )
+            );
+
+        // Compute correct height of scrollable div.
+        document.getElementById( 'axisDetailView' ).style.height =
+            ( document.getElementById( 'axisDetailViewOverlay' ).getBoundingClientRect().height -
+                document.getElementById( 'axisDetailViewHeader' ).getBoundingClientRect().height ) + 'px';
+
         // Show bar chart from top.
         document.getElementById( 'axisDetailView' ).scrollTop = 0;
+
+        this.showBarLabels();
+    };
+
+    this.setUpData = function ( attribute, attributeLabel, paths ) {
+
+        _attribute = attribute;
+        _attributeLabel = attributeLabel;
+        _paths = paths;
+
+        const chosenYear = '2018';
+
+        // Empty old data set.
+        _barChartData = [];
+
+        // Update bar chart data set.
+        for ( path in paths ) {
+            const item = paths[path];
+            if ( item.visible ) {
+
+                const country = item.itemName;
+                const countryLabel = item.itemText;
+                const color = item.getColor();
+                const emphasis = item.getEmphasis();
+                const alpha = item.getCurrentAlpha();
+
+                data = MoInVis.Paracoords.Data.wasteByCountries[country].data[chosenYear];
+                const value = data[attribute];
+
+                if ( value !== null && value !== '' ) {
+                    _barChartData.push( {
+                        name: countryLabel,
+                        score: value,
+                        color: color,
+                        opacity: alpha,
+                        emphasised: emphasis
+                    } );
+                }
+            }
+        }
+
+        this.sortDataSet();
+        this.updateBarChart();
     };
 
     this.numberWithCommas = function ( x ) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return x.toString().replace( /\B(?=(\d{3})+(?!\d))/g, ',' );
     };
 
-    this.formatTick = function ( d ) {
-        const s = (d / 1e6).toFixed(0);
-        // return this.parentNode.nextSibling ? `\xa0${s}` : `$${s} million`;
+    this.formatTick = function ( data ) {
+        const s = ( data / 1e6 ).toFixed( 0 );
         return `${s}`;
-    }
+    };
+
+    this.getWidthOfElementById = function ( idString ) {
+        let element = document.getElementById( idString );
+        let offsetWidth = element.offsetWidth;
+
+        let cs = getComputedStyle( element );
+        let paddingX = parseFloat( cs.paddingLeft ) + parseFloat( cs.paddingRight );
+        let borderX = parseFloat( cs.borderLeftWidth ) + parseFloat( cs.borderRightWidth );
+
+        return ( offsetWidth - paddingX - borderX );
+    };
 
     _init();
 };

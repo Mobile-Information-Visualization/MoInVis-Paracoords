@@ -144,7 +144,7 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
 
                 case 'singletap':
                     if ( targetId.includes( 'LabelText', 0 ) ) {
-                        _paracoorder.moin.axisDetailView.updateParameters( _axis, _paracoorder.paths );
+                        _paracoorder.moin.axisDetailView.setUpData( _axis.attribute, _axis.attributeLabel, _paracoorder.paths );
                         _paracoorder.moin.axisDetailView.activateTab();
                     }
                     else {

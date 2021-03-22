@@ -98,7 +98,7 @@ button {
 
 #axisDetailViewOverlay {
     width: 95vw !important;
-    height: calc( 100vh - 3vw ) !important;
+    /*height: calc( 100vh - 3vw ) !important;*/
     left: 2.5vw;
     /* offset-x | offset-y | blur-radius | color */
     box-shadow: 1px 2px 12px black;
@@ -127,12 +127,42 @@ button {
 }
 #axisDetailViewHeaderInfo {
     width: calc( 100% - 8vw );
-    padding: 4vw 4vw 0 4vw;
+    padding: 4vw 4vw 5px 4vw;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
     flex-direction: row;
+}
+.axisDetailViewHeaderInfoBox {
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+#axisDetailView_BarLabel_Name,
+#axisDetailView_BarLabel_Value {
+    font-family: Arial;
+    font-size: 1em;
+    fill: white;
+}
+#attributeName {
+    font-family: Arial;
+    color: white;
+    font-size: 2.6em;
+    font-weight: 400;
+    margin: 0;
+    padding: 8px 0 8px 0;
+}
+#attributeUnit {
+    font-family: Arial;
+    color: white;
+    font-size: 2em;
+    font-weight: 400;
+    margin: 0;
+    padding: 0 0 10px 0;
 }
 #xAxisView {
     width: 100%;
@@ -144,14 +174,23 @@ button {
 }
 
 #axisDetailView_SVG {
-    padding-bottom: 8vw;
+    padding-bottom: 200px;
 }
-
+#axisDetailViewGradient {
+    height: 150px;
+    width: calc( 100% - 15px );
+    background: rgba( 50, 50, 50, 0);
+    background: linear-gradient( 0deg, rgba( 50, 50, 50, 1) 10%, rgba( 50, 50, 50, 0) 100%);
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    bottom: 0;
+    pointer-events: none;
+}
 #axisDetailView {
     width: calc( 100% - 8vw );
-    height: calc( 100% );
+    /*height: calc( 100% );*/
     /*background-color: darkgray;*/
-    padding: 1vw 4vw 0 4vw;
+    padding: 3px 4vw 3vw 4vw;
     opacity: 1;
     /*display: flex;*/
     /*justify-content: center;*/
@@ -189,7 +228,7 @@ h1 {
 
 text {
     color: white;
-    font-size: 2.2em;
+    font-size: 2.1em;
 }
 
 

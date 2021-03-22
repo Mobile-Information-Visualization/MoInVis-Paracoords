@@ -39,13 +39,19 @@
         <div id="axisDetailViewOverlay">
             <div id="axisDetailViewHeader">
                 <div id="axisDetailViewHeaderInfo">
-                    <button v-on:click="closeView">{{ closeButtonText }}</button>
-                    <!--                <h1>{{ tabName }}</h1>-->
-                    <h2 id="attributeName"></h2>
+                    <div class="axisDetailViewHeaderInfoBox">
+                        <button v-on:click="closeView">{{ closeButtonText }}</button>
+                        <button id="axisDetailView_Button_ChangeSorting" v-on:click="changeSorting">{{ changeButtonText }}</button>
+                    </div>
+                    <div class="axisDetailViewHeaderInfoBox">
+                        <h1 id="attributeName"></h1>
+                        <h2 id="attributeUnit"></h2>
+                    </div>
                 </div>
                 <div id="xAxisView"></div>
             </div>
-            <div id="axisDetailView" v-on:click="changeLabels"></div>
+            <div id="axisDetailView" v-on:click="changeBarLabels"></div>
+            <div id="axisDetailViewGradient"></div>
         </div>
     </div>
     <script type="text/javascript" src="scripts/datahandler.js"></script>
