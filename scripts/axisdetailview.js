@@ -58,17 +58,50 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
         }
     };
 
-    this.changeSorting = function () {
+    this.styleSortingButton = function () {
         if ( _emphasisedFirst ) {
-            // document.getElementById( 'axisDetailView_Button_ChangeSorting' ).innerText = 'Sort by selection';
+            d3.select( '#buttonRight_firstBar' )
+                .attr( 'fill', '#7dcdc4' )
+                .attr( 'y', '104' )
+                .attr( 'width', '256' );
+            d3.select( '#buttonRight_secondBar' )
+                .attr( 'fill', '#7dcdc4' )
+                .attr( 'y', '208' )
+                .attr( 'width', '192' );
+            d3.select( '#buttonRight_thirdBar' )
+                .attr( 'fill', 'white' )
+                .attr( 'y', '312' )
+                .attr( 'width', '320' );
+            d3.select( '#buttonRight_fourthBar' )
+                .attr( 'fill', 'white' )
+                .attr( 'y', '416' )
+                .attr( 'width', '130' );
         }
         else {
-            // document.getElementById( 'axisDetailView_Button_ChangeSorting' ).innerText = 'Sort uniformly';
+            d3.select( '#buttonRight_firstBar' )
+                .attr( 'fill', 'white' )
+                .attr( 'y', '104' )
+                .attr( 'width', '320' );
+            d3.select( '#buttonRight_secondBar' )
+                .attr( 'fill', '#7dcdc4' )
+                .attr( 'y', '208' )
+                .attr( 'width', '256' );
+            d3.select( '#buttonRight_thirdBar' )
+                .attr( 'fill', '#7dcdc4' )
+                .attr( 'y', '312' )
+                .attr( 'width', '192' );
+            d3.select( '#buttonRight_fourthBar' )
+                .attr( 'fill', 'white' )
+                .attr( 'y', '416' )
+                .attr( 'width', '130' );
         }
-        _emphasisedFirst = !_emphasisedFirst;
+    }
 
+    this.changeSorting = function () {
+        _emphasisedFirst = !_emphasisedFirst;
         this.sortDataSet();
         this.updateBarChart();
+        this.styleSortingButton();
     };
 
     this.showBarLabels = function () {
@@ -249,6 +282,7 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
 
         this.sortDataSet();
         this.updateBarChart();
+        this.styleSortingButton();
     };
 
     this.numberWithCommas = function ( x ) {
