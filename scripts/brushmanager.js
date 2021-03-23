@@ -21,6 +21,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
         _axisId = axisId,
         _attrScale = attrScale,
         _brushHeight = 24,
+        _brushColour = '#008b8b',
         _gesturePos,
         _hammerMan,
         _brushHandlePanning = false,
@@ -205,7 +206,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
                         _brushes.push( _activeBrush );
                     }
                     // [TODO]: Create mechanism to select a colour for brushes.
-                    _activeBrush.setColour( 'red' );
+                    _activeBrush.setColour( _brushColour );
                     _activeBrushes.push( _activeBrush );
                 }
             }

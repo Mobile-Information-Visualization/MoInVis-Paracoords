@@ -30,7 +30,7 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
         },
 
         _labelClick = function ( event, item ) {
-            if ( event.target.nodeName !== 'BUTTON' && event.target.nodeName !== 'SPAN' && event.target.nodeName !== 'INPUT' && event.target.className.indexOf( 'modal' ) === -1 ) {
+            if ( event.target.nodeName !== 'BUTTON' && event.target.nodeName !== 'SPAN' && event.target.nodeName !== 'INPUT' && event.target.className.indexOf( 'modal' ) === -1 && event.target.nodeName !== 'I' ) {
                 item.inFocus = true;
             }
         },
@@ -262,8 +262,8 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
                                             <label style="left: 80%; position: relative;">max</label>
                                         </div>
                                         <div>
-                                            <button :class="'minus-plus-button' + (plusButtonTouched?' active':'')" @pointerdown="plusButtonTouched = true" @pointerup="plusButtonTouched = false" @click="incrementValue" >&plus;</button>
-                                            <button :class="'minus-plus-button' + (minusButtonTouched?' active':'')" @pointerdown="minusButtonTouched = true" @pointerup="minusButtonTouched = false" @click="decrementValue" >&minus;</button>
+                                            <button :class="'modal-default-button right' + (plusButtonTouched?' active':'')" @pointerdown="plusButtonTouched = true" @pointerup="plusButtonTouched = false" @click="incrementValue"><i class="fa fa-plus-circle" style="font-size:inherit;color:inherit"></i></button>
+                                            <button :class="'modal-default-button right' + (minusButtonTouched?' active':'')" @pointerdown="minusButtonTouched = true" @pointerup="minusButtonTouched = false" @click="decrementValue"><i class="fa fa-minus-circle" style="font-size:inherit;color:inherit"></i></button>
                                         </div>
                                     </div>
 
@@ -279,6 +279,8 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
                                             <button :class="'modal-default-button right' + (cancelButtonTouched?' active':'')" @pointerdown="cancelButtonTouched = true" @pointerup="cancelButtonTouched = false" @click="cancel">
                                                 Cancel
                                             </button>
+
+
                                             <button :class="'modal-default-button left' + (keyButtonTouched?' active':'')" @pointerdown="keyButtonTouched = true" @pointerup="keyButtonTouched = false" @click="enableTypeInput = !enableTypeInput"><i class="fa fa-keyboard-o" style="font-size:inherit;color:inherit"></i></button>
                                         </slot>
                                     </div>

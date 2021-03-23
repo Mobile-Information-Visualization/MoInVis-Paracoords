@@ -75,32 +75,7 @@ line {
     width: inherit;
     height: inherit;
     overflow-y: scroll;
-    border-bottom: 5px solid #7dcdc4;
-}
-
-label.brushname {
-    font-size: 2em;
-    grid-column-start: 2;
-    grid-column-end: 3;
-    text-align: center;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding-bottom: 7%;
-    color: #7dcdc4;
-}
-
-/*Brush setter styles.*/
-label.brushvalue {
-    font-size: 4em;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    text-align: left;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding-left: 3%;
-    color: #7dcdc4;
+    border-bottom: 5px solid #abbbbb;
 }
 
 .brushsetterheader {
@@ -110,7 +85,7 @@ label.brushvalue {
     top: -1px;
     opacity: 1;
     background: rgba(50, 50, 50, 1); /*Same colour as brushSetterOverlay bg but with opacity 1*/
-    border-bottom: 5px solid #7dcdc4;
+    border-bottom: 5px solid #abbbbb;
     z-index: 1;
 }
 
@@ -124,21 +99,62 @@ label.brushvalue {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
 }
-/*li.brushes{*/
-/* margin: 3% 3%; */
-/*padding: 3% 3%;
+
+li.brushlist {
+    /*border-bottom: 5px solid #abbbbb;*/
+    /* margin: 3% 3%; */
+    padding: 3% 3% 0% 3%;
     display: grid;
     grid-template-columns: 1fr 7fr 1fr 1fr;
     align-items: center;
     cursor: move;
-}*/
-
-li.brushlist {
-    border-bottom: 5px solid #7dcdc4;
 }
 
 li.brushinfocus {
     background: rgba(0,139,139,0.7);
+}
+
+label.brushname {
+    font-size: 2em;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-bottom: 7%;
+    color: #abbbbb;
+}
+
+    label.brushname.active {
+        /*color: #7dcdc4;*/
+        color: #abbbbb;
+    }
+
+/*Brush setter styles.*/
+label.brushvalue {
+    font-size: 4em;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 3%;
+    color: #abbbbb;
+}
+
+    label.brushvalue.active {
+        /*color: #7dcdc4;*/
+        color: #abbbbb;
+    }
+
+.brushliborder {
+    width: 90%;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    border-bottom: 2px solid #abbbbb;
+    margin: 3% 5% 0% 5%;
 }
 
 /* The switch - the box around the slider */
@@ -228,7 +244,7 @@ input:checked + .slider:before {
     margin: 0px auto;
     padding: 20px 30px;
     background-color: #323232;
-    border-radius: 2px;
+    border-radius: 30px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
     transition: all 0.3s ease;
     display: inline-block;
@@ -241,8 +257,9 @@ input:checked + .slider:before {
     text-align: center;
     color: #abbbbb;
     user-select: none;
-    border-bottom: 5px solid #7dcdc4;
-    padding-bottom: 3%;
+    padding-top: 2%;
+    /*border-bottom: 5px solid #abbbbb;
+    padding-bottom: 3%;*/
 }
 
 .modal-body {
@@ -263,7 +280,7 @@ input:checked + .slider:before {
     font-size: 2em;
     user-select: none;
     overflow: hidden;
-    color: #4ae6d8;
+    color: #abbbbb;
 }
 
 .modal-footer label {

@@ -38,15 +38,15 @@
                     <svg style="left:1.5em; top:1.5em; position:absolute;">
                         <g @pointerdown="pointerDownX = true" @pointerup="pointerDownX = false" @click="closeTab">
                             <rect x="-20" y="-20" width="120" height="120" fill="black" opacity="0"></rect>
-                            <path d="M 0 0 L 80 80 M 0 80 L 80 0" fill="none" stroke-width="10" stroke="#7dcdc4" :opacity="pointerDownX ? 0.5: 1"></path>
+                            <path d="M 0 0 L 80 80 M 0 80 L 80 0" fill="none" stroke-width="10" stroke="#abbbbb" :opacity="pointerDownX ? 0.5: 1"></path>
                         </g>
                     </svg>
                     <label class="brushtabname">{{tabName}}</label>
                 </div>
                 <div style="">
                     <li v-for="item in brushes" :key="item" :id="item.attribute" :class="'brushlist' + (item.inFocus?' brushinfocus':'')" @click="labelClick($event, item)" @openModal="item.inFocus = true">
-                        <label class="brushname">{{ item.axisName }}</label>
-                        <label class="brushvalue">{{ item.rangeText[0] + ' - ' + item.rangeText[1]}}</label>
+                        <label :class="'brushname' + (item.active?' active':'')">{{ item.axisName }}</label>
+                        <label :class="'brushvalue' + (item.active?' active':'')">{{ item.rangeText[0] + ' - ' + item.rangeText[1]}}</label>
                         <label class="switch">
                             <input type="checkbox" v-model="item.active" v-on:change="enableDisableBrush(item)">
                             <span class="slider round"></span>
@@ -54,6 +54,7 @@
                         <transition name="modal">
                             <modal v-if="item.inFocus" @close="item.inFocus = false" :brushprops="item">
                         </transition>
+                        <div class="brushliborder"></div>
                     </li>
                 </div>
             </div>
