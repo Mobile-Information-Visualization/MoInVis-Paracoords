@@ -250,6 +250,7 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
         _paths = paths;
 
         const chosenYear = '2018';
+        let sortButtonNecessity = false;
 
         // Empty old data set.
         _barChartData = [];
@@ -276,6 +277,10 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
                         opacity: alpha,
                         emphasised: emphasis
                     } );
+                    // If at least one entry is emphasised, sort button is necessary.
+                    if ( !emphasis ) {
+                        sortButtonNecessity = true;
+                    }
                 }
             }
         }
@@ -283,6 +288,18 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
         this.sortDataSet();
         this.updateBarChart();
         this.styleSortingButton();
+
+        // Show sort button or not.
+        if ( sortButtonNecessity ) {
+            d3.select( '#axisDetailView_ButtonRight' )
+                .style( 'visibility', 'visible' )
+                .style( 'pointer-events', 'all' );
+        }
+        else {
+            d3.select( '#axisDetailView_ButtonRight' )
+                .style( 'visibility', 'hidden' )
+                .style( 'pointer-events', 'none' );
+        }
     };
 
     this.numberWithCommas = function ( x ) {

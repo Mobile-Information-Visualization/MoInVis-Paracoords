@@ -140,7 +140,7 @@ button {
     position: relative;
 }
 .axisDetailViewHeaderInfoBox {
-    max-width: calc( 100% - 60px - 80px - 50px - 70px );
+    max-width: calc( 100% - 60px - 80px - 60px - 80px );
     margin: 0 auto;
     display: flex;
     justify-content: flex-start;
@@ -160,7 +160,7 @@ button {
 #attributeName {
     font-family: Arial;
     color: white;
-    font-size: 2.5em;
+    font-size: 2.6em;
     font-weight: 400;
     margin: 0;
     padding: 0;
@@ -170,7 +170,7 @@ button {
 #attributeUnit {
     font-family: Arial;
     color: white;
-    font-size: 1.6em;
+    font-size: 1.75em;
     font-weight: 400;
     margin: 0;
     padding: 0;
