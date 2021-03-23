@@ -63,7 +63,7 @@ li {
   margin: 3% 3%;
   padding: 3% 3%;
   display: grid;
-  grid-template-columns: 2fr 8fr;
+  grid-template-columns: 2fr 8fr 1fr;
   align-items: center;
   cursor: move;
 }
@@ -88,6 +88,29 @@ label.entryText {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/*
+label.entryColor {
+*/
+.entryColor {
+  width: 50px;
+  height: 50px;
+  /*margin-top: 8pc; */
+  border: 2px solid #525252;
+  border-radius: 50%;
+  /*
+  font-size: 5em;
+  font-weight: 100;
+
+  grid-column-start: 3;
+  grid-column-end: 4;
+
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  */
 }
 
 /* The container */
