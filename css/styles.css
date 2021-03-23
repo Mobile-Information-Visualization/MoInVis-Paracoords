@@ -314,7 +314,7 @@ input:checked + .slider:before {
     font-size: 3em;
     background: #323232; /*same as the container's background*/
     border: 0px;
-    color: #7dcdc4;
+    color: #abbbbb;
 }
 
     .modal-default-button.active {
@@ -327,6 +327,12 @@ input:checked + .slider:before {
 
     .modal-default-button.right {
         float: right;
+    }
+
+    .modal-default-button.bordered {
+        border: 2px solid #7dcdc4;
+        border-radius: 20px;
+        padding: 1% 2%;
     }
 
 .minus-plus-button {

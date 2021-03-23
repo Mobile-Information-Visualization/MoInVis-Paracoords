@@ -277,7 +277,7 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
                                             :value="startValueActive?brushprops.range[0]:brushprops.range[1]" v-on:change="onKeyInput($event)" v-on:focusout="enableTypeInput = false" />
                                             </transition>
                                             <button :class="'modal-default-button right' + (cancelButtonTouched?' active':'')" @pointerdown="cancelButtonTouched = true" @pointerup="cancelButtonTouched = false" @click="cancel">
-                                                Cancel
+                                                CANCEL
                                             </button>
 
 
