@@ -15,12 +15,26 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
         _moin = moin,
         _currentTabIndex = startTabIndex,
         _tabHandlers = tabHandlers,
+        _overlayTabs = [],
+        _overlayTabActive = false,
+        _overlayTab = null,
         _tabIndicators = [],
         _tabIndicatorDiv,
         _tabIndicatorSize = 40,
         _inactiveTabIndicatorOpacity = 0.25,
         _afterTransition = function () {
             _tabIndicatorDiv.style( 'display', 'none' );
+        },
+        _afterOverlayDeactivation = function () {
+            _overlayTab.parentTab.style( 'display', 'none' );
+            _overlayTab = null;
+        },
+
+        _setTabStyle = function ( tab ) {
+            tab
+                .style( 'height', _moin.height + 'px' )
+                .style( 'width', _moin.width + 'px' )
+                .style( 'position', 'fixed' );
         },
 
         _init = function () {
@@ -32,15 +46,14 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
                 .attr( 'id', moin.id + '_TabIndicatorParent' )
                 .style( 'width', _moin.width + 'px' )
                 .style( 'position', 'fixed' )
-                .style( 'left', (_moin.width / 2 - length * _tabIndicatorSize) + 'px' )
+                .style( 'left', ( _moin.width / 2 - length * _tabIndicatorSize ) + 'px' )
                 .style( 'display', 'none' );
 
             for ( i = 0; i < length; i++ ) {
                 // Set tab styling to handle absolute positioning.
-                tab = _tabHandlers[i].parentTab
-                    .style( 'height', _moin.height + 'px' )
-                    .style( 'width', _moin.width + 'px' )
-                    .style( 'position', 'fixed' );
+                tab = _tabHandlers[i].parentTab;
+
+                _setTabStyle( tab );
 
                 _tabIndicators.push( _tabIndicatorDiv
                     .append( 'div' )
@@ -64,6 +77,38 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
                 }
             }
         };
+
+    this.addOverlayTab = function ( tabHandler ) {
+        tabHandler.setId( _overlayTabs.length );
+        _overlayTabs.push( tabHandler );
+        _setTabStyle( tabHandler.parentTab );
+        tabHandler.parentTab.style( 'top', 1 * _moin.height + 'px' );
+    };
+
+    this.activateOverlayTab = function ( tabId ) {
+        _overlayTab = _overlayTabs[tabId];
+        // Switch off events for current tab
+        _tabHandlers[_currentTabIndex].switchOffEvents();
+        _overlayTab.parentTab
+            .style( 'display', 'inherit' )
+            .style( 'top', 1 * _moin.height + 'px' )
+            .transition()
+            .duration( MoInVis.Paracoords.OverlayTransitionSpeed )
+            .style( 'top', '3vw' );
+        _overlayTabActive = true;
+    };
+
+    this.deactivateOverlayTab = function () {
+        if ( _overlayTab ) {
+            _overlayTab.parentTab
+                .transition()
+                .duration( MoInVis.Paracoords.OverlayTransitionSpeed )
+                .style( 'top', 1.5 * _moin.height + 'px' )
+                .on( 'end', _afterOverlayDeactivation );
+            _overlayTabActive = false;
+            _tabHandlers[_currentTabIndex].switchOnEvents();
+        }
+    };
 
     this.swipeUp = function () {
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<meta charset="utf-8">
 <head>
     <title>MoInVis ParaCoords</title>
     <script src="scripts/libs/d3.js"></script>
@@ -20,13 +21,14 @@
     <script src="data/json/rubberwaste.json"></script>
     <script src="data/json/secwaste.json"></script>
     <script src="data/json/totalwaste.json"></script>
+
+    <link rel="shortcut icon" href="#">
 </head>
 <body>
     <div id="mainDiv">
         <div id="paracoordTab">
         </div>
         <div id="attrStoreTab">
-            <h1>{{tabName}}</h1>
         </div>
         <div id="entryStoreTab">
           <header class="entryStore">
@@ -54,6 +56,44 @@
 
               </li>
           </main>
+        </div>
+        <div id="brushSetterOverlay">
+            <div style="opacity: 1">
+                <h1>Brush setter</h1>
+                <h1>{{ tabName }}</h1>
+            </div>
+        </div>
+        <div id="axisDetailViewOverlay">
+            <div id="axisDetailViewHeader">
+                <div id="axisDetailViewHeaderInfo">
+                    <div id="axisDetailView_ButtonLeft" v-on:click="closeView">
+                        <svg width="60" height="50" x="20" y="20" viewBox="0 0 40 40">
+                            <g>
+                                <path d="M 0 0 L 40 40 M 0 40 L 40 0" stroke-width="5" stroke="white"></path>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="axisDetailViewHeaderInfoBox">
+                        <h1 id="attributeName"></h1>
+                        <h1 id="attributeUnit"></h1>
+                    </div>
+                    <div id="axisDetailView_ButtonRight" v-on:click="changeSorting">
+                        <svg width="80" height="80" x="0" y="0" viewBox="0 50 512 512">
+                        <g>
+                            <rect id="buttonRight_firstBar" x="2.344" y="104" width="320" height="40" fill="white"/>
+                            <rect id="buttonRight_secondBar" x="2.344" y="208" width="256" height="40" fill="white"/>
+                            <rect id="buttonRight_thirdBar" x="2.344" y="312" width="192" height="40" fill="white"/>
+                            <rect id="buttonRight_fourthBar" x="2.344" y="416" width="130" height="40" fill="white"/>
+                            <polygon points="487.032,428.688 466.344,449.376 466.344,128 434.344,128 434.344,449.376 413.656,428.688 391.032,451.312      450.344,510.624 509.656,451.312   " fill="white"/>
+		                </g>
+                    </svg>
+                    </div>
+                </div>
+                <div id="xAxisView"></div>
+            </div>
+            <div id="axisDetailView" v-on:click="changeBarLabels"></div>
+            <div id="axisDetailViewGradient"></div>
+        </div>
     </div>
     <script type="text/javascript" src="scripts/datahandler.js"></script>
     <script type="text/javascript" src="scripts/button.js"></script>
@@ -64,10 +104,13 @@
     <script type="text/javascript" src="scripts/axisinteractionmanager.js"></script>
     <script type="text/javascript" src="scripts/axis.js"></script>
     <script type="text/javascript" src="scripts/tabmanager.js"></script>
+    <script type="text/javascript" src="scripts/overlaytab.js"></script>
     <script type="text/javascript" src="scripts/tab.js"></script>
     <script type="text/javascript" src="scripts/paracoorder.js"></script>
     <script type="text/javascript" src="scripts/entrystore.js"></script>
     <script type="text/javascript" src="scripts/attributestore.js"></script>
+    <script type="text/javascript" src="scripts/brushsetter.js"></script>
+    <script type="text/javascript" src="scripts/axisdetailview.js"></script>
     <script type="text/javascript" src="scripts/moin.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>
 </body>
