@@ -51,7 +51,8 @@
                 <label class="entryText" for = "entry.itemText" >{{ entry.itemText }}</label>
                 <!-- <label class="entryText" for = "entry.itemText" >{{ entry.itemText }}</label> --!>
 
-                <div class="entryColor" background="entry.colour" ></div>
+                  <!-- <div class="entryColor" background=getEntryColor(entry) @click=getEntryColor(entry) ></div> --!>
+                    <div class="entryColor" :style="{ backgroundColor: getEntryColor(entry) }" ></div>
                 </label>
 
               </li>

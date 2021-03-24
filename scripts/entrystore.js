@@ -43,6 +43,7 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
             _vueMethods = {
               changed: _changed,
               checkEntry: _checkEntry,
+              getEntryColor: _getEntryColor,
             };
 
             _vueApp = self.initVue( _vueData, _vueMethods);
@@ -69,8 +70,13 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
       } else {
         return (entry);
       }
+    };
 
-    }
+    _getEntryColor = function(entry) {
+      // console.log("get color "+ entry.getColor() + " of " + entry.itemText );
+      return entry.getColor();
+    };
+
     _init();
 };
 
