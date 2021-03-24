@@ -103,6 +103,7 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
 
     this.onInteraction = function ( event ) {
         const eventType = event.type;
+        const targetId = event.changedPointers[0].target.id;
 
         // Offer reorder mode interactions.
         if ( _paracoorder.checkIfAxesReorderMode() ) {
@@ -142,15 +143,23 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
                     break;
 
                 case 'singletap':
-                    _brushManager.onTap( event );
+                    if ( targetId.includes( 'LabelText', 0 ) ) {
+                        _paracoorder.moin.axisDetailView.setUpData( _axis.attribute, _axis.attributeLabel, _paracoorder.paths );
+                        _paracoorder.moin.axisDetailView.activateTab();
+                    }
+                    else {
+                        _brushManager.onTap( event );
+                    }
                     break;
-
+                    
                 case 'doubletap':
                     _brushManager.onDoubleTap( event );
                     break;
 
                 case 'press':
-                    _paracoorder.enterAxesReorderMode();
+                    if ( targetId.includes( 'LabelText', 0 ) ) {
+                        _paracoorder.enterAxesReorderMode();
+                    }
                     break;
             }
         }

@@ -1078,9 +1078,11 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             item,
             axisIndex = 0,
             length = _visibleAxes.length,
-            axis, emphasis,
+            axis,
+            emphasis,
             value,
             data;
+
         for ( path in this.paths ) {
             item = this.paths[path];
             emphasis = true;
