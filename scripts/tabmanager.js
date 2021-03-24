@@ -104,7 +104,7 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
             _overlayTab.parentTab
                 .transition()
                 .duration( MoInVis.Paracoords.OverlayTransitionSpeed )
-                .style( 'top', 1.5 * _moin.height + 'px' )
+                .style( 'top', 1 * _moin.height + 'px' )
                 .on( 'end', _afterOverlayDeactivation );
             _overlayTabActive = false;
             _tabHandlers[_currentTabIndex].switchOnEvents();

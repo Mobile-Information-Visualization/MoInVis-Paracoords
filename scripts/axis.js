@@ -30,8 +30,10 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _isDragged = false,
         _formatter = MoInVis.Paracoords.util.format;
 
+    this.unit = MoInVis.Paracoords.Unit;
     this.attribute = attributeProps.prop;
     this.attributeLabel = attributeProps.text;
+    this.attributeLabelWithUnit = attributeProps.text + ' (' + this.unit + ')';
 
     _id = id + '_Axis_' + this.attribute;
 
@@ -63,7 +65,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         var brushes = _brushManager.getBrushes();
         brushes.forEach( ( brush, index ) => {
             // brush.axisName = this.attributeLabel + ' Brush ' + ( index + 1 ); // Uncomment when multiple brushes for single axis are enabled.
-            brush.axisName = this.attributeLabel;
+            brush.axisName = this.attributeLabelWithUnit;
             brush.axisId = _id;
             brush.axisRange = _attrScale.domain();
             // [TODO]: Apply appropriate formatter.

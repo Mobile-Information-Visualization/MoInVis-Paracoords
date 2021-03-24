@@ -3,15 +3,18 @@
 ::-webkit-scrollbar {
     width: 15px;
 }
+
 ::-webkit-scrollbar-track {
     background-color: rgb(50,50,50);
 }
+
 ::-webkit-scrollbar-thumb {
     background: #888;
 }
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
 
 /* Lato font */
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
@@ -85,6 +88,9 @@ line {
 
 #brushSetterOverlay {
     background: rgb( 50, 50, 50);
+    border-top-right-radius: 120px;
+    border-top-left-radius: 120px;
+    box-shadow: 1px 2px 12px black;
 }
 
 #brushSetterOverlayInner {
@@ -92,6 +98,9 @@ line {
     width: inherit;
     height: inherit;
     overflow-y: scroll;
+    overflow-x: hidden;
+    border-top-right-radius: inherit;
+    border-top-left-radius: inherit;
     border-bottom: 5px solid #abbbbb;
 }
 
@@ -99,6 +108,7 @@ line {
     width: inherit;
     display: flex;
     position: sticky;
+    position: -webkit-sticky; /* Safari */
     top: -1px;
     opacity: 1;
     background: rgba(50, 50, 50, 1); /*Same colour as brushSetterOverlay bg but with opacity 1*/
@@ -109,7 +119,7 @@ line {
 .brushtabname {
     font-size: 3.5em;
     text-align: center;
-    color: #abbbbb;
+    color: white;
     user-select: none;
     font-weight: bold;
     width: inherit;
@@ -145,7 +155,7 @@ label.brushname {
 
     label.brushname.active {
         /*color: #7dcdc4;*/
-        color: #abbbbb;
+        color: white;
     }
 
 /*Brush setter styles.*/
@@ -163,7 +173,7 @@ label.brushvalue {
 
     label.brushvalue.active {
         /*color: #7dcdc4;*/
-        color: #abbbbb;
+        color: white;
     }
 
 .brushliborder {
@@ -174,12 +184,21 @@ label.brushvalue {
     margin: 3% 5% 0% 5%;
 }
 
+.lastBrush {
+    width: 90%;
+    height: 50px;
+    grid-column-start: 1;
+    grid-column-end: 5;
+}
+
 /* The switch - the box around the slider */
 .switch {
     position: relative;
     display: inline-block;
     width: 100px;
     height: 58px;
+    grid-column-start: 3;
+    grid-column-end: 5;
 }
 
     /* Hide default HTML checkbox */
@@ -272,7 +291,7 @@ input:checked + .slider:before {
     margin-top: 0;
     font-size: 3em;
     text-align: center;
-    color: #abbbbb;
+    color: white;
     user-select: none;
     padding-top: 2%;
     /*border-bottom: 5px solid #abbbbb;
@@ -288,161 +307,6 @@ input:checked + .slider:before {
     overflow: hidden;
     color: #abbbbb;
 }
-button {
-    font-family: Arial;
-    font-weight: 300;
-    color: #eeeeee;
-    font-size: 2.1em;
-    font-style: normal;
-    cursor: pointer;
-    padding: 10px 20px 10px 20px;
-    background-color: rgba( 96, 96, 96, 0.8 );
-    border-radius: 20px;
-    border: 2px solid rgba( 96, 96, 96, 0.8 );
-    margin: 20px auto 20px auto;
-    display: none;
-}
-
-#axisDetailViewOverlay {
-    width: 95vw !important;
-    left: 2.5vw;
-    /* offset-x | offset-y | blur-radius | color */
-    box-shadow: 1px 2px 12px black;
-    border-top-right-radius: 120px;
-    border-top-left-radius: 120px;
-    border: 0;
-    background-color: rgba( 50, 50, 50, 1);
-    display: flex !important;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-    flex-direction: row;
-    position: relative;
-}
-
-#axisDetailViewHeader {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-    flex-direction: column;
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    top: 0;
-}
-#axisDetailView_ButtonLeft,
-#axisDetailView_ButtonRight {
-    margin: 0 20px 0 20px;
-    cursor: pointer;
-}
-#axisDetailViewHeaderInfo {
-    width: calc( 100% - 8vw );
-    padding: 4vw 4vw 5px 4vw;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-    flex-direction: row;
-    position: relative;
-}
-.axisDetailViewHeaderInfoBox {
-    max-width: calc( 100% - 60px - 80px - 60px - 80px );
-    margin: 0 auto;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-    flex-direction: column;
-    position: relative;
-    padding: 15px 30px 15px 30px;
-}
-#axisDetailView_BarLabel_Name,
-#axisDetailView_BarLabel_Value {
-    font-family: Arial;
-    font-size: 1em;
-    fill: white;
-    overflow-wrap: break-word;
-}
-#attributeName {
-    font-family: Arial;
-    color: white;
-    font-size: 2.6em;
-    font-weight: 400;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    overflow-wrap: break-word;
-}
-#attributeUnit {
-    font-family: Arial;
-    color: white;
-    font-size: 1.75em;
-    font-weight: 400;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    overflow-wrap: break-word;
-}
-#xAxisView {
-    width: 100%;
-    margin: 20px auto 0 auto;
-}
-#xAxis {
-    width: calc( 100% - 8vw );
-    height: 58px;
-    padding: 0 4vw 0 4vw;
-}
-
-#axisDetailView_SVG {
-    padding-bottom: 200px;
-}
-#axisDetailViewGradient {
-    height: 150px;
-    width: calc( 100% - 15px );
-    background: rgba( 50, 50, 50, 0);
-    background: linear-gradient( 0deg, rgba( 50, 50, 50, 1) 10%, rgba( 50, 50, 50, 0) 100%);
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    bottom: 0;
-    pointer-events: none;
-}
-#axisDetailView {
-    width: calc( 100% - 8vw );
-    /*height: calc( 100% );*/
-    /*background-color: darkgray;*/
-    padding: 3px 4vw 3vw 4vw;
-    opacity: 1;
-    /*display: flex;*/
-    /*justify-content: center;*/
-    /*align-items: center;*/
-    /*flex-wrap: wrap;*/
-    /*flex-direction: column;*/
-    overflow-y: scroll;
-    overflow-x: hidden;
-    cursor: pointer;
-}
-
-/*.horizontalLine {
-    width: calc( 100% - 6vw );
-    height: 0;
-    border-bottom: 1px solid rgba( 255, 255, 255, 0.4);
-}*/
-
-h1 {
-    font-family: Arial;
-    color: lightgrey;
-}
-
-.tick text {
-    font-size: 3.3em;
-}
-
-text {
-    color: white;
-    font-size: 2.1em;
-}
-
 
     .modal-body .active {
         color: #4ae6d8;
@@ -475,18 +339,19 @@ text {
     width: 50%;
     height: 2em;
     text-align: center;
-    background-color: #abbbbb;
-    border-color: #7dcdc4;
-    color: #323232;
+    background-color: white;
+    color: #323232; /*same as the modal-container's background*/
+    border-radius: 30px; /*same as the modal-container's border-radius*/
+    border: 5px solid #7dcdc4;
 }
 
 .modal-default-button {
     margin-top: 7%;
     margin-left: 10%;
     font-size: 3em;
-    background: #323232; /*same as the container's background*/
+    background: #323232; /*same as the modal-container's background*/
     border: 0px;
-    color: #abbbbb;
+    color: white;
 }
 
     .modal-default-button.active {
@@ -566,4 +431,154 @@ text {
 .brushTextInput-enter-from,
 .brushTextInput-leave-to {
     opacity: 0;
+}
+
+#axisDetailViewOverlay {
+    width: 95vw !important;
+    left: 2.5vw;
+    /* offset-x | offset-y | blur-radius | color */
+    box-shadow: 1px 2px 12px black;
+    border-top-right-radius: 120px;
+    border-top-left-radius: 120px;
+    border: 0;
+    background-color: rgba( 50, 50, 50, 1);
+    display: flex !important;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    position: relative;
+}
+
+#axisDetailViewHeader {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+}
+
+#axisDetailView_ButtonLeft,
+#axisDetailView_ButtonRight {
+    margin: 0 20px 0 20px;
+    cursor: pointer;
+}
+
+#axisDetailViewHeaderInfo {
+    width: calc( 100% - 8vw );
+    padding: 4vw 4vw 5px 4vw;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    position: relative;
+}
+
+.axisDetailViewHeaderInfoBox {
+    max-width: calc( 100% - 60px - 80px - 60px - 80px );
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    position: relative;
+    padding: 15px 30px 15px 30px;
+}
+
+#axisDetailView_BarLabel_Name,
+#axisDetailView_BarLabel_Value {
+    font-family: Arial;
+    font-size: 1em;
+    fill: white;
+    overflow-wrap: break-word;
+}
+
+#attributeName {
+    font-family: Arial;
+    color: white;
+    font-size: 2.6em;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    overflow-wrap: break-word;
+}
+
+#attributeUnit {
+    font-family: Arial;
+    color: white;
+    font-size: 1.75em;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    overflow-wrap: break-word;
+}
+
+#xAxisView {
+    width: 100%;
+    margin: 20px auto 0 auto;
+}
+
+#xAxis {
+    width: calc( 100% - 8vw );
+    height: 58px;
+    padding: 0 4vw 0 4vw;
+}
+
+#axisDetailView_SVG {
+    padding-bottom: 200px;
+}
+
+#axisDetailViewGradient {
+    height: 150px;
+    width: calc( 100% - 15px );
+    background: rgba( 50, 50, 50, 0);
+    background: linear-gradient( 0deg, rgba( 50, 50, 50, 1) 10%, rgba( 50, 50, 50, 0) 100%);
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    bottom: 0;
+    pointer-events: none;
+}
+
+#axisDetailView {
+    width: calc( 100% - 8vw );
+    /*height: calc( 100% );*/
+    /*background-color: darkgray;*/
+    padding: 3px 4vw 3vw 4vw;
+    opacity: 1;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*flex-wrap: wrap;*/
+    /*flex-direction: column;*/
+    overflow-y: scroll;
+    overflow-x: hidden;
+    cursor: pointer;
+}
+
+/*.horizontalLine {
+    width: calc( 100% - 6vw );
+    height: 0;
+    border-bottom: 1px solid rgba( 255, 255, 255, 0.4);
+}*/
+
+h1 {
+    font-family: Arial;
+    color: lightgrey;
+}
+
+.tick text {
+    font-size: 3.3em;
+}
+
+text {
+    color: white;
+    font-size: 2.1em;
 }
