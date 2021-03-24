@@ -1,6 +1,3 @@
-var MoInVis = MoInVis || {};
-MoInVis.Paracoords = MoInVis.Paracoords || {};
-MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 /*
 *
 * Descr.: Handles data and UI functionality for the brush setter overlay tab.
