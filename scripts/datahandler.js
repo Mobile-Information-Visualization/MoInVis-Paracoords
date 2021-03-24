@@ -15,7 +15,17 @@ MoInVis.Paracoords.dataHandler = ( function () {
 
         // Extracts data from the JSON objects and stores the property names in MoInVis.Paracoords.Data.wasteAttributes.
         _extractData = function ( data, propertyName, propertyText ) {
-            var i, length, object, key, newObject, year, validItems = MoInVis.Paracoords.Data.itemsForWaste, itemValid, regionText, regionId;
+            var i,
+                length,
+                object,
+                key,
+                newObject,
+                year,
+                validItems = MoInVis.Paracoords.Data.itemsForWaste,
+                itemValid,
+                regionText,
+                regionId;
+
             length = data.length;
             // [TODO]: Remove spaces from propertyName for ids.
             MoInVis.Paracoords.Data.wasteAttributes.push( { prop: propertyName, text: propertyText } );
