@@ -17,13 +17,8 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
     this.moin = moin;
     MoInVis.Paracoords.entryStore.baseCtor.call( this, parentDiv );
 
-    const items = Object.keys(entries);
+    const items = Object.keys( entries );
     var totalEntries = items.length;
-    // console.log("Total length of Entries: " + totalEntries);
-    // console.log("items is type of: " + typeof"items");
-    // console.log(items);
-
-    // console.log("Redraw flag: "+ paraCoorderRedrawReq);
 
     var self = this,
         _parentDiv = parentDiv,
@@ -33,7 +28,6 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
         _vueApp,
 
         _init = function () {
-            // _parentDiv.style.overflow = 'scroll';
             _vueData = {
                 tabName: 'Entry Store!',
                 totalEntries: totalEntries,
@@ -45,35 +39,34 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
               checkEntry: _checkEntry,
               getEntryColor: _getEntryColor,
             };
-
             _vueApp = self.initVue( _vueData, _vueMethods);
         };
 
-     _changed = function(entry){
+     _changed = function( entry ){
       if (entry.visible) {
-          entry.setVisibility(false);
+        entry.setVisibility(false);
       } else {
         entry.setVisibility(true);
       }
-      console.log("Visibility of " + entry.itemText + " is now " + entry.visible);
-      if (!self.moin.paraCoorderRedrawReq){
-      self.moin.paraCoorderRedrawReq = true;
-      console.log("Redraw flag: "+ self.moin.paraCoorderRedrawReq);
+
+      console.log('Visibility of ' + entry.itemText + ' is now ' + entry.visible);
+
+      if (!self.moin.paraCoorderRedrawReq) {
+        self.moin.paraCoorderRedrawReq = true;
+        console.log('Redraw flag: '+ self.moin.paraCoorderRedrawReq);
       }
     };
 
-    _checkEntry = function(entry){
-
-      if ( typeof entry === "undefined" ){
-        console.log ("Undefined entry!" );
-        return(" undefined ");
+    _checkEntry = function( entry ) {
+      if ( typeof entry === 'undefined' ) {
+        console.log ('Undefined entry!' );
+        return(' undefined ');
       } else {
         return (entry);
       }
     };
 
-    _getEntryColor = function(entry) {
-      // console.log("get color "+ entry.getColor() + " of " + entry.itemText );
+    _getEntryColor = function( entry ) {
       return entry.getColor();
     };
 
