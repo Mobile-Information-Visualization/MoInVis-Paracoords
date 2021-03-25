@@ -58,9 +58,9 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
                     return vueData;
                 },
                 methods: vueMethods || {}
-            } );
-        mainApp.mount( _tabHandle.parentTab.node() );
-        return mainApp;
+            } ),
+            dataProxy = mainApp.mount( _tabHandle.parentTab.node() );
+        return { mainApp, dataProxy };
     };
 
     this.swipeRight = function () {

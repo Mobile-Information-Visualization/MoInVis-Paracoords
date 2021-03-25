@@ -21,10 +21,14 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _vueApp,
 
         _init = function () {
-            _vueData = {
-                tabName: 'I am the Attribute Store!'
-            };
-            _vueApp = self.initVue( _vueData );
+            var vueStuff,
+                vueData = {
+                    tabName: 'I am the Attribute Store!'
+                };
+
+            vueStuff = self.initVue( vueData );
+            _vueApp = vueStuff.mainApp;
+            _vueData = vueStuff.dataProxy;
         };
 
     _init();

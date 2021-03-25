@@ -1104,6 +1104,40 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         }
     };
 
+    this.getBrushConfigurations = function () {
+        var brushConfigs = [];
+        _visibleAxes.forEach( axis => {
+            //var config = axis.getBrushConfigurations();
+            //if ( config ) {
+            //    brushConfigs.push( config );
+            //}
+            brushConfigs = brushConfigs.concat( axis.getBrushConfigurations() );
+        } );
+        return brushConfigs;
+    };
+
+    this.enableDisableBrush = function ( axisId, brushId, active ) {
+        let axis = _visibleAxes.find( item => item.getId() === axisId );
+        if ( axis ) {
+            axis.enableDisableBrush( brushId, active );
+        }
+    };
+
+    this.setBrushRange = function ( axisId, brushId, range ) {
+        let axis = _visibleAxes.find( item => item.getId() === axisId );
+        if ( axis ) {
+            axis.setBrushRange( brushId, range );
+        }
+    };
+
+    this.hideBrushHandles = function ( axisId ) {
+        _visibleAxes.forEach( axis => {
+            if ( axis.getId() !== axisId ) {
+                axis.hideBrushHandles();
+            }
+        } );
+    };
+
     this.enterAxesReorderMode = function () {
         // let rotationCenterX = document.getElementById( 'MoInVis_ParaCoords_0_ContainerSVG' ).clientWidth / 2;
         if ( this.pinchScrollInProgress === false ) { // Only enter axes reorder mode when pinch and scroll are not in progress.
