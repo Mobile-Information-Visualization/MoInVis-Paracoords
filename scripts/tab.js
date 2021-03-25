@@ -61,10 +61,14 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
                     return vueData;
                 },
                 methods: vueMethods || {},
-                computed: vueComputed || {},
-                components: vueComponents || {}
+                computed: vueComputed || {}
             } );
 
+        if ( vueComponents ) {
+            for ( componentName in vueComponents ) {
+                mainApp.component( componentName, vueComponents[componentName] );
+            }
+        }
         dataProxy = mainApp.mount( _tabHandle.parentTab.node() );
         return { mainApp, dataProxy };
     };
