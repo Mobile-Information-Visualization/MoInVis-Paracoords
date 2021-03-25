@@ -40,7 +40,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _getFocusPanelStartPosition = function(){ 
             return _focusPanelStartPosition
         },
-        _auto;
+        _auto,
         
         _init = function () {
             _vueData = {
@@ -55,6 +55,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 nextNum: 10
             };
             _vueMethods = {
+
                 decreaseNumber: _decreaseNumber,
                 increaseNumber: _increaseNumber,
                 check:_check,
@@ -67,7 +68,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 isPlusButtonDisabled: _isPlusButtonDisabled,
                 computeListWidth: _boxWidth,
                 
-
             };
 
         
