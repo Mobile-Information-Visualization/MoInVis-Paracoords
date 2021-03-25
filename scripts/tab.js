@@ -70,6 +70,10 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         mainApp.mount( _tabHandle.parentTab.node() );
         
         return mainApp;
+                methods: vueMethods || {}
+            } ),
+            dataProxy = mainApp.mount( _tabHandle.parentTab.node() );
+        return { mainApp, dataProxy };
     };
 
     this.swipeRight = function () {
