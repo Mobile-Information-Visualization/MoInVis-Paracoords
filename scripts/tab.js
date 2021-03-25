@@ -22,7 +22,7 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         // Method for dubugging purposes.
         _setText = function ( text, event ) {
             console.log( text );
-            
+
             if ( event ) {
                 console.log( 'Velocity: ' + event.velocity );
             }
@@ -52,11 +52,11 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         };
 
     // Instantiate the Vue app here.
-    
+
     this.initVue = function ( vueData, vueMethods, vueComputed, vueComponents ) {
         var mainApp =
             Vue.createApp( {
-                
+
                 data: function () {
                     return vueData;
                 },
@@ -64,15 +64,8 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
                 computed: vueComputed || {},
                 components: vueComponents || {}
             } );
-        
-        
-       
-        mainApp.mount( _tabHandle.parentTab.node() );
-        
-        return mainApp;
-                methods: vueMethods || {}
-            } ),
-            dataProxy = mainApp.mount( _tabHandle.parentTab.node() );
+
+        dataProxy = mainApp.mount( _tabHandle.parentTab.node() );
         return { mainApp, dataProxy };
     };
 
@@ -129,7 +122,7 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
                     self.swipeLeft();
                 }
             } )
-        
+
     };
     this.switchOnSwipeRightEvent = function () {
         _hammerMan
@@ -140,8 +133,8 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
                     self.swipeRight();
                 }
             } );
-        
-        
+
+
     };
 
     this.addEventType = function ( eventType, eventProps ) {

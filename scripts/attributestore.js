@@ -43,8 +43,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _auto,
         
         _init = function () {
-            _vueData = {
-
+            var vueStuff,
+                vueData = {
                 axesArray: _axes,
                 maxAxesInFocus: 6,
                 minAxesInFocus: 2,
@@ -70,8 +70,9 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 
             };
 
-        
-            _vueApp = self.initVue( _vueData, _vueMethods, _vueComputed );
+            vueStuff = self.initVue( vueData, _vueMethods, _vueComputed );
+            _vueApp = vueStuff.mainApp;
+            _vueData = vueStuff.dataProxy;
 
             //drag and sort axes 
             _sortable = Sortable.create( simpleList, {
