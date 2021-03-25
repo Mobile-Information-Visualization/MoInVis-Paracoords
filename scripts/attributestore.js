@@ -14,13 +14,8 @@ MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 
 MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
-
-
     this.moin = moin;
     MoInVis.Paracoords.attributeStore.baseCtor.call( this, parentDiv );
-
-    console.log(this.moin)
-
 
     var self = this,
         _parentDiv = parentDiv,
@@ -30,19 +25,26 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         _vueComputed,
         _vueComponents,
         _vueApp,
-        _getAxes = function () { return _axes; },
+        _getAxes = function () { 
+            return _axes; 
+        },
         _sortable,
-        _getSortable = function(){ return _sortable},
+        _getSortable = function(){ 
+            return _sortable
+        },
         // position the focus panel based on the main tab visualisation
-        _focusPanelStartPosition = {x:0, y:0},
-        _getFocusPanelStartPosition = function(){ return _focusPanelStartPosition},
+        _focusPanelStartPosition = {
+            x:0, 
+            y:0
+        },
+        _getFocusPanelStartPosition = function(){ 
+            return _focusPanelStartPosition
+        },
         _auto;
         
-
-
         _init = function () {
             _vueData = {
-                tabName: 'I am the Attribute Store!',
+
                 axesArray: _axes,
                 maxAxesInFocus: 6,
                 minAxesInFocus: 2,
@@ -68,15 +70,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
             };
 
-            //_vueComponents ={
-
-            //    'component-a': ComponentA
-
-
-
-            //};
-
-
+        
             _vueApp = self.initVue( _vueData, _vueMethods, _vueComputed );
 
             //drag and sort axes 
@@ -90,9 +84,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 scrollSpeed: 10,
                 scrollFn: function(offsetX, offsetY, originalEvent, touchEvt, hoverTargetEl) { 
 
-
-
-                 },
+                },
                 
                 delay: 50,
                 touchStartThreshold: 30,
@@ -107,31 +99,22 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                     evt.clone
                     evt.pullMode;
 
-                    var order = _sortable.toArray();
+                    let order = _sortable.toArray();
 
-                    console.log('new order: ' +  order )
-                    //a.shift();
-                    console.log( "dragged element's old index: " + evt.oldIndex );
-
-                    console.log( "dragged element's new index: " + evt.newIndex );
-
-                    _axes.sort( function (a, b) {
-                        var A = a.attribute, B = b.attribute;
+                    _axes.sort( function (firstEl, secondEl) {
+                        let first = firstEl.attribute, second = secondEl.attribute;
                         
-                        if (order.indexOf(A) > order.indexOf(B)) {
+                        if (order.indexOf(first) > order.indexOf(second)) {
                           return 1;
                         } else {
                           return -1;
-                        }
-
-                             
+                        }          
                     });
-
 
                     //call to redraw  
                     self.moin.paraCoorderRedrawReq = true;
                 }
-            } );
+            });
 
             //draggable focus panel
             interact('.draggable').draggable({
@@ -139,8 +122,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 lockAxis: 'y',
                 inertia: true,
                 // allowFrom: '.drag-handle-focusPanel',
-                
-            
+                 
                 modifiers: [
                     interact.modifiers.snap({
 
@@ -151,8 +133,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                         relativePoints:[ {x:0, y:0}],
                         offset: 'parent'
                         
-                        
-
                     }),
                     interact.modifiers.restrictRect({
                         restriction: 'parent'
@@ -167,10 +147,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                     speed: 600,
                   
                 },
-
-                
-                
-               
+  
                 listeners: {
                     start (event) {
                         console.log(event.type, event.target)
@@ -188,17 +165,11 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                     end (event){
 
                         document.querySelector('.focusPanelBar').style.width = _boxWidth().short/8 + 'px';
-                        
-
-                    }
-                    
+                
+                    } 
                 }
             });
-            
-            
-
         },
-
 
         //class function
         _boxWidth = function () {
@@ -250,29 +221,17 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         },
 
         //move the list to bottom
-        _check = function(e, axis, index, axesArray){
-
+        _check = function(e, axis, index){
+ 
            
-            let removedAxis = axis;
-            this.$nextTick(() => {
-                
-                // console.log(axis.visible, e)
-            })
-
-            
-            console.log("index from v-for to be moved to bottom: " + index)
-            console.log("index in axesArray to be moved to bottom: " + this.axesArray.indexOf(axis))
-
             //@change event triggered before the boolean value is changed
             if (axis.visible){ //when true -> false
-                console.log(axesArray)
-                //then add that axis to the bottom of array
-                this.axesArray.splice(this.axesArray.length, 0, axis);
-                // this.axesArray.push(axis);
+                
                 //remove the axis from array
                 this.axesArray.splice(this.axesArray.indexOf(axis), 1);
-                
-                
+                console.log(this.axesArray)
+                //then add that axis to the bottom of array
+                this.axesArray.push(axis);         
                 axis.setVisibility(!axis.visible);
                 console.log("checkbox true -> false: ")
                 
@@ -295,7 +254,6 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 return true;
             }
 
-
         },
 
         _isPlusButtonDisabled = function () {
@@ -307,68 +265,9 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 return true;
             }
         },
-
-       
-
-    //const ComponentA = {
-
-    //    props:{
-
-    //        data:{
-    //            type: Array
-    //        }
-
-    //    },
-
-    //    /* ... */
-    //    template: 
-    //    /*html*/ 
-    //    `<script>
-
-
-
-    //    //var a = data;
-
-    //    Sortable.create(simpleList, { handle: ".my-handle",
-    //    onEnd: function (/**Event*/evt) {
-    //        var itemEl = evt.item;  
-    //        evt.to;    
-    //        evt.from;  
-    //        evt.oldIndex; 
-    //        evt.newIndex;  
-    //        evt.oldDraggableIndex; 
-    //        evt.newDraggableIndex; 
-    //        evt.clone 
-    //        evt.pullMode; 
-
-
-    //        console.log(a)
-    //        //a.shift();
-    //        console.log("dragged element's old index: " + evt.oldIndex);
-
-    //        console.log("dragged element's new index: " + evt.newIndex);
-    //    }
-
-
-
-    //    });
-
-
-    //    </script>`,
-    //    data(){
-    //        return {
-
-    //        }
-    //    },
-    //}
-
-
-
+        
     _init();
-    MoInVis.Paracoords.attributeStore.getAxes = _getAxes;
-    MoInVis.Paracoords.attributeStore.getSortable = _getSortable;
-    MoInVis.Paracoords.attributeStore._getFocusPanelStartPosition = _getFocusPanelStartPosition;
-  
+   
 };
 
 MoInVis.Paracoords.attributeStore.baseCtor = MoInVis.Paracoords.tab;

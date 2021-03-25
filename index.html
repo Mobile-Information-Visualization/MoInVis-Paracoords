@@ -50,12 +50,10 @@
             </header>
             <main class="axisStore axesLists">
 
-            
                 <transition-group class = "axisStore" key="axesArray" id="simpleList" name="flip-list" tag="ul">
 
                     <div key="panelBox" class="focusPanel draggable" :style = "{width: boxWidth.short +'px',height: boxHeight * numberAxesInFocus + 'px'}">
-                        
-                        
+                         
                         <label class = "drag-handle-focusPanel" id="drag-handle-focusPanel">
                             &duhar;
                         </label>
@@ -63,8 +61,7 @@
                         
                     </div>
 
-
-                    <li  v-for = "(item, index) in axesArray" :key = "item" :id = "item.attribute" class = "list-axis attrList">
+                    <li  v-for = "(item, index) in axesArray" :key = "item.attribute" :id = "item.attribute" class = "list-axis attrList">
                         
                         <label class="attribute" for = "item.attribute" >{{ item.attributeLabel }}</label>
                         <label class="my-handle" :class="{ undraggable: !item.visible}">&duhar;  </label>
@@ -76,38 +73,9 @@
                         </label>
                         
                     </li>
-<!-- duplicate -->
-                    <!-- <li v-for = "axis in axesArray" :key = "axis.attribute">
-                        
-                        <label class="attribute" for = "axis.attribute" >{{ axis.attributeLabel + " duplicate long attribute name " }}</label>
-                        <label class="my-handle">&duhar; </label>
-                        <label class="container">
-                            
-                            <input class = "axisStore" type="checkbox" checked="checked" :id = "axis.attribute" v-model= "axis.visible">
-                            <span class="checkmark"></span>
-                            
-                        </label>
-                        
-                    </li>
-                    <li v-for = "axis in axesArray" :key = "axis.attribute">
-                        
-                        <label class="attribute" for = "axis.attribute" >{{ axis.attributeLabel + " duplicate long attribute name " }}</label>
-                        <label class="my-handle">&duhar; </label>
-                        <label class="container">
-                            
-                            <input class = "axisStore" type="checkbox" checked="checked" :id = "axis.attribute" v-model= "axis.visible">
-                            <span class="checkmark"></span>
-                            
-                        </label>
-                        
-                    </li> -->
-<!-- duplicate  -->
-                    
+   
                 </transition-group>
-                <!-- <div class="movable">{{ axesArray }}</div> -->
-                <!--<component-a :data = "axesArray"></component-a>-->
-               
-
+                
             </main>
         </div>
         <div id="entryStoreTab">
@@ -129,11 +97,6 @@
     <script type="text/javascript" src="scripts/entrystore.js"></script>
     <script type="text/javascript" src="scripts/attributestore.js"></script>
     <script type="text/javascript" src="scripts/moin.js"></script>
-    <script type="text/javascript" src="scripts/main.js"></script>
-    <!-- <script>Sortable.create(simpleList, { /* options */ });</script> -->
-    
-
-    
-       
+    <script type="text/javascript" src="scripts/main.js"></script>    
 </body>
 </html>
