@@ -10,7 +10,6 @@
 
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" type="text/css" href="css/styles_inputrange.css">
-    <link rel="stylesheet" type="text/css" href="css/styles_axis_store.css">
     <link rel="stylesheet" type="text/css" href="css/styles_universal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="data/json/chemwaste.json"></script>
@@ -47,7 +46,7 @@
                     <label class="brushtabname">{{tabName}}</label>
                 </div>
                 <div style="">
-                    <li v-for="(item,index) in brushes" :key="item" :id="item.attribute" :class="'brushlist' + (item.inFocus?' brushinfocus':'')" @click="labelClick($event, item)" @openModal="item.inFocus = true">
+                    <li v-for="item in brushes" :key="item" :id="item.attribute" :class="'brushlist' + (item.inFocus?' brushinfocus':'')" @click="labelClick($event, item)" @openModal="item.inFocus = true">
                         <label :class="'brushname' + (item.active?' active':'')">{{ item.axisName }}</label>
                         <label :class="'brushvalue' + (item.active?' active':'')">{{ item.rangeText[0] + ' - ' + item.rangeText[1]}}</label>
                         <label class="switch">
@@ -58,8 +57,8 @@
                             <modal v-if="item.inFocus" @close="item.inFocus = false" :brushprops="item">
                         </transition>
                         <div class="brushliborder"><!--This div holds the bottom border for each list element.--></div>
-                        <div v-if="index===brushes.length-1" class="lastBrush"><!--This div is present for last brush to enable scrolling to reach last element.--></div>
                     </li>
+                    <div class="lastBrush"><!--This div is present for last brush to enable scrolling to reach last element.--></div>
                 </div>
             </div>
         </div>
