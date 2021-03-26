@@ -249,39 +249,52 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             
             
             if ( axis.visible ) { 
-                if(index > this.notSortableIndexFrom) {
+                if(index >= this.notSortableIndexFrom) {
 
                     //remove the axis from array
                     this.axesArray.splice( this.axesArray.indexOf( axis ), 1 );
                 
                     //then add that axis to the bottom of array
                     this.axesArray.splice(this.notSortableIndexFrom, 0, axis);
-                    
 
-                } else {
+                    this.notSortableIndexFrom++;
+                    axis.setVisibility( axis.visible );
+                    self.moin.paraCoorderRedrawReq = true;
 
+                } 
 
-                }
-
-                this.notSortableIndexFrom++;
-                axis.setVisibility( axis.visible );
+                
                 
             }
             else { //when true -> false
-                //remove the axis from array
-                this.axesArray.splice( this.axesArray.indexOf( axis ), 1 );
-                
-                //then add that axis to the bottom of array
-                this.axesArray.push( axis );
 
-                this.notSortableIndexFrom--;
-                axis.setVisibility( axis.visible );
+                if(this.notSortableIndexFrom === this.minAxesInFocus){
+
+                    axis.setVisibility( !axis.visible );
+                    self.moin.paraCoorderRedrawReq = true;
+
+                }
+                else{
+
+                    //remove the axis from array
+                    this.axesArray.splice( this.axesArray.indexOf( axis ), 1 );
+                
+                    //then add that axis to the bottom of array
+                    this.axesArray.push( axis );
+
+                    this.notSortableIndexFrom--;
+                    axis.setVisibility( axis.visible );
+
+                    self.moin.paraCoorderRedrawReq = true;
+
+                }
+                
                 
             }
             //call to redraw  
             console.log("current boundry index: " + this.notSortableIndexFrom);
             
-            self.moin.paraCoorderRedrawReq = true;
+            
         },
 
         //computed component
