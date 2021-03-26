@@ -211,6 +211,12 @@ label.container {
   transform: rotate(45deg);
 }
 
+.focusPanelParent {
+  position: absolute;
+
+  touch-action: none;
+  user-select: none;
+}
 .focusPanel {
   position: absolute;
 

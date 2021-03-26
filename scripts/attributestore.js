@@ -147,6 +147,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                 lockAxis: 'y',
                 inertia: true,
                 // allowFrom: '.drag-handle-focusPanel',
+                manualStart: false,
 
                 modifiers: [
                     interact.modifiers.snap( {
@@ -156,12 +157,13 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                             interact.snappers.grid( { x: _boxWidth().long, y: _snapHeight() } )
                         ],
                         relativePoints: [{ x: 0, y: 0 }],
-                        offset: 'parent'
+                        offset: 'parent',
 
-                    } ),
+                    }),
                     interact.modifiers.restrictRect( {
-                        restriction: 'parent'
-                    } )
+                        restriction: 'parent',
+                            
+                    }),
                 ],
                 // enable autoScroll
                 autoScroll: {

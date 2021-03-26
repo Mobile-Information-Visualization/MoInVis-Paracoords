@@ -50,16 +50,20 @@
 
                 <transition-group class="axisStore" key="axesArray" id="simpleList" name="flip-list" tag="ul">
 
-                    <div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: boxHeight * numberAxesInFocus + 'px'}">
+                    <div key="panelBoxParent" class="focusPanelParent" :style="{width: boxWidth.long +'px',height: boxHeight * notSortableIndexFrom + 'px'}">
+                        <div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: boxHeight * numberAxesInFocus + 'px'}">
 
-                        <label class="drag-handle-focusPanel" id="drag-handle-focusPanel">
-                            &duhar;
-                        </label>
-                        <label class="focusPanelBar" :style="{width: boxWidth.short/8 +'px' }"></label>
+                            <label class="drag-handle-focusPanel" id="drag-handle-focusPanel">
+                                &duhar;
+                            </label>
+                            <label class="focusPanelBar" :style="{width: boxWidth.short/8 +'px' }"></label>
+    
+                        </div>
 
                     </div>
+                    
 
-                    <li v-for="(item, index) in axesArray" :key="item.attribute" :id="item.attribute" class="list-axis attrList" :class="{unchecked: !item.visible}">
+                    <li v-for="(item, index) in axesArray" :key="item.attribute" :id="item.attribute" class="list-axis attrList" :class="{unchecked: !item.visible, checked: item.visible }">
 
                         <label class="attribute" for="item.attribute">{{ item.attributeLabel }}</label>
                         <label class="my-handle" :class="{disable: !item.visible}">&duhar;  </label>
