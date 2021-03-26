@@ -12,7 +12,7 @@ var MoInVis = MoInVis || {};
 MoInVis.Paracoords = MoInVis.Paracoords || {};
 MoInVis.Paracoords.IdStore = MoInVis.Paracoords.IdStore || {};
 
-MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
+MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusContextSettings ) {
 
     this.moin = moin;
     MoInVis.Paracoords.attributeStore.baseCtor.call( this, parentDiv );
@@ -20,6 +20,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
     var self = this,
         _parentDiv = parentDiv,
         _axes = axes,
+        _focusContextSettings = focusContextSettings,
         _vueData,
         _vueMethods,
         _vueComputed,

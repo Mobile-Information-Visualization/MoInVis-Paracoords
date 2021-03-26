@@ -540,7 +540,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _setFocusIndex = function ( newFI ) {
             var topHiddenAxes = 0,
                 bottomHiddenAxes = 0;
-            _focusIndex = newFI;
+            _focusAndContextSettings.focusIndex = _focusIndex = newFI;
 
             _calculateAxisSpacing();
             _rearrangeAxes();
@@ -1211,15 +1211,16 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         return this.brushingInProgress || this.pinchScrollInProgress;
     };
 
+    this.getFocusAndContextSettings = function () {
+        return _focusAndContextSettings;
+    };
+
     // Called whenever this tab comes into focus.
     this.onTabFocus = function () {
-        
-
         if ( this.moin.paraCoorderRedrawReq ) {
             _setVisibleAxes();
             _resetAxesRanges();
-            _calculateAxisSpacing();
-            _rearrangeAxes();
+            _setFocusIndex( _focusAndContextSettings.focusIndex );
             this.moin.paraCoorderRedrawReq = false;
         }
     };

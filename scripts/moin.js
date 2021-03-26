@@ -60,7 +60,7 @@ MoInVis.Paracoords.moin = function ( width, height ) {
             self.paracoorder.init( 0, 0 );
             self.paracoorder.draw();
 
-            self.attributeStore = new MoInVis.Paracoords.attributeStore( self, d3.select( '#attrStoreTab' ), self.paracoorder.axes );
+            self.attributeStore = new MoInVis.Paracoords.attributeStore( self, d3.select( '#attrStoreTab' ), self.paracoorder.axes, self.paracoorder.getFocusAndContextSettings() );
 
             self.entryStore = new MoInVis.Paracoords.entryStore( self, d3.select( '#entryStoreTab' ), self.paracoorder.paths );
 
