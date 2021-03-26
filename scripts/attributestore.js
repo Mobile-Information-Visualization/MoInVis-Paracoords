@@ -66,7 +66,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 isMinusButtonDisabled: _isMinusButtonDisabled,
                 isPlusButtonDisabled: _isPlusButtonDisabled,
                 computeListWidth: _boxWidth,
-                computeNotSortableIndexFrom: _notSortableIndex,
+                
 
             };
 
@@ -188,6 +188,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                     },
                     end( event ) {
                         document.querySelector( '.focusPanelBar' ).style.width = _boxWidth().short / 8 + 'px';
+
                     }
                 }
             } );
@@ -307,7 +308,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
         //computed component
         _isMinusButtonDisabled = function () {
 
-            if ( this.numberAxesInFocus == this.minAxesInFocus ) {
+            if ( this.numberAxesInFocus === this.minAxesInFocus ) {
                 return false;
             }
             else {
@@ -318,18 +319,12 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
         _isPlusButtonDisabled = function () {
 
-            if ( this.numberAxesInFocus == this.maxAxesInFocus ) {
+            if ( this.numberAxesInFocus === this.maxAxesInFocus || this.numberAxesInFocus === this.notSortableIndexFrom ) {
                 return false;
             }
             else {
                 return true;
             }
-        },
-
-        _notSortableIndex = function(){
-
-            console.log("get the boundry");
-
         },
 
         _init();
