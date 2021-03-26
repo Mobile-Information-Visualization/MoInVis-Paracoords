@@ -51,8 +51,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                     numberAxesInFocus: 5,
                     boxWidth: _boxWidth(),
                     boxHeight: _boxHeight(),
-                    items: [1, 2, 3, 4],
-                    nextNum: 10
+                    notSortableIndexFrom: 8,
                 };
             _vueMethods = {
 
@@ -67,6 +66,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 isMinusButtonDisabled: _isMinusButtonDisabled,
                 isPlusButtonDisabled: _isPlusButtonDisabled,
                 computeListWidth: _boxWidth,
+                computeNotSortableIndexFrom: _notSortableIndex,
 
             };
 
@@ -83,12 +83,33 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                 scroll: true,
                 scrollSensitivity: 200,
                 scrollSpeed: 10,
+                filter: ".disable", 
+                
                 scrollFn: function ( offsetX, offsetY, originalEvent, touchEvt, hoverTargetEl ) {
 
                 },
 
                 delay: 50,
                 touchStartThreshold: 30,
+
+                onMove: function (/**Event*/evt, /**Event*/originalEvent) {
+                    // Example: https://jsbin.com/nawahef/edit?js,output
+                    evt.dragged; // dragged HTMLElement
+                    evt.draggedRect; // DOMRect {left, top, right, bottom}
+                    evt.related; // HTMLElement on which have guided
+                    evt.relatedRect; // DOMRect
+                    evt.willInsertAfter; // Boolean that is true if Sortable will insert drag element after target by default
+                    originalEvent.clientY; // mouse position
+                    // return false; — for cancel
+                    // return -1; — insert before target
+                    // return 1; — insert after target
+                    // return true; — keep default insertion point based on the direction
+                    // return void; — keep default insertion point based on the direction
+
+                    console.log(evt.related.id)
+                   
+                    return evt.related.className.indexOf('unchecked') === -1;
+                },
                 onEnd: function (/**Event*/evt ) {
                     var itemEl = evt.item;
                     evt.to;
@@ -99,6 +120,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                     evt.newDraggableIndex;
                     evt.clone
                     evt.pullMode;
+
+                    console.log(evt.oldIndex);
 
                     let order = _sortable.toArray();
 
@@ -221,21 +244,43 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
         //move the list to bottom
         _check = function ( e, axis, index ) {
-            //@change event triggered before the boolean value is changed
-            if ( axis.visible ) { //when true -> false
+
+            console.log("index in check func: " + index);
+            
+            
+            if ( axis.visible ) { 
+                if(index > this.notSortableIndexFrom) {
+
+                    //remove the axis from array
+                    this.axesArray.splice( this.axesArray.indexOf( axis ), 1 );
+                
+                    //then add that axis to the bottom of array
+                    this.axesArray.splice(this.notSortableIndexFrom, 0, axis);
+                    
+
+                } else {
+
+
+                }
+
+                this.notSortableIndexFrom++;
                 axis.setVisibility( axis.visible );
-                console.log( "checkbox true -> false: " );
+                
             }
-            else { //when false -> true
+            else { //when true -> false
                 //remove the axis from array
                 this.axesArray.splice( this.axesArray.indexOf( axis ), 1 );
-                console.log( this.axesArray )
+                
                 //then add that axis to the bottom of array
                 this.axesArray.push( axis );
+
+                this.notSortableIndexFrom--;
                 axis.setVisibility( axis.visible );
-                console.log( "checkbox false -> true: " );
+                
             }
             //call to redraw  
+            console.log("current boundry index: " + this.notSortableIndexFrom);
+            
             self.moin.paraCoorderRedrawReq = true;
         },
 
@@ -261,7 +306,15 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             }
         },
 
+        _notSortableIndex = function(){
+
+            console.log("get the boundry");
+
+        },
+
         _init();
+
+        MoInVis.Paracoords.attributeStore.getAxes=_getAxes;
 
 };
 

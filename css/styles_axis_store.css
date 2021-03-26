@@ -118,6 +118,9 @@ label.my-handle {
   text-align: center;
 
   font-size: 3em;
+
+  cursor: move;
+  cursor: -webkit-grabbing;
 }
 
 label.attribute {
