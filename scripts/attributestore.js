@@ -46,7 +46,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             var vueStuff,
                 vueData = {
                     axesArray: _axes,
-                    maxAxesInFocus: 6,
+                    maxAxesInFocus: 5,
                     minAxesInFocus: 2,
                     numberAxesInFocus: 5,
                     boxWidth: _boxWidth(),
@@ -234,7 +234,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
 
         _increaseNumber = function () {
             // 'this' refer to the proxy of the sent data created by vue.
-            if ( this.numberAxesInFocus >= this.minAxesInFocus && this.numberAxesInFocus < this.maxAxesInFocus ) {
+            if ( this.numberAxesInFocus >= this.minAxesInFocus && this.numberAxesInFocus < this.maxAxesInFocus && this.numberAxesInFocus < this.notSortableIndexFrom ) {
 
                 this.numberAxesInFocus += 1;
                 console.log( "current number of axes in focus view: " + this.numberAxesInFocus );
@@ -248,8 +248,9 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             console.log("index in check func: " + index);
             
             
-            if ( axis.visible ) { 
-                if(index >= this.notSortableIndexFrom) {
+            if ( axis.visible ) { //when false -> true
+
+                if(index >= this.notSortableIndexFrom) { //checked item within unckecked items
 
                     //remove the axis from array
                     this.axesArray.splice( this.axesArray.indexOf( axis ), 1 );
@@ -268,7 +269,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
             }
             else { //when true -> false
 
-                if(this.notSortableIndexFrom === this.minAxesInFocus){
+                if(this.notSortableIndexFrom === this.minAxesInFocus){ //can't uncheck item when reach minAxesInFocus 
 
                     axis.setVisibility( !axis.visible );
                     self.moin.paraCoorderRedrawReq = true;
@@ -286,6 +287,12 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes ) {
                     axis.setVisibility( axis.visible );
 
                     self.moin.paraCoorderRedrawReq = true;
+
+                }
+
+                if(this.numberAxesInFocus > this.notSortableIndexFrom ){
+
+                    this.numberAxesInFocus = this.notSortableIndexFrom;
 
                 }
                 
