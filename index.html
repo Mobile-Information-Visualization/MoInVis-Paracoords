@@ -41,7 +41,7 @@
             <header class="axisStore">
 
                 <button class="minusButton" :class="{disableButton: !isMinusButtonDisabled}" @click="decreaseNumber" :disabled="!isMinusButtonDisabled">&minus;</button>
-                <output class="totalAxesInFocus">{{numberAxesInFocus}}</output>
+                <output class="totalAxesInFocus">{{getNumberAxesInFocus}}</output>
                 <button class="plusButton" :class="{disableButton: !isPlusButtonDisabled}" @click="increaseNumber" :disabled="!isPlusButtonDisabled">&plus;</button>
 
                 <button class="undoButton" disabled>&#9100;</button>
@@ -51,7 +51,7 @@
                 <transition-group class="axisStore" key="axesArray" id="simpleList" name="flip-list" tag="ul">
 
                     <!-- <div key="panelBoxParent" class="focusPanelParent" :style="{width: boxWidth.long +'px',height: boxHeight * notSortableIndexFrom + 'px'}"> -->
-                        <div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: boxHeight * numberAxesInFocus + 'px'}">
+                        <div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: (boxHeight * getNumberAxesInFocus) + 'px'}">
 
                             <label class="drag-handle-focusPanel" id="drag-handle-focusPanel">
                                 &duhar;
