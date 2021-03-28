@@ -162,12 +162,14 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
         //},
 
         // Handles the tap event.
-        _onTap = function () {
+        _onTap = function ( event ) {
+            event.preventDefault();
             _callback();
         },
 
         // Handles the double tap event.
-        _onDoubleTap = function () {
+        _onDoubleTap = function ( event ) {
+            event.preventDefault();
             _callback( true );
         };
 
@@ -222,6 +224,14 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
                 .attr( 'height', 2 * ( bBox.height + _CIRectMargin.vertical ) );
         }
         _context = text;
+    };
+
+    this.reposition = function ( x, y ) {
+        _xPos = x;
+        _yPos = y;
+        if ( this.visible ) {
+            _ciSVG.attr( 'transform', 'translate(' + _xPos + ',' + _yPos + ')' );
+        }
     };
 
     _init();

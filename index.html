@@ -1,33 +1,151 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
+<meta charset="utf-8">
 <head>
     <title>MoInVis ParaCoords</title>
     <script src="scripts/libs/d3.js"></script>
     <script src="scripts/libs/hammer.js"></script>
-    <script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js"></script>
+    <script src="scripts/libs/vue.global.js"></script>
+
+    <!-- https://github.com/SortableJS/Sortable -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <script src="data/json/chemwaste.json"></script>
+    <link rel="stylesheet" type="text/css" href="css/styles_universal.css">
+    <link rel="stylesheet" type="text/css" href="css/styles_inputrange.css">
+    <link rel="stylesheet" type="text/css" href="css/styles_axis_store.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script src="data/json/glasswaste.json"></script>
+    <script src="data/json/chemwaste.json"></script>
     <script src="data/json/healthcarebiowaste.json"></script>
     <script src="data/json/plasticwaste.json"></script>
     <script src="data/json/primarywaste.json"></script>
     <script src="data/json/rubberwaste.json"></script>
     <script src="data/json/secwaste.json"></script>
     <script src="data/json/totalwaste.json"></script>
+
+    <link rel="shortcut icon" href="#">
 </head>
 <body>
     <div id="mainDiv">
         <div id="paracoordTab">
         </div>
         <div id="attrStoreTab">
-            <h1>{{tabName}}</h1>
+            <!-- <h1>{{tabName}}</h1> -->
+            <header class="axisStore">
+
+                <button class="minusButton" :class="{disableButton: !isMinusButtonDisabled}" @click="decreaseNumber" :disabled="!isMinusButtonDisabled">&minus;</button>
+                <output class="totalAxesInFocus">{{getNumberAxesInFocus}}</output>
+                <button class="plusButton" :class="{disableButton: !isPlusButtonDisabled}" @click="increaseNumber" :disabled="!isPlusButtonDisabled">&plus;</button>
+
+                <button class="undoButton" disabled>&#9100;</button>
+            </header>
+            <main class="axisStore axesLists">
+
+                <transition-group class="axisStore" key="axesArray" id="simpleList" name="flip-list" tag="ul">
+
+                    <!-- <div key="panelBoxParent" class="focusPanelParent" :style="{width: boxWidth.long +'px',height: boxHeight * notSortableIndexFrom + 'px'}"> -->
+                        <div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: (boxHeight * getNumberAxesInFocus) + 'px'}">
+
+                            <label class="drag-handle-focusPanel" id="drag-handle-focusPanel">
+                                &duhar;
+                            </label>
+                            <label class="focusPanelBar" :style="{width: boxWidth.short/8 +'px' }"></label>
+    
+                        </div>
+
+                    <!-- </div> -->
+                    
+
+                    <li v-for="(item, index) in axesArray" :key="item.attribute" :id="item.attribute" class="list-axis attrList" :class="{unchecked: !item.visible, checked: item.visible }">
+
+                        <label class="attribute" for="item.attribute">{{ item.attributeLabel }}</label>
+                        <label class="my-handle" :class="{disable: !item.visible}">&duhar;  </label>
+                        <label class="container">
+
+                            <input class="axisStore" type="checkbox" checked="checked" :id="item.attribute" v-model="item.visible" @change="check($event, item, index)"  >
+                            <span class="checkmark"></span>
+
+                        </label>
+
+                    </li>
+
+                </transition-group>
+
+            </main>
         </div>
         <div id="entryStoreTab">
             <h1>Entry Store Tab</h1>
-            <h1>{{tabName}}</h1>
+            <h1>{{ tabName }}</h1>
+        </div>
+        <div id="brushSetterOverlay">
+            <div id="brushSetterOverlayInner">
+                <div class="brushsetterheader">
+                    <svg style="left:4.5em; top:2.5em; position:absolute;">
+                        <g @pointerdown="pointerDownX = true" @pointerup="pointerDownX = false" @click="closeTab">
+                            <rect x="-20" y="-20" width="90" height="90" fill="black" opacity="0"></rect>
+                            <path d="M 0 0 L 50 50 M 0 50 L 50 0" stroke-width="7" stroke="white" :opacity="pointerDownX ? 0.5: 1"></path>
+                        </g>
+                    </svg>
+                    <label class="brushtabname">{{tabName}}</label>
+                </div>
+                <div style="">
+                    <li v-for="item in brushes" :key="item" :id="item.attribute" :class="'brushlist' + (item.inFocus?' brushinfocus':'')" @click="labelClick($event, item)" @openModal="item.inFocus = true">
+                        <label :class="'brushname' + (item.active?' active':'')">{{ item.axisName }}</label>
+                        <label :class="'brushvalue' + (item.active?' active':'')">{{ item.rangeText[0] + ' - ' + item.rangeText[1]}}</label>
+                        <label class="switch">
+                            <input type="checkbox" v-model="item.active" v-on:change="enableDisableBrush(item)">
+                            <span class="slider round"></span>
+                        </label>
+                        <transition name="modal">
+                            <modal v-if="item.inFocus" @close="item.inFocus = false" :brushprops="item">
+                        </transition>
+                        <div class="brushliborder"><!--This div holds the bottom border for each list element.--></div>
+                    </li>
+                    <div class="lastBrush"><!--This div is present for last brush to enable scrolling to reach last element.--></div>
+                </div>
+            </div>
+        </div>
+        <div id="axisDetailViewOverlay">
+            <div id="axisDetailViewHeader">
+                <div id="axisDetailViewHeaderInfo">
+                    <div id="axisDetailView_ButtonLeft" v-on:click="closeView">
+                        <svg width="60" height="50" x="20" y="20" viewBox="0 0 40 40">
+                            <g @pointerdown="pointerDownX = true" @pointerup="pointerDownX = false">
+                                <rect x="-20" y="-20" width="80" height="80" fill="black" opacity="0"></rect>
+                                <path d="M 0 0 L 40 40 M 0 40 L 40 0" stroke-width="5" stroke="white" :opacity="pointerDownX ? 0.5: 1"></path>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="axisDetailViewHeaderInfoBox">
+                        <h1 id="attributeName"></h1>
+                        <h1 id="attributeUnit"></h1>
+                    </div>
+                    <div id="axisDetailView_ButtonRight" v-on:click="changeSorting">
+                        <svg width="80" height="80" x="0" y="0" viewBox="0 50 512 512">
+                            <g @pointerdown="pointerDownSort = true" @pointerup="pointerDownSort = false" :opacity="pointerDownSort ? 0.5: 1">
+                                <rect id="buttonRight_firstBar" x="2.344" y="104" width="320" height="40" fill="white" />
+                                <rect id="buttonRight_secondBar" x="2.344" y="208" width="256" height="40" fill="white" />
+                                <rect id="buttonRight_thirdBar" x="2.344" y="312" width="192" height="40" fill="white" />
+                                <rect id="buttonRight_fourthBar" x="2.344" y="416" width="130" height="40" fill="white" />
+                                <polygon points="487.032,428.688 466.344,449.376 466.344,128 434.344,128 434.344,449.376 413.656,428.688 391.032,451.312      450.344,510.624 509.656,451.312   " fill="white" />
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <div id="xAxisView"></div>
+            </div>
+            <div id="axisDetailView" v-on:click="changeBarLabels"></div>
+            <div id="axisDetailViewGradient"></div>
         </div>
     </div>
+    <script type="text/javascript" src="scripts/util.js"></script>
     <script type="text/javascript" src="scripts/datahandler.js"></script>
     <script type="text/javascript" src="scripts/button.js"></script>
     <script type="text/javascript" src="scripts/contextindicator.js"></script>
@@ -37,10 +155,13 @@
     <script type="text/javascript" src="scripts/axisinteractionmanager.js"></script>
     <script type="text/javascript" src="scripts/axis.js"></script>
     <script type="text/javascript" src="scripts/tabmanager.js"></script>
+    <script type="text/javascript" src="scripts/overlaytab.js"></script>
     <script type="text/javascript" src="scripts/tab.js"></script>
     <script type="text/javascript" src="scripts/paracoorder.js"></script>
     <script type="text/javascript" src="scripts/entrystore.js"></script>
     <script type="text/javascript" src="scripts/attributestore.js"></script>
+    <script type="text/javascript" src="scripts/brushsetter.js"></script>
+    <script type="text/javascript" src="scripts/axisdetailview.js"></script>
     <script type="text/javascript" src="scripts/moin.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>
 </body>

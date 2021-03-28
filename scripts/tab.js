@@ -22,6 +22,7 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         // Method for dubugging purposes.
         _setText = function ( text, event ) {
             console.log( text );
+
             if ( event ) {
                 console.log( 'Velocity: ' + event.velocity );
             }
@@ -51,16 +52,25 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         };
 
     // Instantiate the Vue app here.
-    this.initVue = function ( vueData, vueMethods ) {
+
+    this.initVue = function ( vueData, vueMethods, vueComputed, vueComponents ) {
         var mainApp =
             Vue.createApp( {
+
                 data: function () {
                     return vueData;
                 },
-                methods: vueMethods || {}
+                methods: vueMethods || {},
+                computed: vueComputed || {}
             } );
-        mainApp.mount( _tabHandle.parentTab.node() );
-        return mainApp;
+
+        if ( vueComponents ) {
+            for ( componentName in vueComponents ) {
+                mainApp.component( componentName, vueComponents[componentName] );
+            }
+        }
+        dataProxy = mainApp.mount( _tabHandle.parentTab.node() );
+        return { mainApp, dataProxy };
     };
 
     this.swipeRight = function () {
@@ -90,35 +100,45 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
     this.switchOnSwipeUpEvent = function () {
         _hammerMan
             .on( 'swipeup', function ( event ) {
-                _setText( 'swipeup', event );
                 event.preventDefault();
-                self.swipeUp();
+                if ( self.isEventHandlingInProgress() === false ) {
+                    _setText( 'swipeup', event );
+                    self.swipeUp();
+                }
             } );
     };
     this.switchOnSwipeDownEvent = function () {
         _hammerMan
             .on( 'swipedown', function ( event ) {
-                _setText( 'swipedown', event );
                 event.preventDefault();
-                self.swipeDown();
+                if ( self.isEventHandlingInProgress() === false ) {
+                    _setText( 'swipedown', event );
+                    self.swipeDown();
+                }
             } );
     };
     this.switchOnSwipeLeftEvent = function () {
         _hammerMan
             .on( 'swipeleft', function ( event ) {
-                _setText( 'swipeleft', event );
                 event.preventDefault();
-                self.swipeLeft();
+                if ( self.isEventHandlingInProgress() === false ) {
+                    _setText( 'swipeleft', event );
+                    self.swipeLeft();
+                }
             } )
+
     };
     this.switchOnSwipeRightEvent = function () {
         _hammerMan
             .on( 'swiperight', function ( event ) {
-                _setText( 'swiperight', event );
                 event.preventDefault();
-                self.swipeRight();
-
+                if ( self.isEventHandlingInProgress() === false ) {
+                    _setText( 'swiperight', event );
+                    self.swipeRight();
+                }
             } );
+
+
     };
 
     this.addEventType = function ( eventType, eventProps ) {
@@ -166,6 +186,11 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
                 _hammerMan.off( evt );
             }
         }
+    };
+
+    // Override in tab child class to use. returns false by default.
+    this.isEventHandlingInProgress = function () {
+        return false;
     };
 
     this.getTabHandle = function () {

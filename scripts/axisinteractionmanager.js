@@ -27,7 +27,8 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
 
 
     this.init = function ( brushManager ) {
-
+        var singleTap,
+            doubleTap;
         // Draw the event catcher.
         _eventCatcher = _axisInnerGroup
             .insert( 'rect', ':first-child' )
@@ -57,7 +58,15 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
         } ); // Used in reorder mode.
 
         _hammerMan.add( _horizontalPanRecognizer ); // Start simple.
-        _hammerMan.add( new Hammer.Tap( { event: 'tap', pointers: 1 } ) );
+
+        singleTap = new Hammer.Tap( { event: 'singletap', taps: 1, pointers: 1 } );
+        doubleTap = new Hammer.Tap( { event: 'doubletap', taps: 2, posThreshold: 50, interval: 500 } );
+
+        _hammerMan.add( [doubleTap, singleTap] );
+
+        doubleTap.recognizeWith( singleTap );
+        singleTap.requireFailure( doubleTap );
+
         _hammerMan.add( new Hammer.Press( { event: 'press', pointers: 1, time: 500 } ) );
         _hammerMan.add( new Hammer.Swipe( { event: 'swipe', pointers: 1, velocity: 0.3, direction: Hammer.DIRECTION_HORIZONTAL } ) );
 
@@ -72,7 +81,8 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
         _hammerMan.on( 'panstart', this.onInteraction );
         _hammerMan.on( 'panend', this.onInteraction );
         _hammerMan.on( 'pan', this.onInteraction );
-        _hammerMan.on( 'tap', this.onInteraction );
+        _hammerMan.on( 'singletap', this.onInteraction );
+        _hammerMan.on( 'doubletap', this.onInteraction );
         _hammerMan.on( 'press', this.onInteraction );
         _hammerMan.on( 'swipeleft', this.onInteraction );
     };
@@ -93,6 +103,7 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
 
     this.onInteraction = function ( event ) {
         const eventType = event.type;
+        const targetId = event.changedPointers[0].target.id;
 
         // Offer reorder mode interactions.
         if ( _paracoorder.checkIfAxesReorderMode() ) {
@@ -131,12 +142,24 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
                     _brushManager.panEnd( event );
                     break;
 
-                case 'tap':
-                    _brushManager.onTap( event );
+                case 'singletap':
+                    if ( targetId.includes( 'LabelText', 0 ) ) {
+                        _paracoorder.moin.axisDetailView.setUpData( _axis.attribute, _axis.attributeLabel, _paracoorder.paths );
+                        _paracoorder.moin.axisDetailView.activateTab();
+                    }
+                    else {
+                        _brushManager.onTap( event );
+                    }
+                    break;
+                    
+                case 'doubletap':
+                    _brushManager.onDoubleTap( event );
                     break;
 
                 case 'press':
-                    _paracoorder.enterAxesReorderMode();
+                    if ( targetId.includes( 'LabelText', 0 ) ) {
+                        _paracoorder.enterAxesReorderMode();
+                    }
                     break;
             }
         }

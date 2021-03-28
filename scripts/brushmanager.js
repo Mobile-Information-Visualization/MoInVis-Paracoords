@@ -21,9 +21,11 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
         _axisId = axisId,
         _attrScale = attrScale,
         _brushHeight = 24,
+        _brushColour = '#008b8b',
         _gesturePos,
         _hammerMan,
         _brushHandlePanning = false,
+        _brushInFocus = -1,
 
         // Checks if movement of brush edge is valid.
         _isValidMove = function () {
@@ -47,6 +49,34 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
             return validMove;
         },
 
+        // Currently active brush is disabled i.e its handles are hidden.
+        _disableBrush = function () {
+            _tryToDeactivateBrush();
+            _activeBrush = null;
+        },
+
+        // Deactivates the currently active brush.
+        _deactivateBrush = function () {
+            _activeBrushes.splice( _activeBrushes.indexOf( _activeBrush ), 1 );
+            _inactiveBrushes.push( _activeBrush );
+            _activeBrush.setVisibility( false );
+        },
+
+        // Called on tap on axis outside brushes. All brushes are deactivated.
+        _deactivateAllBrushes = function () {
+            _activeBrushes.forEach( brush => brush.setVisibility( false ) );
+            _inactiveBrushes = _inactiveBrushes.concat( _activeBrushes );
+            _activeBrushes = [];
+        },
+
+        // Tries to deactivate brush - brush is deactivated if range is the entire range of the axis.
+        _tryToDeactivateBrush = function () {
+            var range = _attrScale.range(), brushRange = _activeBrush.getBrushBounds();
+            if ( range[0] === brushRange[0] && range[1] === brushRange[1] ) {
+                _deactivateBrush();
+            }
+        },
+
         // Checks if start of brush is valid.
         _isValidStart = function ( xPos ) {
             var length = _activeBrushes.length, i, validMove = true, probableHandlePos, range = _attrScale.range();
@@ -65,6 +95,16 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
                 validMove = false;
             }
             return validMove;
+        },
+
+        _hideOtherHandles = function ( brushId ) {
+            // [Important]. Uncomment when multiple brushes on an axis are supported.
+            //_activeBrushes.forEach( brush => {
+            //    if ( brush.id !== brushId ) {
+            //        brush.hideHandles();
+            //    }
+            //} );
+            _paracoorder.hideBrushHandles( _axisId );
         };
 
     // Initializes the brush manager with hammer instance and brush parent group.
@@ -75,10 +115,68 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
         _hammerMan = hammerMan;
     };
 
+    this.getBrushes = function () {
+        var brushes = [];
+        if ( _brushes.length ) {
+            brushes = _brushes.map( ( brush, index ) => {
+                return {
+                    range: brush.getBrushBounds(),
+                    brushId: brush.id,
+                    inFocus: index === _brushInFocus,
+                    active: brush.visible
+                };
+            } );
+        }
+        _brushInFocus = -1;
+        return brushes;
+    };
+
+    this.enableDisableBrush = function ( brushId, active ) {
+        var brushIndex, brush;
+        if ( active ) {
+            brushIndex = _inactiveBrushes.findIndex( item => item.id === brushId );
+            if ( brushIndex > -1 ) {
+                brush = _inactiveBrushes[brushIndex];
+                _inactiveBrushes.splice( brushIndex, 1 );
+                _activeBrushes.push( brush );
+                brush.setVisibility( true );
+            }
+        } else {
+            brushIndex = _activeBrushes.findIndex( item => item.id === brushId );
+            if ( brushIndex > -1 ) {
+                brush = _activeBrushes[brushIndex];
+                _activeBrushes.splice( brushIndex, 1 );
+                _inactiveBrushes.push( brush );
+                brush.setVisibility( false );
+            }
+        }
+        _paracoorder.brushPaths();
+    };
+
+    this.hideAllBrushHandles = function () {
+        if ( _activeBrushes.length ) {
+            _activeBrushes.forEach( brush => brush.hideHandles() );
+        }
+    };
+
+    this.setBrushRange = function ( brushId, range ) {
+        var brushIndex = _brushes.findIndex( item => item.id === brushId ),
+            brush;
+        if ( brushIndex > -1 ) {
+            brush = _brushes[brushIndex];
+            brush.resetBrush( _attrScale( range[0] ) );
+            brush.setBrushEnd( _attrScale( range[1] ) );
+            _paracoorder.brushPaths();
+        }
+    };
+
     // Prepares to handle panning gesture.
     this.panStart = function ( event ) {
-        var createNewBrush = true, gestureOrigin = {}, index, length, clientRect;
-        if ( _paracoorder.scrollingInProgress ) {
+        var createNewBrush = true,
+            gestureOrigin = {},
+            length,
+            clientRect;
+        if ( _paracoorder.pinchScrollInProgress ) {
             // If scrolling is taking place, do not handle this event.
             _hammerMan.stop( true );
         } else {
@@ -99,21 +197,30 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
                 }
             }
             if ( createNewBrush ) {
-                if ( _activeBrushes.length === 0 ) { // [TODO]: Remove check to handle drawing of multiple brushes.
-                    //if ( _isValidStart( gestureOrigin.x ) ) { // [TODO]: Uncomment check to handle drawing of multiple brushes.
+                if ( _activeBrushes.length === 0 ) { // [Important]: Remove check to handle drawing of multiple brushes.
+                    //if ( _isValidStart( gestureOrigin.x ) ) { // [Important]: Uncomment check to handle drawing of multiple brushes.
                     if ( _inactiveBrushes.length > 0 ) {
                         _activeBrush = _inactiveBrushes.pop();
-                        _activeBrush.resetBrush( gestureOrigin.x )
+                        _activeBrush.resetBrush( gestureOrigin.x );
+                        _activeBrush.setVisibility( true );
                     } else {
                         _activeBrush = new MoInVis.Paracoords.axisBrush( _brushParent, _axisId + '_Brush_' + ( _brushes.length ), _brushHeight );
                         _activeBrush.draw( gestureOrigin.x, 0 );
                         _brushes.push( _activeBrush );
                     }
                     // [TODO]: Create mechanism to select a colour for brushes.
-                    _activeBrush.setColour( 'red' );
+                    _activeBrush.setColour( _brushColour );
                     _activeBrushes.push( _activeBrush );
                 }
             }
+
+            // [Important]. Uncomment when multiple brushes on an axis are supported.
+            //if ( _activeBrush ) {
+            //    _hideOtherHandles( _activeBrush.id );
+            //} else {
+            //    _hideOtherHandles();
+            //}
+            _hideOtherHandles();
         }
     };
 
@@ -152,13 +259,40 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
                 }
             }
             _activeBrush.onBrushingEnd();
-            _activeBrush = null;
+            _disableBrush();
             _paracoorder.brushPaths();
         }
     };
 
     // If a brush is tapped, show its handles.
     this.onTap = function ( event ) {
+        var id,
+            index,
+            deactivateBrushes;
+        if ( _activeBrushes.length > 0 ) {
+            deactivateBrushes = true;
+            id = event.changedPointers[0].target.id;
+            if ( id ) {
+                index = event.changedPointers[0].target.id.split( _axisId + '_Brush_' )[1];
+                if ( index ) {
+                    index = parseInt( index.split( '_' )[0] );
+                    if ( isNaN( index ) === false ) {
+                        _brushes[index].onBrushTapped();
+                        _hideOtherHandles( _brushes[index].id );
+                        deactivateBrushes = false;
+                    }
+                }
+            }
+            // If tap occurred outside all brushes on axis, deactivate the brushes.
+            if ( deactivateBrushes ) {
+                _deactivateAllBrushes();
+                _paracoorder.hideBrushHandles( _axisId );
+                _paracoorder.brushPaths();
+            }
+        }
+    };
+
+    this.onDoubleTap = function ( event ) {
         var id,
             index;
         if ( _activeBrushes.length > 0 ) {
@@ -168,7 +302,8 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
                 if ( index ) {
                     index = parseInt( index.split( '_' )[0] );
                     if ( isNaN( index ) === false ) {
-                        _brushes[index].onBrushTapped();
+                        _brushInFocus = index;
+                        _paracoorder.moin.brushSetter.activateTab();
                     }
                 }
             }

@@ -38,6 +38,7 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         this.data = data.data;
         _chosenYear = chosenYear;
         _colour = colour;
+        _emphasis = true;
     };
 
     this.visible = true;
@@ -86,9 +87,32 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
     this.setEmphasis = function ( emphasis ) {
         if ( emphasis ) {
             _pathElement.attr( 'opacity', _emphasizedAlpha );
+            _emphasis = emphasis;
         } else {
             _pathElement.attr( 'opacity', _unemphasizedAlpha );
+            _emphasis = emphasis;
         }
+    };
+
+    this.getEmphasis = function () {
+        return _emphasis;
+    };
+
+    this.getCurrentAlpha = function () {
+        if ( _emphasis ) {
+            return _emphasizedAlpha;
+        }
+        else {
+            return _unemphasizedAlpha;
+        }
+    };
+
+    this.getColour = this.getColor = function () {
+        return _colour;
+    };
+
+    this.getId = function () {
+        return _id;
     };
 
 };

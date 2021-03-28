@@ -27,16 +27,20 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _brushManager,
         _interactionManager,
         _wigglingIntervalId,
-        _isDragged = false;
+        _isDragged = false,
+        _formatter = MoInVis.Paracoords.util.format;
 
+    this.unit = MoInVis.Paracoords.Unit;
     this.attribute = attributeProps.prop;
     this.attributeLabel = attributeProps.text;
+    this.attributeLabelWithUnit = attributeProps.text + ' (' + this.unit + ')';
 
     _id = id + '_Axis_' + this.attribute;
 
     // Public methods
     this.init = function () {
     };
+
 
     this.visible = true;
     this.indexInVisibilityArray = 0;
@@ -46,8 +50,14 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _axisGroup.style( 'display', visible ? 'inherit' : 'none' );
     };
 
-    this.setAxisRange = function (newRange) {
+    this.setAxisRange = function ( newRange ) {
         _attrScale.domain( newRange );
+        _axisInnerGroup.call( _axis );
+    };
+
+    this.setAxisPxRange = function ( newRange ) {
+        _attrScale.range( newRange );
+        _axisInnerGroup.call( _axis );
     };
 
     this.getXY = function ( value ) {
@@ -56,6 +66,32 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
     this.checkPathBrushed = function ( xPos ) {
         return _brushManager.checkPathBrushed( xPos );
+    };
+
+    this.getBrushConfigurations = function () {
+        var brushes = _brushManager.getBrushes();
+        brushes.forEach( ( brush, index ) => {
+            // brush.axisName = this.attributeLabel + ' Brush ' + ( index + 1 ); // Uncomment when multiple brushes for single axis are enabled.
+            brush.axisName = this.attributeLabelWithUnit;
+            brush.axisId = _id;
+            brush.axisRange = _attrScale.domain();
+            // [TODO]: Apply appropriate formatter.
+            brush.range = [Math.floor( _attrScale.invert( brush.range[0] ) ), Math.floor( _attrScale.invert( brush.range[1] ) )];
+            brush.rangeText = brush.range.map( val => _formatter( val ) );
+        } );
+        return brushes;
+    };
+
+    this.enableDisableBrush = function ( brushId, active ) {
+        _brushManager.enableDisableBrush( brushId, active );
+    };
+
+    this.setBrushRange = function ( brushId, range ) {
+        _brushManager.setBrushRange( brushId, range );
+    };
+
+    this.hideBrushHandles = function () {
+        _brushManager.hideAllBrushHandles();
     };
 
     this.draw = function ( xPos, yPos ) {
@@ -81,13 +117,19 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
         _axisInnerGroup.call(
             _axis = d3.axisBottom( _attrScale )
-                .ticks( 3 )
+                .ticks( 4, '~s' )
+                .tickSize( 15 )
         );
-        // Vertical values (height and margins) set.
-        _axisInnerGroup.selectAll( 'line' )
-            .attr( 'y2', 8 ); // of tick lines
-        _axisInnerGroup.selectAll( 'text' )
-            .attr( 'y', 12 ); // of tick labels
+
+        // Tick styling.
+        _axisInnerGroup
+            .selectAll( 'g.tick' )
+            .select( 'text' )
+            .attr( 'y', 22 );
+        _axisInnerGroup
+            .selectAll( 'g.tick' )
+            .select( 'line' )
+            .attr( 'y2', 10 );
 
         // [TODO]: Number of ticks must depend on font size, available width, and text lengths.
 
@@ -169,22 +211,22 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
             .transition()
             .duration( MoInVis.Paracoords.TransitionSpeed )
             .ease( d3.easeCubicOut )
-            .attr( 'transform', 'translate(' + newX + ',' +  this.yPos + ')' );
+            .attr( 'transform', 'translate(' + newX + ',' + this.yPos + ')' );
     };
 
     this.setXY = function ( newX, newY ) {
         this.yPos = newY;
-        this.xPos = newX    ;
+        this.xPos = newX;
         _axisGroup
             .attr( 'transform', 'translate(' + newX + ',' + newY + ')' );
     };
 
-    this.startWiggling = function ( ) {
+    this.startWiggling = function () {
         let seed = Math.random();
-        const amplitude = 0.4 + 0.8,
-            speed = 0.03;
+        const amplitude = 0.4 + 0.7,
+            speed = 0.028;
 
-        _wigglingIntervalId = setInterval(function () {
+        _wigglingIntervalId = setInterval( function () {
             let y = Math.sin( 10 * seed ) * amplitude;
             _textInnerGroup
                 .attr( 'transform', 'rotate(' + y + ',' + _textGroupCenter + ',0)' );
@@ -215,5 +257,9 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
     this.getId = function () {
         return _id;
+    };
+
+    this.getAttrScale = function () {
+        return _attrScale;
     };
 };

@@ -24,10 +24,14 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
         _vueApp,
 
         _init = function () {
-            _vueData = {
+            var vueStuff, 
+                vueData = {
                 tabName: 'Enter the Entry Store!'
             };
-            _vueApp = self.initVue( _vueData );
+
+            vueStuff = self.initVue( vueData );
+            _vueApp = vueStuff.mainApp;
+            _vueData = vueStuff.dataProxy;
         };
 
     _init();
