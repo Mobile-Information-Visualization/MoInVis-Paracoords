@@ -147,7 +147,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                 lockAxis: 'y',
                 inertia: true,
                 // allowFrom: '.drag-handle-focusPanel',
-                manualStart: false,
+                
 
                 modifiers: [
                     interact.modifiers.snap( {

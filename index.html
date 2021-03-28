@@ -50,7 +50,7 @@
 
                 <transition-group class="axisStore" key="axesArray" id="simpleList" name="flip-list" tag="ul">
 
-                    <div key="panelBoxParent" class="focusPanelParent" :style="{width: boxWidth.long +'px',height: boxHeight * notSortableIndexFrom + 'px'}">
+                    <!-- <div key="panelBoxParent" class="focusPanelParent" :style="{width: boxWidth.long +'px',height: boxHeight * notSortableIndexFrom + 'px'}"> -->
                         <div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: boxHeight * numberAxesInFocus + 'px'}">
 
                             <label class="drag-handle-focusPanel" id="drag-handle-focusPanel">
@@ -60,7 +60,7 @@
     
                         </div>
 
-                    </div>
+                    <!-- </div> -->
                     
 
                     <li v-for="(item, index) in axesArray" :key="item.attribute" :id="item.attribute" class="list-axis attrList" :class="{unchecked: !item.visible, checked: item.visible }">
