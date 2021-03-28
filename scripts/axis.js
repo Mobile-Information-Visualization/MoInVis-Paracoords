@@ -41,6 +41,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
     this.init = function () {
     };
 
+
     this.visible = true;
     this.indexInVisibilityArray = 0;
 
@@ -51,6 +52,12 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
     this.setAxisRange = function ( newRange ) {
         _attrScale.domain( newRange );
+        _axisInnerGroup.call( _axis );
+    };
+
+    this.setAxisPxRange = function ( newRange ) {
+        _attrScale.range( newRange );
+        _axisInnerGroup.call( _axis );
     };
 
     this.getXY = function ( value ) {
