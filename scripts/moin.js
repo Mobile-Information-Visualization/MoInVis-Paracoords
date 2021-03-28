@@ -71,6 +71,15 @@ MoInVis.Paracoords.moin = function ( width, height ) {
 
             self.axisDetailView = new MoInVis.Paracoords.axisDetailView( self, d3.select( '#axisDetailViewOverlay' ) );
             self.tabManager.addOverlayTab( self.axisDetailView.getTabHandle() );
+
+            // The tabs might cause a distortion in actual window height.
+            // If the heights and widths have changed, correct the sizing of tabs and paracoorder elements.
+            if ( window.innerHeight !== self.height || window.innerWidth !== self.width ) {
+                self.height = window.innerHeight;
+                self.width = window.innerWidth;
+                self.tabManager.resize();
+                self.paracoorder.resize();
+            }
         };
 
     this.paraCoorderRedrawReq = false;

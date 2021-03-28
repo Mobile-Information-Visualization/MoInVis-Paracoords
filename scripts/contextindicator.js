@@ -226,5 +226,13 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
         _context = text;
     };
 
+    this.reposition = function ( x, y ) {
+        _xPos = x;
+        _yPos = y;
+        if ( this.visible ) {
+            _ciSVG.attr( 'transform', 'translate(' + _xPos + ',' + _yPos + ')' );
+        }
+    };
+
     _init();
 };

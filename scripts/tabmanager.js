@@ -111,6 +111,36 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
         }
     };
 
+    this.resize = function () {
+        var i, length = _tabHandlers.length, tab;
+
+        // Creates the tab indicators
+        _tabIndicatorDiv
+            .style( 'width', _moin.width + 'px' )
+            .style( 'left', ( _moin.width / 2 - length * _tabIndicatorSize ) + 'px' );
+
+        for ( i = 0; i < length; i++ ) {
+            // Set tab styling to handle absolute positioning.
+            tab = _tabHandlers[i].parentTab;
+            _setTabStyle( tab );
+            // Position tabs.
+            if ( i < _currentTabIndex ) {
+                tab.style( 'left', - 1.5 * _moin.width + 'px' );
+            } else if ( i > _currentTabIndex ) {
+                tab.style( 'left', 1.5 * _moin.width + 'px' );
+            }
+        }
+        length = _overlayTabs.length;
+        for ( i = 0; i < length; i++ ) {
+            // Set tab styling to handle absolute positioning.
+            tab = _overlayTabs[i].parentTab;
+            _setTabStyle( tab );
+            if ( _overlayTabActive === false || _overlayTab !== _overlayTabs[i] ) {
+                tab.style( 'top', 1 * _moin.height + 'px' );
+            }
+        }
+    };
+
     this.swipeUp = function () {
 
     };
