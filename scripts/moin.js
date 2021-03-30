@@ -65,7 +65,7 @@ MoInVis.Paracoords.moin = function ( width, height ) {
 
             self.entryStore = new MoInVis.Paracoords.entryStore( self, d3.select( '#entryStoreTab' ), self.paracoorder.paths );
 
-            self.tabManager = new MoInVis.Paracoords.tabManager( self, [self.entryStore.getTabHandle(), self.attributeStore.getTabHandle(), self.paracoorder.getTabHandle()], 0 );
+            self.tabManager = new MoInVis.Paracoords.tabManager( self, [self.entryStore.getTabHandle(), self.attributeStore.getTabHandle(), self.paracoorder.getTabHandle()], 2 );
 
             self.brushSetter = new MoInVis.Paracoords.brushSetter( self, d3.select( '#brushSetterOverlay' ) );
             self.tabManager.addOverlayTab( self.brushSetter.getTabHandle() );
