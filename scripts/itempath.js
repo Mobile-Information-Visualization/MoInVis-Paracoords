@@ -71,7 +71,6 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         let pointsInfo = _paracoorder.getPathPointsInfo( this.itemName );
         _points = pointsInfo.points;
         _emphasis = pointsInfo.emphasis;
-        // alert( _emphasis );
         _pathElement.attr( 'opacity', _emphasis ? _emphasizedAlpha : _unemphasizedAlpha );
         if ( dontAnimate === true ) {
             _pathElement

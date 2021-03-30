@@ -94,6 +94,7 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
             .style( 'top', 1 * _moin.height + 'px' )
             .transition()
             .duration( MoInVis.Paracoords.OverlayTransitionSpeed )
+            .ease( d3.easeCubicOut )
             .style( 'top', '3vw' );
         _overlayTabActive = true;
     };
@@ -103,10 +104,40 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
             _overlayTab.parentTab
                 .transition()
                 .duration( MoInVis.Paracoords.OverlayTransitionSpeed )
-                .style( 'top', 1.5 * _moin.height + 'px' )
+                .style( 'top', 1 * _moin.height + 'px' )
                 .on( 'end', _afterOverlayDeactivation );
             _overlayTabActive = false;
             _tabHandlers[_currentTabIndex].switchOnEvents();
+        }
+    };
+
+    this.resize = function () {
+        var i, length = _tabHandlers.length, tab;
+
+        // Creates the tab indicators
+        _tabIndicatorDiv
+            .style( 'width', _moin.width + 'px' )
+            .style( 'left', ( _moin.width / 2 - length * _tabIndicatorSize ) + 'px' );
+
+        for ( i = 0; i < length; i++ ) {
+            // Set tab styling to handle absolute positioning.
+            tab = _tabHandlers[i].parentTab;
+            _setTabStyle( tab );
+            // Position tabs.
+            if ( i < _currentTabIndex ) {
+                tab.style( 'left', - 1.5 * _moin.width + 'px' );
+            } else if ( i > _currentTabIndex ) {
+                tab.style( 'left', 1.5 * _moin.width + 'px' );
+            }
+        }
+        length = _overlayTabs.length;
+        for ( i = 0; i < length; i++ ) {
+            // Set tab styling to handle absolute positioning.
+            tab = _overlayTabs[i].parentTab;
+            _setTabStyle( tab );
+            if ( _overlayTabActive === false || _overlayTab !== _overlayTabs[i] ) {
+                tab.style( 'top', 1 * _moin.height + 'px' );
+            }
         }
     };
 
@@ -119,59 +150,63 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
     };
 
     this.swipeLeft = function () {
-        if ( _currentTabIndex < _tabHandlers.length - 1 ) {
-            // Show the tab indicators
-            _tabIndicatorDiv.style( 'display', 'inherit' );
-            // Deactivate the current tab indicator
-            _tabIndicators[_currentTabIndex].style( 'opacity', _inactiveTabIndicatorOpacity );
+        // Show the tab indicators
+        _tabIndicatorDiv.style( 'display', 'inherit' );
+        // Deactivate the current tab indicator
+        _tabIndicators[_currentTabIndex].style( 'opacity', _inactiveTabIndicatorOpacity );
 
-            // Switch off events for old tab
-            _tabHandlers[_currentTabIndex].switchOffEvents();
-            _tabHandlers[_currentTabIndex].parentTab
-                .transition()
-                .duration( MoInVis.Paracoords.TransitionSpeed )
-                .style( 'left', -1.5 * _moin.width + 'px' );
-            _currentTabIndex++;
-            _tabHandlers[_currentTabIndex].parentTab
-                .style( 'left', 1.5 * _moin.width + 'px' )
-                .transition()
-                .duration( MoInVis.Paracoords.TransitionSpeed )
-                .style( 'left', '0px' )
-                .on( 'end', _afterTransition );
-            // Switch on events for new tab
-            _tabHandlers[_currentTabIndex].switchOnEvents();
-
-            // Activate the current tab indicator
-            _tabIndicators[_currentTabIndex].style( 'opacity', 1 );
+        // Switch off events for old tab
+        _tabHandlers[_currentTabIndex].switchOffEvents();
+        _tabHandlers[_currentTabIndex].parentTab
+            .transition()
+            .duration( MoInVis.Paracoords.TransitionSpeed )
+            .style( 'left', -1.5 * _moin.width + 'px' );
+        _currentTabIndex++;
+        if ( _currentTabIndex > _tabHandlers.length - 1 ) {
+            _currentTabIndex = 0;
         }
+        _tabHandlers[_currentTabIndex].parentTab
+            .style( 'left', 1.5 * _moin.width + 'px' )
+            .transition()
+            .duration( MoInVis.Paracoords.TransitionSpeed )
+            .style( 'left', '0px' )
+            .on( 'end', _afterTransition );
+        // Switch on events for new tab
+        _tabHandlers[_currentTabIndex].switchOnEvents();
+        _tabHandlers[_currentTabIndex].onTabInFocus();
+
+        // Activate the current tab indicator
+        _tabIndicators[_currentTabIndex].style( 'opacity', 1 );
     };
 
     this.swipeRight = function () {
-        if ( _currentTabIndex > 0 ) {
-            // Show the tab indicators
-            _tabIndicatorDiv.style( 'display', 'inherit' );
-            // Deactivate the current tab indicator
-            _tabIndicators[_currentTabIndex].style( 'opacity', _inactiveTabIndicatorOpacity );
+        // Show the tab indicators
+        _tabIndicatorDiv.style( 'display', 'inherit' );
+        // Deactivate the current tab indicator
+        _tabIndicators[_currentTabIndex].style( 'opacity', _inactiveTabIndicatorOpacity );
 
-            // Switch off events for old tab
-            _tabHandlers[_currentTabIndex].switchOffEvents();
-            _tabHandlers[_currentTabIndex].parentTab
-                .transition()
-                .duration( MoInVis.Paracoords.TransitionSpeed )
-                .style( 'left', 1.5 * _moin.width + 'px' );
-            _currentTabIndex--;
-            _tabHandlers[_currentTabIndex].parentTab
-                .style( 'left', -1.5 * _moin.width + 'px' )
-                .transition()
-                .duration( MoInVis.Paracoords.TransitionSpeed )
-                .style( 'left', '0px' )
-                .on( 'end', _afterTransition );
-            // Switch on events for new tab
-            _tabHandlers[_currentTabIndex].switchOnEvents();
-
-            // Activate the current tab indicator
-            _tabIndicators[_currentTabIndex].style( 'opacity', 1 );
+        // Switch off events for old tab
+        _tabHandlers[_currentTabIndex].switchOffEvents();
+        _tabHandlers[_currentTabIndex].parentTab
+            .transition()
+            .duration( MoInVis.Paracoords.TransitionSpeed )
+            .style( 'left', 1.5 * _moin.width + 'px' );
+        _currentTabIndex--;
+        if ( _currentTabIndex < 0 ) {
+            _currentTabIndex = _tabHandlers.length - 1;
         }
+        _tabHandlers[_currentTabIndex].parentTab
+            .style( 'left', -1.5 * _moin.width + 'px' )
+            .transition()
+            .duration( MoInVis.Paracoords.TransitionSpeed )
+            .style( 'left', '0px' )
+            .on( 'end', _afterTransition );
+        // Switch on events for new tab
+        _tabHandlers[_currentTabIndex].switchOnEvents();
+        _tabHandlers[_currentTabIndex].onTabInFocus();
+
+        // Activate the current tab indicator
+        _tabIndicators[_currentTabIndex].style( 'opacity', 1 );
     };
 
 

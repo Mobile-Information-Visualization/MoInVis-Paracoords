@@ -76,15 +76,15 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
 
         _showBarLabels = function () {
             if ( _nameShown ) {
-                d3.select( '#axisDetailView_BarLabel_Name')
+                d3.select( '#axisDetailView_BarLabel_Name' )
                     .attr( 'display', 'block' );
-                d3.select( '#axisDetailView_BarLabel_Value')
+                d3.select( '#axisDetailView_BarLabel_Value' )
                     .attr( 'display', 'none' );
             }
             else {
-                d3.select( '#axisDetailView_BarLabel_Name')
+                d3.select( '#axisDetailView_BarLabel_Name' )
                     .attr( 'display', 'none' );
-                d3.select( '#axisDetailView_BarLabel_Value')
+                d3.select( '#axisDetailView_BarLabel_Value' )
                     .attr( 'display', 'block' );
             }
         },
@@ -95,7 +95,7 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
 
         _formatTick = function ( data ) {
             // const s = ( data / 1e6 ).toFixed( 0 );
-            if ( data > 0) {
+            if ( data > 0 ) {
                 return d3.format( '~s' )( data );
             }
             else {
@@ -149,7 +149,7 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
                 .range( [height, 0] )
                 .paddingInner( 0.15 );
             const x = d3.scaleLinear()
-                .domain( [Math.max( min_value - min_value * 3, 0 ), max_value + max_value / 10 ] )
+                .domain( [Math.max( min_value - min_value * 3, 0 ), max_value + max_value / 10] )
                 .range( [0, width] );
 
             // Create horizontal bars.
@@ -235,10 +235,13 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
         },
 
         _init = function () {
-            _vueData = {
-                tabName: 'Axis Detail View',
-                closeButtonText: 'Close'
-            };
+            var vueStuff,
+                vueData = {
+                    tabName: 'Axis Detail View',
+                    closeButtonText: 'Close',
+                    pointerDownX: false,
+                    pointerDownSort: false
+                };
             _vueMethods = {
                 closeView: function ( event ) {
                     self.deactivateTab();
@@ -250,7 +253,10 @@ MoInVis.Paracoords.axisDetailView = function ( moin, parentDiv ) {
                     self.changeSorting();
                 },
             };
-            _vueApp = self.initVue( _vueData, _vueMethods );
+
+            vueStuff = self.initVue( vueData, _vueMethods );
+            _vueApp = vueStuff.mainApp;
+            _vueData = vueStuff.dataProxy;
         };
 
     this.changeBarLabels = function () {

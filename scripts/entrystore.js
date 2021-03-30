@@ -28,18 +28,21 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
         _vueApp,
 
         _init = function () {
-            _vueData = {
-                tabName: 'Entry Store!',
-                totalEntries: totalEntries,
-                entries: entries,
-                flag : self.moin.paraCoorderRedrawReq,
-            };
-            _vueMethods = {
-              changed: _changed,
-              checkEntry: _checkEntry,
-              getEntryColor: _getEntryColor,
-            };
-            _vueApp = self.initVue( _vueData, _vueMethods);
+            var vueStuff,
+                vueData = {
+                  tabName: 'Entry Store!',
+                  totalEntries: totalEntries,
+                  entries: entries,
+                  flag : self.moin.paraCoorderRedrawReq,
+                };
+                vueMethods = {
+                  changed: _changed,
+                  checkEntry: _checkEntry,
+                  getEntryColor: _getEntryColor,
+                  };
+            vueStuff = self.initVue( vueData, vueMethods );
+            _vueApp = vueStuff.mainApp;
+            _vueData = vueStuff.dataProxy;
         };
 
      _changed = function( entry ){

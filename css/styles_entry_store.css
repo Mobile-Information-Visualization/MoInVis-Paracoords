@@ -24,7 +24,7 @@ header.entryStore {
   border-width: 1px;
 }
 
-header output {
+output.entryStore {
   color: #f0f0f0;
   grid-column-start: 1;
   grid-column-end: 1;
@@ -38,7 +38,7 @@ header output {
   margin: auto;
 }
 
-header label {
+label.entryStoreHeader {
   color: #f0f0f0;
   grid-column-start: 1;
   grid-column-end: 1;
@@ -69,7 +69,7 @@ li {
   cursor: move;
 }
 
-label.container {
+label.entryStoreContainer {
   grid-column-start: 1;
   grid-column-end: 2;
   margin: auto;
@@ -104,7 +104,7 @@ label.entryColor {
 }
 
 /* The container */
-.container {
+.entryStoreContainer {
   display: block;
   position: relative;
 
@@ -117,7 +117,7 @@ label.entryColor {
 }
 
 /* Hide the browser's default checkbox */
-.container input {
+input.entryStoreContainer {
   position: absolute;
   opacity: 0;
   cursor: initial;
@@ -126,7 +126,7 @@ label.entryColor {
 }
 
 /* Create a custom checkbox */
-.checkmark {
+span.entryStoreCheckmark{
   position: absolute;
   top: 0;
   left: 0;
@@ -137,24 +137,24 @@ label.entryColor {
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
+.entryStoreContainer input:checked ~ .entryStoreCheckmark {
   background-color: #252525;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
+.entryStoreContainer :after {
   content: "";
   position: absolute;
   display: none;
 }
 
 /* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
+.entryStoreContainer input:checked ~ .entryStoreCheckmark:after {
   display: block;
 }
 
 /* Style the checkmark/indicator */
-.container .checkmark:after {
+.entryStoreContainer .entryStoreCheckmark:after {
   left: 50%;
   top: 15%;
   width: 20%;

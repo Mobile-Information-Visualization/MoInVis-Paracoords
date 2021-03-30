@@ -3,15 +3,18 @@
 ::-webkit-scrollbar {
     width: 15px;
 }
+
 ::-webkit-scrollbar-track {
     background-color: rgb(50,50,50);
 }
+
 ::-webkit-scrollbar-thumb {
     background: #888;
 }
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
 
 /* Lato font */
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
@@ -81,19 +84,354 @@ line {
     /*y: 10;*/
 }
 
-button {
-    font-family: Arial;
-    font-weight: 300;
-    color: #eeeeee;
-    font-size: 2.1em;
-    font-style: normal;
+/*Brush setter styles.*/
+
+#brushSetterOverlay {
+    background: rgb( 50, 50, 50);
+    border-top-right-radius: 120px;
+    border-top-left-radius: 120px;
+    box-shadow: 1px 2px 12px black;
+}
+
+#brushSetterOverlayInner {
+    opacity: 1;
+    width: inherit;
+    height: inherit;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-top-right-radius: inherit;
+    border-top-left-radius: inherit;
+    border-bottom: 5px solid #abbbbb;
+}
+
+.brushsetterheader {
+    width: inherit;
+    display: flex;
+    position: sticky;
+    position: -webkit-sticky; /* Safari */
+    top: -1px;
+    opacity: 1;
+    background: rgba(50, 50, 50, 1); /*Same colour as brushSetterOverlay bg but with opacity 1*/
+    border-bottom: 5px solid #abbbbb;
+    z-index: 1;
+}
+
+.brushtabname {
+    font-size: 3.5em;
+    text-align: center;
+    color: white;
+    user-select: none;
+    font-weight: bold;
+    width: inherit;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+li.brushlist {
+    /*border-bottom: 5px solid #abbbbb;*/
+    /* margin: 3% 3%; */
+    padding: 3% 3% 0% 3%;
+    display: grid;
+    grid-template-columns: 1fr 7fr 1fr 1fr;
+    align-items: center;
+    cursor: move;
+}
+
+li.brushinfocus {
+    background: rgba(0,139,139,0.7);
+}
+
+label.brushname {
+    font-size: 2em;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-bottom: 7%;
+    color: #abbbbb;
+}
+
+    label.brushname.active {
+        /*color: #7dcdc4;*/
+        color: white;
+    }
+
+/*Brush setter styles.*/
+label.brushvalue {
+    font-size: 4em;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 3%;
+    color: #abbbbb;
+}
+
+    label.brushvalue.active {
+        /*color: #7dcdc4;*/
+        color: white;
+    }
+
+.brushliborder {
+    width: 90%;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    border-bottom: 2px solid #abbbbb;
+    margin: 3% 5% 0% 5%;
+}
+
+.lastBrush {
+    width: 90%;
+    height: 50px;
+    grid-column-start: 1;
+    grid-column-end: 5;
+}
+
+/* Slider Checkbox styles - https://www.w3schools.com/howto/howto_css_switch.asp */
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 58px;
+    grid-column-start: 3;
+    grid-column-end: 5;
+}
+
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+/* The slider */
+.slider {
+    position: absolute;
     cursor: pointer;
-    padding: 10px 20px 10px 20px;
-    background-color: rgba( 96, 96, 96, 0.8 );
-    border-radius: 20px;
-    border: 2px solid rgba( 96, 96, 96, 0.8 );
-    margin: 20px auto 20px auto;
-    display: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 50px;
+        width: 50px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+input:checked + .slider {
+    background-color: #7dcdc4;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #7dcdc4;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(42px);
+    -ms-transform: translateX(42px);
+    transform: translateX(42px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 58px;
+}
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+    transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.modal-container {
+    width: 80%;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #323232;
+    border-radius: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: initial;
+}
+
+.modal-header {
+    margin-top: 0;
+    font-size: 3em;
+    text-align: center;
+    color: white;
+    user-select: none;
+    padding-top: 2%;
+    /*border-bottom: 5px solid #abbbbb;
+    padding-bottom: 3%;*/
+}
+
+.modal-body {
+    padding-top: 7%;
+    padding-bottom: 7%;
+    font-size: 4em;
+    text-align: center;
+    user-select: none;
+    overflow: hidden;
+    color: #abbbbb;
+}
+
+    .modal-body .active {
+        color: #4ae6d8;
+    }
+
+.modal-body2 {
+    font-size: 2em;
+    user-select: none;
+    overflow: hidden;
+    color: #abbbbb;
+}
+
+.modal-footer label {
+    font-size: 3em;
+    font-weight: lighter;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #7dcdc4;
+}
+
+.modal-default-input {
+    font-size: 4em;
+    position: absolute;
+    left: 25%;
+    top: 50%;
+    width: 50%;
+    height: 2em;
+    text-align: center;
+    background-color: white;
+    color: #323232; /*same as the modal-container's background*/
+    border-radius: 30px; /*same as the modal-container's border-radius*/
+    border: 5px solid #7dcdc4;
+}
+
+.modal-default-button {
+    margin-top: 7%;
+    margin-left: 10%;
+    font-size: 3em;
+    background: #323232; /*same as the modal-container's background*/
+    border: 0px;
+    color: white;
+}
+
+    .modal-default-button.active {
+        color: #008b8b;
+    }
+
+    .modal-default-button.left {
+        float: left;
+    }
+
+    .modal-default-button.right {
+        float: right;
+    }
+
+    .modal-default-button.bordered {
+        border: 2px solid #7dcdc4;
+        border-radius: 20px;
+        padding: 1% 2%;
+    }
+
+.minus-plus-button {
+    font-size: 3em;
+    font-weight: 100;
+    border-radius: 50%;
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+    border-right: solid;
+    border-color: #525252;
+    background: #7dcdc4; /*same as the slider ring colour and the OK button text colour*/
+    color: #252525;
+    float: right;
+    margin-top: 7%;
+    margin-left: 10%;
+    height: 1em;
+    width: 1em;
+}
+
+    .minus-plus-button.active {
+        background: #008b8b;
+    }
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+
+.modal-enter-active,
+.modal-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+    opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+
+.brushTextInput-enter-active {
+    transition: opacity 0.5s ease;
+}
+
+.brushTextInput-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.brushTextInput-enter-from,
+.brushTextInput-leave-to {
+    opacity: 0;
 }
 
 #axisDetailViewOverlay {
@@ -124,11 +462,13 @@ button {
     position: sticky;
     top: 0;
 }
+
 #axisDetailView_ButtonLeft,
 #axisDetailView_ButtonRight {
     margin: 0 20px 0 20px;
     cursor: pointer;
 }
+
 #axisDetailViewHeaderInfo {
     width: calc( 100% - 8vw );
     padding: 4vw 4vw 5px 4vw;
@@ -139,6 +479,7 @@ button {
     flex-direction: row;
     position: relative;
 }
+
 .axisDetailViewHeaderInfoBox {
     max-width: calc( 100% - 60px - 80px - 60px - 80px );
     margin: 0 auto;
@@ -150,6 +491,7 @@ button {
     position: relative;
     padding: 15px 30px 15px 30px;
 }
+
 #axisDetailView_BarLabel_Name,
 #axisDetailView_BarLabel_Value {
     font-family: Arial;
@@ -157,6 +499,7 @@ button {
     fill: white;
     overflow-wrap: break-word;
 }
+
 #attributeName {
     font-family: Arial;
     color: white;
@@ -167,6 +510,7 @@ button {
     text-align: center;
     overflow-wrap: break-word;
 }
+
 #attributeUnit {
     font-family: Arial;
     color: white;
@@ -177,10 +521,12 @@ button {
     text-align: center;
     overflow-wrap: break-word;
 }
+
 #xAxisView {
     width: 100%;
     margin: 20px auto 0 auto;
 }
+
 #xAxis {
     width: calc( 100% - 8vw );
     height: 58px;
@@ -190,6 +536,7 @@ button {
 #axisDetailView_SVG {
     padding-bottom: 200px;
 }
+
 #axisDetailViewGradient {
     height: 150px;
     width: calc( 100% - 15px );
@@ -200,6 +547,7 @@ button {
     bottom: 0;
     pointer-events: none;
 }
+
 #axisDetailView {
     width: calc( 100% - 8vw );
     /*height: calc( 100% );*/
@@ -235,5 +583,3 @@ text {
     color: white;
     font-size: 2.1em;
 }
-
-
