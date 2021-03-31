@@ -109,7 +109,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
             } );
 
             //draggable focus panel
-            _interactable = interact( '.draggable' ).draggable( {
+            interact( '.draggable' ).draggable( {
                 startAxis: 'y',
                 lockAxis: 'y',
                 inertia: true,
