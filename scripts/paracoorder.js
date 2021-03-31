@@ -967,7 +967,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         }
         this.paths['European_sp_Union_sp_-_sp_28_sp_countries_sp__ob_2013-2020_cb_'].setVisibility( false );
         this.paths['European_sp_Union_sp_-_sp_27_sp_countries_sp__ob_from_sp_2020_cb_'].setVisibility( false );
-        // this.paths.length = length;
     };
 
     this.getPathPointsInfo = function ( itemName ) {

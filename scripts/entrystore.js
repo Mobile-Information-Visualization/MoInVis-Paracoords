@@ -17,12 +17,10 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
     this.moin = moin;
     MoInVis.Paracoords.entryStore.baseCtor.call( this, parentDiv );
 
-    const items = Object.keys( entries );
-    var totalEntries = items.length;
-
     var self = this,
         _parentDiv = parentDiv,
         _entries = entries,
+        _totalEntries = Object.keys( _entries ).length,
         _vueData,
         _vueMethods,
         _vueApp,
@@ -31,8 +29,8 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
             var vueStuff,
                 vueData = {
                     tabName: 'Entry Store!',
-                    totalEntries: totalEntries,
-                    entries: entries,
+                    entries: _entries,
+                    totalEntries: _totalEntries,
                     flag: self.moin.paraCoorderRedrawReq,
                 };
             _vueMethods = {

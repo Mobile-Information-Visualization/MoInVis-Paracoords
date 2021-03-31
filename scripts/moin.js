@@ -12,7 +12,6 @@ MoInVis.Paracoords.IdStore.moin = 'MoInVis_ParaCoords';
 MoInVis.Paracoords.IdStore.parentSvg = 'ContainerSVG';
 MoInVis.Paracoords.IdStore.defs = 'SVGDefs';
 MoInVis.Paracoords.Count = MoInVis.Paracoords.Count || 0;
-MoInVis.Paracoords.ParaCoorderRedrawReq = false;
 MoInVis.Paracoords.Unit = 'tonnes';
 MoInVis.Paracoords.UnitShort = 't';
 MoInVis.Paracoords.NormalTransitionSpeed = 1000;
