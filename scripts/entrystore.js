@@ -30,51 +30,30 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
         _init = function () {
             var vueStuff,
                 vueData = {
-                  tabName: 'Entry Store!',
-                  totalEntries: totalEntries,
-                  entries: entries,
-                  flag : self.moin.paraCoorderRedrawReq,
+                    tabName: 'Entry Store!',
+                    totalEntries: totalEntries,
+                    entries: entries,
+                    flag: self.moin.paraCoorderRedrawReq,
                 };
-                vueMethods = {
-                  changed: _changed,
-                  checkEntry: _checkEntry,
-                  getEntryColor: _getEntryColor,
-                  };
-            vueStuff = self.initVue( vueData, vueMethods );
+            _vueMethods = {
+                changed: _changed,
+                getEntryColor: _getEntryColor
+            };
+            vueStuff = self.initVue( vueData, _vueMethods );
             _vueApp = vueStuff.mainApp;
             _vueData = vueStuff.dataProxy;
+        },
+
+        _changed = function ( entry ) {
+            entry.setVisibility( entry.visible );
+            self.moin.paraCoorderRedrawReq = true;
+        },
+
+        _getEntryColor = function ( entry ) {
+            return entry.getColor();
         };
-
-     _changed = function( entry ){
-      if (entry.visible) {
-        entry.setVisibility(false);
-      } else {
-        entry.setVisibility(true);
-      }
-
-      console.log('Visibility of ' + entry.itemText + ' is now ' + entry.visible);
-
-      if (!self.moin.paraCoorderRedrawReq) {
-        self.moin.paraCoorderRedrawReq = true;
-        console.log('Redraw flag: '+ self.moin.paraCoorderRedrawReq);
-      }
-    };
-
-    _checkEntry = function( entry ) {
-      if ( typeof entry === 'undefined' ) {
-        console.log ('Undefined entry!' );
-        return(' undefined ');
-      } else {
-        return (entry);
-      }
-    };
-
-    _getEntryColor = function( entry ) {
-      return entry.getColor();
-    };
 
     _init();
 };
-
 
 MoInVis.Paracoords.entryStore.baseCtor = MoInVis.Paracoords.tab;
