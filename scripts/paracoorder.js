@@ -1155,10 +1155,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         }
     };
 
-    this.setBrushRange = function ( axisId, brushId, range ) {
+    this.setBrushValueRange = function ( axisId, brushId, valueRange ) {
         let axis = _visibleAxes.find( item => item.getId() === axisId );
         if ( axis ) {
-            axis.setBrushRange( brushId, range );
+            axis.setBrushValueRange( brushId, valueRange );
         }
     };
 
@@ -1249,6 +1249,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             _setVisibleAxes();
             _resetAxesRanges();
             _setFocusIndex( _focusAndContextSettings.focusIndex );
+            this.brushPaths();
             this.moin.paraCoorderRedrawReq = false;
         }
     };

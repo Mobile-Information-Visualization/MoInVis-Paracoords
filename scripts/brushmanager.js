@@ -131,7 +131,7 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
         return brushes;
     };
 
-    this.enableDisableBrush = function ( brushId, active ) {
+    this.enableDisableBrush = function ( brushId, active, doNotBrushPaths ) {
         var brushIndex, brush;
         if ( active ) {
             brushIndex = _inactiveBrushes.findIndex( item => item.id === brushId );
@@ -150,7 +150,9 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
                 brush.setVisibility( false );
             }
         }
-        _paracoorder.brushPaths();
+        if ( doNotBrushPaths !== true ) {
+            _paracoorder.brushPaths();
+        }
     };
 
     this.hideAllBrushHandles = function () {
@@ -159,15 +161,57 @@ MoInVis.Paracoords.brushManager = function ( axisId, attrScale, paracoorder ) {
         }
     };
 
-    this.setBrushRange = function ( brushId, range ) {
+    this.setBrushValueRange = function ( brushId, valueRange ) {
         var brushIndex = _brushes.findIndex( item => item.id === brushId ),
             brush;
         if ( brushIndex > -1 ) {
             brush = _brushes[brushIndex];
-            brush.resetBrush( _attrScale( range[0] ) );
-            brush.setBrushEnd( _attrScale( range[1] ) );
+            brush.setNewBounds( valueRange.map( value => _attrScale( value ) ) );
             _paracoorder.brushPaths();
         }
+    };
+
+    this.getBrushValueRanges = function () {
+        var valueRanges = [];
+        _brushes.forEach( brush => {
+            valueRanges.push( brush.getBrushBounds().map( bound => _attrScale.invert( bound ) ) );
+        } );
+        return valueRanges;
+    };
+
+    this.setBrushValueRanges = function ( valueRanges ) {
+        var brushRange,
+            axisRange = _attrScale.range(),
+            disableBrush;
+        valueRanges.forEach( ( valueRange, index ) => {
+            brushRange = valueRange.map( value => _attrScale( value ) );
+            disableBrush = false;
+            if ( brushRange[0] >= axisRange[1] ) {
+                disableBrush = true;
+                brushRange[0] = axisRange[1] - ( axisRange[1] - axisRange[0] ) / 10;
+                brushRange[1] = axisRange[1];
+            } else if ( brushRange[1] <= axisRange[0] ) {
+                disableBrush = true;
+                brushRange[1] = axisRange[0] + ( axisRange[1] - axisRange[0] ) / 10;
+                brushRange[0] = axisRange[0];
+            } else {
+                if ( brushRange[0] < axisRange[0] ) {
+                    brushRange[0] = axisRange[0];
+                } else if ( brushRange[1] > axisRange[1] ) {
+                    brushRange[1] = axisRange[1];
+                }
+                if ( brushRange[0] === axisRange[0] && brushRange[1] === axisRange[1] ) {
+                    disableBrush = true;
+                }
+            }
+            if ( disableBrush ) {
+                this.enableDisableBrush( _brushes[index].id, false, true );
+                _brushes[index].resetBrush( brushRange[0] );
+                _brushes[index].setBrushEnd( brushRange[1] );
+            } else {
+                _brushes[index].setNewBounds( brushRange );
+            }
+        } );
     };
 
     // Prepares to handle panning gesture.

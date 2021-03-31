@@ -51,13 +51,17 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
     };
 
     this.setAxisRange = function ( newRange ) {
+        var valueRanges = _brushManager.getBrushValueRanges();
         _attrScale.domain( newRange );
         _axisInnerGroup.call( _axis );
+        _brushManager.setBrushValueRanges( valueRanges );
     };
 
     this.setAxisPxRange = function ( newRange ) {
+        var valueRanges = _brushManager.getBrushValueRanges();
         _attrScale.range( newRange );
         _axisInnerGroup.call( _axis );
+        _brushManager.setBrushValueRanges( valueRanges );
     };
 
     this.getXY = function ( value ) {
@@ -86,8 +90,8 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _brushManager.enableDisableBrush( brushId, active );
     };
 
-    this.setBrushRange = function ( brushId, range ) {
-        _brushManager.setBrushRange( brushId, range );
+    this.setBrushValueRange = function ( brushId, valueRange ) {
+        _brushManager.setBrushValueRange( brushId, valueRange );
     };
 
     this.hideBrushHandles = function () {
