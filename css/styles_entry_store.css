@@ -1,167 +1,156 @@
 body {
-  margin: auto;
-  font-family: "Arial";
-  color: #f0f0f0;
+    margin: auto;
+    font-family: "Arial";
+    color: #f0f0f0;
 }
 
 #entryStoreTab {
-  width: 100% !important;
-  height: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
 }
 
 header.entryStore {
-  background-color: #252525;
-  height: auto;
-  display: grid;
-  grid-template:
-    "a" 70%
-    "b" 30%;
-
-  justify-items: center;
-
-  border-color: #525252;
-  border-bottom: solid;
-  border-width: 1px;
+    background-color: #252525;
+    height: auto;
+    display: grid;
+    grid-template: "a" 70% "b" 30%;
+    justify-items: center;
+    border-color: #525252;
+    border-bottom: solid;
+    border-width: 1px;
 }
 
 output.entryStore {
-  color: #f0f0f0;
-  grid-column-start: 1;
-  grid-column-end: 1;
-  grid-row-start: 1;
-  grid-row-end: 1;
-
-  font-size: 6em;
-
-  font-weight: 400;
-
-  margin: auto;
+    color: #f0f0f0;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    font-size: 6em;
+    font-weight: 400;
+    margin: auto;
 }
 
 label.entryStoreHeader {
-  color: #f0f0f0;
-  grid-column-start: 1;
-  grid-column-end: 1;
-  grid-row-start: 2;
-  grid-row-end: 3;
-
-  font-size: 2em;
+    color: #f0f0f0;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    font-size: 2em;
 }
 
 main.entryStore {
-  height: 90%;
-  background-color: #252525;
-  overflow-y: scroll;
-  /* font-size: xxx-large; */
+    height: 90%;
+    background-color: #252525;
+    overflow-y: scroll;
+    /* font-size: xxx-large; */
 }
 
 ol.entryStore {
-  margin: 0%;
-  padding: 6%;
-  list-style-type: none;
+    margin: 0%;
+    padding: 6%;
+    list-style-type: none;
 }
+
 li {
-  margin: 3% 3%;
-  padding: 3% 3%;
-  display: grid;
-  grid-template-columns: 2fr 8fr 1fr;
-  align-items: center;
-  cursor: move;
+    margin: 3% 3%;
+    padding: 3% 3%;
+    display: grid;
+    grid-template-columns: 2fr 8fr 1fr;
+    align-items: center;
+    cursor: move;
 }
 
 label.entryStoreContainer {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  margin: auto;
-
-  height: 100%;
-  width: 50%;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    margin: auto;
+    height: 100%;
+    width: 50%;
 }
 
 label.entryText {
-  font-size: 5em;
-  font-weight: 100;
-
-  grid-column-start: 2;
-  grid-column-end: 3;
-
-  text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    font-size: 5em;
+    font-weight: 100;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /*
 label.entryColor {
 */
 .entryColor {
-  width: 50px;
-  height: 50px;
-  /*margin-top: 8pc; */
-  border: 2px solid #525252;
-  border-radius: 50%;
-  cursor: initial ;
+    width: 50px;
+    height: 50px;
+    /*margin-top: 8pc; */
+    border: 2px solid #525252;
+    border-radius: 50%;
+    cursor: initial;
 }
 
 /* The container */
 .entryStoreContainer {
-  display: block;
-  position: relative;
-
-  cursor: initial;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    display: block;
+    position: relative;
+    cursor: initial;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* Hide the browser's default checkbox */
 input.entryStoreContainer {
-  position: absolute;
-  opacity: 0;
-  cursor: initial;
-  height: 100%;
-  width: 100%;
+    position: absolute;
+    opacity: 0;
+    cursor: initial;
+    height: 100%;
+    width: 100%;
 }
 
 /* Create a custom checkbox */
-span.entryStoreCheckmark{
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: #252525;
-  border-bottom: 3px solid #525252;
+span.entryStoreCheckmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #252525;
+    border-bottom: 3px solid #525252;
 }
 
 /* When the checkbox is checked, add a blue background */
 .entryStoreContainer input:checked ~ .entryStoreCheckmark {
-  background-color: #252525;
+    background-color: #252525;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .entryStoreContainer :after {
-  content: "";
-  position: absolute;
-  display: none;
+    content: "";
+    position: absolute;
+    display: none;
 }
 
 /* Show the checkmark when checked */
 .entryStoreContainer input:checked ~ .entryStoreCheckmark:after {
-  display: block;
+    display: block;
 }
 
 /* Style the checkmark/indicator */
 .entryStoreContainer .entryStoreCheckmark:after {
-  left: 50%;
-  top: 15%;
-  width: 20%;
-  height: 50%;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate( 45deg );
-  -ms-transform: rotate( 45deg );
-  transform: rotate( 45deg );
+    left: 50%;
+    top: 15%;
+    width: 20%;
+    height: 50%;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate( 45deg );
+    -ms-transform: rotate( 45deg );
+    transform: rotate( 45deg );
 }

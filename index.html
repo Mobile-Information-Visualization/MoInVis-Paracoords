@@ -52,14 +52,14 @@
                 <transition-group class="axisStore" key="axesArray" id="simpleList" name="flip-list" tag="ul">
 
                     <!-- <div key="panelBoxParent" class="focusPanelParent" :style="{width: boxWidth.long +'px',height: boxHeight * notSortableIndexFrom + 'px'}"> -->
-                        <div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: (boxHeight * getNumberAxesInFocus) + 'px'}">
+                    <div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: (boxHeight * getNumberAxesInFocus) + 'px'}">
 
-                            <label class="drag-handle-focusPanel" id="drag-handle-focusPanel">
-                                &duhar;
-                            </label>
-                            <label class="focusPanelBar" :style="{width: boxWidth.short/8 +'px' }"></label>
+                        <label class="drag-handle-focusPanel" id="drag-handle-focusPanel">
+                            &duhar;
+                        </label>
+                        <label class="focusPanelBar" :style="{width: boxWidth.short/8 +'px' }"></label>
 
-                        </div>
+                    </div>
 
                     <!-- </div> -->
 
@@ -70,7 +70,7 @@
                         <label class="my-handle" :class="{disable: !item.visible}">&duhar;  </label>
                         <label class="container">
 
-                            <input class="axisStore" type="checkbox" checked="checked" :id="item.attribute" v-model="item.visible" @change="check($event, item, index)"  >
+                            <input class="axisStore" type="checkbox" checked="checked" :id="item.attribute" v-model="item.visible" @change="check($event, item, index)">
                             <span class="checkmark"></span>
 
                         </label>
@@ -82,23 +82,23 @@
             </main>
         </div>
         <div id="entryStoreTab">
-          <header class="entryStore">
-            <output class="entryStore">{{ totalEntries }}</output>
-            <label class="entryStoreHeader">Total entries</label>
-          </header>
-          <main class="entryStore">
-            <ol class="entryStore">
-              <li v-for="entry in entries" :key = "entry">
-                <label class="entryStoreContainer">
-                  <input class="entryStore" type="checkbox" checked="checked" :id ="entry.attribute" v-model="entry.visible"
-                  @change=changed(entry)>
-                  <span class="entryStoreCheckmark"></span>
-                </label>
-                <label class="entryText" for="entry.itemText" >{{ entry.itemText }}</label>
-                <div class="entryColor" :style="{ backgroundColor: getEntryColor(entry) }" ></div>
-                </label>
-              </li>
-          </main>
+            <header class="entryStore">
+                <output class="entryStore">{{ totalEntries }}</output>
+                <label class="entryStoreHeader">Total entries</label>
+            </header>
+            <main class="entryStore">
+                <ol class="entryStore">
+                    <li v-for="entry in entries" :key="entry">
+                        <label class="entryStoreContainer">
+                            <input class="entryStore" type="checkbox" checked="checked" :id="entry.attribute" v-model="entry.visible"
+                                   @change=changed(entry)>
+                            <span class="entryStoreCheckmark"></span>
+                        </label>
+                        <label class="entryText" for="entry.itemText">{{ entry.itemText }}</label>
+                        <div class="entryColor" :style="{ backgroundColor: getEntryColor(entry) }"></div>
+                    </li>
+                </ol>
+            </main>
         </div>
         <div id="brushSetterOverlay">
             <div id="brushSetterOverlayInner">
