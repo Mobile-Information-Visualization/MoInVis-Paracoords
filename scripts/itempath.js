@@ -41,7 +41,6 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         _emphasis = true;
     };
 
-    this.colour = '#FFFFFF'
     this.visible = true;
 
     this.setVisibility = function ( visible ) {
