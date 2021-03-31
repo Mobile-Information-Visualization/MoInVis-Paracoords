@@ -88,7 +88,7 @@
             </header>
             <main class="entryStore">
                 <ol class="entryStore">
-                    <li v-for="entry in entries" :key="entry">
+                    <li class="entryStore" v-for="entry in entries" :key="entry">
                         <label class="entryStoreContainer">
                             <input class="entryStore" type="checkbox" checked="checked" :id="entry.attribute" v-model="entry.visible"
                                    @change=changed(entry)>
