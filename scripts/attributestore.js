@@ -275,6 +275,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
         d3.select( '.focusPanel.draggable' )
             .transition()
             .style( 'transform', `translate(${_focusPanelStartPosition.x}px, ${_focusPanelStartPosition.y}px)` );
+        //update axesArray when removing axes from main 
+        _vueData.axesArray.splice( 0, 0, _vueData.axesArray.splice( 0, 1 )[0] );
     };
 };
 
