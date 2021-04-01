@@ -59,7 +59,7 @@ header.axisStore {
 
 .undoButton {
     background-color: #252525;
-    color: #737373;
+    color: #f0f0f0;
     grid-column-start: 5;
     grid-column-end: 6;
     margin: auto;
@@ -67,6 +67,10 @@ header.axisStore {
     font-weight: 100;
     border: none;
 }
+
+    .undoButton.disableButton {
+        color: #797979;
+    }
 
 .minusButton,
 .plusButton,

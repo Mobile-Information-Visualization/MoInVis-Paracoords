@@ -55,7 +55,7 @@
                 <output class="totalAxesInFocus">{{getNumberAxesInFocus}}</output>
                 <button class="plusButton" :class="{disableButton: !isPlusButtonDisabled}" @click="increaseNumber" :disabled="!isPlusButtonDisabled">&plus;</button>
 
-                <button class="undoButton" disabled>&#9100;</button>
+                <button :class="'undoButton' + (undoButtonEnabled?'':' disableButton')" @click="undo" :disabled="!undoButtonEnabled">&#9100;</button>
             </header>
             <main class="axisStore axesLists">
 
@@ -172,6 +172,7 @@
         </div>
     </div>
     <script type="text/javascript" src="scripts/util.js"></script>
+    <script type="text/javascript" src="scripts/actionmanager.js"></script>
     <script type="text/javascript" src="scripts/datahandler.js"></script>
     <script type="text/javascript" src="scripts/button.js"></script>
     <script type="text/javascript" src="scripts/contextindicator.js"></script>
