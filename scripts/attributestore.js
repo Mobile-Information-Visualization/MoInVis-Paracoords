@@ -98,36 +98,13 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                     return evt.related.className.indexOf( 'unchecked' ) === -1;
                 },
                 onEnd: function ( evt ) {
-                    let order = _sortable.toArray(), prevEl, el;
-
-                    //evt.oldIndex;  // element's old index within old parent
-                    //evt.newIndex;  // element's new index within new parent
-                    //if ( evt.newIndex === 1 ) {
-                    //    _vueData.axesArray.splice( 0, 0, _vueData.axesArray.splice( evt.oldIndex - 1, 1 )[0] );
-                    //} else {
-                    //    prevEl = _vueData.axesArray[evt.newIndex - 1];
-                    //    el = _vueData.axesArray.splice( evt.oldIndex - 1, 1 )[0];
-                    //    if ( prevEl === el ) {
-                    //        _vueData.axesArray.splice( evt.newIndex - 1, 0, el );
-                    //    } else {
-                    //        _vueData.axesArray.splice( _vueData.axesArray.indexOf( prevEl ) + 1, 0, el );
-
-                    //    }
-                    //}
+                    let order = _sortable.toArray();
 
                     _addAction( _undoReorder, undefined, [_axes.map( axis => axis.attribute )] );
 
                     order.forEach( ( name, index ) => {
                         _vueData.axesArray.splice( index, 0, _vueData.axesArray.splice( _vueData.axesArray.findIndex( axis => axis.attribute === name ), 1 )[0] );
                     } );
-                    //_axes.sort( function ( firstEl, secondEl ) {
-                    //    let first = firstEl.attribute, second = secondEl.attribute;
-                    //    if ( order.indexOf( first ) > order.indexOf( second ) ) {
-                    //        return 1;
-                    //    } else {
-                    //        return -1;
-                    //    }
-                    //} );
 
                     //call to redraw  
                     self.moin.paraCoorderRedrawReq = true;
