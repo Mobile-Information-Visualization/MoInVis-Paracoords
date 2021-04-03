@@ -131,7 +131,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                 autoScroll: {
                     container: document.querySelector( 'main.axisStore' ),
                     margin: 50,
-                    distance: 0,
+                    distance: 5,
                     interval: 10,
                     speed: 600
                 },

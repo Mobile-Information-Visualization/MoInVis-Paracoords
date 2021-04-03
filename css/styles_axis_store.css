@@ -89,7 +89,6 @@ ul.axisStore {
   margin: 3%;
   padding: 0%;
   list-style-type: none;
-  position: relative;
 }
 
 li {
@@ -191,11 +190,11 @@ label.container {
   transform: rotate(45deg);
 }
 
-.focusPanelParent {
+/* .focusPanelParent {
   position: absolute;
   touch-action: none;
   user-select: none;
-}
+} */
 
 .focusPanel {
   position: absolute;
