@@ -112,8 +112,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
             interact( '.draggable' ).draggable( {
                 startAxis: 'y',
                 // lockAxis: 'y',
-                inertia: true,
-                hold: 10,
+                // inertia: true,
+                hold: 1,
                 // allowFrom: '.focusPanel',
                 modifiers: [
                     interact.modifiers.snap( {
@@ -124,14 +124,16 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                         offset: 'parent',
                     } ),
                     interact.modifiers.restrictRect( {
-                        restriction: 'parent'
+                        restriction: 'parent',
+                        endOnly: true,
+                        elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
                     } ),
                 ],
                 // enable autoScroll
                 autoScroll: {
                     container: document.querySelector( 'main.axisStore' ),
-                    margin: 50,
-                    distance: 5,
+                    margin: 10,
+                    distance: 50,
                     interval: 10,
                     speed: 600
                 },
