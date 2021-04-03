@@ -80,13 +80,22 @@ MoInVis.Paracoords.dataHandler = ( function () {
 
             // Extract data from the JSON files.
             _extractData( MoInVis.Paracoords.Data.totalWaste, 'totalWaste', 'Total Waste' );
+            _extractData( MoInVis.Paracoords.Data.primaryWaste, 'primaryWaste', 'Primary Waste' );
             _extractData( MoInVis.Paracoords.Data.secondaryWaste, 'secondaryWaste', 'Secondary Waste' );
             _extractData( MoInVis.Paracoords.Data.rubberWaste, 'rubberWaste', 'Rubber Waste' );
-            _extractData( MoInVis.Paracoords.Data.primaryWaste, 'primaryWaste', 'Primary Waste' );
             _extractData( MoInVis.Paracoords.Data.glassWaste, 'glassWaste', 'Glass Waste' );
             _extractData( MoInVis.Paracoords.Data.healthCareBioWaste, 'healthCareBioWaste', 'HC/Bio Waste' );
             _extractData( MoInVis.Paracoords.Data.plasticWaste, 'plasticWaste', 'Plastic Waste' );
             _extractData( MoInVis.Paracoords.Data.chemWaste, 'chemWaste', 'Chemical Waste' );
+            _extractData( MoInVis.Paracoords.Data.paperCardboardWaste, 'paperCardboardWaste', 'Paper & Cardboard Waste' );
+            _extractData( MoInVis.Paracoords.Data.textileWaste, 'textileWaste', 'Textile Waste' );
+            _extractData( MoInVis.Paracoords.Data.discardedVehicles, 'discardedVehicles', 'Discarded Vehicles' );
+            _extractData( MoInVis.Paracoords.Data.animalAndMixedFoodWaste, 'animalAndMixedFoodWaste', 'Animal & Mixed Food Waste' );
+            _extractData( MoInVis.Paracoords.Data.animalFaecesUrineAndManure, 'animalFaecesUrineAndManure', 'Animal Faeces, Urine & Manure' );
+            _extractData( MoInVis.Paracoords.Data.vegetalWaste, 'vegetalWaste', 'Vegetal Waste' );
+            _extractData( MoInVis.Paracoords.Data.householdAndSimilarWaste, 'householdAndSimilarWaste', 'Household & Similar Waste' );
+            _extractData( MoInVis.Paracoords.Data.metalWasteFerrousAndNon, 'metalWasteFerrousAndNon', 'Metal Waste (Ferrous & Non)' );
+            _extractData( MoInVis.Paracoords.Data.woodWaste, 'woodWaste', 'Wood Waste' );
 
             // [TODO]: Source more data, or the right data.
 
@@ -96,6 +105,6 @@ MoInVis.Paracoords.dataHandler = ( function () {
     _initData();
     // Accessible object stored as MoInVis.Paracoords.dataHandler
     return {
-        // Return functions to the outside to access in case of later data handlign scenarios.
+        // Return functions to the outside to access in case of later data handling scenarios.
     };
 } )();

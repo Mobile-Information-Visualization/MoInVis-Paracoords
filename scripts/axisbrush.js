@@ -268,6 +268,26 @@ MoInVis.Paracoords.axisBrush = function ( brushParent, id, brushHeight ) {
             .attr( 'transform', 'translate(' + _brushStart + ',' + ( _brushHeight / 2 ) + ')' );
     };
 
+    this.setNewBounds = function ( newBounds ) {
+        _brushStart = newBounds[0];
+        _brushEnd = newBounds[1];
+
+        _brushRect
+            .transition()
+            .duration( MoInVis.Paracoords.NormalTransitionSpeed )
+            .attr( 'x', _brushStart )
+            .attr( 'width', _brushEnd - _brushStart );
+
+        _tapCapturer
+            .attr( 'x', _brushStart )
+            .attr( 'width', _brushEnd - _brushStart );
+
+        _handleEndGrp
+            .attr( 'transform', 'translate(' + _brushEnd + ',' + ( -_brushHeight / 2 ) + ')' );
+        _handleStartGrp
+            .attr( 'transform', 'translate(' + _brushStart + ',' + ( _brushHeight / 2 ) + ')' );
+    };
+
     // Moves active handle of the brush.
     this.moveBrushHandle = function ( handlePos ) {
         if ( _ehInteraction ) {
