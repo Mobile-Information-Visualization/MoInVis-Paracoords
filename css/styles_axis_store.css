@@ -1,194 +1,194 @@
 #attrStoreTab {
-  width: 100% !important;
-  height: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
 }
 
 header.axisStore {
-  background-color: #252525;
-  height: 10%;
-  display: grid;
-  grid-template-columns: 1fr repeat(3, 1fr) 1fr;
-  justify-items: center;
-  border-color: #525252;
-  border-bottom: solid;
-  border-width: 1px;
+    background-color: #252525;
+    height: 10%;
+    display: grid;
+    grid-template-columns: 1fr repeat(3, 1fr) 1fr;
+    justify-items: center;
+    border-color: #525252;
+    border-bottom: solid;
+    border-width: 1px;
 }
 
 .minusButton {
-  background-color: #252525;
-  color: #f0f0f0;
-  grid-column-start: 2;
-  grid-column-end: 3;
-  margin: auto;
-  font-size: 6em;
-  font-weight: 100;
-  padding: 0 10%;
-  border-top: none;
-  border-bottom: none;
-  border-left: none;
-  border-right: solid;
-  border-color: #525252;
+    background-color: #252525;
+    color: #f0f0f0;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    margin: auto;
+    font-size: 6em;
+    font-weight: 100;
+    padding: 0 10%;
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+    border-right: solid;
+    border-color: #525252;
 }
 
 .totalAxesInFocus {
-  color: #f0f0f0;
-  grid-column-start: 3;
-  grid-column-end: 4;
-  font-size: 64px;
-  font-weight: 400;
-  border: none;
-  border-color: #525252;
-  margin: auto;
+    color: #f0f0f0;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    font-size: 64px;
+    font-weight: 400;
+    border: none;
+    border-color: #525252;
+    margin: auto;
 }
 
 .plusButton {
-  background-color: #252525;
-  color: #f0f0f0;
-  grid-column-start: 4;
-  grid-column-end: 5;
-  margin: auto;
-  font-size: 6em;
-  font-weight: 100;
-  padding: 0 10%;
-  border-top: none;
-  border-bottom: none;
-  border-right: none;
-  border-left: solid;
-  border-color: #525252;
+    background-color: #252525;
+    color: #f0f0f0;
+    grid-column-start: 4;
+    grid-column-end: 5;
+    margin: auto;
+    font-size: 6em;
+    font-weight: 100;
+    padding: 0 10%;
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+    border-left: solid;
+    border-color: #525252;
 }
 
 .undoButton {
-  background-color: #252525;
-  color: #737373;
-  grid-column-start: 5;
-  grid-column-end: 6;
-  margin: auto;
-  font-size: 6em;
-  font-weight: 100;
-  border: none;
+    background-color: #252525;
+    color: #737373;
+    grid-column-start: 5;
+    grid-column-end: 6;
+    margin: auto;
+    font-size: 6em;
+    font-weight: 100;
+    border: none;
 }
 
 .minusButton,
 .plusButton,
 .undoButton {
-  text-align: center;
-  text-decoration: none;
+    text-align: center;
+    text-decoration: none;
 }
 
 main.axisStore {
-  height: 90%;
-  background-color: #252525;
-  overflow-y: scroll;
+    height: 90%;
+    background-color: #252525;
+    overflow-y: scroll;
 }
 
 .disableButton {
-  color: #252525;
+    color: #252525;
 }
 
 ul.axisStore {
-  margin: 3%;
-  padding: 0%;
-  list-style-type: none;
-  position: relative;
+    margin: 3%;
+    padding: 0%;
+    list-style-type: none;
+    position: relative;
 }
 
 li {
-  /* margin: 3% 3%; */
-  padding: 3% 3%;
-  display: grid;
-  grid-template-columns: 1fr 7fr 1fr 1fr;
-  align-items: center;
-  cursor: move;
+    /* margin: 3% 3%; */
+    padding: 3% 3%;
+    display: grid;
+    grid-template-columns: 1fr 7fr 1fr 1fr;
+    align-items: center;
+    cursor: move;
 }
 
 label.my-handle {
-  grid-column-start: 3;
-  grid-column-end: 4;
-  text-align: center;
-  font-size: 3em;
-  cursor: move;
-  cursor: -webkit-grabbing;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    text-align: center;
+    font-size: 3em;
+    cursor: move;
+    cursor: -webkit-grabbing;
 }
 
 label.attribute {
-  font-size: 3em;
-  font-weight: lighter;
-  grid-column-start: 2;
-  grid-column-end: 3;
-  text-align: left;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  padding-left: 3%;
+    font-size: 3em;
+    font-weight: lighter;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 3%;
 }
 
 label.container {
-  grid-column-start: 4;
-  grid-column-end: 5;
-  margin-left: auto;
-  height: 100%;
-  width: 50%;
+    grid-column-start: 4;
+    grid-column-end: 5;
+    margin-left: auto;
+    height: 100%;
+    width: 50%;
 }
 /* The container */
 .container {
-  display: block;
-  position: relative;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* Hide the browser's default checkbox */
 .container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 100%;
-  width: 100%;
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
 }
 
 /* Create a custom checkbox */
 .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: #252525;
-  border-bottom: 3px solid #525252;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #252525;
+    border-bottom: 3px solid #525252;
 }
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-  background-color: #252525;
+    background-color: #252525;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
+    content: "";
+    position: absolute;
+    display: none;
 }
 
 /* Show the checkmark when checked */
 .container input:checked ~ .checkmark:after {
-  display: block;
+    display: block;
 }
 
 /* Style the checkmark/indicator */
 .container .checkmark:after {
-  left: 50%;
-  top: 15%;
-  width: 20%;
-  height: 50%;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+    left: 50%;
+    top: 15%;
+    width: 20%;
+    height: 50%;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
 /* .focusPanelParent {
@@ -198,44 +198,44 @@ label.container {
 } */
 
 .focusPanel {
-  position: absolute;
-  touch-action: none;
-  user-select: none;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  /* align-items: center; */
-  cursor: move;
-  /* display: flex; */
-  align-items: center;
-  /* justify-content: left; */
+    position: absolute;
+    touch-action: none;
+    user-select: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* align-items: center; */
+    cursor: move;
+    /* display: flex; */
+    align-items: center;
+    /* justify-content: left; */
 }
 
 .drag-handle-focusPanel {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  text-align: center;
-  font-size: 5em;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    text-align: center;
+    font-size: 5em;
 }
 
 .focusPanelBar {
-  grid-column-start: 2;
-  grid-column-end: 3;
-  background-color: #ffa50030;
-  height: 100%;
-  margin-left: auto;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    background-color: #ffa50030;
+    height: 100%;
+    margin-left: auto;
 }
 
 .list-enter-active,
 .list-leave-active {
-  transition: all 1s ease;
+    transition: all 1s ease;
 }
 
 .list-enter-from,
 .list-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 .flip-list-move {
-  transition: transform 1s;
+    transition: transform 1s;
 }
