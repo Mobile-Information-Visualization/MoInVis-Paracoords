@@ -70,7 +70,7 @@ MoInVis.Paracoords.actionManager = function ( item ) {
             }
         } );
         _actions = [];
-    }
+    };
 };
 
 MoInVis.Paracoords.action = function ( functionToCall, context, params ) {

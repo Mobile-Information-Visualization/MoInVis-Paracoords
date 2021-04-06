@@ -69,14 +69,14 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                 handle: '.my-handle',
                 dataIdAttr: 'id',
                 direction: 'vertical',
-            
+
                 filter: ".disable",
 
                 scroll: true, // Enable the plugin. Can be HTMLElement.
-	            // scrollFn: function(offsetX, offsetY, originalEvent, touchEvt, hoverTargetEl) {  }, // if you have custom scrollbar scrollFn may be used for autoscrolling
-	            scrollSensitivity: 100, // px, how near the mouse must be to an edge to start scrolling.
-	            scrollSpeed: 10, // px, speed of the scrolling
-	            // bubbleScroll: true,// apply autoscroll to all parent elements, allowing for easier movement
+                // scrollFn: function(offsetX, offsetY, originalEvent, touchEvt, hoverTargetEl) {  }, // if you have custom scrollbar scrollFn may be used for autoscrolling
+                scrollSensitivity: 100, // px, how near the mouse must be to an edge to start scrolling.
+                scrollSpeed: 10, // px, speed of the scrolling
+                // bubbleScroll: true,// apply autoscroll to all parent elements, allowing for easier movement
                 forceFallback: false,
 
                 delay: 50,
