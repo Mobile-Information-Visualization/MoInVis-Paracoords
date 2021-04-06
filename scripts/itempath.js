@@ -18,10 +18,12 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         _pathElement,
         _paracoorder = paracoorder,
         _id,
-        _transitionSpeed = MoInVis.Paracoords.TransitionSpeed,
         _chosenYear,
         _pathWidth = 2,
         _points = [],
+        _emphasis,
+        _emphasizedAlpha = 1,
+        _unemphasizedAlpha = 0.25,
         _colour = '#FFFFFF';
 
     this.itemName = itemName;
@@ -36,6 +38,7 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         this.data = data.data;
         _chosenYear = chosenYear;
         _colour = colour;
+        _emphasis = true;
     };
 
     this.visible = true;
@@ -63,25 +66,53 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
             .attr( "fill", "none" );
     };
 
-    this.recalculate = function () {
-        _points = _paracoorder.getPathPoints( this.itemName );
-        _pathElement
-            .transition()
-            .duration( _transitionSpeed )
-            .attr( "d", d3.line()( _points ) );
+    this.recalculate = function ( dontAnimate ) {
+        let pointsInfo = _paracoorder.getPathPointsInfo( this.itemName );
+        _points = pointsInfo.points;
+        _emphasis = pointsInfo.emphasis;
+        _pathElement.attr( 'opacity', _emphasis ? _emphasizedAlpha : _unemphasizedAlpha );
+        if ( dontAnimate === true ) {
+            _pathElement
+                .attr( 'd', d3.line()( _points ) );
+        } else {
+            _pathElement
+                .transition()
+                .duration( MoInVis.Paracoords.TransitionSpeed )
+                .ease( d3.easeCubicOut )
+                .attr( 'd', d3.line()( _points ) );
+        }
     };
 
-    this.transitionY = function () {
-        //this.yPos = newY;
-        //_axisGroup
-        //    .transition()
-        //    .duration( _transitionSpeed)
-        //    .attr( 'transform', 'translate(0,' + this.yPos + ')' );
+    // Emphasizes or de-emphasizes the path.
+    this.setEmphasis = function ( emphasis ) {
+        if ( emphasis ) {
+            _pathElement.attr( 'opacity', _emphasizedAlpha );
+            _emphasis = emphasis;
+        } else {
+            _pathElement.attr( 'opacity', _unemphasizedAlpha );
+            _emphasis = emphasis;
+        }
     };
 
-    this.setY = function () {
-        //this.yPos = newY;
-        //_axisGroup
-        //    .attr( 'transform', 'translate(0,' + this.yPos + ')' );
+    this.getEmphasis = function () {
+        return _emphasis;
     };
+
+    this.getCurrentAlpha = function () {
+        if ( _emphasis ) {
+            return _emphasizedAlpha;
+        }
+        else {
+            return _unemphasizedAlpha;
+        }
+    };
+
+    this.getColour = this.getColor = function () {
+        return _colour;
+    };
+
+    this.getId = function () {
+        return _id;
+    };
+
 };

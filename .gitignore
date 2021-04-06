@@ -8,10 +8,9 @@
 .vs/VSWorkspaceState.json
 HammerJSTrial/startserver.bat
 startserver.bat
-
-
 .eslintrc.json
-node_modules/*
+node_modules/
 package-lock.json
 package.json
 scripts/.eslintrc.js
+.idea/*
