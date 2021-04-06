@@ -332,6 +332,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         _setVisibleAxes = function () {
             _visibleAxes = self.axes.filter( axis => axis.visible );
+            _updateIndicesOfVisibleAxes();
         },
 
         /* var in _resetAxesRanges
@@ -1007,7 +1008,12 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 _visibleAxes[index].setX( horizontalShift );
             }
 
+            // Send invisible axis to bottom of axes list.
+            self.axes.splice( self.axes.findIndex( axis => axis === _visibleAxes[index] ), 1 );
+            self.axes.push( _visibleAxes[index] );
+
             // Remove axis from stored array.
+            _visibleAxes[index].setVisibility( false );
             _visibleAxes.splice( index, 1 );
             // Update indices of axes.
             _updateIndicesOfVisibleAxes();

@@ -69,15 +69,15 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                 handle: '.my-handle',
                 dataIdAttr: 'id',
                 direction: 'vertical',
-                forceFallback: false,
-                scroll: true,
-                scrollSensitivity: 200,
-                scrollSpeed: 10,
+            
                 filter: ".disable",
 
-                scrollFn: function ( offsetX, offsetY, originalEvent, touchEvt, hoverTargetEl ) {
-
-                },
+                scroll: true, // Enable the plugin. Can be HTMLElement.
+	            // scrollFn: function(offsetX, offsetY, originalEvent, touchEvt, hoverTargetEl) {  }, // if you have custom scrollbar scrollFn may be used for autoscrolling
+	            scrollSensitivity: 100, // px, how near the mouse must be to an edge to start scrolling.
+	            scrollSpeed: 10, // px, speed of the scrolling
+	            // bubbleScroll: true,// apply autoscroll to all parent elements, allowing for easier movement
+                forceFallback: false,
 
                 delay: 50,
                 touchStartThreshold: 30,
@@ -114,9 +114,10 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
             //draggable focus panel
             interact( '.draggable' ).draggable( {
                 startAxis: 'y',
-                lockAxis: 'y',
-                inertia: true,
-                // allowFrom: '.drag-handle-focusPanel',
+                // lockAxis: 'y',
+                // inertia: true,
+                hold: 1,
+                // allowFrom: '.focusPanel',
                 modifiers: [
                     interact.modifiers.snap( {
                         targets: [
@@ -126,14 +127,16 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                         offset: 'parent',
                     } ),
                     interact.modifiers.restrictRect( {
-                        restriction: 'parent'
+                        restriction: 'parent',
+                        endOnly: true,
+                        elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
                     } ),
                 ],
                 // enable autoScroll
                 autoScroll: {
                     container: document.querySelector( 'main.axisStore' ),
-                    margin: 50,
-                    distance: 0,
+                    margin: 10,
+                    distance: 50,
                     interval: 10,
                     speed: 600
                 },
