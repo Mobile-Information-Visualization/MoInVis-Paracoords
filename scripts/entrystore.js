@@ -35,6 +35,8 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
                 };
             _vueMethods = {
                 changed: _changed,
+                setAllVisible: _setAllVisible,
+                setAllInvisible: _setAllInvisible,
                 getEntryColor: _getEntryColor
             };
             vueStuff = self.initVue( vueData, _vueMethods );
@@ -45,10 +47,31 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
         _changed = function ( entry ) {
             entry.setVisibility( entry.visible );
             self.moin.paraCoorderRedrawReq = true;
+            console.log(entry.itemText + " is now " + entry.visible);
         },
 
         _getEntryColor = function ( entry ) {
             return entry.getColor();
+        };
+
+        _setAllVisible = function () {
+          console.log("Set all visible");
+          for (entry in entries) {
+            console.log(entry.itemText + " :  " + entry.visible);
+            if (entry.visible){
+              _changed(entry);
+            }
+          }
+        };
+
+        _setAllInvisible = function () {
+          console.log("Hide all");
+          for (entry in entries) {
+            console.log(entry.itemText + " :  " + entry.visible);
+            if (entry.visible){
+              _changed(entry);
+            }
+          }
         };
 
     _init();
