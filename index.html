@@ -93,6 +93,8 @@
         </div>
         <div id="entryStoreTab">
             <header class="entryStore">
+                <button class="entryVisible" @click="setAllVisible">VisibleAll</button>
+                <button class="entryHide" @click="setAllVisible">HideAll</button>
                 <output class="entryStore">{{ totalEntries }}</output>
                 <label class="entryStoreHeader">Total entries</label>
             </header>

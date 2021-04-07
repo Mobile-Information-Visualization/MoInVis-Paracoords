@@ -14,6 +14,27 @@ header.entryStore {
     border-width: 1px;
 }
 
+.entryVisible {
+    background-color: #252525;
+    color: #f0f0f0;
+    grid-column-start: 5;
+    grid-column-end: 6;
+    margin: auto;
+    font-size: 3em;
+    font-weight: 100;
+    border: none;
+}
+
+.entryHide {
+    background-color: #252525;
+    color: #f0f0f0;
+    grid-column-start: 7;
+    grid-column-end: 8;
+    margin: auto;
+    font-size: 3em;
+    font-weight: 100;
+    border: none;
+}
 output.entryStore {
     color: #f0f0f0;
     grid-column-start: 1;
@@ -28,7 +49,7 @@ output.entryStore {
 label.entryStoreHeader {
     color: #f0f0f0;
     grid-column-start: 1;
-    grid-column-end: 1;
+    grid-column-end: 2;
     grid-row-start: 2;
     grid-row-end: 3;
     font-size: 2em;
