@@ -1,17 +1,23 @@
 #entryStoreTab {
     width: 100% !important;
     height: 100% !important;
+
+    margin: auto;
+    font-family: "Helvetica", sans-serif;
+    color: #f0f0f0;
 }
 
 header.entryStore {
-    background-color: #252525;
+    background-color: rgb(50, 50, 50);
     height: auto;
     display: grid;
-    grid-template: "a" 70% "b" 30%;
+    grid-template: "a" 50% "b" 50%;
     justify-items: center;
     border-color: #525252;
     border-bottom: solid;
     border-width: 1px;
+
+    height: 10%;
 }
 
 .entryVisible {
@@ -39,9 +45,9 @@ output.entryStore {
     color: #f0f0f0;
     grid-column-start: 1;
     grid-column-end: 1;
-    grid-row-start: 1;
-    grid-row-end: 1;
-    font-size: 6em;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    font-size: 64px;
     font-weight: 400;
     margin: auto;
 }
@@ -49,17 +55,17 @@ output.entryStore {
 label.entryStoreHeader {
     color: #f0f0f0;
     grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 3;
-    font-size: 2em;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    font-size: 3em;
+    margin: auto;
 }
 
 main.entryStore {
     height: 90%;
-    background-color: #252525;
+    background-color: rgb(50, 50, 50);
     overflow-y: scroll;
-    /* font-size: xxx-large; */
 }
 
 ol.entryStore {
@@ -86,7 +92,7 @@ label.entryStoreContainer {
 }
 
 label.entryText {
-    font-size: 5em;
+    font-size: 3em;
     font-weight: 100;
     grid-column-start: 2;
     grid-column-end: 3;
@@ -136,13 +142,13 @@ span.entryStoreCheckmark {
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: #252525;
+    background-color: rgb(50, 50, 50);
     border-bottom: 3px solid #525252;
 }
 
 /* When the checkbox is checked, add a blue background */
 .entryStoreContainer input:checked ~ .entryStoreCheckmark {
-    background-color: #252525;
+    background-color: rgb(50, 50, 50);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -165,7 +171,6 @@ span.entryStoreCheckmark {
     height: 50%;
     border: solid white;
     border-width: 0 3px 3px 0;
-    -webkit-transform: rotate( 45deg );
-    -ms-transform: rotate( 45deg );
-    transform: rotate( 45deg );
-}
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);

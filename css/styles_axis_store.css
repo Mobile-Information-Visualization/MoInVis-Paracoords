@@ -1,10 +1,14 @@
 #attrStoreTab {
     width: 100% !important;
     height: 100% !important;
+
+    margin: auto;
+    font-family: "Helvetica", sans-serif;
+    color: #f0f0f0;
 }
 
 header.axisStore {
-    background-color: #252525;
+    background-color: rgb(50, 50, 50);
     height: 10%;
     display: grid;
     grid-template-columns: 1fr repeat(3, 1fr) 1fr;
@@ -15,7 +19,7 @@ header.axisStore {
 }
 
 .minusButton {
-    background-color: #252525;
+    background-color: rgb(50, 50, 50);
     color: #f0f0f0;
     grid-column-start: 2;
     grid-column-end: 3;
@@ -42,7 +46,7 @@ header.axisStore {
 }
 
 .plusButton {
-    background-color: #252525;
+    background-color: rgb(50, 50, 50);
     color: #f0f0f0;
     grid-column-start: 4;
     grid-column-end: 5;
@@ -58,7 +62,7 @@ header.axisStore {
 }
 
 .undoButton {
-    background-color: #252525;
+    background-color: rgb(50, 50, 50);
     color: #f0f0f0;
     grid-column-start: 5;
     grid-column-end: 6;
@@ -68,9 +72,9 @@ header.axisStore {
     border: none;
 }
 
-    .undoButton.disableButton {
-        color: #797979;
-    }
+.undoButton.disableButton {
+    color: #797979;
+}
 
 .minusButton,
 .plusButton,
@@ -81,12 +85,12 @@ header.axisStore {
 
 main.axisStore {
     height: 90%;
-    background-color: #252525;
+    background-color: rgb(50, 50, 50);
     overflow-y: scroll;
 }
 
 .disableButton {
-    color: #252525;
+    color: rgb(50, 50, 50);
 }
 
 ul.axisStore {
@@ -161,13 +165,13 @@ label.container {
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: #252525;
+    background-color: rgb(50, 50, 50);
     border-bottom: 3px solid #525252;
 }
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-    background-color: #252525;
+    background-color: rgb(50, 50, 50);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */

@@ -18,7 +18,6 @@
 
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" type="text/css" href="css/styles_entry_store.css">
-    <link rel="stylesheet" type="text/css" href="css/styles_universal.css">
     <link rel="stylesheet" type="text/css" href="css/styles_inputrange.css">
     <link rel="stylesheet" type="text/css" href="css/styles_axis_store.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -99,7 +98,7 @@
                 <label class="entryStoreHeader">Total entries</label>
             </header>
             <main class="entryStore">
-                <ol class="entryStore">
+                <ol class="entryStore" id="entryListParent">
                     <li class="entryStore" v-for="entry in entries" :key="entry">
                         <label class="entryStoreContainer">
                             <input class="entryStore" type="checkbox" checked="checked" :id="entry.attribute" v-model="entry.visible"
