@@ -24,16 +24,14 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
     var self = this,
         _svgParent = svgParent,
         _parentDiv = parentDiv,
-        _tabHandle,
         _chosenYear = 2018, // Since we are concentrating on the year 2018. The data structure allows for storage of more than a year.
         _id = moin.id + '_svg',
-        _axisIndexMap,
         _visibleAxes = [],
         _axisHeight,
         _focusAndContextSettings = { // Settings for focus and context.
             focusIndex: 1,
             axesInContext: 2,
-            axesInFocus: 4,
+            axesInFocus: 3,
             maxAxesInFocus: 5,
             minAxesInFocus: 2,
             extraGapFactor: 7, // Factor indicating how much more space axes in focus have between each other w.r.t axes in context.
@@ -192,20 +190,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             linearGrad.appendChild( stopElement );
 
             defs.appendChild( linearGrad );
-        },
-
-        _getYPositionOfAttribute = function ( attr ) {
-            var yPos,
-                i,
-                length = self.axes.length;
-            // [TODO]: More efficient way of retrieving the axis needed.
-            for ( i = 0; i < length; i++ ) {
-                if ( self.axes[i].attribute === attr ) {
-                    yPos = self.axes[i].yPos;
-                    break;
-                }
-            }
-            return yPos;
         },
 
         // Calculates spacing of the axes based on the starting point of the focus.
@@ -842,11 +826,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             .attr( 'stroke-width', '1' )
             .attr( 'opacity', 0 )
             .attr( 'fill', 'black' );
-
-
-        //self.activateEvent( 'swipeup' );
-        //self.activateEvent( 'swipedown' );
-
 
         self.addEventType( 'Pan', { event: 'pan', pointers: 1, direction: Hammer.DIRECTION_VERTICAL, threshold: 50 } );
         self.addEvent( 'panmove', this.onInteraction );

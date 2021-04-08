@@ -15,6 +15,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
 
     var self = this,
         _parentDiv = parentDiv,
+        _hammerMan,
         _axes = axes,
         _focusContextSettings = focusContextSettings,
         _vueData,
@@ -98,16 +99,18 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                     return evt.related.className.indexOf( 'unchecked' ) === -1;
                 },
                 onEnd: function ( evt ) {
-                    let order = _sortable.toArray();
+                    if ( evt.newIndex !== evt.oldIndex ) {
+                        let order = _sortable.toArray();
 
-                    _addAction( _undoReorder, undefined, [_axes.map( axis => axis.attribute )] );
+                        _addAction( _undoReorder, undefined, [_axes.map( axis => axis.attribute )] );
 
-                    order.forEach( ( name, index ) => {
-                        _vueData.axesArray.splice( index, 0, _vueData.axesArray.splice( _vueData.axesArray.findIndex( axis => axis.attribute === name ), 1 )[0] );
-                    } );
+                        order.forEach( ( name, index ) => {
+                            _vueData.axesArray.splice( index, 0, _vueData.axesArray.splice( _vueData.axesArray.findIndex( axis => axis.attribute === name ), 1 )[0] );
+                        } );
 
-                    //call to redraw  
-                    self.moin.paraCoorderRedrawReq = true;
+                        //call to redraw  
+                        self.moin.paraCoorderRedrawReq = true;
+                    }
                 }
             } );
 
@@ -176,6 +179,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                     }
                 }
             } );
+
+            self.addSwipeHelper( d3.select( '#simpleList' ).node() );
         },
 
         //class function
@@ -203,6 +208,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
             // 'this' refer to the proxy of the sent data created by vue.
             if ( this.focusContextSettings.axesInFocus <= this.focusContextSettings.maxAxesInFocus && this.focusContextSettings.axesInFocus > this.focusContextSettings.minAxesInFocus ) {
                 _setNumberAxesInFocus( this.focusContextSettings.axesInFocus - 1 );
+                self.moin.paraCoorderRedrawReq = true;
             }
         },
 
@@ -211,6 +217,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
             if ( this.focusContextSettings.axesInFocus >= this.focusContextSettings.minAxesInFocus &&
                 this.focusContextSettings.axesInFocus < this.focusContextSettings.maxAxesInFocus && this.focusContextSettings.axesInFocus < this.notSortableIndexFrom ) {
                 _setNumberAxesInFocus( this.focusContextSettings.axesInFocus + 1 );
+                self.moin.paraCoorderRedrawReq = true;
             }
         },
 
@@ -364,8 +371,16 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
 
     // Called whenever this tab comes into focus.
     this.onTabFocus = function () {
+        // Forcing view update for _focusContextSettings.axesInFocus.
+        var temp = _focusContextSettings.axesInFocus;
+        _vueData.focusContextSettings.axesInFocus = 0;
+        _vueData.focusContextSettings.axesInFocus = temp;
+
         _adjustFocusPanel();
+
+        // Forcing view update for axesArray ordering.
         _vueData.axesArray.splice( 0, 0, _vueData.axesArray.splice( 0, 1 )[0] );
+
         _undoManager.cleanSlate();
         _vueData.undoButtonEnabled = _undoManager.hasActions();
     };

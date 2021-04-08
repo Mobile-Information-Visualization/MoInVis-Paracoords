@@ -40,6 +40,8 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
             vueStuff = self.initVue( vueData, _vueMethods );
             _vueApp = vueStuff.mainApp;
             _vueData = vueStuff.dataProxy;
+
+            self.addSwipeHelper( d3.select( '#entryListParent' ).node() );
         },
 
         _changed = function ( entry ) {
