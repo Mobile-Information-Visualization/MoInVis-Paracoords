@@ -54,24 +54,28 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
             return entry.getColor();
         };
 
-        _setAllVisible = function () {
+        _setAllVisible = function ( ) {
           console.log("Set all visible");
-          for (entry in entries) {
-            console.log(entry.itemText + " :  " + entry.visible);
-            if (entry.visible){
-              _changed(entry);
-            }
+
+          for (var key of Object.keys(_entries)) {
+              _entries[key].visible = true;
+              console.log (key + " is now " + _entries[key].visible);
           }
+          self.moin.paraCoorderRedrawReq = true;
         };
 
-        _setAllInvisible = function () {
+        _setAllInvisible = function ( ) {
           console.log("Hide all");
-          for (entry in entries) {
-            console.log(entry.itemText + " :  " + entry.visible);
-            if (entry.visible){
-              _changed(entry);
+
+          for (var key of Object.keys(_entries)) {
+            if (_entries[key].visible) {
+              _entries[key].setVisibility(key.visible);
+
+              // _entries[key].visible = false;
+              console.log (key + " is now " + _entries[key].visible);
             }
           }
+        self.moin.paraCoorderRedrawReq = true;
         };
 
     _init();
