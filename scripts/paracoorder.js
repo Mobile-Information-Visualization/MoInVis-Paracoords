@@ -76,7 +76,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             width: _width - _margins.left - _margins.right,
             height: _height - _margins.top - _margins.bottom
         },
-        _innerMargins = { left: 60, right: 60, top: 60, bottom: 60 }, // Margins for the visualization.
+        _innerMargins = { left: _width * 0.06, right: _width * 0.06, top: _width * 0.06, bottom: _width * 0.06 }, // Margins for the visualization.
         _innerPositionProps = { // Positions for our visualizations.
             top: _positionProps.top + _innerMargins.top,
             left: _positionProps.left + _innerMargins.left,
@@ -912,7 +912,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         // Ignoring the changes in width for CIs for now as they seem to be insignificant.
         _topCI.reposition( _positionProps.left, 0 );
         _bottomCI.reposition( _positionProps.left, _height - _ciSize );
-
+        _innerMargins.left = _innerMargins.right = _innerMargins.top = _innerMargins.bottom = _width * 0.06;
         _innerPositionProps.width = _positionProps.width - _innerMargins.left - _innerMargins.right;
         _innerPositionProps.height = _positionProps.height - _innerMargins.top - _innerMargins.bottom;
 
