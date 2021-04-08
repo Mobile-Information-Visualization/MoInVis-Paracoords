@@ -15,6 +15,7 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
     var self = this,
         _tabHandle,
         _hammerMan,
+        _hammerHelper,
         _hammerSettings = MoInVis.Paracoords.HammerSettings,
         _activeEvents = [],
         _addedEvents = {},
@@ -34,12 +35,6 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
 
         _initHammer = function () {
             _hammerMan = new Hammer.Manager( _tabHandle.parentTab.node() );
-            _hammerMan.add( new Hammer.Swipe( {
-                event: 'swipeup', pointers: 1, direction: Hammer.DIRECTION_UP, velocity: _hammerSettings.swipeVelocity
-            } ) );
-            _hammerMan.add( new Hammer.Swipe( {
-                event: 'swipedown', pointers: 1, direction: Hammer.DIRECTION_DOWN, velocity: _hammerSettings.swipeVelocity
-            } ) );
             _hammerMan.add( new Hammer.Swipe( {
                 event: 'swipeleft', pointers: 1, direction: Hammer.DIRECTION_LEFT, velocity: _hammerSettings.swipeVelocity
             } ) );
@@ -73,6 +68,16 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         return { mainApp, dataProxy };
     };
 
+    this.addSwipeHelper = function ( helperEl ) {
+        _hammerHelper = new Hammer.Manager( helperEl );
+        _hammerHelper.add( new Hammer.Swipe( {
+            event: 'swipeleft', pointers: 1, direction: Hammer.DIRECTION_LEFT, velocity: _hammerSettings.swipeVelocity
+        } ) );
+        _hammerHelper.add( new Hammer.Swipe( {
+            event: 'swiperight', pointers: 1, direction: Hammer.DIRECTION_RIGHT, velocity: _hammerSettings.swipeVelocity
+        } ) );
+    };
+
     this.swipeRight = function () {
         this.moin.tabManager.swipeRight();
     };
@@ -81,64 +86,33 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         this.moin.tabManager.swipeLeft();
     };
 
-    this.swipeUp = function () {
-        // Method to be overridden in derived class.
-        console.log( 'Override this method in derived class' );
-    };
-
-    this.swipeDown = function () {
-        // Method to be overridden in derived class.
-        console.log( 'Override this method in derived class' );
-    };
-
     this.activateEvent = function ( eventName ) {
         if ( _activeEvents.indexOf( eventName ) === -1 ) {
             _activeEvents.push( eventName );
         }
     };
 
-    this.switchOnSwipeUpEvent = function () {
-        _hammerMan
-            .on( 'swipeup', function ( event ) {
-                event.preventDefault();
-                if ( self.isEventHandlingInProgress() === false ) {
-                    _setText( 'swipeup', event );
-                    self.swipeUp();
-                }
-            } );
-    };
-    this.switchOnSwipeDownEvent = function () {
-        _hammerMan
-            .on( 'swipedown', function ( event ) {
-                event.preventDefault();
-                if ( self.isEventHandlingInProgress() === false ) {
-                    _setText( 'swipedown', event );
-                    self.swipeDown();
-                }
-            } );
-    };
     this.switchOnSwipeLeftEvent = function () {
         _hammerMan
             .on( 'swipeleft', function ( event ) {
                 event.preventDefault();
                 if ( self.isEventHandlingInProgress() === false ) {
-                    _setText( 'swipeleft', event );
+                    // _setText( 'swipeleft', event );
                     self.swipeLeft();
                 }
-            } )
+            } );
 
     };
+
     this.switchOnSwipeRightEvent = function () {
         _hammerMan
             .on( 'swiperight', function ( event ) {
                 event.preventDefault();
                 if ( self.isEventHandlingInProgress() === false ) {
-                    _setText( 'swiperight', event );
+                    // _setText( 'swiperight', event );
                     self.swipeRight();
                 }
             } );
-
-
     };
 
     this.addEventType = function ( eventType, eventProps ) {
@@ -156,12 +130,6 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
 
     this.switchOnEvents = function () {
         let evt;
-        if ( _activeEvents.indexOf( 'swipeup' ) > -1 ) {
-            this.switchOnSwipeUpEvent();
-        }
-        if ( _activeEvents.indexOf( 'swipedown' ) > -1 ) {
-            this.switchOnSwipeDownEvent();
-        }
         if ( _activeEvents.indexOf( 'swipeleft' ) > -1 ) {
             this.switchOnSwipeLeftEvent();
         }
@@ -177,10 +145,8 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
 
     this.switchOffEvents = function ( onlySwipeEvents = false ) {
         _hammerMan
-            .off( 'swipeup' )
             .off( 'swipeleft' )
-            .off( 'swiperight' )
-            .off( 'swipedown' );
+            .off( 'swiperight' );
         if ( !onlySwipeEvents ) {
             for ( evt in _addedEvents ) {
                 _hammerMan.off( evt );
