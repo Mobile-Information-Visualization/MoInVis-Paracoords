@@ -266,4 +266,8 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
     this.getAttrScale = function () {
         return _attrScale;
     };
+
+    this.getHeight = function () {
+        return _axisGroup.node().getBBox().height;
+    };
 };

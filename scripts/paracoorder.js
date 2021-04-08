@@ -887,7 +887,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             this.axes.push( axis );
             axis.draw( _innerPositionProps.left, -100 );
         }
-        _axisHeight = axis.height;
+        // Get corrected height after all axis elements have rendered.
+        _axisHeight = this.axes[0].getHeight();
 
         _setVisibleAxes();
 
