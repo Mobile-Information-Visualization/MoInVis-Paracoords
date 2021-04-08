@@ -57,26 +57,24 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
         _setAllVisible = function ( ) {
           console.log("Set all visible");
 
-          for (var key of Object.keys(_entries)) {
-              _entries[key].visible = true;
-              console.log (key + " is now " + _entries[key].visible);
-          }
-          self.moin.paraCoorderRedrawReq = true;
+        for (var key of Object.keys(_vueData.entries)) {
+            _vueData.entries[key].setVisibility(true);
+            console.log(_vueData.entries[key] + " is now " +_vueData.entries[key].visible);
+        }
+
+        self.moin.paraCoorderRedrawReq = true;
         };
 
         _setAllInvisible = function ( ) {
           console.log("Hide all");
 
-          for (var key of Object.keys(_entries)) {
-            if (_entries[key].visible) {
-              _entries[key].setVisibility(key.visible);
-
-              // _entries[key].visible = false;
-              console.log (key + " is now " + _entries[key].visible);
-            }
+          for (var key of Object.keys(_vueData.entries)) {
+            _vueData.entries[key].setVisibility(false);
+            console.log(_vueData.entries[key] + " is now " +_vueData.entries[key].visible);
           }
-        self.moin.paraCoorderRedrawReq = true;
-        };
+
+          self.moin.paraCoorderRedrawReq = true;
+          };
 
     _init();
 };
