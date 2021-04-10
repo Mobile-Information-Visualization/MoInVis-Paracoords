@@ -79,17 +79,6 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
         self.moin.paraCoorderRedrawReq = true;
         };
 
-        _setAllInvisible = function ( ) {
-          console.log("Hide all");
-
-          for (var key of Object.keys(_vueData.entries)) {
-            _vueData.entries[key].setVisibility(false);
-            console.log(_vueData.entries[key] + " is now " +_vueData.entries[key].visible);
-          }
-
-          self.moin.paraCoorderRedrawReq = true;
-          };
-
     _init();
 };
 
