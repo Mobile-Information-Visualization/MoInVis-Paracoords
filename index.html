@@ -92,8 +92,11 @@
         </div>
         <div id="entryStoreTab">
             <header class="entryStore">
-                <button class="entryVisible" @click="setAllVisible">VisibleAll</button>
-                <button class="entryHide" @click="setAllInvisible">HideAll</button>
+              <label class="entryStoreCheckboxLabel"> Show / Hide All </label>
+              <label class="entryStoreContainer">
+                <input class="entryStore" type="checkbox" checked="checked" v-model="areShown" @change=toggleVisibility>
+                <span class="entryStoreCheckmark"></span>
+              </label>
                 <output class="entryStore">{{ totalEntries }}</output>
                 <label class="entryStoreHeader">Total entries</label>
             </header>

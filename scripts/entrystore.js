@@ -21,6 +21,7 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
         _parentDiv = parentDiv,
         _entries = entries,
         _totalEntries = Object.keys( _entries ).length,
+        _areShown = true,
         _vueData,
         _vueMethods,
         _vueApp,
@@ -31,12 +32,12 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
                     tabName: 'Entry Store!',
                     entries: _entries,
                     totalEntries: _totalEntries,
+                    areShown: _areShown,
                     flag: self.moin.paraCoorderRedrawReq,
                 };
             _vueMethods = {
                 changed: _changed,
-                setAllVisible: _setAllVisible,
-                setAllInvisible: _setAllInvisible,
+                toggleVisibility: _toggleVisibility,
                 getEntryColor: _getEntryColor
             };
             vueStuff = self.initVue( vueData, _vueMethods );
@@ -56,11 +57,22 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
             return entry.getColor();
         };
 
-        _setAllVisible = function ( ) {
+        _toggleVisibility = function ( ) {
+          if ( _areShown ){
+            console.log("Set all visible");
+            _areShown = false;
+          } else {
+            console.log("Set all invisible");
+            _areShown = true;
+          }
+          _setVisible( _areShown );
+        };
+
+        _setVisible = function ( areShown ) {
           console.log("Set all visible");
 
         for (var key of Object.keys(_vueData.entries)) {
-            _vueData.entries[key].setVisibility(true);
+            _vueData.entries[key].setVisibility( areShown );
             console.log(_vueData.entries[key] + " is now " +_vueData.entries[key].visible);
         }
 
