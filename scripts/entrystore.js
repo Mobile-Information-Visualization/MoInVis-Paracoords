@@ -33,12 +33,13 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
                     entries: _entries,
                     totalEntries: _totalEntries,
                     areShown: _areShown,
-                    flag: self.moin.paraCoorderRedrawReq,
+                    colourBlindSafe: self.moin.colourScheme === MoInVis.Paracoords.ColourScheme.ColourblindSafe
                 };
             _vueMethods = {
                 changed: _changed,
                 toggleVisibility: _toggleVisibility,
-                getEntryColor: _getEntryColor
+                getEntryColor: _getEntryColor,
+                toggleColourScheme: _toggleColourScheme
             };
             vueStuff = self.initVue( vueData, _vueMethods );
             _vueApp = vueStuff.mainApp;
@@ -50,33 +51,40 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
         _changed = function ( entry ) {
             entry.setVisibility( entry.visible );
             self.moin.paraCoorderRedrawReq = true;
-            console.log(entry.itemText + " is now " + entry.visible);
         },
 
         _getEntryColor = function ( entry ) {
             return entry.getColor();
-        };
+        },
 
-        _toggleVisibility = function ( ) {
-          if ( _areShown ){
-            console.log("Set all visible");
-            _areShown = false;
-          } else {
-            console.log("Set all invisible");
-            _areShown = true;
-          }
-          _setVisible( _areShown );
-        };
+        _toggleColourScheme = function () {
+            var entry, getColour = MoInVis.Paracoords.util.getColour, index = 0;
+            _vueData.colourBlindSafe = !_vueData.colourBlindSafe;
+            if ( _vueData.colourBlindSafe ) {
+                self.moin.colourScheme = MoInVis.Paracoords.ColourScheme.ColourblindSafe;
+            } else {
+                self.moin.colourScheme = MoInVis.Paracoords.ColourScheme.Normal;
+            }
+            for ( entry in _vueData.entries ) {
+                _vueData.entries[entry].setColour( getColour( index, _vueData.colourBlindSafe ) );
+                index++;
+            }
+        },
+
+        _toggleVisibility = function () {
+            if ( _areShown ) {
+                _areShown = false;
+            } else {
+                _areShown = true;
+            }
+            _setVisible( _areShown );
+        },
 
         _setVisible = function ( areShown ) {
-          console.log("Set all visible");
-
-        for (var key of Object.keys( _vueData.entries )) {
-            _vueData.entries[key].setVisibility( areShown );
-            console.log( _vueData.entries[key] + " is now " +_vueData.entries[key].visible );
-        }
-
-        self.moin.paraCoorderRedrawReq = true;
+            for ( var key of Object.keys( _vueData.entries ) ) {
+                _vueData.entries[key].setVisibility( areShown );
+            }
+            self.moin.paraCoorderRedrawReq = true;
         };
 
     _init();

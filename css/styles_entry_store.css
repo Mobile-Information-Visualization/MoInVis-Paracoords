@@ -1,7 +1,6 @@
 #entryStoreTab {
     width: 100% !important;
     height: 100% !important;
-
     margin: auto;
     font-family: "Helvetica", sans-serif;
     color: #f0f0f0;
@@ -15,15 +14,16 @@ header.entryStore {
     border-color: #525252;
     border-bottom: solid;
     border-width: 1px;
-
+    grid-template-columns: 1fr repeat(3, 1fr) 1fr;
     height: 10%;
 }
 
-.entryStoreCheckboxLabel{
-     background-color: rgb(50, 50, 50);
-     font-size: 3em;
-     margin: auto;
+.entryStoreCheckboxLabel {
+    background-color: rgb(50, 50, 50);
+    font-size: 3em;
+    margin: auto;
 }
+
 .entryVisible {
     background-color: #252525;
     color: #f0f0f0;
@@ -39,23 +39,48 @@ header.entryStore {
 
 output.entryStore {
     color: #f0f0f0;
-    grid-column-start: 2;
-    grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 2;
+    grid-column-start: 3;
+    grid-column-end: 4;
     font-size: 64px;
     font-weight: 400;
     margin: auto;
 }
 
+.entryToggleContainer {
+    width: 100%;
+    display: inline-block;
+    position: absolute;
+}
+
+.entryStoreVisibilityToggle {
+    font-size: 5em;
+    background: #323232; /*same as the modal-container's background*/
+    border: 0px;
+    color: white;
+    float: left;
+    padding-left: 10%;
+    height: 150px;
+    width: 150px;
+}
+
+.entryStoreColorSchemeToggle {
+    font-size: 5em;
+    background: #323232; /*same as the modal-container's background*/
+    border: 0px;
+    color: white;
+    float: right;
+    padding-right: 7%;
+    height: 150px;
+    width: 175px;
+}
+
 label.entryStoreHeader {
     color: #f0f0f0;
     grid-column-start: 2;
-    grid-column-end: 2;
-    grid-row-start: 1;
-    grid-row-end: 1;
+    grid-column-end: 5;
     font-size: 3em;
     margin: auto;
+    text-align: center;
 }
 
 main.entryStore {

@@ -934,15 +934,15 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             wasteByCountries = MoInVis.Paracoords.Data.wasteByCountries,
             i,
             length = regions.length,
-            getColour = d3.scaleOrdinal( d3.schemeCategory10.concat( d3.schemeCategory10 ) ).domain( d3.range( regions.length ) );
-
+            getColour = MoInVis.Paracoords.util.getColour,
+            colourBlindSafe = this.moin.colourScheme === MoInVis.Paracoords.ColourScheme.ColourblindSafe;
         _pathParentGroup = _paracoordHolder
             .append( 'g' )
             .attr( 'id', _id + '_PathParentGrp' );
 
         for ( i = 0; i < length; i++ ) {
             this.paths[regions[i]] = new MoInVis.Paracoords.itemPath( _pathParentGroup, _id, regions[i], this );
-            this.paths[regions[i]].init( wasteByCountries[regions[i]], _chosenYear, getColour( i ) );
+            this.paths[regions[i]].init( wasteByCountries[regions[i]], _chosenYear, getColour( i, colourBlindSafe ) );
             this.paths[regions[i]].draw();
         }
         this.paths['European_sp_Union_sp_-_sp_28_sp_countries_sp__ob_2013-2020_cb_'].setVisibility( false );
