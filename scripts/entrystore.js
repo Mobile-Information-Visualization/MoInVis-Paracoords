@@ -71,9 +71,9 @@ MoInVis.Paracoords.entryStore = function ( moin, parentDiv, entries ) {
         _setVisible = function ( areShown ) {
           console.log("Set all visible");
 
-        for (var key of Object.keys(_vueData.entries)) {
+        for (var key of Object.keys( _vueData.entries )) {
             _vueData.entries[key].setVisibility( areShown );
-            console.log(_vueData.entries[key] + " is now " +_vueData.entries[key].visible);
+            console.log( _vueData.entries[key] + " is now " +_vueData.entries[key].visible );
         }
 
         self.moin.paraCoorderRedrawReq = true;
