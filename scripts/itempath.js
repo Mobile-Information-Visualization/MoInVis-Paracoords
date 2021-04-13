@@ -111,6 +111,11 @@ MoInVis.Paracoords.itemPath = function ( pathParent, id, itemName, paracoorder )
         return _colour;
     };
 
+    this.setColour = this.setColor = function ( colour ) {
+        _colour = colour;
+        _pathElement.attr( "stroke", _colour );
+    };
+
     this.getId = function () {
         return _id;
     };

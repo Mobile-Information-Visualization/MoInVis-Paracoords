@@ -92,6 +92,12 @@
         </div>
         <div id="entryStoreTab">
             <header class="entryStore">
+                <div class="entryToggleContainer">
+                    <!--<button class="entryStoreColorSchemeToggle"><i class="fa fa-plus-circle" style="font-size:inherit;color:inherit"></i></button>-->
+                    <!--<button class="entryStoreVisibilityToggle" @click="toggleVisibility"><i class="fa fa-plus-circle" style="font-size:inherit;color:inherit"></i></button>-->
+                    <input class="entryStoreVisibilityToggle" type="image" src="images/select-all.png" @click="toggleVisibility" />
+                    <input class="entryStoreColorSchemeToggle" type="image" :src="colourBlindSafe?'images/normalpalette.png':'images/colourblindpalette.png'" @click="toggleColourScheme" />
+                </div>
                 <output class="entryStore">{{ totalEntries }}</output>
                 <label class="entryStoreHeader">Total entries</label>
             </header>
