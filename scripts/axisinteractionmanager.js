@@ -23,6 +23,7 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
         _fullPanRecognizer,
         _brushManager,
         _brushMode,
+        _axesReorderMode = false,
         _paracoorder = paracoorder;
 
 
@@ -92,6 +93,8 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
         _hammerMan.remove( _horizontalPanRecognizer );
         // Activate reorder mode interactions.
         _hammerMan.add( _fullPanRecognizer );
+
+        _axesReorderMode = true;
     };
 
     this.leaveAxesReorderMode = function () {
@@ -106,7 +109,11 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
         const targetId = event.changedPointers[0].target.id;
 
         // Offer reorder mode interactions.
-        if ( _paracoorder.checkIfAxesReorderMode() ) {
+        if ( _axesReorderMode || _paracoorder.checkIfAxesReorderMode() ) {
+            if ( !_paracoorder.checkIfAxesReorderMode() ) {
+                // Reorder mode was deactivated so update instance here too.
+                _axesReorderMode = false;
+            }
             switch ( eventType ) {
 
                 case 'panstart':
@@ -114,7 +121,7 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
                     break;
 
                 case 'pan':
-                    _paracoorder.reorderAxis( event.deltaY, _axis.indexInVisibilityArray );
+                    _paracoorder.reorderAxis( event.deltaY, _axis.indexInVisibilityArray, _axis.indexInGlobalArray );
                     break;
 
                 case 'panend':
@@ -122,7 +129,7 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
                     break;
 
                 case 'swipeleft':
-                    _paracoorder.removeAxis( _axis.indexInVisibilityArray, true );
+                    _paracoorder.removeAxis( _axis.indexInVisibilityArray, _axis.indexInGlobalArray, true );
                     break;
             }
         }

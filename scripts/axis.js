@@ -44,6 +44,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
     this.visible = true;
     this.indexInVisibilityArray = 0;
+    this.indexInGlobalArray = 0;
 
     this.setVisibility = function ( visible ) {
         this.visible = visible;
@@ -224,7 +225,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
     this.startWiggling = function () {
         let seed = Math.random();
         const amplitude = 0.4 + 0.7,
-            speed = 0.028;
+            speed = 0.02;
 
         _wigglingIntervalId = setInterval( function () {
             let y = Math.sin( 10 * seed ) * amplitude;
