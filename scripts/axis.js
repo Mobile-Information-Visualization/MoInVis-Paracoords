@@ -19,6 +19,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         _textGroup,
         _textInnerGroup,
         _textGroupCenter,
+        _textRect,
         _axis,
         _paracoorder = paracoorder,
         _id,
@@ -148,10 +149,16 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
         _textInnerGroup = _textGroup
             .append( 'g' )
-            .attr( 'id', _id + '_TextInnerGroup' );
+            .attr( 'id', _id + '_TextInnerGroup' )
+            .on( 'pointerdown', function () {
+                _textRect.attr( 'opacity', 0.75 );
+            } )
+            .on( 'pointerup', function () {
+                _textRect.attr( 'opacity', 1 );
+            } );
 
         // label box
-        _textInnerGroup.append( 'rect' )
+        _textRect = _textInnerGroup.append( 'rect' )
             .attr( 'class', 'attrNameTextBox' )
             .attr( 'id', _id + '_LabelTextBox' )
             .attr( 'x', 0 )
@@ -171,7 +178,7 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
         const measuredSize = _textInnerGroup.select( 'text' )
             .node()
             .getBBox();
-        _textInnerGroup.select( 'rect' )
+        _textRect
             .attr( 'width', measuredSize.width + ( 2 * padding.horizontal ) )
             .attr( 'height', measuredSize.height + ( 2 * padding.vertical ) )
             .attr( 'y', ( measuredSize.y - padding.vertical ) )
@@ -265,5 +272,9 @@ MoInVis.Paracoords.axis = function ( axisParent, id, attributeProps, attrScale, 
 
     this.getAttrScale = function () {
         return _attrScale;
+    };
+
+    this.getHeight = function () {
+        return _axisGroup.node().getBBox().height;
     };
 };
