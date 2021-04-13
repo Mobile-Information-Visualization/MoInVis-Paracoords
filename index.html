@@ -6,21 +6,31 @@
     <script src="scripts/libs/d3.js"></script>
     <script src="scripts/libs/hammer.js"></script>
     <script src="scripts/libs/vue.global.js"></script>
+    <script src="scripts/libs/interact.min.js"></script>
 
     <!-- https://github.com/SortableJS/Sortable -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link rel="stylesheet" type="text/css" href="css/styles_universal.css">
+    <link rel="stylesheet" type="text/css" href="css/styles_entry_store.css">
     <link rel="stylesheet" type="text/css" href="css/styles_inputrange.css">
     <link rel="stylesheet" type="text/css" href="css/styles_axis_store.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <script src="data/json/woodwaste.json"></script>
+    <script src="data/json/metalwasteferrousandnon.json"></script>
+    <script src="data/json/householdsimilarwaste.json"></script>
+    <script src="data/json/vegetalwaste.json"></script>
+    <script src="data/json/animalfaecesurinemanure.json"></script>
+    <script src="data/json/animalmixedfoodwaste.json"></script>
+    <script src="data/json/discardedvehicles.json"></script>
+    <script src="data/json/textilewaste.json"></script>
+    <script src="data/json/paperandcardboardwaste.json"></script>
     <script src="data/json/glasswaste.json"></script>
     <script src="data/json/chemwaste.json"></script>
     <script src="data/json/healthcarebiowaste.json"></script>
@@ -44,24 +54,24 @@
                 <output class="totalAxesInFocus">{{getNumberAxesInFocus}}</output>
                 <button class="plusButton" :class="{disableButton: !isPlusButtonDisabled}" @click="increaseNumber" :disabled="!isPlusButtonDisabled">&plus;</button>
 
-                <button class="undoButton" disabled>&#9100;</button>
+                <button :class="'undoButton' + (undoButtonEnabled?'':' disableButton')" @click="undo" :disabled="!undoButtonEnabled">&#9100;</button>
             </header>
             <main class="axisStore axesLists">
 
                 <transition-group class="axisStore" key="axesArray" id="simpleList" name="flip-list" tag="ul">
 
                     <!-- <div key="panelBoxParent" class="focusPanelParent" :style="{width: boxWidth.long +'px',height: boxHeight * notSortableIndexFrom + 'px'}"> -->
-                        <div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: (boxHeight * getNumberAxesInFocus) + 'px'}">
+                    <div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: (boxHeight * getNumberAxesInFocus) + 'px'}">
 
-                            <label class="drag-handle-focusPanel" id="drag-handle-focusPanel">
-                                &duhar;
-                            </label>
-                            <label class="focusPanelBar" :style="{width: boxWidth.short/8 +'px' }"></label>
-    
-                        </div>
+                        <label class="drag-handle-focusPanel" id="drag-handle-focusPanel">
+                            &duhar;
+                        </label>
+                        <label class="focusPanelBar" :style="{width: boxWidth.short/8 +'px' }"></label>
+
+                    </div>
 
                     <!-- </div> -->
-                    
+
 
                     <li v-for="(item, index) in axesArray" :key="item.attribute" :id="item.attribute" class="list-axis attrList" :class="{unchecked: !item.visible, checked: item.visible }">
 
@@ -69,7 +79,7 @@
                         <label class="my-handle" :class="{disable: !item.visible}">&duhar;  </label>
                         <label class="container">
 
-                            <input class="axisStore" type="checkbox" checked="checked" :id="item.attribute" v-model="item.visible" @change="check($event, item, index)"  >
+                            <input class="axisStore" type="checkbox" checked="checked" :id="item.attribute" v-model="item.visible" @change="check($event, item, index)">
                             <span class="checkmark"></span>
 
                         </label>
@@ -81,8 +91,29 @@
             </main>
         </div>
         <div id="entryStoreTab">
-            <h1>Entry Store Tab</h1>
-            <h1>{{ tabName }}</h1>
+            <header class="entryStore">
+                <div class="entryToggleContainer">
+                    <!--<button class="entryStoreColorSchemeToggle"><i class="fa fa-plus-circle" style="font-size:inherit;color:inherit"></i></button>-->
+                    <!--<button class="entryStoreVisibilityToggle" @click="toggleVisibility"><i class="fa fa-plus-circle" style="font-size:inherit;color:inherit"></i></button>-->
+                    <input class="entryStoreVisibilityToggle" type="image" src="images/select-all.png" @click="toggleVisibility" />
+                    <input class="entryStoreColorSchemeToggle" type="image" :src="colourBlindSafe?'images/normalpalette.png':'images/colourblindpalette.png'" @click="toggleColourScheme" />
+                </div>
+                <output class="entryStore">{{ totalEntries }}</output>
+                <label class="entryStoreHeader">Total entries</label>
+            </header>
+            <main class="entryStore">
+                <ol class="entryStore" id="entryListParent">
+                    <li class="entryStore" v-for="entry in entries" :key="entry">
+                        <label class="entryStoreContainer">
+                            <input class="entryStore" type="checkbox" checked="checked" :id="entry.attribute" v-model="entry.visible"
+                                   @change=changed(entry)>
+                            <span class="entryStoreCheckmark"></span>
+                        </label>
+                        <label class="entryText" for="entry.itemText">{{ entry.itemText }}</label>
+                        <div class="entryColor" :style="{ backgroundColor: getEntryColor(entry) }"></div>
+                    </li>
+                </ol>
+            </main>
         </div>
         <div id="brushSetterOverlay">
             <div id="brushSetterOverlayInner">
@@ -146,6 +177,7 @@
         </div>
     </div>
     <script type="text/javascript" src="scripts/util.js"></script>
+    <script type="text/javascript" src="scripts/actionmanager.js"></script>
     <script type="text/javascript" src="scripts/datahandler.js"></script>
     <script type="text/javascript" src="scripts/button.js"></script>
     <script type="text/javascript" src="scripts/contextindicator.js"></script>

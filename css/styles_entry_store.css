@@ -1,0 +1,197 @@
+#entryStoreTab {
+    width: 100% !important;
+    height: 100% !important;
+    margin: auto;
+    font-family: "Helvetica", sans-serif;
+    color: #f0f0f0;
+}
+
+header.entryStore {
+    background-color: rgb(50, 50, 50);
+    height: auto;
+    display: grid;
+    justify-items: center;
+    border-color: #525252;
+    border-bottom: solid;
+    border-width: 1px;
+    grid-template-columns: 1fr repeat(3, 1fr) 1fr;
+    height: 10%;
+}
+
+.entryStoreCheckboxLabel {
+    background-color: rgb(50, 50, 50);
+    font-size: 3em;
+    margin: auto;
+}
+
+.entryVisible {
+    background-color: #252525;
+    color: #f0f0f0;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    margin: center;
+    font-size: 3em;
+    font-weight: 100;
+    border: none;
+}
+
+output.entryStore {
+    color: #f0f0f0;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    font-size: 64px;
+    font-weight: 400;
+    margin: auto;
+}
+
+.entryToggleContainer {
+    width: 100%;
+    display: inline-block;
+    position: absolute;
+}
+
+.entryStoreVisibilityToggle {
+    font-size: 5em;
+    background: #323232; /*same as the modal-container's background*/
+    border: 0px;
+    color: white;
+    float: left;
+    padding-left: 10%;
+    height: 150px;
+    width: 150px;
+}
+
+.entryStoreColorSchemeToggle {
+    font-size: 5em;
+    background: #323232; /*same as the modal-container's background*/
+    border: 0px;
+    color: white;
+    float: right;
+    padding-right: 7%;
+    height: 150px;
+    width: 175px;
+}
+
+label.entryStoreHeader {
+    color: #f0f0f0;
+    grid-column-start: 2;
+    grid-column-end: 5;
+    font-size: 3em;
+    margin: auto;
+    text-align: center;
+}
+
+main.entryStore {
+    height: 90%;
+    background-color: rgb(50, 50, 50);
+    overflow-y: scroll;
+}
+
+ol.entryStore {
+    margin: 0%;
+    padding: 6%;
+    list-style-type: none;
+}
+
+li.entryStore {
+    margin: 3% 3%;
+    padding: 3% 3%;
+    display: grid;
+    grid-template-columns: 2fr 8fr 1fr;
+    align-items: center;
+    cursor: move;
+}
+
+label.entryStoreContainer {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    margin: auto;
+    height: 100%;
+    width: 50%;
+}
+
+label.entryText {
+    font-size: 3em;
+    font-weight: 100;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*
+label.entryColor {
+*/
+.entryColor {
+    width: 50px;
+    height: 50px;
+    /*margin-top: 8pc; */
+    border: 2px solid #525252;
+    border-radius: 50%;
+    cursor: initial;
+}
+
+/* The container */
+.entryStoreContainer {
+    display: block;
+    position: relative;
+    cursor: initial;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+input.entryStoreContainer {
+    position: absolute;
+    opacity: 0;
+    cursor: initial;
+    height: 100%;
+    width: 100%;
+}
+
+/* Create a custom checkbox */
+span.entryStoreCheckmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(50, 50, 50);
+    border-bottom: 3px solid #525252;
+}
+
+/* When the checkbox is checked, add a blue background */
+.entryStoreContainer input:checked ~ .entryStoreCheckmark {
+    background-color: rgb(50, 50, 50);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.entryStoreContainer :after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.entryStoreContainer input:checked ~ .entryStoreCheckmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.entryStoreContainer .entryStoreCheckmark:after {
+    left: 50%;
+    top: 15%;
+    width: 20%;
+    height: 50%;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);

@@ -15,6 +15,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
 
     var self = this,
         _parentDiv = parentDiv,
+        _hammerMan,
         _axes = axes,
         _focusContextSettings = focusContextSettings,
         _vueData,
@@ -23,6 +24,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
         _vueComponents,
         _vueApp,
         _sortable,
+        _undoManager,
         // position the focus panel based on the main tab visualisation
         _focusPanelStartPosition = {
             x: 0,
@@ -39,12 +41,17 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                     focusContextSettings: _focusContextSettings,
                     boxWidth: _boxWidth(),
                     boxHeight: _boxHeight(),
-                    notSortableIndexFrom: _axes.length
+                    notSortableIndexFrom: _axes.length,
+                    undoButtonEnabled: false
                 };
+
+            _undoManager = new MoInVis.Paracoords.actionManager( self );
+
             _vueMethods = {
                 decreaseNumber: _decreaseNumber,
                 increaseNumber: _increaseNumber,
-                check: _check
+                check: _check,
+                undo: _undoAction
             };
 
             _vueComputed = {
@@ -63,15 +70,15 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                 handle: '.my-handle',
                 dataIdAttr: 'id',
                 direction: 'vertical',
-                forceFallback: false,
-                scroll: true,
-                scrollSensitivity: 200,
-                scrollSpeed: 10,
+
                 filter: ".disable",
 
-                scrollFn: function ( offsetX, offsetY, originalEvent, touchEvt, hoverTargetEl ) {
-
-                },
+                scroll: true, // Enable the plugin. Can be HTMLElement.
+                // scrollFn: function(offsetX, offsetY, originalEvent, touchEvt, hoverTargetEl) {  }, // if you have custom scrollbar scrollFn may be used for autoscrolling
+                scrollSensitivity: 100, // px, how near the mouse must be to an edge to start scrolling.
+                scrollSpeed: 10, // px, speed of the scrolling
+                // bubbleScroll: true,// apply autoscroll to all parent elements, allowing for easier movement
+                forceFallback: false,
 
                 delay: 50,
                 touchStartThreshold: 30,
@@ -92,28 +99,28 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                     return evt.related.className.indexOf( 'unchecked' ) === -1;
                 },
                 onEnd: function ( evt ) {
-                    let order = _sortable.toArray();
+                    if ( evt.newIndex !== evt.oldIndex ) {
+                        let order = _sortable.toArray();
 
-                    _axes.sort( function ( firstEl, secondEl ) {
-                        let first = firstEl.attribute, second = secondEl.attribute;
-                        if ( order.indexOf( first ) > order.indexOf( second ) ) {
-                            return 1;
-                        } else {
-                            return -1;
-                        }
-                    } );
+                        _addAction( _undoReorder, undefined, [_axes.map( axis => axis.attribute )] );
 
-                    //call to redraw  
-                    self.moin.paraCoorderRedrawReq = true;
+                        order.forEach( ( name, index ) => {
+                            _vueData.axesArray.splice( index, 0, _vueData.axesArray.splice( _vueData.axesArray.findIndex( axis => axis.attribute === name ), 1 )[0] );
+                        } );
+
+                        //call to redraw  
+                        self.moin.paraCoorderRedrawReq = true;
+                    }
                 }
             } );
 
             //draggable focus panel
-            _interactable = interact( '.draggable' ).draggable( {
+            interact( '.draggable' ).draggable( {
                 startAxis: 'y',
-                lockAxis: 'y',
-                inertia: true,
-                // allowFrom: '.drag-handle-focusPanel',
+                // lockAxis: 'y',
+                // inertia: true,
+                hold: 1,
+                // allowFrom: '.focusPanel',
                 modifiers: [
                     interact.modifiers.snap( {
                         targets: [
@@ -123,14 +130,16 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                         offset: 'parent',
                     } ),
                     interact.modifiers.restrictRect( {
-                        restriction: 'parent'
+                        restriction: 'parent',
+                        endOnly: true,
+                        elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
                     } ),
                 ],
                 // enable autoScroll
                 autoScroll: {
                     container: document.querySelector( 'main.axisStore' ),
-                    margin: 50,
-                    distance: 0,
+                    margin: 10,
+                    distance: 50,
                     interval: 10,
                     speed: 600
                 },
@@ -149,23 +158,29 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                             `translate(${_focusPanelStartPosition.x}px, ${_focusPanelStartPosition.y}px)`;
                     },
                     end( event ) {
+                        var newFI;
                         d3.select( '.focusPanelBar' )
                             .transition()
                             .duration( 200 )
                             .style( 'width', _boxWidth().short / 8 + 'px' );
-                        _vueData.focusContextSettings.focusIndex = Math.round( _focusPanelStartPosition.y / _snapHeight() );
-                        if ( _vueData.focusContextSettings.focusIndex < 0 ) {
-                            _vueData.focusContextSettings.focusIndex = 0;
+                        newFI = Math.round( _focusPanelStartPosition.y / _snapHeight() );
+                        if ( newFI < 0 ) {
+                            newFI = 0;
                         }
-                        if ( _vueData.focusContextSettings.focusIndex + _vueData.focusContextSettings.axesInFocus > _vueData.notSortableIndexFrom ) {
-                            _vueData.focusContextSettings.focusIndex = _vueData.notSortableIndexFrom - _vueData.focusContextSettings.axesInFocus;
-                            self.onTabFocus();
+                        if ( newFI + _vueData.focusContextSettings.axesInFocus > _vueData.notSortableIndexFrom ) {
+                            newFI = _vueData.notSortableIndexFrom - _vueData.focusContextSettings.axesInFocus;
+                            _setFocusIndex( newFI );
+                            _adjustFocusPanel();
+                        } else {
+                            _setFocusIndex( newFI );
                         }
                         //call to redraw  
                         self.moin.paraCoorderRedrawReq = true;
                     }
                 }
             } );
+
+            self.addSwipeHelper( d3.select( '#simpleList' ).node() );
         },
 
         //class function
@@ -192,7 +207,8 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
         _decreaseNumber = function () {
             // 'this' refer to the proxy of the sent data created by vue.
             if ( this.focusContextSettings.axesInFocus <= this.focusContextSettings.maxAxesInFocus && this.focusContextSettings.axesInFocus > this.focusContextSettings.minAxesInFocus ) {
-                this.focusContextSettings.axesInFocus -= 1;
+                _setNumberAxesInFocus( this.focusContextSettings.axesInFocus - 1 );
+                self.moin.paraCoorderRedrawReq = true;
             }
         },
 
@@ -200,22 +216,28 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
             // 'this' refer to the proxy of the sent data created by vue.
             if ( this.focusContextSettings.axesInFocus >= this.focusContextSettings.minAxesInFocus &&
                 this.focusContextSettings.axesInFocus < this.focusContextSettings.maxAxesInFocus && this.focusContextSettings.axesInFocus < this.notSortableIndexFrom ) {
-                this.focusContextSettings.axesInFocus += 1;
+                _setNumberAxesInFocus( this.focusContextSettings.axesInFocus + 1 );
+                self.moin.paraCoorderRedrawReq = true;
             }
         },
 
         //move the list to bottom
         _check = function ( e, axis, index ) {
+            var axisIndex;
+            _startActionBunch();
             if ( axis.visible ) { //when false -> true
                 if ( index >= this.notSortableIndexFrom ) { //checked item within unckecked items
                     //remove the axis from array
-                    this.axesArray.splice( this.axesArray.indexOf( axis ), 1 );
+                    axisIndex = this.axesArray.indexOf( axis );
+                    this.axesArray.splice( axisIndex, 1 );
 
                     //then add that axis to the bottom of array
                     this.axesArray.splice( this.notSortableIndexFrom, 0, axis );
 
                     this.notSortableIndexFrom++;
                     axis.setVisibility( axis.visible );
+                    _addAction( _undoVisibility, this, [axis, !axis.visible, axisIndex] );
+
                     self.moin.paraCoorderRedrawReq = true;
                 }
             } else { //when true -> false
@@ -223,27 +245,98 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
                     axis.setVisibility( !axis.visible );
                 } else {
                     //remove the axis from array
-                    this.axesArray.splice( this.axesArray.indexOf( axis ), 1 );
+                    axisIndex = this.axesArray.indexOf( axis );
+                    this.axesArray.splice( axisIndex, 1 );
 
                     //then add that axis to the bottom of array
                     this.axesArray.push( axis );
 
                     this.notSortableIndexFrom--;
                     axis.setVisibility( axis.visible );
+                    _addAction( _undoVisibility, this, [axis, !axis.visible, axisIndex] );
 
                     if ( this.focusContextSettings.axesInFocus > this.notSortableIndexFrom ) {
-                        this.focusContextSettings.axesInFocus = this.notSortableIndexFrom;
+                        _setNumberAxesInFocus( this.notSortableIndexFrom );
                     }
 
                     if ( this.focusContextSettings.focusIndex + this.focusContextSettings.axesInFocus > this.notSortableIndexFrom ) {
-                        this.focusContextSettings.focusIndex = this.notSortableIndexFrom - this.focusContextSettings.axesInFocus;
-                        self.onTabFocus();
+                        _setFocusIndex( this.notSortableIndexFrom - this.focusContextSettings.axesInFocus );
+                        _adjustFocusPanel();
                     }
 
                     self.moin.paraCoorderRedrawReq = true;
                 }
             }
-            //[TODO]: call to redraw
+            _addActionBunch();
+        },
+
+        _addAction = function ( functionToCall, context, params ) {
+            _undoManager.addAction( functionToCall, context, params );
+            _vueData.undoButtonEnabled = _undoManager.hasActions();
+        },
+
+        _startActionBunch = function () {
+            _undoManager.startActionBunch();
+        },
+
+        _addActionBunch = function () {
+            _undoManager.addActionBunch();
+            _vueData.undoButtonEnabled = _undoManager.hasActions();
+        },
+
+        _undoAction = function () {
+            _undoManager.undo();
+            _vueData.undoButtonEnabled = _undoManager.hasActions();
+        },
+
+        _undoVisibility = function ( axis, visibility, prevAxisIndex ) {
+            var axisIndex;
+            axis.visible = visibility; // To change the vue view.
+            axis.setVisibility( axis.visible );
+            //remove the axis from array
+            axisIndex = this.axesArray.indexOf( axis );
+            this.axesArray.splice( axisIndex, 1 );
+            //then add that axis to its previous position in array
+            this.axesArray.splice( prevAxisIndex, 0, axis );
+            if ( visibility ) {
+                this.notSortableIndexFrom++;
+            } else {
+                this.notSortableIndexFrom--;
+            }
+        },
+
+        _undoReorder = function ( oldOrder ) {
+            oldOrder.forEach( ( name, index ) => {
+                _vueData.axesArray.splice( index, 0, _vueData.axesArray.splice( _vueData.axesArray.findIndex( axis => axis.attribute === name ), 1 )[0] );
+            } );
+            //_vueData.axesArray.sort( function ( firstEl, secondEl ) {
+            //    let first = firstEl.attribute, second = secondEl.attribute;
+            //    if ( oldOrder.indexOf( first ) > oldOrder.indexOf( second ) ) {
+            //        return 1;
+            //    } else {
+            //        return -1;
+            //    }
+            //} );
+        },
+
+        _setNumberAxesInFocus = function ( numberAxesInFocus ) {
+            _addAction( _undoNumberAxesInFocus, undefined, [_vueData.focusContextSettings.axesInFocus] );
+            _vueData.focusContextSettings.axesInFocus = numberAxesInFocus;
+        },
+
+        _undoNumberAxesInFocus = function ( prevNumAxesInFocus ) {
+            _vueData.focusContextSettings.axesInFocus = prevNumAxesInFocus;
+        },
+
+        _setFocusIndex = function ( focusIndex ) {
+            _addAction( _undoFocusIndex, undefined, [_vueData.focusContextSettings.focusIndex] );
+            _vueData.focusContextSettings.focusIndex = focusIndex;
+
+        },
+
+        _undoFocusIndex = function ( prevFocusIndex ) {
+            _vueData.focusContextSettings.focusIndex = prevFocusIndex;
+            _adjustFocusPanel();
         },
 
         //computed component
@@ -263,6 +356,13 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
             }
         },
 
+        _adjustFocusPanel = function () {
+            _focusPanelStartPosition.y = _focusContextSettings.focusIndex * _snapHeight();
+            d3.select( '.focusPanel.draggable' )
+                .transition()
+                .style( 'transform', `translate(${_focusPanelStartPosition.x}px, ${_focusPanelStartPosition.y}px)` );
+        },
+
         _getNumberAxesInFocus = function () {
             return this.focusContextSettings.axesInFocus;
         };
@@ -271,10 +371,18 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
 
     // Called whenever this tab comes into focus.
     this.onTabFocus = function () {
-        _focusPanelStartPosition.y = _focusContextSettings.focusIndex * _snapHeight();
-        d3.select( '.focusPanel.draggable' )
-            .transition()
-            .style( 'transform', `translate(${_focusPanelStartPosition.x}px, ${_focusPanelStartPosition.y}px)` );
+        // Forcing view update for _focusContextSettings.axesInFocus.
+        var temp = _focusContextSettings.axesInFocus;
+        _vueData.focusContextSettings.axesInFocus = 0;
+        _vueData.focusContextSettings.axesInFocus = temp;
+
+        _adjustFocusPanel();
+
+        // Forcing view update for axesArray ordering.
+        _vueData.axesArray.splice( 0, 0, _vueData.axesArray.splice( 0, 1 )[0] );
+
+        _undoManager.cleanSlate();
+        _vueData.undoButtonEnabled = _undoManager.hasActions();
     };
 };
 

@@ -47,7 +47,14 @@ MoInVis.Paracoords.tabManager = function ( moin, tabHandlers, startTabIndex ) {
                 .style( 'width', _moin.width + 'px' )
                 .style( 'position', 'fixed' )
                 .style( 'left', ( _moin.width / 2 - length * _tabIndicatorSize ) + 'px' )
-                .style( 'display', 'none' );
+                .style( 'top', '3%' )
+                .style( 'opacity', 0 );
+            _tabIndicatorDiv
+                .transition()
+                .duration( 2500 )
+                .style( 'opacity', 1 )
+                .style( 'top', '0%' )
+                .on( 'end', _afterTransition );
 
             for ( i = 0; i < length; i++ ) {
                 // Set tab styling to handle absolute positioning.

@@ -186,7 +186,7 @@ MoInVis.Paracoords.brushSetter = function ( moin, parentDiv ) {
         _applyModalChanges = function () {
             var brushProps = this.brushprops;
             _updateCopy( brushProps );
-            self.moin.paracoorder.setBrushRange( brushProps.axisId, brushProps.brushId, brushProps.range );
+            self.moin.paracoorder.setBrushValueRange( brushProps.axisId, brushProps.brushId, brushProps.range );
             if ( brushProps.range[0] === brushProps.axisRange[0] && brushProps.range[1] === brushProps.axisRange[1] ) {
                 brushProps.active = false;
                 self.moin.paracoorder.enableDisableBrush( brushProps.axisId, brushProps.brushId, brushProps.active );

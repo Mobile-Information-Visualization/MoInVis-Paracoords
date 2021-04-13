@@ -24,16 +24,14 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
     var self = this,
         _svgParent = svgParent,
         _parentDiv = parentDiv,
-        _tabHandle,
         _chosenYear = 2018, // Since we are concentrating on the year 2018. The data structure allows for storage of more than a year.
         _id = moin.id + '_svg',
-        _axisIndexMap,
         _visibleAxes = [],
         _axisHeight,
         _focusAndContextSettings = { // Settings for focus and context.
             focusIndex: 1,
             axesInContext: 2,
-            axesInFocus: 4,
+            axesInFocus: 3,
             maxAxesInFocus: 5,
             minAxesInFocus: 2,
             extraGapFactor: 7, // Factor indicating how much more space axes in focus have between each other w.r.t axes in context.
@@ -78,7 +76,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             width: _width - _margins.left - _margins.right,
             height: _height - _margins.top - _margins.bottom
         },
-        _innerMargins = { left: 60, right: 60, top: 60, bottom: 60 }, // Margins for the visualization.
+        _innerMargins = { left: _width * 0.06, right: _width * 0.06, top: _width * 0.06, bottom: _width * 0.06 }, // Margins for the visualization.
         _innerPositionProps = { // Positions for our visualizations.
             top: _positionProps.top + _innerMargins.top,
             left: _positionProps.left + _innerMargins.left,
@@ -191,20 +189,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             linearGrad.appendChild( stopElement );
 
             defs.appendChild( linearGrad );
-        },
-
-        _getYPositionOfAttribute = function ( attr ) {
-            var yPos,
-                i,
-                length = self.axes.length;
-            // [TODO]: More efficient way of retrieving the axis needed.
-            for ( i = 0; i < length; i++ ) {
-                if ( self.axes[i].attribute === attr ) {
-                    yPos = self.axes[i].yPos;
-                    break;
-                }
-            }
-            return yPos;
         },
 
         // Calculates spacing of the axes based on the starting point of the focus.
@@ -341,7 +325,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         _setVisibleAxes = function () {
             _visibleAxes = self.axes.filter( axis => axis.visible );
-
             _updateIndicesOfVisibleAxes();
         },
 
@@ -859,11 +842,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             .attr( 'opacity', 0 )
             .attr( 'fill', 'black' );
 
-
-        //self.activateEvent( 'swipeup' );
-        //self.activateEvent( 'swipedown' );
-
-
         self.addEventType( 'Pan', { event: 'pan', pointers: 1, direction: Hammer.DIRECTION_VERTICAL, threshold: 50 } );
         self.addEvent( 'panmove', this.onInteraction );
         self.addEvent( 'panstart', this.onInteraction );
@@ -925,7 +903,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             this.axes.push( axis );
             axis.draw( _innerPositionProps.left, -100 );
         }
-        _axisHeight = axis.height;
+        // Get corrected height after all axis elements have rendered.
+        _axisHeight = this.axes[0].getHeight();
 
         _setVisibleAxes();
     };
@@ -946,7 +925,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         // Ignoring the changes in width for CIs for now as they seem to be insignificant.
         _topCI.reposition( _positionProps.left, 0 );
         _bottomCI.reposition( _positionProps.left, _height - _ciSize );
-
+        _innerMargins.left = _innerMargins.right = _innerMargins.top = _innerMargins.bottom = _width * 0.06;
         _innerPositionProps.width = _positionProps.width - _innerMargins.left - _innerMargins.right;
         _innerPositionProps.height = _positionProps.height - _innerMargins.top - _innerMargins.bottom;
 
@@ -968,20 +947,19 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             wasteByCountries = MoInVis.Paracoords.Data.wasteByCountries,
             i,
             length = regions.length,
-            getColour = d3.scaleOrdinal( d3.schemeCategory10.concat( d3.schemeCategory10 ) ).domain( d3.range( regions.length ) );
-
+            getColour = MoInVis.Paracoords.util.getColour,
+            colourBlindSafe = this.moin.colourScheme === MoInVis.Paracoords.ColourScheme.ColourblindSafe;
         _pathParentGroup = _paracoordHolder
             .append( 'g' )
             .attr( 'id', _id + '_PathParentGrp' );
 
         for ( i = 0; i < length; i++ ) {
             this.paths[regions[i]] = new MoInVis.Paracoords.itemPath( _pathParentGroup, _id, regions[i], this );
-            this.paths[regions[i]].init( wasteByCountries[regions[i]], _chosenYear, getColour( i ) );
+            this.paths[regions[i]].init( wasteByCountries[regions[i]], _chosenYear, getColour( i, colourBlindSafe ) );
             this.paths[regions[i]].draw();
         }
         this.paths['European_sp_Union_sp_-_sp_28_sp_countries_sp__ob_2013-2020_cb_'].setVisibility( false );
         this.paths['European_sp_Union_sp_-_sp_27_sp_countries_sp__ob_from_sp_2020_cb_'].setVisibility( false );
-        this.paths.length = length;
     };
 
     this.getPathPointsInfo = function ( itemName ) {
@@ -1021,6 +999,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 // Remove to the right.
                 _visibleAxes[index].setX( horizontalShift );
             }
+
+            // Send invisible axis to bottom of axes list.
+            self.axes.splice( self.axes.findIndex( axis => axis === _visibleAxes[index] ), 1 );
+            self.axes.push( _visibleAxes[index] );
 
             // Remove axis from stored array.
             // _visibleAxes.splice( index, 1 );
@@ -1175,10 +1157,10 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         }
     };
 
-    this.setBrushRange = function ( axisId, brushId, range ) {
+    this.setBrushValueRange = function ( axisId, brushId, valueRange ) {
         let axis = _visibleAxes.find( item => item.getId() === axisId );
         if ( axis ) {
-            axis.setBrushRange( brushId, range );
+            axis.setBrushValueRange( brushId, valueRange );
         }
     };
 
@@ -1272,6 +1254,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             _setVisibleAxes();
             _resetAxesRanges();
             _setFocusIndex( _focusAndContextSettings.focusIndex );
+            this.brushPaths();
             this.moin.paraCoorderRedrawReq = false;
         }
     };

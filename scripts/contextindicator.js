@@ -63,10 +63,12 @@ MoInVis.Paracoords.contextIndicator = function ( parent, x, y, height, width, id
                 .on( 'pointerdown', function () {
                     _bgRect
                         .attr( 'fill', 'url(#' + ( _isTop ? MoInVis.Paracoords.IdStore.TopCIGradPressed : MoInVis.Paracoords.IdStore.BottomCIGradPressed ) + ')' );
+                    _CIRect.attr( 'opacity', 0.75 );
                 } )
                 .on( 'pointerup', function () {
                     _bgRect
                         .attr( 'fill', 'url(#' + ( _isTop ? MoInVis.Paracoords.IdStore.TopCIGradNormal : MoInVis.Paracoords.IdStore.BottomCIGradNormal ) + ')' );
+                    _CIRect.attr( 'opacity', 1 );
                 } );
 
             // Draw event catcher

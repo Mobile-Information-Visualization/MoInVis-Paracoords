@@ -19,6 +19,12 @@ MoInVis.Paracoords.OverlayTransitionSpeed = 1000;
 MoInVis.Paracoords.FastTransitionSpeed = 500;
 MoInVis.Paracoords.DeleteTransitionSpeed = 500;
 MoInVis.Paracoords.TransitionSpeed = MoInVis.Paracoords.NormalTransitionSpeed;
+
+MoInVis.Paracoords.ColourScheme = {
+    Normal: 0,
+    ColourblindSafe: 1
+};
+
 MoInVis.Paracoords.HammerSettings = {
     events: {
         swipeUp: 'swipeup',
@@ -83,6 +89,9 @@ MoInVis.Paracoords.moin = function ( width, height ) {
         };
 
     this.paraCoorderRedrawReq = false;
+
+    this.colourScheme = MoInVis.Paracoords.ColourScheme.Normal;
+
     _init();
 
 };

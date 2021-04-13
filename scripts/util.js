@@ -10,6 +10,9 @@ MoInVis.Paracoords = MoInVis.Paracoords || {};
 
 
 MoInVis.Paracoords.util = ( function () {
+    var _colours = 10,
+        _getNormalColour = index => d3.schemeCategory10[index % _colours],
+        _getColourblindSafeColour = index => d3.interpolateRdYlBu( ( index % _colours ) / ( _colours - 1 ) );
     return {
         format: function ( val ) {
             if ( val > 1000000 ) {
@@ -37,6 +40,16 @@ MoInVis.Paracoords.util = ( function () {
                 }
             }
             return newObj;
+        },
+
+        getColour: function ( index, colourblindSafe ) {
+            var colour;
+            if ( colourblindSafe ) {
+                colour = _getColourblindSafeColour( index );
+            } else {
+                colour = _getNormalColour( index );
+            }
+            return colour;
         }
     };
 } )();

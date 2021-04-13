@@ -92,6 +92,11 @@ line {
 /*Brush setter styles.*/
 
 #brushSetterOverlay {
+    width: 100% !important;
+    height: 100% !important;
+    margin: auto;
+    font-family: "Helvetica", sans-serif;
+    color: #f0f0f0;
     background: rgb( 50, 50, 50);
     border-top-right-radius: 120px;
     border-top-left-radius: 120px;
@@ -126,7 +131,7 @@ line {
     text-align: center;
     color: white;
     user-select: none;
-    font-weight: bold;
+    font-weight: 400;
     width: inherit;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
