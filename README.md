@@ -27,7 +27,7 @@ if ( a === 10 ) {
 ```
 - Always use `===` to check equality.
 - `==` checks only value and not type. `1 == ‘1’ // true`
-- `===` checks both value and type. `1=== ‘1’ // false`
+- `===` checks both value and type. `1 === ‘1’ // false`
 - Use *semicolons* after each command.
 - Use *indentations* and line breaks for readability.
 ## Strings -
