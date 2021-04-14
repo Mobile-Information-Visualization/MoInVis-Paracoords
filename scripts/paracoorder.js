@@ -1196,7 +1196,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         // So we delay lowering the flag till after all hammer events are fired.
         setTimeout( function () {
             _axesReorderMode = false;
-        }, 0 );
+        }, 500 );
     };
 
     this.checkIfAxesReorderMode = function () {
