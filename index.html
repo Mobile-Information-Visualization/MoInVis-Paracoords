@@ -61,7 +61,7 @@
                 <transition-group class="axisStore" key="axesArray" id="simpleList" name="flip-list" tag="ul">
 
                     <!-- <div key="panelBoxParent" class="focusPanelParent" :style="{width: boxWidth.long +'px',height: boxHeight * notSortableIndexFrom + 'px'}"> -->
-                    <div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px',height: (boxHeight * getNumberAxesInFocus) + 'px'}">
+                    <div key="panelBox" class="focusPanel draggable" :style="{width: boxWidth.short +'px', height: (boxHeight * getNumberAxesInFocus) + 'px'}">
 
                         <label class="drag-handle-focusPanel" id="drag-handle-focusPanel">
                             &duhar;
@@ -92,14 +92,12 @@
         </div>
         <div id="entryStoreTab">
             <header class="entryStore">
-                <div class="entryToggleContainer">
-                    <!--<button class="entryStoreColorSchemeToggle"><i class="fa fa-plus-circle" style="font-size:inherit;color:inherit"></i></button>-->
-                    <!--<button class="entryStoreVisibilityToggle" @click="toggleVisibility"><i class="fa fa-plus-circle" style="font-size:inherit;color:inherit"></i></button>-->
-                    <input class="entryStoreVisibilityToggle" type="image" src="images/select-all.png" @click="toggleVisibility" />
-                    <input class="entryStoreColorSchemeToggle" type="image" :src="colourBlindSafe?'images/normalpalette.png':'images/colourblindpalette.png'" @click="toggleColourScheme" />
+                <input class="entryStoreVisibilityToggle" type="image" src="images/select-all.png" @click="toggleVisibility" />
+                <div class="entryStoreCentralContent">
+                    <output class="entryStore">{{ totalEntries }}</output>
+                    <label class="entryStoreHeader">Total entries</label>
                 </div>
-                <output class="entryStore">{{ totalEntries }}</output>
-                <label class="entryStoreHeader">Total entries</label>
+                <input class="entryStoreColorSchemeToggle" type="image" :src="colourBlindSafe?'images/normalpalette.png':'images/colourblindpalette.png'" @click="toggleColourScheme" />
             </header>
             <main class="entryStore">
                 <ol class="entryStore" id="entryListParent">
@@ -135,7 +133,7 @@
                             <span class="slider round"></span>
                         </label>
                         <transition name="modal">
-                            <modal v-if="item.inFocus" @close="item.inFocus = false" :brushprops="item">
+                            <modal v-if="item.inFocus" @close="item.inFocus = false" :brushprops="item"/>
                         </transition>
                         <div class="brushliborder"><!--This div holds the bottom border for each list element.--></div>
                     </li>
