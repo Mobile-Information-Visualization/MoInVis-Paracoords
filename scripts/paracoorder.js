@@ -1190,8 +1190,13 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             this.axes[i].getInteractionManager().leaveAxesReorderMode();
             this.axes[i].stopWiggling();
         }
-        _axesReorderMode = false;
-        this.switchOnEvents();
+        this.switchOnEvents( true );
+        // Using a setTimeout because if tap occurred on axis label, the tap is called for axisinteractionmanager too.
+        // We don't want the detail view popping up when we are only disabling the reorder mode.
+        // So we delay lowering the flag till after all hammer events are fired.
+        setTimeout( function () {
+            _axesReorderMode = false;
+        }, 0 );
     };
 
     this.checkIfAxesReorderMode = function () {
@@ -1258,7 +1263,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             this.moin.paraCoorderRedrawReq = false;
         }
     };
-
     //[TODO]: Write Clean up method.
 };
 
