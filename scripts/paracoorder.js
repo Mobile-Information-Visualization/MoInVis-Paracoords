@@ -89,7 +89,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _lastPosY = 0,
         _lastDeltaY = 0,
         _isDragging = false,
-        _indexOfDraggedAxis = 0,
         _yPosOfVisibleAxes = [],
         _dragBuffer, // Buffer for better dragging
 
@@ -303,20 +302,42 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             _shiftPaths( false );
         },
 
-        _swapAxes = function ( indexA, indexB ) {
+        _swapAxes = function ( indexA, indexB, indexGlobalA, indexGlobalB ) {
             // Swap axes in array.
-            const helpVariable = _visibleAxes[indexA];
+            let helpVariable = _visibleAxes[indexA];
             _visibleAxes[indexA] = _visibleAxes[indexB];
             _visibleAxes[indexB] = helpVariable;
 
             // Update indices stored in axes.
             _visibleAxes[indexA].indexInVisibilityArray = indexA;
             _visibleAxes[indexB].indexInVisibilityArray = indexB;
+
+
+            // Swap axes in global array.
+            helpVariable = self.axes[indexGlobalA];
+            self.axes[indexGlobalA] = self.axes[indexGlobalB];
+            self.axes[indexGlobalB] = helpVariable;
+
+            // Update indices stored in axes.
+            self.axes[indexGlobalA].indexInGlobalArray = indexGlobalA;
+            self.axes[indexGlobalB].indexInGlobalArray = indexGlobalB;
         },
 
         _setVisibleAxes = function () {
             _visibleAxes = self.axes.filter( axis => axis.visible );
             _updateIndicesOfVisibleAxes();
+        },
+
+        _updateIndicesOfVisibleAxes = function () {
+            for ( let i = 0; i < _visibleAxes.length; i++ ) {
+                _visibleAxes[i].indexInVisibilityArray = i;
+            }
+        },
+
+        _updateGlobalIndices = function () {
+            for ( i = 0; i < self.axes.length; i++ ) {
+                self.axes[i].indexInGlobalArray = i;
+            }
         },
 
         /* var in _resetAxesRanges
@@ -504,12 +525,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                     // They will only slow rendering down.
                     self.paths[path].recalculate( dontAnimate );
                 }
-            }
-        },
-
-        _updateIndicesOfVisibleAxes = function () {
-            for ( let i = 0; i < _visibleAxes.length; i++ ) {
-                _visibleAxes[i].indexInVisibilityArray = i;
             }
         },
 
@@ -884,6 +899,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         for ( i = 0; i < length; i++ ) {
             axis = new MoInVis.Paracoords.axis( _axisParentGroup, _id + '_Year_' + _chosenYear, attributes[i], _attrScales.get( attributes[i].prop ), this );
+            axis.indexInGlobalArray = i;
             this.axes.push( axis );
             axis.draw( _innerPositionProps.left, -100 );
         }
@@ -891,10 +907,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _axisHeight = this.axes[0].getHeight();
 
         _setVisibleAxes();
-
-        for ( i = 0; i < _visibleAxes.length; i++ ) {
-            _visibleAxes[i].indexInVisibilityArray = i;
-        }
     };
 
     this.resize = function () {
@@ -974,7 +986,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         return { points, emphasis };
     };
 
-    this.removeAxis = function ( index, swipeLeft ) {
+    this.removeAxis = function ( index, indexGlobal, swipeLeft ) {
         if ( _visibleAxes.length > 2 ) {
             const horizontalShift = 2 * window.innerWidth;
 
@@ -993,10 +1005,15 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             self.axes.push( _visibleAxes[index] );
 
             // Remove axis from stored array.
+            // _visibleAxes.splice( index, 1 );
             _visibleAxes[index].setVisibility( false );
-            _visibleAxes.splice( index, 1 );
+            _setVisibleAxes();
             // Update indices of axes.
-            _updateIndicesOfVisibleAxes();
+            // _updateIndicesOfVisibleAxes();
+
+            // Shift axis in global array to bottom.
+            self.axes.push( self.axes.splice( indexGlobal, 1 )[0] );
+            _updateGlobalIndices();
 
             // Update view.
             _calculateAxisSpacing();
@@ -1012,7 +1029,6 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
 
         _lastPosY = yPos;
         _isDragging = true;
-        _indexOfDraggedAxis = id;
         _dragBuffer = boxHeight / 2;
 
         // Prepare y-values for axis swap.
@@ -1037,7 +1053,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
         _yPosOfVisibleAxes = [];
     };
 
-    this.reorderAxis = function ( deltaY, index ) {
+    this.reorderAxis = function ( deltaY, index, indexGlobal ) {
         // Compute new value.
         const newPosY = deltaY + _lastPosY;
 
@@ -1058,7 +1074,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 if ( newPosY > ( _visibleAxes[index + 1].yPos - _dragBuffer ) ) {
                     // Passed subjacent axis.
 
-                    _swapAxes( index, index + 1 );
+                    _swapAxes( index, index + 1, indexGlobal, indexGlobal + 1 );
                     _rearrangeAxes();
                     passedAnotherAxis = true;
                 }
@@ -1075,7 +1091,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
                 if ( newPosY < ( _visibleAxes[index - 1].yPos + _dragBuffer ) ) {
                     // Passed overlying axis.
 
-                    _swapAxes( index, index - 1 );
+                    _swapAxes( index, index - 1, indexGlobal, indexGlobal - 1 );
                     _rearrangeAxes();
                     passedAnotherAxis = true;
                 }
@@ -1165,6 +1181,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             }
             _axesReorderMode = true;
             this.switchOffEvents( true );
+            // window.navigator.vibrate(200);
         }
     };
 
@@ -1189,6 +1206,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             if ( eventType === 'tap' ) {
                 // [TODO] Behaviour of reorder mode (on/off) when context indicators were tapped.
                 self.leaveAxesReorderMode();
+
                 /*topHiddenAxes = _focusIndex - _axesInTopContext;
                 bottomHiddenAxes = _visibleAxes.length - _focusIndex - _axesInFocus - _axesInBottomContext;
                 _topCI.setContextText( topHiddenAxes );
@@ -1232,6 +1250,7 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
     // Called whenever this tab comes into focus.
     this.onTabFocus = function () {
         if ( this.moin.paraCoorderRedrawReq ) {
+            _updateGlobalIndices();
             _setVisibleAxes();
             _resetAxesRanges();
             _setFocusIndex( _focusAndContextSettings.focusIndex );
