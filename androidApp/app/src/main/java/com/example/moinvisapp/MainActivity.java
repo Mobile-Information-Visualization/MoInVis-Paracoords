@@ -6,6 +6,7 @@ import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class MainActivity extends Activity {
 
@@ -23,7 +24,8 @@ public class MainActivity extends Activity {
         /*webView.addJavascriptInterface(new WebAppInterface(this), "AndroidInterface");*/
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.setWebChromeClient(new MyWebChromeClient());
+        /*webView.setWebChromeClient(new MyWebChromeClient());*/
+        webView.setWebViewClient(new WebViewClient());
 
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
