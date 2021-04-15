@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
 
         WebView webView = findViewById(R.id.webview);
         /*webView.loadUrl("http://192.168.178.20:8888");*/
-        webView.loadUrl("http://moin.vrsys.org");
+        webView.loadUrl("https://moin.vrsys.org");
         webView.clearCache(true);
 
         /*webView.addJavascriptInterface(new WebAppInterface(this), "AndroidInterface");*/
