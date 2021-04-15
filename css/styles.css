@@ -1,3 +1,7 @@
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: 0;
+}
 
 /* scroll bar design */
 ::-webkit-scrollbar {
@@ -16,8 +20,9 @@
         background: #555;
     }
 
+
 /* Lato font */
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');*/
 
 
 body {
@@ -536,6 +541,7 @@ input:checked + .slider:before {
     width: calc( 100% - 8vw );
     height: 58px;
     padding: 0 4vw 0 4vw;
+    overflow-x: overlay;
 }
 
 #axisDetailView_SVG {

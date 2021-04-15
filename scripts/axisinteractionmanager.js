@@ -108,13 +108,12 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
         // Offer reorder mode interactions.
         if ( _paracoorder.checkIfAxesReorderMode() ) {
             switch ( eventType ) {
-
                 case 'panstart':
                     _paracoorder.startAxisReordering( _axis.yPos, _axisId, _axis.indexInVisibilityArray, _axis.height );
                     break;
 
                 case 'pan':
-                    _paracoorder.reorderAxis( event.deltaY, _axis.indexInVisibilityArray );
+                    _paracoorder.reorderAxis( event.deltaY, _axis.indexInVisibilityArray, _axis.indexInGlobalArray );
                     break;
 
                 case 'panend':
@@ -122,7 +121,7 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
                     break;
 
                 case 'swipeleft':
-                    _paracoorder.removeAxis( _axis.indexInVisibilityArray, true );
+                    _paracoorder.removeAxis( _axis.indexInVisibilityArray, _axis.indexInGlobalArray, true );
                     break;
             }
         }
@@ -151,7 +150,7 @@ MoInVis.Paracoords.axisInteractionManager = function ( axis, axisGroup, axisInne
                         _brushManager.onTap( event );
                     }
                     break;
-                    
+
                 case 'doubletap':
                     _brushManager.onDoubleTap( event );
                     break;
