@@ -2,6 +2,13 @@ plugins {
     id 'com.android.application'
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14.1'
+}
+
+task prepareKotlinBuildScriptModel {
+}
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
