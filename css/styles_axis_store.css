@@ -1,9 +1,8 @@
 #attrStoreTab {
     width: 100% !important;
     height: 100% !important;
-
     margin: auto;
-    font-family: "Helvetica", sans-serif;
+    font-family: 'Helvetica', 'Arial', sans-serif;
     color: #f0f0f0;
 }
 
@@ -95,47 +94,49 @@ main.axisStore {
 
 ul.axisStore {
     margin: 3%;
-    padding: 0%;
+    padding: 0 0 50px 0;
     list-style-type: none;
     position: relative;
 }
 
 li {
-    /* margin: 3% 3%; */
-    padding: 3% 3%;
-    display: grid;
     grid-template-columns: 1fr 7fr 1fr 1fr;
+
+    padding: 15px 0 15px 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
     align-items: center;
-    cursor: move;
 }
 
 label.my-handle {
-    grid-column-start: 3;
-    grid-column-end: 4;
+    width: 80px;
+    height: 70px;
+    margin: 0 20px 0 0;
     text-align: center;
-    font-size: 3em;
+    font-size: 3.1em;
     cursor: move;
     cursor: -webkit-grabbing;
 }
 
 label.attribute {
-    font-size: 3em;
-    font-weight: lighter;
-    grid-column-start: 2;
-    grid-column-end: 3;
+    width: calc( 100% - 70px - 80px - 110px - 30px - 20px - 20px );
+    font-size: 2.6em;
+    font-weight: 300;
+    margin: 0 30px 0 110px;
     text-align: left;
-    overflow: hidden;
-    white-space: nowrap;
+    overflow-x: hidden;
     text-overflow: ellipsis;
-    padding-left: 3%;
+    white-space: nowrap;
 }
 
 label.container {
-    grid-column-start: 4;
-    grid-column-end: 5;
-    margin-left: auto;
-    height: 100%;
-    width: 50%;
+    height: 70px;
+    width: 60px;
+    margin: 0 20px 0 0;
+    cursor: pointer;
 }
 /* The container */
 .container {
@@ -223,12 +224,13 @@ label.container {
     grid-column-end: 2;
     text-align: center;
     font-size: 5em;
+    margin: 0 20px 0 0;
 }
 
 .focusPanelBar {
     grid-column-start: 2;
     grid-column-end: 3;
-    background-color: #ffa50030;
+    background-color: rgba(0, 139, 139, 0.5);
     height: 100%;
     margin-left: auto;
 }

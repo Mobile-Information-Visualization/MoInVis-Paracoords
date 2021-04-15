@@ -2,20 +2,22 @@
     width: 100% !important;
     height: 100% !important;
     margin: auto;
-    font-family: "Helvetica", sans-serif;
+    font-family: 'Helvetica', 'Arial', sans-serif;
     color: #f0f0f0;
 }
 
 header.entryStore {
     background-color: rgb(50, 50, 50);
-    height: auto;
-    display: grid;
+    padding: 10px 20px 10px 20px;
     justify-items: center;
     border-color: #525252;
     border-bottom: solid;
     border-width: 1px;
-    grid-template-columns: 1fr repeat(3, 1fr) 1fr;
-    height: 10%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .entryStoreCheckboxLabel {
@@ -39,26 +41,34 @@ header.entryStore {
 
 output.entryStore {
     color: #f0f0f0;
-    grid-column-start: 3;
-    grid-column-end: 4;
-    font-size: 64px;
+    font-size: 3em;
     font-weight: 400;
-    margin: auto;
+    margin: auto auto 10px auto;
 }
 
 .entryToggleContainer {
-    width: 100%;
+    width: calc( 100% - 6% );
+    height: 100%;
+    padding: 0 3% 0 3%;
     display: inline-block;
     position: absolute;
 }
 
+.entryStoreCentralContent {
+    padding: 0 40px 0 40px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .entryStoreVisibilityToggle {
-    font-size: 5em;
+    font-size: 3em;
     background: #323232; /*same as the modal-container's background*/
-    border: 0px;
+    border: 0;
     color: white;
     float: left;
-    padding-left: 10%;
     height: 150px;
     width: 150px;
 }
@@ -66,21 +76,21 @@ output.entryStore {
 .entryStoreColorSchemeToggle {
     font-size: 5em;
     background: #323232; /*same as the modal-container's background*/
-    border: 0px;
+    border: 0;
     color: white;
     float: right;
-    padding-right: 7%;
     height: 150px;
     width: 175px;
 }
 
 label.entryStoreHeader {
     color: #f0f0f0;
-    grid-column-start: 2;
-    grid-column-end: 5;
     font-size: 3em;
-    margin: auto;
+    margin: 0 auto;
     text-align: center;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 main.entryStore {
@@ -90,35 +100,35 @@ main.entryStore {
 }
 
 ol.entryStore {
-    margin: 0%;
-    padding: 6%;
+    margin: 0;
+    padding: 5%;
     list-style-type: none;
 }
 
 li.entryStore {
-    margin: 3% 3%;
-    padding: 3% 3%;
-    display: grid;
-    grid-template-columns: 2fr 8fr 1fr;
+    margin: 0 0 33px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
     align-items: center;
-    cursor: move;
 }
 
 label.entryStoreContainer {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    margin: auto;
-    height: 100%;
-    width: 50%;
+    margin: 0;
+    height: 70px;
+    width: 70px;
+    cursor: pointer;
 }
 
 label.entryText {
-    font-size: 3em;
-    font-weight: 100;
-    grid-column-start: 2;
-    grid-column-end: 3;
+    width: calc( 100% - 70px - 50px - 30px - 30px );
+    font-size: 2.6em;
+    font-weight: 300;
+    margin: 0 30px 0 30px;
     text-align: left;
-    overflow: hidden;
+    overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -129,18 +139,16 @@ label.entryColor {
 .entryColor {
     width: 50px;
     height: 50px;
-    /*margin-top: 8pc; */
+    margin: 0;
     border: 2px solid #525252;
     border-radius: 50%;
-    cursor: initial;
 }
 
 /* The container */
 .entryStoreContainer {
     display: block;
     position: relative;
-    cursor: initial;
-    font-size: 22px;
+    /*font-size: 22px;*/
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -151,7 +159,6 @@ label.entryColor {
 input.entryStoreContainer {
     position: absolute;
     opacity: 0;
-    cursor: initial;
     height: 100%;
     width: 100%;
 }
@@ -195,3 +202,4 @@ span.entryStoreCheckmark {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}

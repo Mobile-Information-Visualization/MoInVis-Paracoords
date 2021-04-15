@@ -31,7 +31,7 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
             y: 0
         },
         _getFocusPanelStartPosition = function () {
-            return _focusPanelStartPosition
+            return _focusPanelStartPosition;
         },
 
         _init = function () {

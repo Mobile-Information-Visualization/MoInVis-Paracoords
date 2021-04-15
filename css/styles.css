@@ -1,3 +1,4 @@
+/*To avoid highlighted borders*/
 * {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     outline: 0;
@@ -47,7 +48,7 @@ body {
 }
 
 .attrNameText {
-    font-family: Arial;
+    font-family: 'Helvetica', 'Arial', sans-serif;
     font-weight: 400;
     /*letter-spacing: 0.01em;*/
     fill: #eeeeee;
@@ -67,14 +68,14 @@ body {
 }
 
 .CIText {
-    font-family: Arial;
+    font-family: 'Helvetica', 'Arial', sans-serif;
     fill: #eeeeee;
     font-size: 1.75em;
     font-style: normal;
 }
 
 .ParaCoord_Axis_Class .tick text {
-    font-family: Arial;
+    font-family: 'Helvetica', 'Arial', sans-serif;
     font-weight: 300;
     fill: #eeeeee;
     font-size: 3.3em;
@@ -95,7 +96,7 @@ line {
     width: 100% !important;
     height: 100% !important;
     margin: auto;
-    font-family: "Helvetica", sans-serif;
+    font-family: 'Helvetica', 'Arial', sans-serif;
     color: #f0f0f0;
     background: rgb( 50, 50, 50);
     border-top-right-radius: 120px;
@@ -504,14 +505,14 @@ input:checked + .slider:before {
 
 #axisDetailView_BarLabel_Name,
 #axisDetailView_BarLabel_Value {
-    font-family: Arial;
+    font-family: 'Helvetica', 'Arial', sans-serif;
     font-size: 1em;
     fill: white;
     overflow-wrap: break-word;
 }
 
 #attributeName {
-    font-family: Arial;
+    font-family: 'Helvetica', 'Arial', sans-serif;
     color: white;
     font-size: 2.6em;
     font-weight: 400;
@@ -522,7 +523,7 @@ input:checked + .slider:before {
 }
 
 #attributeUnit {
-    font-family: Arial;
+    font-family: 'Helvetica', 'Arial', sans-serif;
     color: white;
     font-size: 1.75em;
     font-weight: 400;
@@ -582,7 +583,7 @@ input:checked + .slider:before {
 }*/
 
 h1 {
-    font-family: Arial;
+    font-family: 'Helvetica', 'Arial', sans-serif;
     color: lightgrey;
 }
 
