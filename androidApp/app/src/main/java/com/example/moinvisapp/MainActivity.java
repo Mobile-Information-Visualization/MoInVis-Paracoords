@@ -16,10 +16,11 @@ public class MainActivity extends Activity {
         this.setContentView(R.layout.activity_main);
 
         WebView webView = findViewById(R.id.webview);
-        webView.loadUrl("http://192.168.178.20:8888");
+        /*webView.loadUrl("http://192.168.178.20:8888");*/
+        webView.loadUrl("http://moin.vrsys.org");
         webView.clearCache(true);
 
-//        webView.addJavascriptInterface(new WebAppInterface(this), "AndroidInterface");
+        /*webView.addJavascriptInterface(new WebAppInterface(this), "AndroidInterface");*/
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setWebChromeClient(new MyWebChromeClient());
