@@ -128,7 +128,7 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         _hammerMan.stop( true );
     };
 
-    this.switchOnEvents = function () {
+    this.switchOnEvents = function ( onlySwipeEvents = false ) {
         let evt;
         if ( _activeEvents.indexOf( 'swipeleft' ) > -1 ) {
             this.switchOnSwipeLeftEvent();
@@ -136,9 +136,11 @@ MoInVis.Paracoords.tab = function ( parentDiv ) {
         if ( _activeEvents.indexOf( 'swiperight' ) > -1 ) {
             this.switchOnSwipeRightEvent();
         }
-        for ( evt in _addedEvents ) {
-            if ( _activeEvents.indexOf( evt ) > -1 ) {
-                _hammerMan.on( evt, _addedEvents[evt] );
+        if ( !onlySwipeEvents ) {
+            for ( evt in _addedEvents ) {
+                if ( _activeEvents.indexOf( evt ) > -1 ) {
+                    _hammerMan.on( evt, _addedEvents[evt] );
+                }
             }
         }
     };
