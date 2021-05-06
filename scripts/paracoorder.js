@@ -227,6 +227,9 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             if ( _focusIndex < _axesInTopContext ) {
                 // When focus index is closer to top, adjust the no. of axes in top context.
                 _axesInTopContext = _focusIndex;
+                if ( _axesInBottomContext === 0 ) {
+                    _axesInBottomContext = _axesInContext - _axesInTopContext;
+                }
             } else if ( _focusIndex + _axesInFocus > axisCount - _axesInBottomContext ) {
                 // When focus index is closer to bottom, adjust the no. of axes in bottom context.
                 _axesInBottomContext = axisCount - ( _focusIndex + _axesInFocus );
@@ -987,7 +990,8 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
     };
 
     this.removeAxis = function ( index, indexGlobal, swipeLeft ) {
-        if ( _visibleAxes.length > 2 ) {
+        var newFI;
+        if ( _visibleAxes.length > _focusAndContextSettings.minAxesInFocus ) {
             const horizontalShift = 2 * window.innerWidth;
 
             // Remove axis from visualisation.
@@ -1005,16 +1009,20 @@ MoInVis.Paracoords.paracoorder = function ( moin, parentDiv, svgParent ) {
             self.axes.push( _visibleAxes[index] );
 
             // Remove axis from stored array.
-            // _visibleAxes.splice( index, 1 );
             _visibleAxes[index].setVisibility( false );
             _setVisibleAxes();
-            // Update indices of axes.
-            // _updateIndicesOfVisibleAxes();
-
-            // Shift axis in global array to bottom.
-            self.axes.push( self.axes.splice( indexGlobal, 1 )[0] );
             _updateGlobalIndices();
 
+            if ( _focusIndex + _axesInFocus > _visibleAxes.length ) {
+                newFI = _visibleAxes.length - _axesInFocus;
+                if ( newFI >= 0 ) {
+                    _setFocusIndex( newFI );
+                    // Returning because _calculateAxisSpacing and _rearrangeAxes are called in _setFocusIndex already.
+                    return;
+                } else {
+                    _focusAndContextSettings.axesInFocus--;
+                }
+            }
             // Update view.
             _calculateAxisSpacing();
             _rearrangeAxes();

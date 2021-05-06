@@ -376,6 +376,14 @@ MoInVis.Paracoords.attributeStore = function ( moin, parentDiv, axes, focusConte
         _vueData.focusContextSettings.axesInFocus = 0;
         _vueData.focusContextSettings.axesInFocus = temp;
 
+        // Set the notSortableIndexFrom property.
+        for ( temp = 0; temp < _vueData.axesArray.length; temp++ ) {
+            if ( _vueData.axesArray[temp].visible === false ) {
+                break;
+            }
+        }
+        _vueData.notSortableIndexFrom = temp;
+
         _adjustFocusPanel();
 
         // Forcing view update for axesArray ordering.
