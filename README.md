@@ -1,4 +1,6 @@
-![](https://i.imgur.com/p4VkrJB.jpg =100%x)
+<p align="center">
+  <img src="https://i.imgur.com/p4VkrJB.jpg" width="auto">
+</p>
 
 
 # Abstract
@@ -44,7 +46,11 @@ An option to switch to a color-blind friendly palette for the visual design is a
 It is crucial that the scale ticks contain minimum and maximum value since it greatly affects how to perceive multivariable dataset. (However, this was left for future work. It is unimplemented at the moment)
 ### 4. Label positioned above this axis
 Position labels above the axis to conserve space.
-![](https://i.imgur.com/WR2GkPx.png)
+
+<p align="center">
+  <img src="https://i.imgur.com/WR2GkPx.png" width="600">
+</p>
+
 ### 5. Avoid gesture conflicts
 When designing gesture interactions, avoid similar gestures on the same element, or same gestures that do different things in different areas. We focussed on commonly known gestures, as recommended by guidelines recommended by app developement bigshots like Google and Apple. But we recognise that other less commonly known/used gestures might be better suited for some interactions.
 
