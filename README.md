@@ -471,5 +471,3 @@ var string1 = ‘string’;
 - Replace [ip] with computer's ip adress in startserver before running. Both mobile and computer need to be on the same network. 
 - Run the batch file. Browse in mobile with http://[ip]:[port_number]
 
-
-
