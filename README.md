@@ -17,7 +17,7 @@ Our main takeaways from this project are:
 ___
 
 <p align="center">
-  <img src="https://i.imgur.com/TrKYm1Z.jpg" width="auto">
+  <img src="https://i.imgur.com/TrKYm1Z.jpg" width="500">
 </p>
 
 There are two ways to open an instance of our project:
@@ -252,7 +252,7 @@ Most of the interaction gestures and fat finger problem have been examined. In t
 ## Navigation between tabs
 
 <p align="center">
-  <img src="https://i.imgur.com/Su55GKj.jpg" width="90%">
+  <img src="https://i.imgur.com/Su55GKj.jpg" width="100%">
 </p>
 
 Various configurabilities lead the need of additional tab for application setting such as changing the font size, and the features of toggling the switching, and other features when the scale of this application becomes larger. 
@@ -340,7 +340,7 @@ In the current version, the colors are assigned to each entries respectively and
 
 ## Context & Focus
 <p align="center">
-  <img src="https://i.imgur.com/9gsh5kY.png" width="90%">
+  <img src="https://i.imgur.com/9gsh5kY.png" width="650">
 </p>
 
 - Current approach: hidden indicators on both end of visualisation to emphasise the concept of context & focus. 
