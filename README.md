@@ -16,8 +16,8 @@ Our main takeaways from this project are:
 
 ___
 
-<p align="center">
-  <img src="https://i.imgur.com/TrKYm1Z.jpg" width="500">
+<p align="center" style="background-color: #323232">
+  <img src="https://i.imgur.com/TrKYm1Z.jpg" width="600">
 </p>
 
 There are two ways to open an instance of our project:
