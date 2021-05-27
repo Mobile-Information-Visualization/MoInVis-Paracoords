@@ -17,7 +17,7 @@ Our main takeaways from this project are:
 ___
 
 <p align="center">
-  <img src="https://i.imgur.com/6u9UWMe.jpg" width="100%">
+  <img src="https://i.imgur.com/n5icW0C.jpg" width="100%">
 </p>
 
 
@@ -170,7 +170,7 @@ Three views are implemented. The main view with the paracoord, the attribute sto
 To navigate on the main in the parallel coord, a touch gesture was implemented. With this gesture the user can navigate the focus view by scrooling up or down, so that hidden axis are moving from the context area to the focus area (1).
 
 <p align="center">
-  <img src="https://i.imgur.com/7gOG7nz.png" width="80%">
+  <img src="https://i.imgur.com/7gOG7nz.png" width="650">
 </p>
 
 Indicators show how many axis are hidden (2). With touching these indicators, the context area is switching from the context area to the focus area.
@@ -178,14 +178,14 @@ Indicators show how many axis are hidden (2). With touching these indicators, th
 Too see greater details on the focus area, a pinch gesture is used. With a pinch in, more axis are shown in the focus area. By pinching out less axis are shown.
 
 <p align="center">
-  <img src="https://i.imgur.com/SbaEl0a.png" width="80%">
+  <img src="https://i.imgur.com/SbaEl0a.png" width="650">
 </p>
 
 ## Rearrange and hide axis
 Access the reordering mode with a long press on a label (1). This is indicated by a wiggeling of the labels and the axis. Now, the axis can be reordered with a touch gesture (2-3). 
 
 <p align="center">
-  <img src="https://i.imgur.com/Vyj4diY.png" width="80%">
+  <img src="https://i.imgur.com/Vyj4diY.png" width="650">
 </p>
 
 Also in the reordering mode (4), axis can be hided with a swipe to the left (5).
@@ -195,13 +195,13 @@ Also in the reordering mode (4), axis can be hided with a swipe to the left (5).
 Items can be filtered by a brush with a left or right panning gesture. Handles, which disappear in some seconds, prevent the fat finger problem.
 
 <p align="center">
-  <img src="https://i.imgur.com/aTMkj7O.png" width="80%">
+  <img src="https://i.imgur.com/aTMkj7O.png" width="650">
 </p>
 
 Double tab the highlighted filter to open the brush setting (1). In these settings the exact minimum and maximum can be set. Also a virtual keyboard can be opened to enter the exact values.
 
 <p align="center">
-  <img src="https://i.imgur.com/MuKyrzQ.png" width="80%">
+  <img src="https://i.imgur.com/MuKyrzQ.png" width="650">
 </p>
 
 Filters can be activated and deactivated (2). These settings are saved. So the user can switch inbetween the paracoord and the brush setting to analyse the data.
@@ -209,7 +209,7 @@ Filters can be activated and deactivated (2). These settings are saved. So the u
 To get further information about items about one attribute, the related label should be single tabbed. This opens the attribute detail view.
 
 <p align="center">
-  <img src="https://i.imgur.com/rnsIRQN.png" width="80%">
+  <img src="https://i.imgur.com/rnsIRQN.png" width="650">
 </p>
 
 The items can be sorted by interest. Filtered items differs by the color and the opacity. To see the exact values, tab the attribute label.
@@ -224,7 +224,7 @@ Some aspects of our project discussed throughout the design phase and implementa
 1.  Access to axis labels or brushing on axis
 
 <p align="center">
-  <img src="https://i.imgur.com/uBWWnri.png" width="80%">
+  <img src="https://i.imgur.com/uBWWnri.png" width="650">
 </p>
 
 Interaction gestures on the screen area where an axis close to its axis label may result in unexpected feedback, either accidentally single tapping into attribute detail view or activating brushing.
@@ -269,7 +269,7 @@ How to navigate to different tabs sufficiently? Would a naive user know there is
 ## Modification of focus area in attribute tab
 
 <p align="center">
-  <img src="https://i.imgur.com/nCbBq9m.png" width="80%">
+  <img src="https://i.imgur.com/nCbBq9m.png" width="650">
 </p>
 
 In the desgin phase, we discussed deploying pinch gesture(a) in the contrast of using button(b) in attribute tab. Despite of (a) approach would fit into the principle of direct manipulation; however, same gesture is used in main visulaisation for zooming which would change the viewport. This would lead to violation of mapping metaphor in design principle and inconsitency.
@@ -281,7 +281,7 @@ Ideally this application should provide mode switching for our user. And the fea
 2. Colorblind friendly palette
 
 <p align="center">
-  <img src="https://i.imgur.com/7A8CnQT.png" width="80%">
+  <img src="https://i.imgur.com/7A8CnQT.png" width="650">
 </p>
 
 The rationale for providing different color palette:
@@ -299,7 +299,7 @@ We discovered that using absolute and relative data would affect how users perce
 4. Log scale for pattern comparison
 
 <p align="center">
-  <img src="https://i.imgur.com/LRyMGIX.png" width="80%">
+  <img src="https://i.imgur.com/LRyMGIX.png" width="650">
 </p>
 
 Most of the items are clustered on the left side of scale. This affects users to perceive pattern. One of the potential solution instead of using linear scale is:
@@ -309,7 +309,7 @@ Most of the items are clustered on the left side of scale. This affects users to
 ## Pattern comparison
 
 <p align="center">
-  <img src="https://i.imgur.com/L7CAhZ7.png" width="80%">
+  <img src="https://i.imgur.com/L7CAhZ7.png" width="650">
 </p>
 
 Consider the following user case:
@@ -337,7 +337,7 @@ In the current version, the colors are assigned to each entries respectively and
 
 ## Context & Focus
 <p align="center">
-  <img src="https://i.imgur.com/9gsh5kY.png" width="80%">
+  <img src="https://i.imgur.com/9gsh5kY.png" width="650">
 </p>
 
 - Current approach: hidden indicators on both end of visualisation to emphasise the concept of context & focus. 
@@ -447,8 +447,8 @@ var foo = [];
 - Open a curly brace on the same line.
 ```
 if ( a === 10 ) {
-	......
-	}
+    ......
+    }
 ```
 - Always use `===` to check equality.
 - `==` checks only value and not type. `1 == ‘1’ // true`
@@ -466,6 +466,7 @@ var string1 = ‘string’;
 - Server command: python -m http.server [port_number] --bind [ip]
 - Replace [ip] with computer's ip adress in startserver before running. Both mobile and computer need to be on the same network. 
 - Run the batch file. Browse in mobile with http://[ip]:[port_number]
+
 
 
 
