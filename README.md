@@ -16,7 +16,23 @@ Our main takeaways from this project are:
 
 ___
 
-# Links and Video
+# Introduction
+## Try MoIn
+
+<p align="center">
+  <img src="https://i.imgur.com/TrKYm1Z.jpg" width="auto">
+</p>
+
+There are two ways to open an instance of our project:
+1. **Via Browser:**
+You can open the application directly via [moin.vrsys.org](https://moin.vrsys.org/) in a browser app on your mobile device.
+Doesn't matter if iOS or Android.
+2. **Via APK:**
+For Android users we also offer an APK which can be downloaded [here](https://moin.vrsys.org/MoInVisApp.apk).
+The App accesses the in (1) mentioned web page and ensures a fullscreen.
+
+
+## Useful Links and Video
 **Authors:**
 - Aalok Shashidhar Gokhale (aalok.shashidhar.gokhale@uni-weimar.de)
 - Josef Roth (josef.roth@uni-weimar.de)
@@ -24,12 +40,10 @@ ___
 - Martin Unterreiner (martin.unterreiner@uni-weimar.de)
 
 **University:**
-- This is the official web page of our university project which framed our system.
-https://www.uni-weimar.de/de/medien/professuren/medieninformatik/vr/teaching/ws-202021/project-mobile-information-visualization/
+- [This is the official web page](https://www.uni-weimar.de/de/medien/professuren/medieninformatik/vr/teaching/ws-202021/project-mobile-information-visualization/) of our university project.
 
 **Video:**
-- The video below showcases the application *MoIn* developed by us.
-http://bit.ly/MoInVis
+- [This video](http://bit.ly/MoInVis) showcases the application *MoIn* developed by us.
 
 ___
 
