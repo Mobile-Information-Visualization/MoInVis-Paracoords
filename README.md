@@ -16,9 +16,6 @@ Our main takeaways from this project are:
 
 ___
 
-# Introduction
-## Try MoIn
-
 <p align="center">
   <img src="https://i.imgur.com/TrKYm1Z.jpg" width="auto">
 </p>
@@ -32,7 +29,7 @@ For Android users we also offer an APK which can be downloaded [here](https://mo
 The App accesses the in (1) mentioned web page and ensures a fullscreen.
 
 
-## Useful Links and Video
+# Useful Links and Video
 **Authors:**
 - Aalok Shashidhar Gokhale (aalok.shashidhar.gokhale@uni-weimar.de)
 - Josef Roth (josef.roth@uni-weimar.de)
@@ -40,16 +37,20 @@ The App accesses the in (1) mentioned web page and ensures a fullscreen.
 - Martin Unterreiner (martin.unterreiner@uni-weimar.de)
 
 **University:**
-- [This is the official web page](https://www.uni-weimar.de/de/medien/professuren/medieninformatik/vr/teaching/ws-202021/project-mobile-information-visualization/) of our university project.
+- [This is the official web page](https://www.uni-weimar.de/de/medien/professuren/medieninformatik/vr/teaching/ws-202021/project-mobile-information-visualization/) of this university project.
 
 **Video:**
 - [This video](http://bit.ly/MoInVis) showcases the application *MoIn* developed by us.
 
 ___
 
+# Introduction
+
+___
+
 # UI and UX Design Guide
-As a group, we reviewed existing literature and studied about common problems while designing for mobile (mobile friendly problems), such as the fat finger problem, and some solutions. This led to the formation of a design rules which we would adhere to while designing and implementing our mobile visualization.
-This was followed by a lot of paper-prototyping, critiquing and discussions, where we evaluated the designs against the design rules at every turn before we arrived at our final prototype design.
+As a group, we reviewed existing literature and studied about common problems while designing for mobile, such as the fat finger problem. This led to the formation of design rules which we would adhere to while designing and implementing our mobile visualization.
+It was followed by a lot of paper-prototyping, critiquing and discussions, where we evaluated the designs against the design rules at every turn before we arrived at our final prototype.
 
 ## Design Rules
 ### 1. Portrait mode first
@@ -85,7 +86,9 @@ Certain design decisions had to be made to enhance the user experience of the sy
 ### 2. Avoid interference with system screen-edge gestures
 Mobile devices usually have screen-edge gestures. To avoid interfering with these functionalities, we designed our visualization layout with margins.
 
-![](https://i.imgur.com/WR2GkPx.png)
+<p align="center">
+  <img src="https://i.imgur.com/WR2GkPx.png" width="600">
+</p>
 
 
 
@@ -96,15 +99,25 @@ The fat finger problem leads to inaccuracy of interactions and occluion of scree
 Brushes are created by with a pan gesture on the axis. The handles appear after the brush is created, and disappear after a while. The handles help edit the brush ends, and they can be reactivated on tapping on the brush.
 The handles are positioned diagonally so that they do not clash when the brush is small.
 
-![](https://i.imgur.com/P9cGfeI.png)
+<p align="center">
+  <img src="https://i.imgur.com/P9cGfeI.png" width="600">
+</p>
+
 The interactable area of handles is not restricted only to the visual shape of the handle and is slightly larger for easier access.
 
-When using the top handle, the axis will be occluded. This is avoided by decoupling the gesture along the y-axis. This means that after the gesture is started, the user is free to move their finger vertically without losing control of the handle, and then further adjust the brush without occlusion. 
-![](https://i.imgur.com/kqXc8BT.png)
+When using the top handle, the axis will be occluded. This is avoided by decoupling the gesture along the y-axis. This means that after the gesture is started, the user is free to move their finger vertically without losing control of the handle, and then further adjust the brush without occlusion.
+
+<p align="center">
+  <img src="https://i.imgur.com/kqXc8BT.png" width="600">
+</p>
+
 Gesture decoupling is also done during creation of the brush.
 
 For greater precision, a brush settings tab is available.
-![](https://i.imgur.com/fflNLAG.png)
+
+<p align="center">
+  <img src="https://i.imgur.com/fflNLAG.png" width="600">
+</p>
 
 #### Axes reordering
 The principle of increasing the interactable area is applied to reordring the axes. In reorder mode, the axis is dragged to reorder, and the user is free to start the gesture anywhere on the axis. The interactable area is also greater than the visible area.
@@ -117,7 +130,10 @@ To deal with limited space, no unnecessary buttons are on the main visualisation
 To make use of all available space, the axis labels are placed on top of each axes. To deal with possible occlusion, a reasonable gap is present between the axis and the label. The label is also translucent to improve readability.
 ### 5. Lack of hover state
 With touch interaction, the possibility to identify an item with hover is removed. This is accomplished with the attribute detail overview that displays an overview of the items for a particular attribute and also their values.
-![](https://i.imgur.com/bK82M9Z.png)
+
+<p align="center">
+  <img src="https://i.imgur.com/bK82M9Z.png" width="500">
+</p>
 
 This is activated on tapping the axis label. An item can then be identified using colour.
 ### 6. Dark mode vs Light mode
@@ -148,41 +164,71 @@ Sources -
 Focussing on mobile devices we integrated several interaction gestures. In the following section the main interactions on the main view are presented.
 ## Navigation 
 Three views are implemented. The main view with the paracoord, the attribute store and the entry tab. By swipping to the left or right these views can be entered.
-![](https://i.imgur.com/iVH3iC3.png =640x)
+
+<p align="center">
+  <img src="https://i.imgur.com/iVH3iC3.png" width="600">
+</p>
+
 ## Navigation Scrolling
 To navigate on the main in the parallel coord, a touch gesture was implemented. With this gesture the user can navigate the focus view by scrooling up or down, so that hidden axis are moving from the context area to the focus area (1).
-![](https://i.imgur.com/7gOG7nz.png =640x)
+
+<p align="center">
+  <img src="https://i.imgur.com/7gOG7nz.png" width="600">
+</p>
+
 Indicators show how many axis are hidden (2). With touching these indicators, the context area is switching from the context area to the focus area.
 ## Navigation Zooming by pinching
 Too see greater details on the focus area, a pinch gesture is used. With a pinch in, more axis are shown in the focus area. By pinching out less axis are shown.
-![](https://i.imgur.com/SbaEl0a.png =640x)
+
+<p align="center">
+  <img src="https://i.imgur.com/SbaEl0a.png" width="600">
+</p>
 
 ## Rearrange and hide axis
 Access the reordering mode with a long press on a label (1). This is indicated by a wiggeling of the labels and the axis. Now, the axis can be reordered with a touch gesture (2-3). 
-![](https://i.imgur.com/Vyj4diY.png =640x)
+
+<p align="center">
+  <img src="https://i.imgur.com/Vyj4diY.png" width="600">
+</p>
+
 Also in the reordering mode (4), axis can be hided with a swipe to the left (5).
 
 
 ## Filtering
-Items can be filtered by a brush with a left or right panning gesture. Handles, which disappear in some seconds, prevent the fat finger problem. 
-![](https://i.imgur.com/aTMkj7O.png =640x)
+Items can be filtered by a brush with a left or right panning gesture. Handles, which disappear in some seconds, prevent the fat finger problem.
+
+<p align="center">
+  <img src="https://i.imgur.com/aTMkj7O.png" width="600">
+</p>
 
 Double tab the highlighted filter to open the brush setting (1). In these settings the exact minimum and maximum can be set. Also a virtual keyboard can be opened to enter the exact values.
-![](https://i.imgur.com/MuKyrzQ.png)
+
+<p align="center">
+  <img src="https://i.imgur.com/MuKyrzQ.png" width="600">
+</p>
 
 Filters can be activated and deactivated (2). These settings are saved. So the user can switch inbetween the paracoord and the brush setting to analyse the data.
 ## Embed display information
 To get further information about items about one attribute, the related label should be single tabbed. This opens the attribute detail view.
-![](https://i.imgur.com/rnsIRQN.png =640x)
+
+<p align="center">
+  <img src="https://i.imgur.com/rnsIRQN.png" width="600">
+</p>
+
 The items can be sorted by interest. Filtered items differs by the color and the opacity. To see the exact values, tab the attribute label.
-![](https://i.imgur.com/3a47S9L.png =230x)
+
+<p align="center">
+  <img src="https://i.imgur.com/3a47S9L.png" width="600">
+</p>
 
 # Discussion & Evaluation
 Some aspects of our project discussed throughout the design phase and implementation phases such as the alternatives approach for certain features from our own empirical evaluation.
 ## Gesture conflicts
 1.  Access to axis labels or brushing on axis
 
-![](https://i.imgur.com/uBWWnri.png =640x)
+<p align="center">
+  <img src="https://i.imgur.com/uBWWnri.png" width="600">
+</p>
 
 Interaction gestures on the screen area where an axis close to its axis label may result in unexpected feedback, either accidentally single tapping into attribute detail view or activating brushing.
 
@@ -193,7 +239,9 @@ Interaction gestures on the screen area where an axis close to its axis label ma
 
 2. Horizontal scroll v.s swipe
 
-![](https://i.imgur.com/6NGIOe8.png =210x)
+<p align="center">
+  <img src="https://i.imgur.com/6NGIOe8.png" width="600">
+</p>
 
 Most of the interaction gestures and fat finger problem have been examined. In the implementation phase, we discovered an issue of how to fit long attribute name in small screen. 
 
@@ -203,7 +251,9 @@ Most of the interaction gestures and fat finger problem have been examined. In t
     
 ## Navigation between tabs
 
-![](https://i.imgur.com/Su55GKj.jpg =640x)
+<p align="center">
+  <img src="https://i.imgur.com/Su55GKj.jpg" width="600">
+</p>
 
 Various configurabilities lead the need of additional tab for application setting such as changing the font size, and the features of toggling the switching, and other features when the scale of this application becomes larger. 
 
@@ -220,7 +270,10 @@ How to navigate to different tabs sufficiently? Would a naive user know there is
     - cons: need extra space.
 
 ## Modification of focus area in attribute tab
-![](https://i.imgur.com/nCbBq9m.png =640x)
+
+<p align="center">
+  <img src="https://i.imgur.com/nCbBq9m.png" width="600">
+</p>
 
 In the desgin phase, we discussed deploying pinch gesture(a) in the contrast of using button(b) in attribute tab. Despite of (a) approach would fit into the principle of direct manipulation; however, same gesture is used in main visulaisation for zooming which would change the viewport. This would lead to violation of mapping metaphor in design principle and inconsitency.
 
@@ -230,20 +283,27 @@ Ideally this application should provide mode switching for our user. And the fea
 1. Dark & Light theme
 2. Colorblind friendly palette
 
-![](https://i.imgur.com/7A8CnQT.png =640x)
+<p align="center">
+  <img src="https://i.imgur.com/7A8CnQT.png" width="600">
+</p>
 
 The rationale for providing different color palette:
 
 From our own review, the diverging colors used for colorblind would be hard to be distinguished in small screen. For example the colors assigned to the Croatia, Cyprus, Czech public on the right figure using different hues are easier to be recognised.
 
 3. Unit of measurement absolute  v.s relative data
-![](https://i.imgur.com/KX3EENA.png =320x)
+
+<p align="center">
+  <img src="https://i.imgur.com/KX3EENA.png" width="600">
+</p>
 
 We discovered that using absolute and relative data would affect how users perceive the data especially when data items are countries. Each countries have various population. For informative standpoint to reveal the facts, it is better to provide data per capita as well. For example, the plastic waste in UK and Germany generated similar amount of waste; however Germany has around 15 millions population more than UK, hence, Germany actually generated less plastic waste per person than UK.
 
 4. Log scale for pattern comparison
 
-![](https://i.imgur.com/LRyMGIX.png)
+<p align="center">
+  <img src="https://i.imgur.com/LRyMGIX.png" width="600">
+</p>
 
 Most of the items are clustered on the left side of scale. This affects users to perceive pattern. One of the potential solution instead of using linear scale is:
 - log scale 
@@ -251,7 +311,9 @@ Most of the items are clustered on the left side of scale. This affects users to
 
 ## Pattern comparison
 
-![](https://i.imgur.com/L7CAhZ7.png =640x)
+<p align="center">
+  <img src="https://i.imgur.com/L7CAhZ7.png" width="600">
+</p>
 
 Consider the following user case:
 
@@ -262,8 +324,11 @@ At the moment, our application allow users to apply one brush on each axes. Duri
 1. Due to the limitation of color choices, do we assign the colors to countries or brushing? 
 2. A mechanism of logic is needed for which brush that the brushes of other attributes should follow. For example, which brushes on attribute 8 should the brush on attribute 9 would apply AND logic to?
 
-## Usage of colors 
-![](https://i.imgur.com/ni16jG4.png =320x)
+## Usage of colors
+
+<p align="center">
+  <img src="https://i.imgur.com/ni16jG4.png" width="600">
+</p>
 
 In visualisation, colors often are used for identity channels. How to apply such limited choices to parallel coordinate system in small screen size? 
 
@@ -274,7 +339,9 @@ In the current version, the colors are assigned to each entries respectively and
 - Furthermore, assigning the hues by regions may help. For example assigning first hue to one group of items and the second hue for second group.
 
 ## Context & Focus
-![](https://i.imgur.com/9gsh5kY.png =640x)
+<p align="center">
+  <img src="https://i.imgur.com/9gsh5kY.png" width="600">
+</p>
 
 - Current approach: hidden indicators on both end of visualisation to emphasise the concept of context & focus. 
 - Additional feature: pinch gesture for zooming to realise the context & focus concept. And from our own expert review, we think the approach is sufficient and can be included in the future work if needed.
