@@ -17,8 +17,8 @@ Our main takeaways from this project are:
 ___
 
 <p align="center">
-  <img src="https://i.imgur.com/hdDCJoV.jpg" width="100%" height="200" style="position: absolute; left 0; top: 0;">
-  <img src="https://i.imgur.com/TrKYm1Z.jpg" width="600" style="position: absolute;">
+  <img src="https://i.imgur.com/hdDCJoV.jpg" width="100%" height="200">
+  <img src="https://i.imgur.com/TrKYm1Z.jpg" width="600">
 </p>
 
 
