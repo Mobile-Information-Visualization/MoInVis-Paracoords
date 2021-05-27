@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/p4VkrJB.jpg" width="auto">
+  <img src="https://i.imgur.com/p4VkrJB.jpg" width="100%">
 </p>
 
 
@@ -16,9 +16,9 @@ Our main takeaways from this project are:
 
 ___
 
-<div align="center" style="background-color: #323232; width: 100vw">
+<p align="center" style="background-color: #323232; width: 100%;">
   <img src="https://i.imgur.com/TrKYm1Z.jpg" width="600">
-</div>
+</p>
 
 There are two ways to open an instance of our project:
 1. **Via Browser:**
