@@ -63,7 +63,7 @@ It is crucial that the scale ticks contain minimum and maximum value since it gr
 Position labels above the axis to conserve space.
 
 <p align="center">
-  <img src="https://i.imgur.com/WR2GkPx.png" width="600">
+  <img src="https://i.imgur.com/WR2GkPx.png" width="350">
 </p>
 
 ### 5. Avoid gesture conflicts
@@ -87,7 +87,7 @@ Certain design decisions had to be made to enhance the user experience of the sy
 Mobile devices usually have screen-edge gestures. To avoid interfering with these functionalities, we designed our visualization layout with margins.
 
 <p align="center">
-  <img src="https://i.imgur.com/WR2GkPx.png" width="600">
+  <img src="https://i.imgur.com/WR2GkPx.png" width="350">
 </p>
 
 
@@ -100,7 +100,7 @@ Brushes are created by with a pan gesture on the axis. The handles appear after 
 The handles are positioned diagonally so that they do not clash when the brush is small.
 
 <p align="center">
-  <img src="https://i.imgur.com/P9cGfeI.png" width="600">
+  <img src="https://i.imgur.com/P9cGfeI.png" width="350">
 </p>
 
 The interactable area of handles is not restricted only to the visual shape of the handle and is slightly larger for easier access.
@@ -108,7 +108,7 @@ The interactable area of handles is not restricted only to the visual shape of t
 When using the top handle, the axis will be occluded. This is avoided by decoupling the gesture along the y-axis. This means that after the gesture is started, the user is free to move their finger vertically without losing control of the handle, and then further adjust the brush without occlusion.
 
 <p align="center">
-  <img src="https://i.imgur.com/kqXc8BT.png" width="600">
+  <img src="https://i.imgur.com/kqXc8BT.png" width="350">
 </p>
 
 Gesture decoupling is also done during creation of the brush.
@@ -116,7 +116,7 @@ Gesture decoupling is also done during creation of the brush.
 For greater precision, a brush settings tab is available.
 
 <p align="center">
-  <img src="https://i.imgur.com/fflNLAG.png" width="600">
+  <img src="https://i.imgur.com/fflNLAG.png" width="350">
 </p>
 
 #### Axes reordering
@@ -132,7 +132,7 @@ To make use of all available space, the axis labels are placed on top of each ax
 With touch interaction, the possibility to identify an item with hover is removed. This is accomplished with the attribute detail overview that displays an overview of the items for a particular attribute and also their values.
 
 <p align="center">
-  <img src="https://i.imgur.com/bK82M9Z.png" width="500">
+  <img src="https://i.imgur.com/bK82M9Z.png" width="350">
 </p>
 
 This is activated on tapping the axis label. An item can then be identified using colour.
@@ -166,14 +166,14 @@ Focussing on mobile devices we integrated several interaction gestures. In the f
 Three views are implemented. The main view with the paracoord, the attribute store and the entry tab. By swipping to the left or right these views can be entered.
 
 <p align="center">
-  <img src="https://i.imgur.com/iVH3iC3.png" width="600">
+  <img src="https://i.imgur.com/iVH3iC3.png" width="100%">
 </p>
 
 ## Navigation Scrolling
 To navigate on the main in the parallel coord, a touch gesture was implemented. With this gesture the user can navigate the focus view by scrooling up or down, so that hidden axis are moving from the context area to the focus area (1).
 
 <p align="center">
-  <img src="https://i.imgur.com/7gOG7nz.png" width="600">
+  <img src="https://i.imgur.com/7gOG7nz.png" width="90%">
 </p>
 
 Indicators show how many axis are hidden (2). With touching these indicators, the context area is switching from the context area to the focus area.
@@ -181,14 +181,14 @@ Indicators show how many axis are hidden (2). With touching these indicators, th
 Too see greater details on the focus area, a pinch gesture is used. With a pinch in, more axis are shown in the focus area. By pinching out less axis are shown.
 
 <p align="center">
-  <img src="https://i.imgur.com/SbaEl0a.png" width="600">
+  <img src="https://i.imgur.com/SbaEl0a.png" width="90%">
 </p>
 
 ## Rearrange and hide axis
 Access the reordering mode with a long press on a label (1). This is indicated by a wiggeling of the labels and the axis. Now, the axis can be reordered with a touch gesture (2-3). 
 
 <p align="center">
-  <img src="https://i.imgur.com/Vyj4diY.png" width="600">
+  <img src="https://i.imgur.com/Vyj4diY.png" width="90%">
 </p>
 
 Also in the reordering mode (4), axis can be hided with a swipe to the left (5).
@@ -198,13 +198,13 @@ Also in the reordering mode (4), axis can be hided with a swipe to the left (5).
 Items can be filtered by a brush with a left or right panning gesture. Handles, which disappear in some seconds, prevent the fat finger problem.
 
 <p align="center">
-  <img src="https://i.imgur.com/aTMkj7O.png" width="600">
+  <img src="https://i.imgur.com/aTMkj7O.png" width="90%">
 </p>
 
 Double tab the highlighted filter to open the brush setting (1). In these settings the exact minimum and maximum can be set. Also a virtual keyboard can be opened to enter the exact values.
 
 <p align="center">
-  <img src="https://i.imgur.com/MuKyrzQ.png" width="600">
+  <img src="https://i.imgur.com/MuKyrzQ.png" width="90%">
 </p>
 
 Filters can be activated and deactivated (2). These settings are saved. So the user can switch inbetween the paracoord and the brush setting to analyse the data.
@@ -212,13 +212,13 @@ Filters can be activated and deactivated (2). These settings are saved. So the u
 To get further information about items about one attribute, the related label should be single tabbed. This opens the attribute detail view.
 
 <p align="center">
-  <img src="https://i.imgur.com/rnsIRQN.png" width="600">
+  <img src="https://i.imgur.com/rnsIRQN.png" width="90%">
 </p>
 
 The items can be sorted by interest. Filtered items differs by the color and the opacity. To see the exact values, tab the attribute label.
 
 <p align="center">
-  <img src="https://i.imgur.com/3a47S9L.png" width="600">
+  <img src="https://i.imgur.com/3a47S9L.png" width="350">
 </p>
 
 # Discussion & Evaluation
@@ -227,7 +227,7 @@ Some aspects of our project discussed throughout the design phase and implementa
 1.  Access to axis labels or brushing on axis
 
 <p align="center">
-  <img src="https://i.imgur.com/uBWWnri.png" width="600">
+  <img src="https://i.imgur.com/uBWWnri.png" width="90%">
 </p>
 
 Interaction gestures on the screen area where an axis close to its axis label may result in unexpected feedback, either accidentally single tapping into attribute detail view or activating brushing.
@@ -240,7 +240,7 @@ Interaction gestures on the screen area where an axis close to its axis label ma
 2. Horizontal scroll v.s swipe
 
 <p align="center">
-  <img src="https://i.imgur.com/6NGIOe8.png" width="600">
+  <img src="https://i.imgur.com/6NGIOe8.png" width="350">
 </p>
 
 Most of the interaction gestures and fat finger problem have been examined. In the implementation phase, we discovered an issue of how to fit long attribute name in small screen. 
@@ -252,7 +252,7 @@ Most of the interaction gestures and fat finger problem have been examined. In t
 ## Navigation between tabs
 
 <p align="center">
-  <img src="https://i.imgur.com/Su55GKj.jpg" width="600">
+  <img src="https://i.imgur.com/Su55GKj.jpg" width="90%">
 </p>
 
 Various configurabilities lead the need of additional tab for application setting such as changing the font size, and the features of toggling the switching, and other features when the scale of this application becomes larger. 
@@ -272,7 +272,7 @@ How to navigate to different tabs sufficiently? Would a naive user know there is
 ## Modification of focus area in attribute tab
 
 <p align="center">
-  <img src="https://i.imgur.com/nCbBq9m.png" width="600">
+  <img src="https://i.imgur.com/nCbBq9m.png" width="90%">
 </p>
 
 In the desgin phase, we discussed deploying pinch gesture(a) in the contrast of using button(b) in attribute tab. Despite of (a) approach would fit into the principle of direct manipulation; however, same gesture is used in main visulaisation for zooming which would change the viewport. This would lead to violation of mapping metaphor in design principle and inconsitency.
@@ -284,7 +284,7 @@ Ideally this application should provide mode switching for our user. And the fea
 2. Colorblind friendly palette
 
 <p align="center">
-  <img src="https://i.imgur.com/7A8CnQT.png" width="600">
+  <img src="https://i.imgur.com/7A8CnQT.png" width="90%">
 </p>
 
 The rationale for providing different color palette:
@@ -294,7 +294,7 @@ From our own review, the diverging colors used for colorblind would be hard to b
 3. Unit of measurement absolute  v.s relative data
 
 <p align="center">
-  <img src="https://i.imgur.com/KX3EENA.png" width="600">
+  <img src="https://i.imgur.com/KX3EENA.png" width="350">
 </p>
 
 We discovered that using absolute and relative data would affect how users perceive the data especially when data items are countries. Each countries have various population. For informative standpoint to reveal the facts, it is better to provide data per capita as well. For example, the plastic waste in UK and Germany generated similar amount of waste; however Germany has around 15 millions population more than UK, hence, Germany actually generated less plastic waste per person than UK.
@@ -302,7 +302,7 @@ We discovered that using absolute and relative data would affect how users perce
 4. Log scale for pattern comparison
 
 <p align="center">
-  <img src="https://i.imgur.com/LRyMGIX.png" width="600">
+  <img src="https://i.imgur.com/LRyMGIX.png" width="90%">
 </p>
 
 Most of the items are clustered on the left side of scale. This affects users to perceive pattern. One of the potential solution instead of using linear scale is:
@@ -312,7 +312,7 @@ Most of the items are clustered on the left side of scale. This affects users to
 ## Pattern comparison
 
 <p align="center">
-  <img src="https://i.imgur.com/L7CAhZ7.png" width="600">
+  <img src="https://i.imgur.com/L7CAhZ7.png" width="90%">
 </p>
 
 Consider the following user case:
@@ -340,7 +340,7 @@ In the current version, the colors are assigned to each entries respectively and
 
 ## Context & Focus
 <p align="center">
-  <img src="https://i.imgur.com/9gsh5kY.png" width="600">
+  <img src="https://i.imgur.com/9gsh5kY.png" width="90%">
 </p>
 
 - Current approach: hidden indicators on both end of visualisation to emphasise the concept of context & focus. 
@@ -469,4 +469,6 @@ var string1 = ‘string’;
 - Server command: python -m http.server [port_number] --bind [ip]
 - Replace [ip] with computer's ip adress in startserver before running. Both mobile and computer need to be on the same network. 
 - Run the batch file. Browse in mobile with http://[ip]:[port_number]
+
+
 
