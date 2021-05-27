@@ -16,9 +16,9 @@ Our main takeaways from this project are:
 
 ___
 
-<p align="center" style="background-color: #323232; width: 100vw">
+<div align="center" style="background-color: #323232; width: 100vw">
   <img src="https://i.imgur.com/TrKYm1Z.jpg" width="600">
-</p>
+</div>
 
 There are two ways to open an instance of our project:
 1. **Via Browser:**
