@@ -1,6 +1,7 @@
 <p align="center">
   <!--<img src="https://i.imgur.com/p4VkrJB.jpg" width="auto">-->
-  <img src="https://i.imgur.com/y6MfV8t.jpg" width="auto">
+  <!--<img src="https://i.imgur.com/y6MfV8t.jpg" width="auto">-->
+  <img src="https://i.imgur.com/JwX8YMW.jpg" width="auto">
 </p>
 
 # Abstract
@@ -15,33 +16,92 @@ Our main takeaways from this project are:
 - Explicit design brings more efficiency than adapted design, in the case of designing for mobile.
 
 ___
+# Preamble
+This documentation keeps record of ***MoIn***, a prototype developed as part of a scientific student project of the *Virtual Reality and Visualization Chair* at the ***Bauhaus-University Weimar***. The project was framed by the topic "mobile information visualization".
 
+[This is the official university web page](https://www.uni-weimar.de/de/medien/professuren/medieninformatik/vr/teaching/ws-202021/project-mobile-information-visualization/) of this project.
+
+## Usage
 <p align="center">
-  <img src="https://i.imgur.com/ULIWXfH.jpg" width="100%">
+  <img src="https://i.imgur.com/ju8jMCO.jpg" width="100%">
+</p>
+
+### Download
+There are two ways to open an instance of our web system:
+1. **Via Browser:**
+You can open the application directly via [moin.vrsys.org](https://moin.vrsys.org/) in a browser app on your mobile device. Of course, you can open this web page on your desktop computer too, but remember that it's not optimized for these landscape aspect ratios.
+The system should work on both major operating system, iOS and Android, and on all common browsers.
+2. **Via APK:**
+For Android users we also offer an APK which can be downloaded [here](https://moin.vrsys.org/MoInVisApp.apk).
+The App accesses the in (1) mentioned web page and ensures a fullscreen usage.
+
+### Video
+[This video](http://bit.ly/MoInVis) showcases our application *MoIn* and its major functionalities.
+<p align="center">
+  <img src="https://media.giphy.com/media/kIOkcTGULuU4gtjcin/giphy.gif" width="650">
 </p>
 
 
-There are two ways to open an instance of our project:
-1. **Via Browser:**
-You can open the application directly via [moin.vrsys.org](https://moin.vrsys.org/) in a browser app on your mobile device.
-Doesn't matter if iOS or Android.
-2. **Via APK:**
-For Android users we also offer an APK which can be downloaded [here](https://moin.vrsys.org/MoInVisApp.apk).
-The App accesses the in (1) mentioned web page and ensures a fullscreen.
-
-
-# Useful Links and Video
+## Contact
+Don't hestitate to contact us if you have questions or remarks.
 **Authors:**
 - Aalok Shashidhar Gokhale (aalok.shashidhar.gokhale@uni-weimar.de)
 - Josef Roth (josef.roth@uni-weimar.de)
 - Yen Lung Chen (yen.lung.chen@uni-weimar.de)
 - Martin Unterreiner (martin.unterreiner@uni-weimar.de)
 
-**University:**
-- [This is the official web page](https://www.uni-weimar.de/de/medien/professuren/medieninformatik/vr/teaching/ws-202021/project-mobile-information-visualization/) of this university project.
 
-**Video:**
-- [This video](http://bit.ly/MoInVis) showcases the application *MoIn* developed by us.
+
+# Codebase documentation
+
+## Libraries Used
+These are the libraries we used to implement our prototype:
+- [D3.js](https://d3js.org)
+- [Hammer.js](https://hammerjs.github.io)
+- [Vue.js](https://vuejs.org)
+- [Interact.js](https://interactjs.io)
+- [Sortable.js](https://sortablejs.github.io/Sortable/)
+
+## List of classes
+- #### MoInVis.Paracoords.handler.main
+    Entry point into the application. Prepares page for app-like usage feel for mobile.
+- #### MoInVis.Paracoords.moin
+    Moin Instance. Application parent class that creates the tabManager, tabs (main and overlay), and orders them.
+- #### MoInVis.Paracoords.dataHandler
+    Data Handler extracts and prepares data for easy use and handling.
+- #### MoInVis.Paracoords.util
+    Contains utility functions.
+- #### MoInVis.Paracoords.tabManager
+    Manages positions of tabs and transitions between tabs during switching.
+- #### MoInVis.Paracoords.tab
+    Base class for tabs. Does event handling, and provides an interface for tabManager to switch between tabs.
+- #### MoInVis.Paracoords.paracoorder
+    Handles drawing the UI and data for the paracoords tab. Inherits MoInVis.Paracoords.tab
+- #### MoInVis.Paracoords.attributeStore
+    Handles data and UI functionality for the attribute store tab. Inherits MoInVis.Paracoords.tab
+- #### MoInVis.Paracoords.entryStore
+    Handles data and UI functionality for the entry store tab. Inherits MoInVis.Paracoords.tab
+- #### MoInVis.Paracoords.overlayTab
+    Base class for Overlay tab. Does event handling, provides an interface for tabManager.
+- #### MoInVis.Paracoords.axisDetailView
+    Handles data and UI functionality for the axis detail view overlay tab. Inherits MoInVis.Paracoords.overlayTab.
+- #### MoInVis.Paracoords.brushSetter
+    Handles data and UI functionality for the brush setter overlay tab. Inherits MoInVis.Paracoords.overlayTab
+- #### MoInVis.Paracoords.itemPath
+    Contains data and representation of an item, as a path.
+- #### MoInVis.Paracoords.axis
+    Contains data and representation of an axis/attribute.
+- #### MoInVis.Paracoords.axisInteractionManager
+    Handles creation of interaction group, and handles events for axis brushing and reordering.
+- #### MoInVis.Paracoords.brushManager
+    Handles creation and management of brushes for an axis.
+- #### MoInVis.Paracoords.axisBrush
+    Class for an individual brush. Handles drawing and update of a brush, and its handles.
+- #### MoInVis.Paracoords.contextIndicator
+    Handles creation and drawing of a context indicator.
+- #### MoInVis.Paracoords.actionManager
+    Action Manager. Manages the actions to be done at a later point in time. (Used for the undo functionality in the attribute store tab)
+
 
 ___
 
@@ -140,7 +200,7 @@ Both dark and light mode have their own qualities.
 2. For people with normal vision (or corrected-to-normal vision), visual performance tends to be better with light mode
 3. Studies show that long term exposure to light mode might have adverse effects on sight.
 
-Sources - 
+Sources:
 - https://www.nngroup.com/articles/dark-mode/ 
 - Cosima Piepenbrock, S. Mayr, A. Buchner (2013). Positive Display Polarity Is Particularly Advantageous for Small Character Sizes: Implications for Display Design. Human Factors. DOI: 10.1177/0018720813515509
 - A. Aleman, M. Wang, and F. Schaeffel (2018). Reading and Myopia: Contrast Polarity Matters. Scientific Reports 8, 10840 (2018) doi:10.1038/s41598-018-28904-x
@@ -152,13 +212,16 @@ Sources -
 
 The current implementation uses a dark mode theme. We recognise that providing an option to switch between light and dark mode would be the best approach to take.
 
-Sources - 
+Sources:
 - https://www.nngroup.com/articles/dark-mode/ 
 - Rubin, G.S. & Legge, G.E. (1989) ‘Psychophysics of reading, VI: the role of contrast in low vision’, Vision Research, 29, 79–91
 - Legge, G.E., Rubin, G.S., Pelli, D.G. & Schleske, M.M. (1985b) ‘Psychophysics of reading, II: low vision’, Vision Research, 25(2), 253–66
 - K.S. Papadopoulos., D. B. Goudiras (2005). Accessibility Assistance for Visually-Impaired People in Digital Texts. British Journal of Visual Impairment. DOI: 10.1177/0264619605054779.
+
+
 # Interaction gestures
 Focussing on mobile devices we integrated several interaction gestures. In the following section the main interactions on the main view are presented.
+
 ## Navigation 
 Three views are implemented. The main view with the paracoord, the attribute store and the entry tab. By swipping to the left or right these views can be entered.
 
@@ -218,8 +281,10 @@ The items can be sorted by interest. Filtered items differs by the color and the
   <img src="https://i.imgur.com/3a47S9L.png" width="350">
 </p>
 
+
 # Discussion & Evaluation
 Some aspects of our project discussed throughout the design phase and implementation phases such as the alternatives approach for certain features from our own empirical evaluation.
+
 ## Gesture conflicts
 1.  Access to axis labels or brushing on axis
 
@@ -336,6 +401,7 @@ In the current version, the colors are assigned to each entries respectively and
 - Furthermore, assigning the hues by regions may help. For example assigning first hue to one group of items and the second hue for second group.
 
 ## Context & Focus
+
 <p align="center">
   <img src="https://i.imgur.com/9gsh5kY.png" width="650">
 </p>
@@ -375,56 +441,10 @@ Many aspects were discovered and tackled throughout the project, however we are 
 
 In short, we’d like to encourage whoever would has interests in the future to conduct those research before going into another implementation phase.
 
-# Codebase documentation
-## Libraries used
-- D3
-- Hammer
-- Vue
-- Interact
-- Sortable
-## List of classes
-- #### MoInVis.Paracoords.handler.main
-    Entry point into the application. Prepares page for app-like usage feel for mobile.
-- #### MoInVis.Paracoords.moin
-    Moin Instance. Application parent class that creates the tabManager, tabs (main and overlay), and orders them.
-- #### MoInVis.Paracoords.dataHandler
-    Data Handler extracts and prepares data for easy use and handling.
-- #### MoInVis.Paracoords.util
-    Contains utility functions.
-- #### MoInVis.Paracoords.tabManager
-    Manages positions of tabs and transitions between tabs during switching.
-- #### MoInVis.Paracoords.tab
-    Base class for tabs. Does event handling, and provides an interface for tabManager to switch between tabs.
-- #### MoInVis.Paracoords.paracoorder
-    Handles drawing the UI and data for the paracoords tab. Inherits MoInVis.Paracoords.tab
-- #### MoInVis.Paracoords.attributeStore
-    Handles data and UI functionality for the attribute store tab. Inherits MoInVis.Paracoords.tab
-- #### MoInVis.Paracoords.entryStore
-    Handles data and UI functionality for the entry store tab. Inherits MoInVis.Paracoords.tab
-- #### MoInVis.Paracoords.overlayTab
-    Base class for Overlay tab. Does event handling, provides an interface for tabManager.
-- #### MoInVis.Paracoords.axisDetailView
-    Handles data and UI functionality for the axis detail view overlay tab. Inherits MoInVis.Paracoords.overlayTab.
-- #### MoInVis.Paracoords.brushSetter
-    Handles data and UI functionality for the brush setter overlay tab. Inherits MoInVis.Paracoords.overlayTab
-- #### MoInVis.Paracoords.itemPath
-    Contains data and representation of an item, as a path.
-- #### MoInVis.Paracoords.axis
-    Contains data and representation of an axis/attribute.
-- #### MoInVis.Paracoords.axisInteractionManager
-    Handles creation of interaction group, and handles events for axis brushing and reordering.
-- #### MoInVis.Paracoords.brushManager
-    Handles creation and management of brushes for an axis.
-- #### MoInVis.Paracoords.axisBrush
-    Class for an individual brush. Handles drawing and update of a brush, and its handles.
-- #### MoInVis.Paracoords.contextIndicator
-    Handles creation and drawing of a context indicator.
-- #### MoInVis.Paracoords.actionManager
-    Action Manager. Manages the actions to be done at a later point in time. (Used for the undo functionality in the attribute store tab)
 
-## Additional Information
-### JavaScript Coding Conventions
-#### Variables
+# Additional Information
+## JavaScript Coding Conventions
+### Variables
   - Use camelCase to name variables.
   - Names of private members start with underscore
     ```
@@ -434,38 +454,39 @@ In short, we’d like to encourage whoever would has interests in the future to 
   - let can also be used to declare variables.
   - Constants are declared in UPPERCASE, with `_` between words.
   - Use meaningful names for variables. This increases readability. It is okay if the name becomes a bit long, but not excessively so.
-#### Coding
-- Use spaces liberally.
-```
-var foo = new typeObj( ‘Foo’ );
-```
-- No spaces in empty constructs.
-```
-var foo = new typeObj();
-var foo = [];
-```
-- Open a curly brace on the same line.
-```
-if ( a === 10 ) {
+### Coding
+- Use spaces liberally:
+  ```
+  var foo = new typeObj( ‘Foo’ );
+  ```
+- No spaces in empty constructs:
+  ```
+  var foo = new typeObj();
+  var foo = [];
+  ```
+- Open a curly brace on the same line:
+  ```
+  if ( a === 10 ) {
     ......
-    }
-```
+  }
+  ```
 - Always use `===` to check equality.
 - `==` checks only value and not type. `1 == ‘1’ // true`
 - `===` checks both value and type. `1 === ‘1’ // false`
 - Use *semicolons* after each command.
 - Use *indentations* and line breaks for readability.
-#### Strings
-- Use single-quotes for string literals.
-```
-var string1 = ‘string’;
-```
+### Strings
+- Use single-quotes for string literals:
+  ```
+  var string1 = ‘string’;
+  ```
 - When a string contains single quotes, they need to be escaped with a backslash `(\)`.
 
-### Running The Server
-- Server command: python -m http.server [port_number] --bind [ip]
-- Replace [ip] with computer's ip adress in startserver before running. Both mobile and computer need to be on the same network. 
-- Run the batch file. Browse in mobile with http://[ip]:[port_number]
+## Running The Server
+- Server command: python -m http.server [*port_number*] --bind [*ip*]
+- Replace [*ip*] with computer's ip adress in startserver before running. Both mobile and computer need to be on the same network. 
+- Run the batch file. Browse in mobile with http://[*ip*]:[*port_number*]
+
 
 
 
