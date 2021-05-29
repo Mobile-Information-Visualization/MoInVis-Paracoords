@@ -54,57 +54,34 @@ Don't hestitate to contact us if you have questions or remarks.
 - Martin Unterreiner (martin.unterreiner@uni-weimar.de)
 
 
+# Motivation
+Information visualizations can be powerful tools to understand, analyse and estimate data. Although, their usage on desktop computers and big screens is very common, their usage on mobile devices is not widespread. The topic is overlooked so far and not part of the big research in information visualization. Each visualisation has different requirements to the space it needs and the interactions it offers.
 
-# Codebase documentation
+For example, we are faced with unreadable font sizes, cluttered text, massive content reduction and not perfectly used spaces on the smaller screen.
 
-## Libraries Used
-These are the libraries we used to implement our prototype:
-- [D3.js](https://d3js.org)
-- [Hammer.js](https://hammerjs.github.io)
-- [Vue.js](https://vuejs.org)
-- [Interact.js](https://interactjs.io)
-- [Sortable.js](https://sortablejs.github.io/Sortable/)
+<p align="center">
+  <img src="https://i.imgur.com/LPG4cvo.jpg" width="100%">
+</p>
 
-## List of classes
-- #### MoInVis.Paracoords.handler.main
-    Entry point into the application. Prepares page for app-like usage feel for mobile.
-- #### MoInVis.Paracoords.moin
-    Moin Instance. Application parent class that creates the tabManager, tabs (main and overlay), and orders them.
-- #### MoInVis.Paracoords.dataHandler
-    Data Handler extracts and prepares data for easy use and handling.
-- #### MoInVis.Paracoords.util
-    Contains utility functions.
-- #### MoInVis.Paracoords.tabManager
-    Manages positions of tabs and transitions between tabs during switching.
-- #### MoInVis.Paracoords.tab
-    Base class for tabs. Does event handling, and provides an interface for tabManager to switch between tabs.
-- #### MoInVis.Paracoords.paracoorder
-    Handles drawing the UI and data for the paracoords tab. Inherits MoInVis.Paracoords.tab
-- #### MoInVis.Paracoords.attributeStore
-    Handles data and UI functionality for the attribute store tab. Inherits MoInVis.Paracoords.tab
-- #### MoInVis.Paracoords.entryStore
-    Handles data and UI functionality for the entry store tab. Inherits MoInVis.Paracoords.tab
-- #### MoInVis.Paracoords.overlayTab
-    Base class for Overlay tab. Does event handling, provides an interface for tabManager.
-- #### MoInVis.Paracoords.axisDetailView
-    Handles data and UI functionality for the axis detail view overlay tab. Inherits MoInVis.Paracoords.overlayTab.
-- #### MoInVis.Paracoords.brushSetter
-    Handles data and UI functionality for the brush setter overlay tab. Inherits MoInVis.Paracoords.overlayTab
-- #### MoInVis.Paracoords.itemPath
-    Contains data and representation of an item, as a path.
-- #### MoInVis.Paracoords.axis
-    Contains data and representation of an axis/attribute.
-- #### MoInVis.Paracoords.axisInteractionManager
-    Handles creation of interaction group, and handles events for axis brushing and reordering.
-- #### MoInVis.Paracoords.brushManager
-    Handles creation and management of brushes for an axis.
-- #### MoInVis.Paracoords.axisBrush
-    Class for an individual brush. Handles drawing and update of a brush, and its handles.
-- #### MoInVis.Paracoords.contextIndicator
-    Handles creation and drawing of a context indicator.
-- #### MoInVis.Paracoords.actionManager
-    Action Manager. Manages the actions to be done at a later point in time. (Used for the undo functionality in the attribute store tab)
+(Image source: https://www.d3-graph-gallery.com/graph/parallel_custom.html)
 
+Also, there is no hover state to display additional information of interesting elements. We have to deal with touch gestures and the fat-finger problem, which is about the less precise input and the occlusion of the display by the fingers or the hand.
+
+<p align="center">
+  <img src="https://i.imgur.com/bA68Oiu.jpg" width="100%">
+</p>
+
+(Image source: http://www.quickmeme.com/meme/3s8utx)
+
+In web development it is common to create a web page with a responsive design for mobile devices. Content is disabled or rearranged to guarantee a good user experience.
+So far there is no well-etablished standard for responsive visualisations.
+
+We worked with knowledge of the research and guidelines of the platform hosts *Apple* and *Google* to offer a good user experience. This brings up the term of legacy bias, where the audience expects a particular behaviour of a certain gesture.
+The guidelines recommend for example that element transitions should be continuously animated as a gesture processes. We also should avoid to use standard gestures to perform nonstandard actions, and be aware of systemwide screen-edge gestures.
+
+To deal with the smaller screen size, our prototype works with a tabulator layout and three major tabs where the main tab in the middle includes the parallel coordinate system with its horizontal axes.
+
+To provide a good readability, we decided to implement a focus and context approach in the visualization. With vertical swiping the user can navigate through the list of axes and bring them from the hidden area into the visible space.
 
 ___
 
@@ -149,8 +126,6 @@ Mobile devices usually have screen-edge gestures. To avoid interfering with thes
 <p align="center">
   <img src="https://i.imgur.com/WR2GkPx.png" width="350">
 </p>
-
-
 
 For issues like the fat finger problem, limited space of a mobile screen, lack of hover state due to touch interactions, more elaborate solutions are used.
 ### 3. Fat finger problem
@@ -413,7 +388,7 @@ In the current version, the colors are assigned to each entries respectively and
 - Additional feature: pinch gesture for zooming to realise the context & focus concept. And from our own expert review, we think the approach is sufficient and can be included in the future work if needed.
 
 # Summary
-A list of topics covered in this project
+A list of topics covered in this project:
 - Configurability
 - Tab navigation
 - Pattern comparison
@@ -444,6 +419,58 @@ Many aspects were discovered and tackled throughout the project, however we are 
 
 In short, we’d like to encourage whoever would has interests in the future to conduct those research before going into another implementation phase.
 
+
+# Codebase documentation
+
+## Libraries Used
+These are the libraries we used to implement our prototype:
+- [D3.js](https://d3js.org)
+- [Hammer.js](https://hammerjs.github.io)
+- [Vue.js](https://vuejs.org)
+- [Interact.js](https://interactjs.io)
+- [Sortable.js](https://sortablejs.github.io/Sortable/)
+
+## List of classes
+- #### MoInVis.Paracoords.handler.main
+    Entry point into the application. Prepares page for app-like usage feel for mobile.
+- #### MoInVis.Paracoords.moin
+    Moin Instance. Application parent class that creates the tabManager, tabs (main and overlay), and orders them.
+- #### MoInVis.Paracoords.dataHandler
+    Data Handler extracts and prepares data for easy use and handling.
+- #### MoInVis.Paracoords.util
+    Contains utility functions.
+- #### MoInVis.Paracoords.tabManager
+    Manages positions of tabs and transitions between tabs during switching.
+- #### MoInVis.Paracoords.tab
+    Base class for tabs. Does event handling, and provides an interface for tabManager to switch between tabs.
+- #### MoInVis.Paracoords.paracoorder
+    Handles drawing the UI and data for the paracoords tab. Inherits MoInVis.Paracoords.tab
+- #### MoInVis.Paracoords.attributeStore
+    Handles data and UI functionality for the attribute store tab. Inherits MoInVis.Paracoords.tab
+- #### MoInVis.Paracoords.entryStore
+    Handles data and UI functionality for the entry store tab. Inherits MoInVis.Paracoords.tab
+- #### MoInVis.Paracoords.overlayTab
+    Base class for Overlay tab. Does event handling, provides an interface for tabManager.
+- #### MoInVis.Paracoords.axisDetailView
+    Handles data and UI functionality for the axis detail view overlay tab. Inherits MoInVis.Paracoords.overlayTab.
+- #### MoInVis.Paracoords.brushSetter
+    Handles data and UI functionality for the brush setter overlay tab. Inherits MoInVis.Paracoords.overlayTab
+- #### MoInVis.Paracoords.itemPath
+    Contains data and representation of an item, as a path.
+- #### MoInVis.Paracoords.axis
+    Contains data and representation of an axis/attribute.
+- #### MoInVis.Paracoords.axisInteractionManager
+    Handles creation of interaction group, and handles events for axis brushing and reordering.
+- #### MoInVis.Paracoords.brushManager
+    Handles creation and management of brushes for an axis.
+- #### MoInVis.Paracoords.axisBrush
+    Class for an individual brush. Handles drawing and update of a brush, and its handles.
+- #### MoInVis.Paracoords.contextIndicator
+    Handles creation and drawing of a context indicator.
+- #### MoInVis.Paracoords.actionManager
+    Action Manager. Manages the actions to be done at a later point in time. (Used for the undo functionality in the attribute store tab)
+
+___
 
 # Additional Information
 ## JavaScript Coding Conventions
