@@ -44,6 +44,7 @@ The App accesses the in (1) mentioned web page and ensures a fullscreen usage.
 
 ## Contact
 Don't hestitate to contact us if you have questions or remarks.
+
 **Authors:**
 - Aalok Shashidhar Gokhale (aalok.shashidhar.gokhale@uni-weimar.de)
 - Josef Roth (josef.roth@uni-weimar.de)
