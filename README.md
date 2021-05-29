@@ -63,7 +63,7 @@ For example, we are faced with unreadable font sizes, cluttered text, massive co
   <img src="https://i.imgur.com/LPG4cvo.jpg" width="100%">
 </p>
 
-(Image source: https://www.d3-graph-gallery.com/graph/parallel_custom.html)
+([Image source](https://www.d3-graph-gallery.com/graph/parallel_custom.html))
 
 Also, there is no hover state to display additional information of interesting elements. We have to deal with touch gestures and the fat-finger problem, which is about the less precise input and the occlusion of the display by the fingers or the hand.
 
@@ -71,7 +71,7 @@ Also, there is no hover state to display additional information of interesting e
   <img src="https://i.imgur.com/bA68Oiu.jpg" width="100%">
 </p>
 
-(Image source: http://www.quickmeme.com/meme/3s8utx)
+([Image source](http://www.quickmeme.com/meme/3s8utx))
 
 In web development it is common to create a web page with a responsive design for mobile devices. Content is disabled or rearranged to guarantee a good user experience.
 So far there is no well-etablished standard for responsive visualisations.
