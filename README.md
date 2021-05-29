@@ -38,7 +38,7 @@ The App accesses the in (1) mentioned web page and ensures a fullscreen usage.
 ### Video
 [This video](http://bit.ly/MoInVis) showcases our application *MoIn* and its major functionalities.
 <p align="center">
-  <img src="https://media.giphy.com/media/kIOkcTGULuU4gtjcin/giphy.gif" width="650">
+  <img src="https://media.giphy.com/media/kIOkcTGULuU4gtjcin/giphy.gif" width="500">
 </p>
 
 
